@@ -44,6 +44,10 @@
     </nav>
 </header>
 
+<div id="body" class="container mt-4" style="min-height: 400px;">
+    <jsp:doBody/>
+</div>
+
 <!-- Footer -->
 <div class="container mt-3">
     <hr/>
