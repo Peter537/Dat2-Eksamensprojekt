@@ -5,8 +5,9 @@
 <%@page errorPage="error.jsp" isErrorPage="false" %>
 
 <t:pagetemplate>
-    <jsp:attribute name="header">
-             Login
+
+    <jsp:attribute name="title">
+        You can log in here
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -14,8 +15,6 @@
     </jsp:attribute>
 
     <jsp:body>
-
-        <h3>You can log in here</h3>
 
         <form action="login" method="post">
             <label for="username">Username: </label>
