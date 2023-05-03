@@ -1,6 +1,7 @@
 package dat.backend.model.persistence;
 
 import dat.backend.model.entities.CarportOrder;
+import dat.backend.model.entities.OrderStatus;
 import dat.backend.model.exceptions.DatabaseException;
 
 import java.util.List;
@@ -22,5 +23,9 @@ public class CarportOrderFacade {
 
     public static CarportOrder createCarportOrder(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
         return CarportOrderMapper.createCarportOrder(carportOrder, connectionPool);
+    }
+
+    public static void updateCarportOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException {
+        CarportOrderMapper.updateCarportOrderStatus(carportOrder, newOrderStatus, connectionPool);
     }
 }
