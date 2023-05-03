@@ -32,6 +32,20 @@ public class CarportOrder {
         this.toolRoomLength = toolRoomLength;
     }
 
+    public CarportOrder(Address address, Employee employee, Customer customer, Roof roof, List<Lumber> lumberList, List<String> remarks, int length, int width, int minHeight, int toolRoomWidth, int toolRoomLength) {
+        this.address = address;
+        this.employee = employee;
+        this.customer = customer;
+        this.roof = roof;
+        this.lumberList = lumberList;
+        this.remarks = remarks;
+        this.length = length;
+        this.width = width;
+        this.minHeight = minHeight;
+        this.toolRoomWidth = toolRoomWidth;
+        this.toolRoomLength = toolRoomLength;
+    }
+
     public int getId() {
         return this.id;
     }
