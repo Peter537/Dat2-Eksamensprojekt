@@ -1,6 +1,7 @@
 package dat.backend.model.persistence;
 
 import dat.backend.model.entities.CarportOrder;
+import dat.backend.model.entities.OrderStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,5 +23,8 @@ class CarportOrderMapper {
 
     static CarportOrder createCarportOrder(CarportOrder carportOrder, ConnectionPool connectionPool) {
         return carportOrder;
+    }
+
+    static void updateCarportOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) {
     }
 }
