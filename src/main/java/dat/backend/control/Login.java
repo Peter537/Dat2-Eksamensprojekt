@@ -3,7 +3,6 @@ package dat.backend.control;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.persistence.UserFacade;
 import dat.backend.model.persistence.ConnectionPool;
 
 import javax.servlet.ServletException;
@@ -37,10 +36,11 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
 
         try {
-            User user = UserFacade.login(username, password, connectionPool);
+            User user = null;
             session = request.getSession();
             session.setAttribute("user", user); // adding user object to session scope
             request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
+            throw new DatabaseException("Not implemented"); // TODO: Delete this line
         } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
