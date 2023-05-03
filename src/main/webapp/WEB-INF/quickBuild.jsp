@@ -22,6 +22,9 @@
 
     <jsp:body>
 
+        <h1>Udfyld nedenstående formular:</h1>
+
+        <a href="orderSent.jsp">indsend formular</a>
 
     </jsp:body>
 

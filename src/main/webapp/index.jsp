@@ -5,7 +5,7 @@
 
 <t:pagetemplate>
     <jsp:attribute name="title">
-       Startcode for 2nd semester
+       This is the frontpage
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -14,14 +14,15 @@
 
     <jsp:body>
 
-        <c:if test="${sessionScope.user != null}">
-            <p>You are logged in with the role of "${sessionScope.user.role}".</p>
-        </c:if>
+        This is the frontpage
+        <br>
 
-        <c:if test="${sessionScope.user == null}">
-            <p>You are not logged in yet. You can do it here: <a
-                    href="login.jsp">Login</a></p>
-        </c:if>
+        <a href="login.jsp">Login</a> <br>
+<%--//TODO: change "login.jsp" to login serlvet and have it handle the user--%>
+        <a href="login.jsp">Carport</a> <br>
+        not a member already?
+        <a href="createUser.jsp">Sign up!</a>
+
 
     </jsp:body>
 

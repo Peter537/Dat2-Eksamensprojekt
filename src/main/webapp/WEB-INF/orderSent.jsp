@@ -22,7 +22,11 @@
 
     <jsp:body>
 
+        ${requestScope.orderMessage}
+
         <p>An employee will contact you soon.</p>
+
+        <a href="profileSite.jsp">Return to your profile page</a>
 
 
     </jsp:body>

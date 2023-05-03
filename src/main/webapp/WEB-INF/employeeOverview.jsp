@@ -24,6 +24,16 @@
 
     <jsp:body>
 
+        <h1>Nyheder</h1>
+
+        <h2>Medarbejder info</h2>
+        <p>medarbejder position: lager/admin/sælger (skift denne ud)</p>
+
+
+        <input class="btn btn-primary" type="button" value="Se alle Ordre">
+
+        <input class="btn btn-primary" type="button" value="Ændre materiale-katalog">
+
     </jsp:body>
 
 </t:pagetemplate>

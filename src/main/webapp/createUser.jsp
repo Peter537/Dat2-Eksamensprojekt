@@ -22,6 +22,15 @@
 
     <jsp:body>
 
+        <form action="create-user" method="post">
+            <label for="username">Username: </label>
+            <input type="text" id="username" name="username"/>
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="password"/>
+            <label for="confirmPassword">Confirm password: </label>
+            <input type="password" id="confirmPassword" name="confirmPassword"/>
+            <input type="submit"  value="Sign up"/>
+        </form>
 
     </jsp:body>
 
