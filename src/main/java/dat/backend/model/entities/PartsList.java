@@ -79,8 +79,20 @@ public class PartsList {
     }
 
     double[][] spanTable = {
-            {120, 145, 170, 195, 220, 245, 270, 295},// dimentions in mm
+            {120, 145, 170, 195, 220, 245, 270, 295},// dimensions in mm
             {248, 300, 351, 402, 452, 502, 551, 600},// max. span in cm
     };
+
+    public double calculateDimensions(int width) {
+        double span = calculateSpanBetweenPlates(width);
+        double dimensions = 0;
+        for (int i = 0; i < spanTable[0].length; i++) {
+            if (spanTable[1][i] > span) {
+                dimensions = spanTable[0][i];
+                break;
+            }
+        }
+        return dimensions;
+    }
 
 }
