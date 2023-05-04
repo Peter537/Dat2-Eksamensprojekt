@@ -22,7 +22,10 @@
 
     <jsp:body>
 
+<button class="btn btn-primary text-center" formaction="">Partlist</button>
 
+
+        <iframe src="generatedPartslist.jsp"></iframe>
 
 
     </jsp:body>

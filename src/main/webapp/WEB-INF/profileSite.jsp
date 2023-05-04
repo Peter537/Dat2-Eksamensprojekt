@@ -13,8 +13,7 @@
 <t:pagetemplate>
 
     <jsp:attribute name="title">
-<%--        TODO: create customer object and set it in session--%>
-        <h1>Welcome, ${sessionScope.customer.getName()}</h1>
+        Min side
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -22,6 +21,19 @@
     </jsp:attribute>
 
     <jsp:body>
+
+        <button class="btn btn-primary text-center" value="vis historik">Vis historik</button>
+
+        <div class="container" id="formula">
+
+            <input type="text" placeholder="Length">
+            <input type="text" placeholder="Width">
+            <input type="text" placeholder="Height">
+
+
+
+
+        </div>
 
 
     </jsp:body>
