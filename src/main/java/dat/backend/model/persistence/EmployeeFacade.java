@@ -25,7 +25,7 @@ public class EmployeeFacade {
         return EmployeeMapper.getEmployeeByEmail(email, connectionPool);
     }
 
-    public static void updatePassword(Employee employee, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
-        EmployeeMapper.updatePassword(employee, newPassword, connectionPool);
+    public static boolean updatePassword(Employee employee, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
+        return EmployeeMapper.updatePassword(employee, newPassword, connectionPool);
     }
 }
