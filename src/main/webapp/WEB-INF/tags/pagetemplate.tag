@@ -76,7 +76,7 @@
 </body>
 <style>
     :root {
-        font-family: Dinpro, helvetica, arial, sans-serif;
+        --bs-body-font-family: Dinpro, helvetica, arial, sans-serif;
         --color: hsla(210, 98%, 23%, 1);
         --color-dark: hsla(210, 98%, 13%, 1);
         --color-light: hsla(210, 98%, 33%, 1);
