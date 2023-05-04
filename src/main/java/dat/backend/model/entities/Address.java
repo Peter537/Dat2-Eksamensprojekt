@@ -4,22 +4,12 @@ import java.util.Objects;
 
 public class Address {
 
-    private int id;
     private String street;
-    private City city;
+    private Zip zip;
 
-    public Address(int id, String street, City city) {
-        this.id = id;
+    public Address(String street, Zip zip) {
         this.street = street;
-        this.city = city;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.zip = zip;
     }
 
     public String getStreet() {
@@ -30,12 +20,12 @@ public class Address {
         this.street = street;
     }
 
-    public City getCity() {
-        return this.city;
+    public Zip getZip() {
+        return this.zip;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setZip(Zip zip) {
+        this.zip = zip;
     }
 
     @Override
@@ -43,22 +33,20 @@ public class Address {
         if (this == other) return true;
         if (!(other instanceof Address)) return false;
         Address address = (Address) other;
-        return this.getId() == address.getId() &&
-                this.getStreet().equals(address.getStreet()) &&
-                this.getCity().equals(address.getCity());
+        return this.getStreet().equals(address.getStreet()) &&
+                this.getZip().equals(address.getZip());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getStreet(), this.getCity());
+        return Objects.hash(this.getStreet(), this.getZip());
     }
 
     @Override
     public String toString() {
         return "Address{" +
-                "id=" + this.id +
-                ", street='" + this.street + '\'' +
-                ", city=" + this.city +
+                "street='" + this.street + '\'' +
+                ", zip=" + this.zip +
                 '}';
     }
 }
