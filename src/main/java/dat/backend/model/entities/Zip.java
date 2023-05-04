@@ -34,7 +34,7 @@ public class Zip {
         if (!(other instanceof Zip)) return false;
         Zip zip = (Zip) other;
         return this.getZipCode() == zip.getZipCode() &&
-                this.getCityName().equals(zip.getCityName();
+                this.getCityName().equals(zip.getCityName());
     }
 
     @Override
