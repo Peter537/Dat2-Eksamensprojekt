@@ -4,6 +4,7 @@ import dat.backend.model.entities.Address;
 import dat.backend.model.entities.Customer;
 import dat.backend.model.entities.Zip;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.services.Validation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,6 +29,18 @@ class CustomerMapper {
     }
 
     static Optional<Customer> createCustomer(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException {
+        if (!Validation.validatePassword(password)) {
+            return Optional.empty();
+        }
+
+        if (!Validation.validateName(name)) {
+            return Optional.empty();
+        }
+
+        if (getCustomerByEmail(email, connectionPool).isPresent()) {
+            return Optional.empty();
+        }
+
         String query = "INSERT INTO customer (email, password, name) VALUES (?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -72,13 +85,18 @@ class CustomerMapper {
         }
     }
 
-    static void updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
+    static boolean updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
+        if (!Validation.validatePassword(newPassword)) {
+            return false;
+        }
+
         String query = "UPDATE customer SET password = ? WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, newPassword);
                 statement.setString(2, customer.getEmail());
                 statement.executeUpdate();
+                return true;
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update customer password");
@@ -98,7 +116,7 @@ class CustomerMapper {
         Optional<Address> address1 = createAddressFromResultSet(1, resultSet, connectionPool);
         Optional<Address> address2 = createAddressFromResultSet(2, resultSet, connectionPool);
         Optional<Address> address3 = createAddressFromResultSet(3, resultSet, connectionPool);
-        return Optional.of(new Customer(id, email, password, name, personalPhoneNumber, address1, address2, address3));
+        return Optional.of(new Customer(id, email, name, password, personalPhoneNumber, address1, address2, address3));
     }
 
     private static Optional<Address> createAddressFromResultSet(int addressNumber, ResultSet resultSet, ConnectionPool connectionPool) throws DatabaseException, SQLException {
