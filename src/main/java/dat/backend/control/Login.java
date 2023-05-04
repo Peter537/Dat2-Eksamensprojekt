@@ -1,8 +1,10 @@
 package dat.backend.control;
 
 import dat.backend.model.config.ApplicationStart;
+import dat.backend.model.entities.Customer;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.CustomerFacade;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(name = "login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
@@ -31,13 +34,22 @@ public class Login extends HttpServlet {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
         session.setAttribute("user", null); // invalidating user object in session scope
-        String username = request.getParameter("username");
+        String username = request.getParameter("email");
         String password = request.getParameter("password");
 
         try {
             session = request.getSession();
-            request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
-            throw new DatabaseException("Not implemented"); // TODO: Delete this line
+            Optional<Customer> user = CustomerFacade.login(username, password, connectionPool);
+
+            if (user.isPresent()) {
+                session.setAttribute("user", user.get());
+                request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
+                return;
+            } else {
+                request.setAttribute("errormessage", "Wrong username or password");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
+            }
         } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
