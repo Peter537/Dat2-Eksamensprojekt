@@ -97,29 +97,7 @@ class EmployeeMapper {
         String positionName = resultSet.getString("fk_position");
         Position position = new Position(positionName);
         int departmentId = resultSet.getInt("fk_department_id");
-        Department department = getDepartmentById(departmentId, connectionPool);
+        Department department = DepartmentMapper.getDepartmentById(departmentId, connectionPool);
         return Optional.of(new Employee(id, email, name, password, null, null, position, department));
-    }
-
-    private static Department getDepartmentById(int id, ConnectionPool connectionPool) throws DatabaseException {
-        String query = "SELECT * FROM department WHERE id = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, id);
-                ResultSet resultSet = statement.executeQuery();
-                if (!resultSet.next()) {
-                    throw new DatabaseException("Could not get department");
-                }
-
-                String departmentName = resultSet.getString("name");
-                int zipCode = resultSet.getInt("zipcode");
-                String address = resultSet.getString("address");
-                Zip zip = ZipMapper.getZipByZipCode(zipCode, connectionPool);
-                Address addressObject = new Address(address, zip);
-                return new Department(id, departmentName, addressObject);
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Could not get department");
-        }
     }
 }
