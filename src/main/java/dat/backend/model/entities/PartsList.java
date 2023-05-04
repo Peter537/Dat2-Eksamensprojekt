@@ -30,14 +30,29 @@ public class PartsList {
 
     // TODO: Given height, length and width. Calculate the number of poles, plates and rafters needed.
 
-    PartsList calcutalePartsList(int height, int length, int width) {
+    public PartsList calculatePartsList(int height, int length, int width) {
+        Lumber pole = calculatePole(height);
+        int numberOfPoles = calculateNumberOfPoles(length, width);
+        int numberOfPlates = calculateNumberOfPlates(width);
+        Lumber plate = new Lumber(calculateDimensions(width), priceOfPlate);
+        int numberOfRafters = calculateNumberOfRafters(length);
+        Lumber rafter = new Lumber(60, priceOfRafter); // Assuming all rafters have the same length of 60cm
 
-        return null;
-
+        return new PartsList(pole, plate, rafter, numberOfPoles, numberOfPlates, numberOfRafters, priceOfPole, priceOfPlate, priceOfRafter);
     }
 
     public Lumber calculatePole(int height) {
-        // TODO: set the pole length to the height of the carport.
+        // TODO: set the pole length to the height of the carport + 90 cm to be dug into the ground + the dimensions of the plate (same as the rafter).
+        return null;
+    }
+
+    public Lumber calculateRafter(int length, int width) {
+        new Lumber();
+        return null;
+    }
+
+    public Lumber calculatePlate(int length, int width) {
+        new Lumber();
         return null;
     }
 

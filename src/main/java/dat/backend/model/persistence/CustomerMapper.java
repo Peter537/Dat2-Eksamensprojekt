@@ -2,6 +2,7 @@ package dat.backend.model.persistence;
 
 import dat.backend.model.entities.Address;
 import dat.backend.model.entities.Customer;
+import dat.backend.model.entities.Zip;
 import dat.backend.model.exceptions.DatabaseException;
 
 import java.sql.Connection;
@@ -12,6 +13,10 @@ import java.util.Optional;
 
 class CustomerMapper {
 
+    /*
+     * TODO: Add INNER JOIN to get address and zip in SQL query
+     */
+
     static Optional<Customer> login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
         String query = "SELECT * FROM customer WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -19,7 +24,7 @@ class CustomerMapper {
                 statement.setString(1, email);
                 statement.setString(2, password);
                 ResultSet resultSet = statement.executeQuery();
-                return createCustomerFromResultSet(resultSet);
+                return createCustomerFromResultSet(resultSet, connectionPool);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not login customer");
@@ -51,7 +56,7 @@ class CustomerMapper {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
                 ResultSet resultSet = statement.executeQuery();
-                return createCustomerFromResultSet(resultSet);
+                return createCustomerFromResultSet(resultSet, connectionPool);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get customer by id");
@@ -64,7 +69,7 @@ class CustomerMapper {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, email);
                 ResultSet resultSet = statement.executeQuery();
-                return createCustomerFromResultSet(resultSet);
+                return createCustomerFromResultSet(resultSet, connectionPool);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get customer by email");
@@ -84,7 +89,7 @@ class CustomerMapper {
         }
     }
 
-    private static Optional<Customer> createCustomerFromResultSet(ResultSet resultSet) throws SQLException {
+    private static Optional<Customer> createCustomerFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws DatabaseException, SQLException {
         if (!resultSet.next()) {
             return Optional.empty();
         }
@@ -93,10 +98,39 @@ class CustomerMapper {
         String email = resultSet.getString("email");
         String password = resultSet.getString("password");
         String name = resultSet.getString("name");
-        String personalPhoneNumber = resultSet.getString("personal_phone_number");
-        Address address1 = null;
-        Address address2 = null;
-        Address address3 = null;
+        String personalPhoneNumber = resultSet.getString("phonenumber");
+        Optional<Address> address1 = createAddressFromResultSet(1, resultSet, connectionPool);
+        Optional<Address> address2 = createAddressFromResultSet(2, resultSet, connectionPool);
+        Optional<Address> address3 = createAddressFromResultSet(3, resultSet, connectionPool);
         return Optional.of(new Customer(id, email, password, name, personalPhoneNumber, address1, address2, address3));
+    }
+
+    private static Optional<Address> createAddressFromResultSet(int addressNumber, ResultSet resultSet, ConnectionPool connectionPool) throws DatabaseException, SQLException {
+        String address = resultSet.getString("address_" + addressNumber);
+        int zipCode = resultSet.getInt("zipcode_" + addressNumber);
+        if (address == null || zipCode == 0) {
+            return Optional.empty();
+        }
+
+        Zip zip = getZipByZipCode(zipCode, connectionPool);
+        return Optional.of(new Address(address, zip));
+    }
+
+    private static Zip getZipByZipCode(int zipCode, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "SELECT * FROM zip WHERE zipcode = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, zipCode);
+                ResultSet resultSet = statement.executeQuery();
+                if (!resultSet.next()) {
+                    throw new SQLException("Could not find zip code");
+                }
+
+                String city = resultSet.getString("city_name");
+                return new Zip(zipCode, city);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not get zip by zip code");
+        }
     }
 }
