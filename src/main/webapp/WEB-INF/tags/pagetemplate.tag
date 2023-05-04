@@ -81,6 +81,38 @@
         --color-dark: hsla(210, 98%, 13%, 1);
         --color-light: hsla(210, 98%, 33%, 1);
     }
+    /* Set the color and display type of the <a> element */
+    a {
+        color: var(--color);
+        display: inline-block;
+        position: relative;
+        text-decoration: none;
+    }
+
+    /* Create an underline with a gradient using a pseudo-element */
+    a::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-image: linear-gradient(transparent calc(100% - 1px), currentcolor 1px);
+        background-size: 1000% 100%;
+        transition: background-position 0.5s ease, clip-path 0.5s ease;
+        /* Position the underline at the bottom of the <a> element and to the left of the text */
+        background-position: 0 100%;
+        /* Clip the underline to hide it initially */
+        clip-path: inset(0 0 0 100%);
+    }
+
+    /* On hover, move the underline to the right and reveal it with a clip-path animation */
+    a:hover::before {
+        /* Move the underline to the right */
+        background-position: 100% 100%;
+        /* Reveal the underline with a clip-path animation from right to left */
+        clip-path: inset(0 100% 0 0);
+    }
     .btn {
         background-color: var(--color) !important;
     }
