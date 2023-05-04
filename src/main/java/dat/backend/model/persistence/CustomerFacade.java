@@ -23,7 +23,7 @@ public class CustomerFacade {
         return CustomerMapper.getCustomerByEmail(email, connectionPool);
     }
 
-    public static void updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
-        CustomerMapper.updatePassword(customer, newPassword, connectionPool);
+    public static boolean updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
+        return CustomerMapper.updatePassword(customer, newPassword, connectionPool);
     }
 }
