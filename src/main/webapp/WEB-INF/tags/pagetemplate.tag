@@ -74,4 +74,15 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 </body>
+<style>
+    :root {
+        font-family: Dinpro, helvetica, arial, sans-serif;
+        --color: hsla(210, 98%, 23%, 1);
+        --color-dark: hsla(210, 98%, 13%, 1);
+        --color-light: hsla(210, 98%, 33%, 1);
+    }
+    .btn {
+        background-color: var(--color) !important;
+    }
+</style>
 </html>

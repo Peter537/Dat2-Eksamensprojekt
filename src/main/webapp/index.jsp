@@ -21,7 +21,9 @@
 <%--//TODO: change "login.jsp" to login serlvet and have it handle the user--%>
         <a href="login.jsp">Carport</a> <br>
         not a member already?
-        <a href="createUser.jsp">Sign up!</a>
+        <a href="createCustomer.jsp">Sign up!</a>
+
+        <a href="ToProfileSite">Profile</a>
 
 
     </jsp:body>
