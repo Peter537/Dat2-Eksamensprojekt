@@ -22,18 +22,9 @@
 
     <jsp:body>
 
-        <button class="btn btn-primary text-center" value="vis historik">Vis historik</button>
+        <button class="btn btn-primary text-center" value="vis historik">Vis historik</button> <br>
+        <a href="to-generate-partlist">Hello</a>
 
-        <div class="container" id="formula">
-
-            <input type="text" placeholder="Length">
-            <input type="text" placeholder="Width">
-            <input type="text" placeholder="Height">
-
-
-
-
-        </div>
 
 
     </jsp:body>
