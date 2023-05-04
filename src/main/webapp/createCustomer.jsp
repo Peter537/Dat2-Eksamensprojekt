@@ -49,7 +49,7 @@
 
                                     <div class="mb-3"><input style="width: 25px; height: 25px; text-align: center" type="checkbox" name="remember" value="remember">Remember me</div>
                                     <p class="text-muted" style="padding-left: 200px">Forgot your password?</p>
-                                    <div class="mb-3 text-center"><button class="btn btn-primary d-block w-100" type="submit" >Login</button></div>
+                                    <div class="mb-3 text-center"><button class="btn btn-primary d-block w-100" type="submit" >Sign up</button></div>
 
                                 </form>
                             </div>
