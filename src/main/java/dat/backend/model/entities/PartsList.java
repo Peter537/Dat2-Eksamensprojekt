@@ -112,4 +112,19 @@ public class PartsList {
         return dimensions;
     }
 
+
+
+    /* max length of rafter and plate lumber is 720 cm. If the length is longer than this, we will need two pieces of lumber.
+    The length of the rafter is width of carport. The length of the plate is length of carport.
+    Assume that the lumber is divided into two(or more) pieces of equal length.
+    */
+    public int calculateLengthOfLumber(int length) {
+
+        int minlength = length / ((int) Math.ceil(length / 720.0));
+
+        // TODO: find lumbersizes in database and return the closest match greater than minlength.
+
+        return 0;
+    }
+
 }
