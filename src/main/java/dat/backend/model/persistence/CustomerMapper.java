@@ -37,6 +37,10 @@ class CustomerMapper {
             return Optional.empty();
         }
 
+        if (!Validation.validateCustomerEmail(email)) {
+            return Optional.empty();
+        }
+
         if (getCustomerByEmail(email, connectionPool).isPresent()) {
             return Optional.empty();
         }
