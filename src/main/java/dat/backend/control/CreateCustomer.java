@@ -9,8 +9,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "create-user", value = "/create-user")
-public class CreateUser extends HttpServlet {
+@WebServlet(name = "create-customer", value = "/create-customer")
+public class CreateCustomer extends HttpServlet {
 
     private ConnectionPool connectionPool;
 
