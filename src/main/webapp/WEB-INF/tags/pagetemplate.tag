@@ -87,8 +87,14 @@
         position: relative;
         text-decoration: none;
     }
+    .link {
+        color: var(--color);
+        display: inline-block;
+        position: relative;
+        text-decoration: none;
+    }
 
-    a::before {
+    .link::before {
         content: '';
         position: absolute;
         bottom: 0;
@@ -102,7 +108,7 @@
         clip-path: inset(0 0 0 1%);
     }
 
-    a:hover::before {
+    .link:hover::before {
         background-position: 100% 100%;
         clip-path: inset(0 100% 0 0);
     }
