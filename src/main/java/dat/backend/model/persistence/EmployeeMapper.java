@@ -2,6 +2,7 @@ package dat.backend.model.persistence;
 
 import dat.backend.model.entities.*;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.services.Validation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,6 +27,22 @@ class EmployeeMapper {
     }
 
     static Optional<Employee> createEmployee(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException {
+        if (!Validation.validatePassword(password)) {
+            return Optional.empty();
+        }
+
+        if (!Validation.validateName(name)) {
+            return Optional.empty();
+        }
+
+        if (!Validation.validateEmployeeEmail(email)) {
+            return Optional.empty();
+        }
+
+        if (getEmployeeByEmail(email, connectionPool).isPresent()) {
+            return Optional.empty();
+        }
+
         String query = "INSERT INTO employee (email, name, password, fk_position, fk_department_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -72,13 +89,18 @@ class EmployeeMapper {
         }
     }
 
-    static void updatePassword(Employee employee, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
+    static boolean updatePassword(Employee employee, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
+        if (!Validation.validatePassword(newPassword)) {
+            return false;
+        }
+
         String query = "UPDATE employee SET password = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, newPassword);
                 statement.setInt(2, employee.getId());
                 statement.executeUpdate();
+                return true;
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update password");
