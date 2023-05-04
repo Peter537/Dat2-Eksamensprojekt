@@ -22,7 +22,7 @@
                     <div class="col-md-8 col-xl-6 text-center mx-auto">
                         <h2>Log ind på din bruger</h2>
                         eller
-                        <a href="createCustomer.jsp" style="color: orange">opret en bruger</a>
+                        <a href="createCustomer.jsp">opret en bruger</a>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center">
@@ -50,8 +50,6 @@
                 </div>
             </div>
         </section>
-
-
-
     </jsp:body>
+
 </t:pagetemplate>
