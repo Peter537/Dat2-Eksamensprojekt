@@ -1,41 +1,43 @@
 package dat.backend.model.entities;
 
 import java.util.Objects;
+import java.util.Optional;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class Customer extends Person {
 
-    private Address address1;
-    private Address address2;
-    private Address address3;
+    private Optional<Address> address1;
+    private Optional<Address> address2;
+    private Optional<Address> address3;
 
-    public Customer(int id, String email, String name, String password, String personalPhoneNumber, Address address1, Address address2, Address address3) {
+    public Customer(int id, String email, String name, String password, String personalPhoneNumber, Optional<Address> address1, Optional<Address> address2, Optional<Address> address3) {
         super(id, email, name, password, personalPhoneNumber);
         this.address1 = address1;
         this.address2 = address2;
         this.address3 = address3;
     }
 
-    public Address getAddress1() {
+    public Optional<Address> getAddress1() {
         return this.address1;
     }
 
-    public void setAddress1(Address address1) {
+    public void setAddress1(Optional<Address> address1) {
         this.address1 = address1;
     }
 
-    public Address getAddress2() {
+    public Optional<Address> getAddress2() {
         return this.address2;
     }
 
-    public void setAddress2(Address address2) {
+    public void setAddress2(Optional<Address> address2) {
         this.address2 = address2;
     }
 
-    public Address getAddress3() {
+    public Optional<Address> getAddress3() {
         return this.address3;
     }
 
-    public void setAddress3(Address address3) {
+    public void setAddress3(Optional<Address> address3) {
         this.address3 = address3;
     }
 
