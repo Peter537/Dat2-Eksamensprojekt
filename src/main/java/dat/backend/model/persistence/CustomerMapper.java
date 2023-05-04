@@ -112,25 +112,7 @@ class CustomerMapper {
             return Optional.empty();
         }
 
-        Zip zip = getZipByZipCode(zipCode, connectionPool);
+        Zip zip = ZipMapper.getZipByZipCode(zipCode, connectionPool);
         return Optional.of(new Address(address, zip));
-    }
-
-    private static Zip getZipByZipCode(int zipCode, ConnectionPool connectionPool) throws DatabaseException {
-        String query = "SELECT * FROM zip WHERE zipcode = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, zipCode);
-                ResultSet resultSet = statement.executeQuery();
-                if (!resultSet.next()) {
-                    throw new SQLException("Could not find zip code");
-                }
-
-                String city = resultSet.getString("city_name");
-                return new Zip(zipCode, city);
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Could not get zip by zip code");
-        }
     }
 }
