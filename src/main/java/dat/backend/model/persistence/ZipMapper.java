@@ -7,24 +7,30 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 class ZipMapper {
 
-    static Zip getZipByZipCode(int zipCode, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<Zip> getZipByZipCode(int zipCode, ConnectionPool connectionPool) throws DatabaseException {
         String query = "SELECT * FROM zip WHERE zipcode = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, zipCode);
                 ResultSet resultSet = statement.executeQuery();
-                if (!resultSet.next()) {
-                    throw new SQLException("Could not find zip code");
-                }
-
-                String city = resultSet.getString("city_name");
-                return new Zip(zipCode, city);
+                return createZipFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get zip by zip code");
         }
+    }
+
+    private static Optional<Zip> createZipFromResultSet(ResultSet resultSet) throws SQLException {
+        if (!resultSet.next()) {
+            return Optional.empty();
+        }
+
+        int zipCode = resultSet.getInt("zipcode");
+        String city = resultSet.getString("city_name");
+        return Optional.of(new Zip(zipCode, city));
     }
 }
