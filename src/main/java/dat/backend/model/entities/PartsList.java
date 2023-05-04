@@ -61,7 +61,7 @@ public class PartsList {
         return numberOfPoles;
     }
 
-    public int calculateNumberOfPlates(int length, int width) {
+    public int calculateNumberOfPlates(int width) {
         int numberOfPlates = 2 + calculateNumberOfPolesWidth(width);
         return numberOfPlates;
     }
@@ -71,5 +71,16 @@ public class PartsList {
         return numberOfRafters;
     }
 
+
+    public double calculateSpanBetweenPlates(int width) {
+          int widthBetweenPoles = width - 70;
+          double span = widthBetweenPoles/(calculateNumberOfPlates(width)-1.0);
+          return span;
+    }
+
+    double[][] spanTable = {
+            {120, 145, 170, 195, 220, 245, 270, 295},// dimentions in mm
+            {248, 300, 351, 402, 452, 502, 551, 600},// max. span in cm
+    };
 
 }
