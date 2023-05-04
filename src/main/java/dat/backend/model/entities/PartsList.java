@@ -58,18 +58,20 @@ public class PartsList {
         return null;
     }
 
-    public int calculateNumberOfPolesWidth(int width) {
+    public static int calculateNumberOfPolesWidth(int width) {
         int widthBetweenPoles = width - 70;
+        if (widthBetweenPoles < 100) {throw new IllegalArgumentException("Width of carport is too small.");
+        }
         int numberOfPolesWidth = (int) (Math.ceil(widthBetweenPoles/600.0)-1);
         return numberOfPolesWidth;
     }
 
-    public int calculateNumberOfPolesLength(int length) {
+    public static int calculateNumberOfPolesLength(int length) {
         int lengthBetweenPoles = length - 140;
         int numberOfPolesLength = (int) (Math.ceil(lengthBetweenPoles/340.0)-1);
         return numberOfPolesLength;
     }
-    public int calculateNumberOfPoles(int length, int width) {
+    public static int calculateNumberOfPoles(int length, int width) {
         int polesBetweenLength = calculateNumberOfPolesLength(length);
         int polesBetweenWidth = calculateNumberOfPolesWidth(width);
 
@@ -78,33 +80,33 @@ public class PartsList {
         return numberOfPoles;
     }
 
-    public int calculateNumberOfPlates(int width) {
+    public static int calculateNumberOfPlates(int width) {
         int numberOfPlates = 2 + calculateNumberOfPolesWidth(width);
         return numberOfPlates;
     }
 
-    public int calculateNumberOfRafters(int length) {
+    public static int calculateNumberOfRafters(int length) {
         int numberOfRafters = (int) (Math.ceil(length/60));
         return numberOfRafters;
     }
 
 
-    public double calculateSpanBetweenPlates(int width) {
+    public static double calculateSpanBetweenPlates(int width) {
           int widthBetweenPoles = width - 70;
           double span = widthBetweenPoles/(calculateNumberOfPlates(width)-1.0);
           return span;
     }
 
-    double[][] spanTable = {
+    static double[][] spanTable = {
             {120, 145, 170, 195, 220, 245, 295},// dimensions in mm
             {248, 300, 351, 402, 452, 502, 600},// max. span in cm
     };
 
-    public double calculateDimensions(int width) {
+    public static double calculateDimensions(int width) {
         double span = calculateSpanBetweenPlates(width);
         double dimensions = 0;
         for (int i = 0; i < spanTable[0].length; i++) {
-            if (spanTable[1][i] > span) {
+            if (spanTable[1][i] >= span) {
                 dimensions = spanTable[0][i];
                 break;
             }
