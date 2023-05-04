@@ -30,29 +30,31 @@ public class PartsList {
 
     // TODO: Given height, length and width. Calculate the number of poles, plates and rafters needed.
 
-    public PartsList calculatePartsList(int height, int length, int width) {
-        Lumber pole = calculatePole(height);
-        int numberOfPoles = calculateNumberOfPoles(length, width);
-        int numberOfPlates = calculateNumberOfPlates(width);
-        Lumber plate = new Lumber(calculateDimensions(width), priceOfPlate);
-        int numberOfRafters = calculateNumberOfRafters(length);
-        Lumber rafter = new Lumber(60, priceOfRafter); // Assuming all rafters have the same length of 60cm
 
-        return new PartsList(pole, plate, rafter, numberOfPoles, numberOfPlates, numberOfRafters, priceOfPole, priceOfPlate, priceOfRafter);
-    }
+//    public PartsList calculatePartsList(int height, int length, int width) {
+//        Lumber pole = calculatePole(height);
+//        int numberOfPoles = calculateNumberOfPoles(length, width);
+//        int numberOfPlates = calculateNumberOfPlates(width);
+//        Lumber plate = new Lumber( calculateDimensions(width), priceOfPlate);
+//        int numberOfRafters = calculateNumberOfRafters(length);
+//        Lumber rafter = new Lumber(60, priceOfRafter); // Assuming all rafters have the same length of 60cm
+//
+//        return new PartsList(pole, plate, rafter, numberOfPoles, numberOfPlates, numberOfRafters, priceOfPole, priceOfPlate, priceOfRafter);
+//    }
+
 
     public Lumber calculatePole(int height) {
-        // TODO: set the pole length to the height of the carport + 90 cm to be dug into the ground + the dimensions of the plate (same as the rafter).
+        // TODO: set the pole length to the height of the carport + 90 cm to be dug into the ground + the width of the plate (same as the rafter).
         return null;
     }
 
     public Lumber calculateRafter(int length, int width) {
-        new Lumber();
+       // new Lumber();
         return null;
     }
 
     public Lumber calculatePlate(int length, int width) {
-        new Lumber();
+        //new Lumber();
         return null;
     }
 
@@ -94,8 +96,8 @@ public class PartsList {
     }
 
     double[][] spanTable = {
-            {120, 145, 170, 195, 220, 245, 270, 295},// dimensions in mm
-            {248, 300, 351, 402, 452, 502, 551, 600},// max. span in cm
+            {120, 145, 170, 195, 220, 245, 295},// dimensions in mm
+            {248, 300, 351, 402, 452, 502, 600},// max. span in cm
     };
 
     public double calculateDimensions(int width) {
