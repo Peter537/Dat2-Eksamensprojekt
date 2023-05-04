@@ -146,7 +146,6 @@ class CustomerMapperTest {
     void testInvalidCreateCustomerEmailAlreadyInUse() throws DatabaseException {
         Optional<Customer> customerOptional = CustomerFacade.createCustomer("alex@hotmail.com", "1234566", "Test", connectionPool);
         assertFalse(customerOptional.isPresent());
-        //assertThrows(DatabaseException.class, () -> CustomerFacade.createCustomer("alex@hotmail.com", "1234566", "Test", connectionPool));
     }
 
     @Test
@@ -157,7 +156,7 @@ class CustomerMapperTest {
 
     @Test
     void testInvalidCreateCustomerNullName() throws DatabaseException {
-        Optional<Customer> customerOptional = CustomerFacade.createCustomer("new@gmail.com,", "1234566", null, connectionPool);
+        Optional<Customer> customerOptional = CustomerFacade.createCustomer("new@gmail.com", "1234566", null, connectionPool);
         assertFalse(customerOptional.isPresent());
     }
 
