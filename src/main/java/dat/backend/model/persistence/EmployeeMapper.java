@@ -97,7 +97,11 @@ class EmployeeMapper {
         String positionName = resultSet.getString("fk_position");
         Position position = new Position(positionName);
         int departmentId = resultSet.getInt("fk_department_id");
-        Department department = DepartmentMapper.getDepartmentById(departmentId, connectionPool);
-        return Optional.of(new Employee(id, email, name, password, null, null, position, department));
+        Optional<Department> department = DepartmentMapper.getDepartmentById(departmentId, connectionPool);
+        if (!department.isPresent()) {
+            throw new DatabaseException("Could not get department");
+        }
+
+        return Optional.of(new Employee(id, email, name, password, null, null, position, department.get()));
     }
 }

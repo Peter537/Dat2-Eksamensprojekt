@@ -108,7 +108,11 @@ class CustomerMapper {
             return Optional.empty();
         }
 
-        Zip zip = ZipMapper.getZipByZipCode(zipCode, connectionPool);
-        return Optional.of(new Address(address, zip));
+        Optional<Zip> zip = ZipMapper.getZipByZipCode(zipCode, connectionPool);
+        if (!zip.isPresent()) {
+            throw new DatabaseException("Could not get zip by zip code");
+        }
+
+        return Optional.of(new Address(address, zip.get()));
     }
 }
