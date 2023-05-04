@@ -13,10 +13,6 @@ import java.util.Optional;
 
 class CustomerMapper {
 
-    /*
-     * TODO: Add INNER JOIN to get address and zip in SQL query
-     */
-
     static Optional<Customer> login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
         String query = "SELECT * FROM customer WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
