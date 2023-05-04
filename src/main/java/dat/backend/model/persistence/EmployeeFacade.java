@@ -13,8 +13,8 @@ public class EmployeeFacade {
         return EmployeeMapper.login(email, password, connectionPool);
     }
 
-    public static Optional<Employee> createEmployee(String email, String password, String name, Position position, ConnectionPool connectionPool) throws DatabaseException {
-        return EmployeeMapper.createEmployee(email, password, name, position, connectionPool);
+    public static Optional<Employee> createEmployee(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException {
+        return EmployeeMapper.createEmployee(email, name, password, position, department, connectionPool);
     }
 
     public static Optional<Employee> getEmployeeById(int id, ConnectionPool connectionPool) throws DatabaseException {
