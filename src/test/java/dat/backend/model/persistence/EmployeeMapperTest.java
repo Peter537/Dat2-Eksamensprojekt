@@ -4,6 +4,9 @@ import dat.backend.model.entities.Department;
 import dat.backend.model.entities.Employee;
 import dat.backend.model.entities.Position;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.EmployeeAlreadyExistsException;
+import dat.backend.model.exceptions.EmployeeNotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,141 +83,148 @@ class EmployeeMapperTest {
 
     @Test
     void testValidGetEmployeeById() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.getEmployeeById(1, connectionPool);
-        assertTrue(employeeOptional.isPresent());
-        Employee employee = employeeOptional.get();
-        assertEquals(1, employee.getId());
-        assertEquals("ben@johannesfog.dk", employee.getEmail());
-        assertEquals("ben", employee.getName());
-        assertEquals("123", employee.getPassword());
+        try {
+            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+            assertEquals(1, employee.getId());
+            assertEquals("ben@johannesfog.dk", employee.getEmail());
+            assertEquals("ben", employee.getName());
+            assertEquals("123", employee.getPassword());
+        } catch (EmployeeNotFoundException e) {
+            fail("Expected DatabaseException");
+        }
     }
 
     @Test
     void testInvalidGetEmployeeById() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.getEmployeeById(4, connectionPool);
-        assertFalse(employeeOptional.isPresent());
+        assertThrows(EmployeeNotFoundException.class, () -> EmployeeFacade.getEmployeeById(4, connectionPool));
     }
 
     @Test
     void testValidGetEmployeeByEmail() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.getEmployeeByEmail("allan@johannesfog.dk", connectionPool);
-        assertTrue(employeeOptional.isPresent());
-        Employee employee = employeeOptional.get();
-        assertEquals(2, employee.getId());
-        assertEquals("allan@johannesfog.dk", employee.getEmail());
-        assertEquals("allan", employee.getName());
-        assertEquals("1234", employee.getPassword());
+        try {
+            Employee employee = EmployeeFacade.getEmployeeByEmail("allan@johannesfog.dk", connectionPool);
+            assertEquals(2, employee.getId());
+            assertEquals("allan@johannesfog.dk", employee.getEmail());
+            assertEquals("allan", employee.getName());
+            assertEquals("1234", employee.getPassword());
+        } catch (EmployeeNotFoundException e) {
+            fail("Expected DatabaseException");
+        }
     }
 
     @Test
     void testInvalidGetEmployeeByEmail() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.getEmployeeByEmail("allan@johannesfog.dk", connectionPool);
-        assertTrue(employeeOptional.isPresent());
+        assertThrows(EmployeeNotFoundException.class, () -> EmployeeFacade.getEmployeeByEmail("kalle@johannesfog.dk", connectionPool));
     }
 
     @Test
     void testValidLogin() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.login("alex@johannesfog.dk", "12345", connectionPool);
-        assertTrue(employeeOptional.isPresent());
-        Employee employee = employeeOptional.get();
-        assertEquals(3, employee.getId());
-        assertEquals("alex@johannesfog.dk", employee.getEmail());
-        assertEquals("alex", employee.getName());
-        assertEquals("12345", employee.getPassword());
+        try {
+            Employee employee = EmployeeFacade.login("alex@johannesfog.dk", "12345", connectionPool);
+            assertEquals(3, employee.getId());
+            assertEquals("alex@johannesfog.dk", employee.getEmail());
+            assertEquals("alex", employee.getName());
+            assertEquals("12345", employee.getPassword());
+        } catch (EmployeeNotFoundException e) {
+            fail("Expected DatabaseException");
+        }
     }
 
     @Test
     void testInvalidLoginNotExist() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.login("myaccount@johannesfog.dk", "12345", connectionPool);
-        assertFalse(employeeOptional.isPresent());
+        assertThrows(EmployeeNotFoundException.class, () -> EmployeeFacade.login("myaccount@johannesfog.dk", "12345", connectionPool));
     }
 
     @Test
     void testInvalidLoginWrongPassword() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.login("alex@johannesfog.dk", "1234", connectionPool);
-        assertFalse(employeeOptional.isPresent());
+        assertThrows(EmployeeNotFoundException.class, () -> EmployeeFacade.login("alex@johannesfog.dk", "1234", connectionPool));
     }
 
     @Test
     void testInvalidLoginNullPassword() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.login("alex@johannesfog.dk", null, connectionPool);
-        assertFalse(employeeOptional.isPresent());
+        assertThrows(EmployeeNotFoundException.class, () -> EmployeeFacade.login("alex@johannesfog.dk", null, connectionPool));
     }
 
     @Test
     void testValidCreateEmployee() throws DatabaseException {
-        Position position = new Position("Sales");
-        Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
-        Optional<Employee> employeeOptional = EmployeeFacade.createEmployee("test@johannesfog.dk", "Test", "1234566", position, department, connectionPool);
-        assertTrue(employeeOptional.isPresent());
-        Employee employee = employeeOptional.get();
-        assertEquals(4, employee.getId());
-        assertEquals("test@johannesfog.dk", employee.getEmail());
-        assertEquals("Test", employee.getName());
-        assertEquals("1234566", employee.getPassword());
+        try {
+            Position position = new Position("Sales");
+            Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
+            Employee employee = EmployeeFacade.createEmployee("test@johannesfog.dk", "Test", "1234566", position, department, connectionPool);
+            assertEquals(4, employee.getId());
+            assertEquals("test@johannesfog.dk", employee.getEmail());
+            assertEquals("Test", employee.getName());
+            assertEquals("1234566", employee.getPassword());
+        } catch (EmployeeAlreadyExistsException | ValidationException e) {
+            fail("Expected DatabaseException");
+        }
     }
 
     @Test
     void testInvalidCreateEmployeeEmailAlreadyInUse() throws DatabaseException {
         Position position = new Position("Sales");
         Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
-        Optional<Employee> employeeOptional = EmployeeFacade.createEmployee("alex@johannesfog.dk", "Test", "1234566", position, department, connectionPool);
-        assertFalse(employeeOptional.isPresent());
+        assertThrows(EmployeeAlreadyExistsException.class, () -> EmployeeFacade.createEmployee("alex@johannesfog.dk", "Test", "1234566", position, department, connectionPool));
     }
 
     @Test
     void testInvalidCreateEmployeeNullPassword() throws DatabaseException {
         Position position = new Position("Sales");
         Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
-        Optional<Employee> employeeOptional = EmployeeFacade.createEmployee("new@johannesfog.dk", "Test", null, position, department, connectionPool);
-        assertFalse(employeeOptional.isPresent());
+        assertThrows(ValidationException.class, () -> EmployeeFacade.createEmployee("new@johannesfog.dk", "Test", null, position, department, connectionPool));
     }
 
     @Test
     void testInvalidCreateEmployeeNullName() throws DatabaseException {
         Position position = new Position("Sales");
         Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
-        Optional<Employee> employeeOptional = EmployeeFacade.createEmployee("new@johannesfog.dk", "1234566", null, position, department, connectionPool);
-        assertFalse(employeeOptional.isPresent());
+        assertThrows(ValidationException.class, () -> EmployeeFacade.createEmployee("new@johannesfog.dk", "1234566", null, position, department, connectionPool));
     }
 
     @Test
     void testInvalidCreateEmployeeEmail() throws DatabaseException {
         Position position = new Position("Sales");
         Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
-        Optional<Employee> employeeOptional = EmployeeFacade.createEmployee("test@gmail.com", "Test", "1234566", position, department, connectionPool);
-        assertFalse(employeeOptional.isPresent());
+        assertThrows(ValidationException.class, () -> EmployeeFacade.createEmployee("test@gmail.com", "Test", "1234566", position, department, connectionPool));
     }
 
     @Test
     void testValidUpdatePassword() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.getEmployeeById(1, connectionPool);
-        assertTrue(employeeOptional.isPresent());
-        Employee employee = employeeOptional.get();
-        assertTrue(EmployeeFacade.updatePassword(employee, "123456", connectionPool));
+        try {
+            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+            EmployeeFacade.updatePassword(employee, "123456", connectionPool);
+        } catch (EmployeeNotFoundException | ValidationException e) {
+            fail("Expected DatabaseException");
+        }
     }
 
     @Test
     void testInvalidUpdatePasswordTooShortPassword() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.getEmployeeById(1, connectionPool);
-        assertTrue(employeeOptional.isPresent());
-        Employee employee = employeeOptional.get();
-        assertFalse(EmployeeFacade.updatePassword(employee, "12", connectionPool));
+        try {
+            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+            assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, "12", connectionPool));
+        } catch (EmployeeNotFoundException e) {
+            fail("Expected DatabaseException");
+        }
     }
 
     @Test
     void testInvalidUpdatePasswordTooLongPassword() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.getEmployeeById(1, connectionPool);
-        assertTrue(employeeOptional.isPresent());
-        Employee employee = employeeOptional.get();
-        assertFalse(EmployeeFacade.updatePassword(employee, "0123456789012345678901234567890123456", connectionPool));
+        try {
+            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+            assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, "0123456789012345678901234567890123456", connectionPool));
+        } catch (EmployeeNotFoundException e) {
+            fail("Expected DatabaseException");
+        }
     }
 
     @Test
     void testInvalidUpdatePasswordNull() throws DatabaseException {
-        Optional<Employee> employeeOptional = EmployeeFacade.getEmployeeById(1, connectionPool);
-        assertTrue(employeeOptional.isPresent());
-        Employee employee = employeeOptional.get();
-        assertFalse(EmployeeFacade.updatePassword(employee, null, connectionPool));
+        try {
+            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+            assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, null, connectionPool));
+        } catch (EmployeeNotFoundException e) {
+            fail("Expected DatabaseException");
+        }
     }
 }

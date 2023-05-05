@@ -2,7 +2,9 @@ package dat.backend.control;
 
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.Customer;
+import dat.backend.model.exceptions.CustomerAlreadyExistsException;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.CustomerFacade;
 
@@ -37,27 +39,20 @@ public class CreateCustomer extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
 
         try {
-            session = request.getSession();
-           // session.setAttribute("user", user); // adding user object to session scope
-
             if (!password.equals(confirmPassword)) {
                 request.setAttribute("errormessage", "Passwords do not match");
                 request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
                 return;
             }
 
-            Optional<Customer> user = CustomerFacade.createCustomer(email, password, name, connectionPool);
-
-            if (!user.isPresent()) {
-                request.setAttribute("errormessage", "User could not be created");
-                session.setAttribute("user", user.get());
-                request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
-                return;
-            } else {
+            try {
+                Customer customer = CustomerFacade.createCustomer(email, password, name, connectionPool);
+                session.setAttribute("user", customer);
                 request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
-                return;
+            } catch (ValidationException | CustomerAlreadyExistsException e) {
+                request.setAttribute("errormessage", "User could not be created");
+                request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
             }
-
         } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
