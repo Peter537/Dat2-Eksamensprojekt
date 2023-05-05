@@ -100,6 +100,7 @@ class EmployeeMapper {
                 statement.setString(1, newPassword);
                 statement.setInt(2, employee.getId());
                 statement.executeUpdate();
+                employee.setPassword(newPassword);
                 return true;
             }
         } catch (SQLException e) {

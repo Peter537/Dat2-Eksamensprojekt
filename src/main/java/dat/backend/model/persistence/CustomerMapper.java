@@ -100,6 +100,7 @@ class CustomerMapper {
                 statement.setString(1, newPassword);
                 statement.setString(2, customer.getEmail());
                 statement.executeUpdate();
+                customer.setPassword(newPassword);
                 return true;
             }
         } catch (SQLException e) {
