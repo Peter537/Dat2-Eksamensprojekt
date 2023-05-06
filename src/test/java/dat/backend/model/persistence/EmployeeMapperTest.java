@@ -3,10 +3,7 @@ package dat.backend.model.persistence;
 import dat.backend.model.entities.Department;
 import dat.backend.model.entities.Employee;
 import dat.backend.model.entities.Position;
-import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.EmployeeAlreadyExistsException;
-import dat.backend.model.exceptions.EmployeeNotFoundException;
-import dat.backend.model.exceptions.ValidationException;
+import dat.backend.model.exceptions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -149,42 +145,42 @@ class EmployeeMapperTest {
     void testValidCreateEmployee() throws DatabaseException {
         try {
             Position position = new Position("Sales");
-            Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
+            Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
             Employee employee = EmployeeFacade.createEmployee("test@johannesfog.dk", "Test", "1234566", position, department, connectionPool);
             assertEquals(4, employee.getId());
             assertEquals("test@johannesfog.dk", employee.getEmail());
             assertEquals("Test", employee.getName());
             assertEquals("1234566", employee.getPassword());
-        } catch (EmployeeAlreadyExistsException | ValidationException e) {
+        } catch (EmployeeAlreadyExistsException | ValidationException | DepartmentNotFoundException e) {
             fail("Expected DatabaseException");
         }
     }
 
     @Test
-    void testInvalidCreateEmployeeEmailAlreadyInUse() throws DatabaseException {
+    void testInvalidCreateEmployeeEmailAlreadyInUse() throws DatabaseException, DepartmentNotFoundException {
         Position position = new Position("Sales");
-        Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
+        Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
         assertThrows(EmployeeAlreadyExistsException.class, () -> EmployeeFacade.createEmployee("alex@johannesfog.dk", "Test", "1234566", position, department, connectionPool));
     }
 
     @Test
-    void testInvalidCreateEmployeeNullPassword() throws DatabaseException {
+    void testInvalidCreateEmployeeNullPassword() throws DatabaseException, DepartmentNotFoundException {
         Position position = new Position("Sales");
-        Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
+        Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.createEmployee("new@johannesfog.dk", "Test", null, position, department, connectionPool));
     }
 
     @Test
-    void testInvalidCreateEmployeeNullName() throws DatabaseException {
+    void testInvalidCreateEmployeeNullName() throws DatabaseException, DepartmentNotFoundException {
         Position position = new Position("Sales");
-        Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
+        Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.createEmployee("new@johannesfog.dk", "1234566", null, position, department, connectionPool));
     }
 
     @Test
-    void testInvalidCreateEmployeeEmail() throws DatabaseException {
+    void testInvalidCreateEmployeeEmail() throws DatabaseException, DepartmentNotFoundException {
         Position position = new Position("Sales");
-        Department department = DepartmentMapper.getDepartmentById(1, connectionPool).orElse(null);
+        Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.createEmployee("test@gmail.com", "Test", "1234566", position, department, connectionPool));
     }
 

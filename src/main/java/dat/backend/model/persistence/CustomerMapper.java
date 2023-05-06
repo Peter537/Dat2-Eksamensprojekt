@@ -3,10 +3,7 @@ package dat.backend.model.persistence;
 import dat.backend.model.entities.Address;
 import dat.backend.model.entities.Customer;
 import dat.backend.model.entities.Zip;
-import dat.backend.model.exceptions.CustomerAlreadyExistsException;
-import dat.backend.model.exceptions.CustomerNotFoundException;
-import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.ValidationException;
+import dat.backend.model.exceptions.*;
 import dat.backend.model.services.Validation;
 
 import java.sql.Connection;
@@ -122,11 +119,11 @@ class CustomerMapper {
             return Optional.empty();
         }
 
-        Optional<Zip> zip = ZipMapper.getZipByZipCode(zipCode, connectionPool);
-        if (!zip.isPresent()) {
+        try {
+            Zip zip = ZipFacade.getZipByZipCode(zipCode, connectionPool);
+            return Optional.of(new Address(address, zip));
+        } catch (ZipNotFoundException e) {
             throw new DatabaseException("Could not get zip by zip code");
         }
-
-        return Optional.of(new Address(address, zip.get()));
     }
 }

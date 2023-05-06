@@ -2,16 +2,16 @@ package dat.backend.model.persistence;
 
 import dat.backend.model.entities.Zip;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.ZipNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 class ZipMapper {
 
-    static Optional<Zip> getZipByZipCode(int zipCode, ConnectionPool connectionPool) throws DatabaseException {
+    static Zip getZipByZipCode(int zipCode, ConnectionPool connectionPool) throws DatabaseException, ZipNotFoundException {
         String query = "SELECT * FROM zip WHERE zipcode = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -24,13 +24,13 @@ class ZipMapper {
         }
     }
 
-    private static Optional<Zip> createZipFromResultSet(ResultSet resultSet) throws SQLException {
+    private static Zip createZipFromResultSet(ResultSet resultSet) throws SQLException, ZipNotFoundException {
         if (!resultSet.next()) {
-            return Optional.empty();
+            throw new ZipNotFoundException("Zip not found");
         }
 
         int zipCode = resultSet.getInt("zipcode");
         String city = resultSet.getString("city_name");
-        return Optional.of(new Zip(zipCode, city));
+        return new Zip(zipCode, city);
     }
 }

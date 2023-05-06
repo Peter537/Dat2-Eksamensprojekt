@@ -1,10 +1,7 @@
 package dat.backend.model.persistence;
 
 import dat.backend.model.entities.*;
-import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.EmployeeAlreadyExistsException;
-import dat.backend.model.exceptions.EmployeeNotFoundException;
-import dat.backend.model.exceptions.ValidationException;
+import dat.backend.model.exceptions.*;
 import dat.backend.model.services.Validation;
 
 import java.sql.Connection;
@@ -113,11 +110,11 @@ class EmployeeMapper {
         Optional<String> privatePhoneNumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
         Position position = new Position(positionName);
         int departmentId = resultSet.getInt("fk_department_id");
-        Optional<Department> department = DepartmentMapper.getDepartmentById(departmentId, connectionPool);
-        if (!department.isPresent()) {
-            throw new DatabaseException("Could not get department");
+        try {
+            Department department = DepartmentFacade.getDepartmentById(departmentId, connectionPool);
+            return new Employee(id, email, name, password, workPhoneNumber, privatePhoneNumber, position, department);
+        } catch (DepartmentNotFoundException e) {
+            throw new DatabaseException(e, "Could not get department");
         }
-
-        return new Employee(id, email, name, password, workPhoneNumber, privatePhoneNumber, position, department.get());
     }
 }

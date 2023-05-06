@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -133,6 +132,11 @@ class CustomerMapperTest {
     @Test
     void testInvalidLoginNullPassword() throws DatabaseException {
         assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.login("alex@hotmail.com", null, connectionPool));
+    }
+
+    @Test
+    void testInvalidLoginNullEmail() throws DatabaseException {
+        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.login(null, "12345", connectionPool));
     }
 
     @Test

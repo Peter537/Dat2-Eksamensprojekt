@@ -12,7 +12,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.Optional;
 
 @WebServlet(name = "create-customer", value = "/create-customer")
 public class CreateCustomer extends HttpServlet {
@@ -32,7 +31,7 @@ public class CreateCustomer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setAttribute("user", null); // invalidating user object in session scope
+        session.setAttribute("customer", null); // invalidating user object in session scope
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -47,7 +46,7 @@ public class CreateCustomer extends HttpServlet {
 
             try {
                 Customer customer = CustomerFacade.createCustomer(email, password, name, connectionPool);
-                session.setAttribute("user", customer);
+                session.setAttribute("customer", customer);
                 request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
             } catch (ValidationException | CustomerAlreadyExistsException e) {
                 request.setAttribute("errormessage", "User could not be created");
