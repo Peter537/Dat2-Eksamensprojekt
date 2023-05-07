@@ -10,7 +10,7 @@ public class Employee extends Person {
     private Position position;
     private Department department;
 
-    public Employee(int id, String email, String name, String password, Optional<String> workPhoneNumber, Optional<String> personalPhone, Position position, Department department) {
+    public Employee(int id, String email, String name, String password, Optional<String> personalPhone, Optional<String> workPhoneNumber, Position position, Department department) {
         super(id, email, name, password, personalPhone);
         this.workPhoneNumber = workPhoneNumber;
         this.position = position;
