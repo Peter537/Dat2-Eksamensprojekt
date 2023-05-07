@@ -10,7 +10,7 @@ public class Customer extends Person {
     private Optional<Address> address2;
     private Optional<Address> address3;
 
-    public Customer(int id, String email, String name, String password, Optional<String> personalPhoneNumber, Optional<Address> address1, Optional<Address> address2, Optional<Address> address3) {
+    public Customer(int id, String email, String name, String password, String personalPhoneNumber, Optional<Address> address1, Optional<Address> address2, Optional<Address> address3) {
         super(id, email, name, password, personalPhoneNumber);
         this.address1 = address1;
         this.address2 = address2;

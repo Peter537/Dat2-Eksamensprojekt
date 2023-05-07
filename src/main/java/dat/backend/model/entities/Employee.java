@@ -1,27 +1,25 @@
 package dat.backend.model.entities;
 
 import java.util.Objects;
-import java.util.Optional;
 
-@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class Employee extends Person {
 
-    private Optional<String> workPhoneNumber;
+    private String workPhoneNumber;
     private Position position;
     private Department department;
 
-    public Employee(int id, String email, String name, String password, Optional<String> personalPhone, Optional<String> workPhoneNumber, Position position, Department department) {
+    public Employee(int id, String email, String name, String password, String workPhoneNumber, String personalPhone, Position position, Department department) {
         super(id, email, name, password, personalPhone);
         this.workPhoneNumber = workPhoneNumber;
         this.position = position;
         this.department = department;
     }
 
-    public Optional<String> getWorkPhoneNumber() {
+    public String getWorkPhoneNumber() {
         return this.workPhoneNumber;
     }
 
-    public void setWorkPhoneNumber(Optional<String> workPhoneNumber) {
+    public void setWorkPhoneNumber(String workPhoneNumber) {
         this.workPhoneNumber = workPhoneNumber;
     }
 

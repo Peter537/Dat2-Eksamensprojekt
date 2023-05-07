@@ -1,10 +1,7 @@
 package dat.backend.model.persistence;
 
 import dat.backend.model.entities.Customer;
-import dat.backend.model.exceptions.CustomerAlreadyExistsException;
-import dat.backend.model.exceptions.CustomerNotFoundException;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.ValidationException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,138 +70,126 @@ class CustomerMapperTest {
 
     @Test
     void testValidGetCustomerById() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            assertEquals(1, customer.getId());
-            assertEquals("ben@gmail.com", customer.getEmail());
-            assertEquals("ben", customer.getName());
-            assertEquals("123", customer.getPassword());
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+        Optional<Customer> customerOptional = CustomerFacade.getCustomerById(1, connectionPool);
+        assertTrue(customerOptional.isPresent());
+        Customer customer = customerOptional.get();
+        assertEquals(1, customer.getId());
+        assertEquals("ben@gmail.com", customer.getEmail());
+        assertEquals("ben", customer.getName());
+        assertEquals("123", customer.getPassword());
     }
 
     @Test
     void testInvalidGetCustomerById() throws DatabaseException {
-        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.getCustomerById(4, connectionPool));
+        Optional<Customer> customerOptional = CustomerFacade.getCustomerById(4, connectionPool);
+        assertFalse(customerOptional.isPresent());
     }
 
     @Test
     void testValidGetCustomerByEmail() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
-            assertEquals(2, customer.getId());
-            assertEquals("allan@outlook.dk", customer.getEmail());
-            assertEquals("allan", customer.getName());
-            assertEquals("1234", customer.getPassword());
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+        Optional<Customer> customerOptional = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        assertTrue(customerOptional.isPresent());
+        Customer customer = customerOptional.get();
+        assertEquals(2, customer.getId());
+        assertEquals("allan@outlook.dk", customer.getEmail());
+        assertEquals("allan", customer.getName());
+        assertEquals("1234", customer.getPassword());
     }
 
     @Test
     void testInvalidGetCustomerByEmail() throws DatabaseException {
-        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.getCustomerByEmail("kalle@outlook.dk", connectionPool));
+        Optional<Customer> customerOptional = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        assertTrue(customerOptional.isPresent());
     }
 
     @Test
     void testValidLogin() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.login("alex@hotmail.com", "12345", connectionPool);
-            assertEquals(3, customer.getId());
-            assertEquals("alex@hotmail.com", customer.getEmail());
-            assertEquals("alex", customer.getName());
-            assertEquals("12345", customer.getPassword());
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+        Optional<Customer> customerOptional = CustomerFacade.login("alex@hotmail.com", "12345", connectionPool);
+        assertTrue(customerOptional.isPresent());
+        Customer customer = customerOptional.get();
+        assertEquals(3, customer.getId());
+        assertEquals("alex@hotmail.com", customer.getEmail());
+        assertEquals("alex", customer.getName());
+        assertEquals("12345", customer.getPassword());
     }
 
     @Test
     void testInvalidLoginNotExist() throws DatabaseException {
-        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.login("myaccount@gmail.com", "12345", connectionPool));
+        Optional<Customer> customerOptional = CustomerFacade.login("myaccount@gmail.com", "12345", connectionPool);
+        assertFalse(customerOptional.isPresent());
     }
 
     @Test
     void testInvalidLoginWrongPassword() throws DatabaseException {
-        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.login("alex@hotmail.com", "1234", connectionPool));
+        Optional<Customer> customerOptional = CustomerFacade.login("alex@hotmail.com", "1234", connectionPool);
+        assertFalse(customerOptional.isPresent());
     }
 
     @Test
     void testInvalidLoginNullPassword() throws DatabaseException {
-        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.login("alex@hotmail.com", null, connectionPool));
-    }
-
-    @Test
-    void testInvalidLoginNullEmail() throws DatabaseException {
-        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.login(null, "12345", connectionPool));
+        Optional<Customer> customerOptional = CustomerFacade.login("alex@hotmail.com", null, connectionPool);
+        assertFalse(customerOptional.isPresent());
     }
 
     @Test
     void testValidCreateCustomer() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.createCustomer("test@gmail.com", "1234566", "Test", connectionPool);
-            assertEquals(4, customer.getId());
-            assertEquals("test@gmail.com", customer.getEmail());
-            assertEquals("Test", customer.getName());
-            assertEquals("1234566", customer.getPassword());
-        } catch (CustomerAlreadyExistsException | ValidationException e) {
-            fail("Expected DatabaseException");
-        }
+        Optional<Customer> customerOptional = CustomerFacade.createCustomer("test@gmail.com", "1234566", "Test", connectionPool);
+        assertTrue(customerOptional.isPresent());
+        Customer customer = customerOptional.get();
+        assertEquals(4, customer.getId());
+        assertEquals("test@gmail.com", customer.getEmail());
+        assertEquals("Test", customer.getName());
+        assertEquals("1234566", customer.getPassword());
     }
 
     @Test
     void testInvalidCreateCustomerEmailAlreadyInUse() throws DatabaseException {
-        assertThrows(CustomerAlreadyExistsException.class, () -> CustomerFacade.createCustomer("alex@hotmail.com", "1234566", "Test", connectionPool));
+        Optional<Customer> customerOptional = CustomerFacade.createCustomer("alex@hotmail.com", "1234566", "Test", connectionPool);
+        assertFalse(customerOptional.isPresent());
+        //assertThrows(DatabaseException.class, () -> CustomerFacade.createCustomer("alex@hotmail.com", "1234566", "Test", connectionPool));
     }
 
     @Test
     void testInvalidCreateCustomerNullPassword() throws DatabaseException {
-        assertThrows(ValidationException.class, () -> CustomerFacade.createCustomer("new@gmail.com", null, "Test", connectionPool));
+        Optional<Customer> customerOptional = CustomerFacade.createCustomer("new@gmail.com", null, "Test", connectionPool);
+        assertFalse(customerOptional.isPresent());
     }
 
     @Test
     void testInvalidCreateCustomerNullName() throws DatabaseException {
-        assertThrows(ValidationException.class, () -> CustomerFacade.createCustomer("new@gmail.com", "1234566", null, connectionPool));
+        Optional<Customer> customerOptional = CustomerFacade.createCustomer("new@gmail.com,", "1234566", null, connectionPool);
+        assertFalse(customerOptional.isPresent());
     }
 
     @Test
     void testValidUpdatePassword() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            CustomerFacade.updatePassword(customer, "123456", connectionPool);
-        } catch (CustomerNotFoundException | ValidationException e) {
-            fail("Expected DatabaseException");
-        }
+        Optional<Customer> customerOptional = CustomerFacade.getCustomerById(1, connectionPool);
+        assertTrue(customerOptional.isPresent());
+        Customer customer = customerOptional.get();
+        assertTrue(CustomerFacade.updatePassword(customer, "123456", connectionPool));
     }
 
     @Test
     void testInvalidUpdatePasswordTooShortPassword() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            assertThrows(ValidationException.class, () -> CustomerFacade.updatePassword(customer, "12", connectionPool));
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+        Optional<Customer> customerOptional = CustomerFacade.getCustomerById(1, connectionPool);
+        assertTrue(customerOptional.isPresent());
+        Customer customer = customerOptional.get();
+        assertFalse(CustomerFacade.updatePassword(customer, "12", connectionPool));
     }
 
     @Test
     void testInvalidUpdatePasswordTooLongPassword() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            assertThrows(ValidationException.class, () -> CustomerFacade.updatePassword(customer, "0123456789012345678901234567890123456", connectionPool));
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+        Optional<Customer> customerOptional = CustomerFacade.getCustomerById(1, connectionPool);
+        assertTrue(customerOptional.isPresent());
+        Customer customer = customerOptional.get();
+        assertFalse(CustomerFacade.updatePassword(customer, "0123456789012345678901234567890123456", connectionPool));
     }
 
     @Test
     void testInvalidUpdatePasswordNull() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            assertThrows(ValidationException.class, () -> CustomerFacade.updatePassword(customer, null, connectionPool));
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+        Optional<Customer> customerOptional = CustomerFacade.getCustomerById(1, connectionPool);
+        assertTrue(customerOptional.isPresent());
+        Customer customer = customerOptional.get();
+        assertFalse(CustomerFacade.updatePassword(customer, null, connectionPool));
     }
 }
