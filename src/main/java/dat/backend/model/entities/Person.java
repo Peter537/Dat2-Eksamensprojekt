@@ -1,16 +1,18 @@
 package dat.backend.model.entities;
 
 import java.util.Objects;
+import java.util.Optional;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public abstract class Person {
 
     private int id;
     private String email;
     private String name;
     private String password;
-    private String personalPhoneNumber;
+    private Optional<String> personalPhoneNumber;
 
-    public Person(int id, String email, String name, String password, String personalPhoneNumber) {
+    public Person(int id, String email, String name, String password, Optional<String> personalPhoneNumber) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -50,11 +52,11 @@ public abstract class Person {
         this.password = password;
     }
 
-    public String getPersonalPhoneNumber() {
+    public Optional<String> getPersonalPhoneNumber() {
         return this.personalPhoneNumber;
     }
 
-    public void setPersonalPhoneNumber(String personalPhoneNumber) {
+    public void setPersonalPhoneNumber(Optional<String> personalPhoneNumber) {
         this.personalPhoneNumber = personalPhoneNumber;
     }
 
