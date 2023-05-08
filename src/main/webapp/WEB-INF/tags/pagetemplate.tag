@@ -79,7 +79,7 @@
             </div>
             <div class="col">
                 Design by F Company<br/>
-                <a href="https://www.johannesfog.dk/" target="_blank">https://www.johannesfog.dk/</a>
+                <a class="link" href="https://www.johannesfog.dk/" target="_blank">https://www.johannesfog.dk/</a>
             </div>
         </div>
 
