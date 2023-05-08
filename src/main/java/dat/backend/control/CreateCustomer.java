@@ -58,4 +58,3 @@ public class CreateCustomer extends HttpServlet {
         }
     }
 }
-
