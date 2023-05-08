@@ -138,12 +138,9 @@
     }
 
     .footer {
-        /*position: fixed;*/
         left: 0;
         bottom: 5%;
         width: 100%;
-        /*background-color: white;*/
-        /*color: white;*/
         text-align: center;
     }
 
