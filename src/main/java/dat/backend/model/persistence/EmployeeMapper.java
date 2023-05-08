@@ -96,6 +96,79 @@ class EmployeeMapper {
         }
     }
 
+    static void updateName(Employee employee, String newName, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateEmployee(newName, employee.getEmail(), employee.getPassword());
+        String query = "UPDATE employee SET name = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, newName);
+                statement.setInt(2, employee.getId());
+                statement.executeUpdate();
+                employee.setName(newName);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update name");
+        }
+    }
+
+    static void updatePersonalPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validatePhoneNumber(newPhoneNumber);
+        String query = "UPDATE employee SET private_phonenumber = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, newPhoneNumber);
+                statement.setInt(2, employee.getId());
+                statement.executeUpdate();
+                employee.setPersonalPhoneNumber(Optional.ofNullable(newPhoneNumber));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update personal phone number");
+        }
+    }
+
+    static void updateWorkPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validatePhoneNumber(newPhoneNumber);
+        String query = "UPDATE employee SET work_phonenumber = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, newPhoneNumber);
+                statement.setInt(2, employee.getId());
+                statement.executeUpdate();
+                employee.setWorkPhoneNumber(Optional.ofNullable(newPhoneNumber));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update work phone number");
+        }
+    }
+
+    static void updatePosition(Employee employee, Position newPosition, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE employee SET fk_position = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, newPosition.getPositionName());
+                statement.setInt(2, employee.getId());
+                statement.executeUpdate();
+                employee.setPosition(newPosition);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update position");
+        }
+    }
+
+    static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE employee SET fk_department_id = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, newDepartment.getId());
+                statement.setInt(2, employee.getId());
+                statement.executeUpdate();
+                employee.setDepartment(newDepartment);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update department");
+        }
+    }
+
     private static Employee createEmployeeFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, DatabaseException, EmployeeNotFoundException {
         if (!resultSet.next()) {
             throw new EmployeeNotFoundException("Could not find employee");

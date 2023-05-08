@@ -31,4 +31,24 @@ public class EmployeeFacade {
     public static void updatePassword(Employee employee, String newPassword, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         EmployeeMapper.updatePassword(employee, newPassword, connectionPool);
     }
+
+    public static void updateName(Employee employee, String newName, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        EmployeeMapper.updateName(employee, newName, connectionPool);
+    }
+
+    public static void updatePersonalPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        EmployeeMapper.updatePersonalPhoneNumber(employee, newPhoneNumber, connectionPool);
+    }
+
+    public static void updateWorkPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        EmployeeMapper.updateWorkPhoneNumber(employee, newPhoneNumber, connectionPool);
+    }
+
+    public static void updatePosition(Employee employee, Position newPosition, ConnectionPool connectionPool) throws DatabaseException {
+        EmployeeMapper.updatePosition(employee, newPosition, connectionPool);
+    }
+
+    public static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException {
+        EmployeeMapper.updateDepartment(employee, newDepartment, connectionPool);
+    }
 }

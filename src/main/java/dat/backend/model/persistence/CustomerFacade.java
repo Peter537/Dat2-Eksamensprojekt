@@ -29,7 +29,15 @@ public class CustomerFacade {
         CustomerMapper.updatePassword(customer, newPassword, connectionPool);
     }
 
-    public static void updateAddress(Customer customer, int addressNumber, String streetName, Zip zip, ConnectionPool connectionPool) throws DatabaseException {
-        CustomerMapper.updateAddress(customer, addressNumber, streetName, zip, connectionPool);
+    public static void updateAddress(Customer customer, int addressNumber, String newStreetName, Zip zip, ConnectionPool connectionPool) throws DatabaseException {
+        CustomerMapper.updateAddress(customer, addressNumber, newStreetName, zip, connectionPool);
+    }
+
+    public static void updateName(Customer customer, String newName, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        CustomerMapper.updateName(customer, newName, connectionPool);
+    }
+
+    public static void updatePhoneNumber(Customer customer, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        CustomerMapper.updatePhoneNumber(customer, newPhoneNumber, connectionPool);
     }
 }
