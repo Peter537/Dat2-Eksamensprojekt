@@ -1,6 +1,7 @@
 package dat.backend.model.persistence;
 
 import dat.backend.model.entities.Customer;
+import dat.backend.model.entities.Zip;
 import dat.backend.model.exceptions.CustomerAlreadyExistsException;
 import dat.backend.model.exceptions.CustomerNotFoundException;
 import dat.backend.model.exceptions.DatabaseException;
@@ -26,5 +27,9 @@ public class CustomerFacade {
 
     public static void updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         CustomerMapper.updatePassword(customer, newPassword, connectionPool);
+    }
+
+    public static void updateAddress(Customer customer, int addressNumber, String streetName, Zip zip, ConnectionPool connectionPool) throws DatabaseException {
+        CustomerMapper.updateAddress(customer, addressNumber, streetName, zip, connectionPool);
     }
 }

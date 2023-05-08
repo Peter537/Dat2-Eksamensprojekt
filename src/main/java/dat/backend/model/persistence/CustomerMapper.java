@@ -96,6 +96,21 @@ class CustomerMapper {
         }
     }
 
+    static void updateAddress(Customer customer, int addressNumber, String streetName, Zip zip, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE customer SET address_" + addressNumber + " = ?, zipcode_" + addressNumber + " = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, streetName);
+                statement.setInt(2, zip.getZipCode());
+                statement.setInt(3, customer.getId());
+                statement.executeUpdate();
+                customer.setAddress(addressNumber, Optional.of(new Address(streetName, zip)));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update customer address");
+        }
+    }
+
     private static Customer createCustomerFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws DatabaseException, SQLException, CustomerNotFoundException {
         if (!resultSet.next()) {
             throw new CustomerNotFoundException("Could not create customer from result set");
