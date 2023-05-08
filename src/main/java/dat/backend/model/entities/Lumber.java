@@ -2,25 +2,17 @@ package dat.backend.model.entities;
 
 import java.util.Objects;
 
-public class Lumber {
+public class Lumber extends Item{
 
-    private int id;
     private int length;
     private LumberType lumberType;
 
-    public Lumber(int id, int length, LumberType lumberType) {
-        this.id = id;
+    public Lumber(int id, int length, LumberType lumberType, int price) {
+        super(id, price);
         this.length = length;
         this.lumberType = lumberType;
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getLength() {
         return this.length;
@@ -56,9 +48,10 @@ public class Lumber {
     @Override
     public String toString() {
         return "Lumber{" +
-                "id=" + this.id +
+                "id=" + this.getId() +
                 ", length=" + this.length +
                 ", lumberType=" + this.lumberType +
+                ", price=" + this.getPrice() +
                 '}';
     }
 }
