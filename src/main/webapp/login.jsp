@@ -33,14 +33,17 @@
                                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path>
                                 </svg></div>
                                 <form action="login" method="post" style="padding-left: 20px; padding-right: 20px">
-                                    <label for="email" style="padding: 10px">Email Address</label>
+                                    <label for="email" style="padding: 10px">Email Adresse</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control" id="email" type="email" name="email" placeholder="Email"></div>
                                     <label for="password" style="padding: 10px">Password</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control" type="password" id="password" name="password" placeholder="Password"></div>
                                     <p class="text-center" style="color: red">${requestScope.errormessage}</p> <br>
 
-                                    <div class="mb-3"><input style="width: 25px; height: 25px; text-align: center" type="checkbox" name="remember" value="remember">Remember me</div>
-                                    <a href="https://danskebank.dk/privat" class="text-muted" style="padding-left: 200px">Forgot your password?</a>
+                                    <div class="mb-3">
+                                        <input style="scale: 1.2; text-align: center" type="checkbox" id="remember" name="remember" value="remember"/>
+                                        <label class="form-check-label" for="remember">Husk mig</label>
+                                    </div>
+                                    <p class="text-muted" style="padding-left: 200px">Glemt password?</p>
                                     <div class="mb-3 text-center"><button class="btn btn-primary d-block w-100" type="submit" >Login</button></div>
 
                                 </form>
