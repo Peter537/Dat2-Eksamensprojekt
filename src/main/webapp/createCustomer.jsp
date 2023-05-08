@@ -52,8 +52,8 @@
                                     <div class="mb-3">
                                         <input style="scale: 1.2; text-align: center" type="checkbox" id="remember" name="remember" value="remember"/>
                                         <label class="form-check-label" for="remember">Husk mig</label>
+                                        <p class="text-muted" style="float: right">Glemt password?</p>
                                     </div>
-                                    <p class="text-muted" style="padding-left: 200px">Glemt password?</p>
                                     <div class="mb-3 text-center"><button class="btn btn-primary d-block w-100" type="submit" >Opret mig</button></div>
 
                                 </form>
