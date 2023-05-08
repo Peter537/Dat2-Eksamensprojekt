@@ -71,16 +71,12 @@ class CustomerMapperTest {
     }
 
     @Test
-    void testValidGetCustomerById() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            assertEquals(1, customer.getId());
-            assertEquals("ben@gmail.com", customer.getEmail());
-            assertEquals("ben", customer.getName());
-            assertEquals("123", customer.getPassword());
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidGetCustomerById() throws DatabaseException, CustomerNotFoundException {
+        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        assertEquals(1, customer.getId());
+        assertEquals("ben@gmail.com", customer.getEmail());
+        assertEquals("ben", customer.getName());
+        assertEquals("123", customer.getPassword());
     }
 
     @Test
@@ -89,16 +85,12 @@ class CustomerMapperTest {
     }
 
     @Test
-    void testValidGetCustomerByEmail() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
-            assertEquals(2, customer.getId());
-            assertEquals("allan@outlook.dk", customer.getEmail());
-            assertEquals("allan", customer.getName());
-            assertEquals("1234", customer.getPassword());
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidGetCustomerByEmail() throws DatabaseException, CustomerNotFoundException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        assertEquals(2, customer.getId());
+        assertEquals("allan@outlook.dk", customer.getEmail());
+        assertEquals("allan", customer.getName());
+        assertEquals("1234", customer.getPassword());
     }
 
     @Test
@@ -107,16 +99,12 @@ class CustomerMapperTest {
     }
 
     @Test
-    void testValidLogin() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.login("alex@hotmail.com", "12345", connectionPool);
-            assertEquals(3, customer.getId());
-            assertEquals("alex@hotmail.com", customer.getEmail());
-            assertEquals("alex", customer.getName());
-            assertEquals("12345", customer.getPassword());
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidLogin() throws DatabaseException, CustomerNotFoundException {
+        Customer customer = CustomerFacade.login("alex@hotmail.com", "12345", connectionPool);
+        assertEquals(3, customer.getId());
+        assertEquals("alex@hotmail.com", customer.getEmail());
+        assertEquals("alex", customer.getName());
+        assertEquals("12345", customer.getPassword());
     }
 
     @Test
@@ -140,16 +128,12 @@ class CustomerMapperTest {
     }
 
     @Test
-    void testValidCreateCustomer() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.createCustomer("test@gmail.com", "1234566", "Test", connectionPool);
-            assertEquals(4, customer.getId());
-            assertEquals("test@gmail.com", customer.getEmail());
-            assertEquals("Test", customer.getName());
-            assertEquals("1234566", customer.getPassword());
-        } catch (CustomerAlreadyExistsException | ValidationException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidCreateCustomer() throws DatabaseException, ValidationException, CustomerAlreadyExistsException {
+        Customer customer = CustomerFacade.createCustomer("test@gmail.com", "1234566", "Test", connectionPool);
+        assertEquals(4, customer.getId());
+        assertEquals("test@gmail.com", customer.getEmail());
+        assertEquals("Test", customer.getName());
+        assertEquals("1234566", customer.getPassword());
     }
 
     @Test
@@ -168,42 +152,28 @@ class CustomerMapperTest {
     }
 
     @Test
-    void testValidUpdatePassword() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            CustomerFacade.updatePassword(customer, "123456", connectionPool);
-        } catch (CustomerNotFoundException | ValidationException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidUpdatePassword() throws DatabaseException, CustomerNotFoundException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        assertEquals("123", customer.getPassword());
+        CustomerFacade.updatePassword(customer, "123456", connectionPool);
+        assertEquals("123456", customer.getPassword());
     }
 
     @Test
-    void testInvalidUpdatePasswordTooShortPassword() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            assertThrows(ValidationException.class, () -> CustomerFacade.updatePassword(customer, "12", connectionPool));
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testInvalidUpdatePasswordTooShortPassword() throws DatabaseException, CustomerNotFoundException {
+        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> CustomerFacade.updatePassword(customer, "12", connectionPool));
     }
 
     @Test
-    void testInvalidUpdatePasswordTooLongPassword() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            assertThrows(ValidationException.class, () -> CustomerFacade.updatePassword(customer, "0123456789012345678901234567890123456", connectionPool));
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testInvalidUpdatePasswordTooLongPassword() throws DatabaseException, CustomerNotFoundException {
+        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> CustomerFacade.updatePassword(customer, "0123456789012345678901234567890123456", connectionPool));
     }
 
     @Test
-    void testInvalidUpdatePasswordNull() throws DatabaseException {
-        try {
-            Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
-            assertThrows(ValidationException.class, () -> CustomerFacade.updatePassword(customer, null, connectionPool));
-        } catch (CustomerNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testInvalidUpdatePasswordNull() throws DatabaseException, CustomerNotFoundException {
+        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> CustomerFacade.updatePassword(customer, null, connectionPool));
     }
 }

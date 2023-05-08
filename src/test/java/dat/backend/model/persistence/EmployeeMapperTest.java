@@ -78,16 +78,12 @@ class EmployeeMapperTest {
     }
 
     @Test
-    void testValidGetEmployeeById() throws DatabaseException {
-        try {
-            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
-            assertEquals(1, employee.getId());
-            assertEquals("ben@johannesfog.dk", employee.getEmail());
-            assertEquals("ben", employee.getName());
-            assertEquals("123", employee.getPassword());
-        } catch (EmployeeNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidGetEmployeeById() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertEquals(1, employee.getId());
+        assertEquals("ben@johannesfog.dk", employee.getEmail());
+        assertEquals("ben", employee.getName());
+        assertEquals("123", employee.getPassword());
     }
 
     @Test
@@ -96,16 +92,12 @@ class EmployeeMapperTest {
     }
 
     @Test
-    void testValidGetEmployeeByEmail() throws DatabaseException {
-        try {
-            Employee employee = EmployeeFacade.getEmployeeByEmail("allan@johannesfog.dk", connectionPool);
-            assertEquals(2, employee.getId());
-            assertEquals("allan@johannesfog.dk", employee.getEmail());
-            assertEquals("allan", employee.getName());
-            assertEquals("1234", employee.getPassword());
-        } catch (EmployeeNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidGetEmployeeByEmail() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeByEmail("allan@johannesfog.dk", connectionPool);
+        assertEquals(2, employee.getId());
+        assertEquals("allan@johannesfog.dk", employee.getEmail());
+        assertEquals("allan", employee.getName());
+        assertEquals("1234", employee.getPassword());
     }
 
     @Test
@@ -114,16 +106,12 @@ class EmployeeMapperTest {
     }
 
     @Test
-    void testValidLogin() throws DatabaseException {
-        try {
-            Employee employee = EmployeeFacade.login("alex@johannesfog.dk", "12345", connectionPool);
-            assertEquals(3, employee.getId());
-            assertEquals("alex@johannesfog.dk", employee.getEmail());
-            assertEquals("alex", employee.getName());
-            assertEquals("12345", employee.getPassword());
-        } catch (EmployeeNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidLogin() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.login("alex@johannesfog.dk", "12345", connectionPool);
+        assertEquals(3, employee.getId());
+        assertEquals("alex@johannesfog.dk", employee.getEmail());
+        assertEquals("alex", employee.getName());
+        assertEquals("12345", employee.getPassword());
     }
 
     @Test
@@ -142,18 +130,14 @@ class EmployeeMapperTest {
     }
 
     @Test
-    void testValidCreateEmployee() throws DatabaseException {
-        try {
-            Position position = new Position("Sales");
-            Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
-            Employee employee = EmployeeFacade.createEmployee("test@johannesfog.dk", "Test", "1234566", position, department, connectionPool);
-            assertEquals(4, employee.getId());
-            assertEquals("test@johannesfog.dk", employee.getEmail());
-            assertEquals("Test", employee.getName());
-            assertEquals("1234566", employee.getPassword());
-        } catch (EmployeeAlreadyExistsException | ValidationException | DepartmentNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidCreateEmployee() throws DatabaseException, DepartmentNotFoundException, ValidationException, EmployeeAlreadyExistsException {
+        Position position = new Position("Sales");
+        Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
+        Employee employee = EmployeeFacade.createEmployee("test@johannesfog.dk", "Test", "1234566", position, department, connectionPool);
+        assertEquals(4, employee.getId());
+        assertEquals("test@johannesfog.dk", employee.getEmail());
+        assertEquals("Test", employee.getName());
+        assertEquals("1234566", employee.getPassword());
     }
 
     @Test
@@ -185,42 +169,28 @@ class EmployeeMapperTest {
     }
 
     @Test
-    void testValidUpdatePassword() throws DatabaseException {
-        try {
-            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
-            EmployeeFacade.updatePassword(employee, "123456", connectionPool);
-        } catch (EmployeeNotFoundException | ValidationException e) {
-            fail("Expected DatabaseException");
-        }
+    void testValidUpdatePassword() throws DatabaseException, EmployeeNotFoundException, ValidationException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertEquals("123", employee.getPassword());
+        EmployeeFacade.updatePassword(employee, "123456", connectionPool);
+        assertEquals("123456", employee.getPassword());
     }
 
     @Test
-    void testInvalidUpdatePasswordTooShortPassword() throws DatabaseException {
-        try {
-            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
-            assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, "12", connectionPool));
-        } catch (EmployeeNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testInvalidUpdatePasswordTooShortPassword() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, "12", connectionPool));
     }
 
     @Test
-    void testInvalidUpdatePasswordTooLongPassword() throws DatabaseException {
-        try {
-            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
-            assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, "0123456789012345678901234567890123456", connectionPool));
-        } catch (EmployeeNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testInvalidUpdatePasswordTooLongPassword() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, "0123456789012345678901234567890123456", connectionPool));
     }
 
     @Test
-    void testInvalidUpdatePasswordNull() throws DatabaseException {
-        try {
-            Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
-            assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, null, connectionPool));
-        } catch (EmployeeNotFoundException e) {
-            fail("Expected DatabaseException");
-        }
+    void testInvalidUpdatePasswordNull() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, null, connectionPool));
     }
 }
