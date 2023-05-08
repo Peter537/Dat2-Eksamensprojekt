@@ -40,7 +40,7 @@ public class OrderStatus {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getStatus(), this.getDisplayName() this.getSortValue());
+        return Objects.hash(this.getStatus(), this.getDisplayName(), this.getSortValue());
     }
 
     @Override
