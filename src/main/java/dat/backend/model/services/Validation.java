@@ -32,6 +32,16 @@ public class Validation {
         }
     }
 
+    public static void validatePhoneNumber(String phoneNumber) throws ValidationException {
+        if (phoneNumber == null) {
+            return;
+        }
+
+        if (!isValidPhoneNumber(phoneNumber)) {
+            throw new ValidationException("Invalid phone number");
+        }
+    }
+
     public static boolean isCustomerEmail(String email) {
         return isValidCustomerEmail(email);
     }
@@ -70,5 +80,9 @@ public class Validation {
         }
 
         return email.matches("^[A-Za-z0-9+_.-]+@([A-Za-z0-9+_.-]+\\.)+[A-Za-z0-9+_.-]+$");
+    }
+
+    private static boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber.matches("^[0-9]{8}$");
     }
 }
