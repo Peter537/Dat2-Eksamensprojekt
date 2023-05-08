@@ -45,15 +45,7 @@ public class Employee extends Person {
     public boolean equals(Object other) {
         if (this == other) return true;
         if (!(other instanceof Employee)) return false;
-        Employee employee = (Employee) other;
-        return this.getId() == employee.getId() &&
-                this.getEmail().equals(employee.getEmail()) &&
-                this.getName().equals(employee.getName()) &&
-                this.getPassword().equals(employee.getPassword()) &&
-                this.getWorkPhoneNumber().equals(employee.getWorkPhoneNumber()) &&
-                this.getPersonalPhoneNumber().equals(employee.getPersonalPhoneNumber()) &&
-                this.getPosition().equals(employee.getPosition()) &&
-                this.getDepartment().equals(employee.getDepartment());
+        return super.equals(other);
     }
 
     @Override

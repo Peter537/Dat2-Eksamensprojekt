@@ -66,10 +66,7 @@ public abstract class Person {
         if (!(other instanceof Person)) return false;
         Person person = (Person) other;
         return this.getId() == person.getId() &&
-                this.getEmail().equals(person.getEmail()) &&
-                this.getName().equals(person.getName()) &&
-                this.getPassword().equals(person.getPassword()) &&
-                this.getPersonalPhoneNumber().equals(person.getPersonalPhoneNumber());
+                this.getEmail().equals(person.getEmail());
     }
 
     @Override

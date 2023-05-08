@@ -45,15 +45,7 @@ public class Customer extends Person {
     public boolean equals(Object other) {
         if (this == other) return true;
         if (!(other instanceof Customer)) return false;
-        Customer customer = (Customer) other;
-        return this.getId() == customer.getId() &&
-                this.getEmail().equals(customer.getEmail()) &&
-                this.getName().equals(customer.getName()) &&
-                this.getPassword().equals(customer.getPassword()) &&
-                this.getPersonalPhoneNumber().equals(customer.getPersonalPhoneNumber()) &&
-                this.getAddress1().equals(customer.getAddress1()) &&
-                this.getAddress2().equals(customer.getAddress2()) &&
-                this.getAddress3().equals(customer.getAddress3());
+        return super.equals(other);
     }
 
     @Override
