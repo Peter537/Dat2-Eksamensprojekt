@@ -181,13 +181,13 @@ class EmployeeMapper {
         String positionName = resultSet.getString("fk_position");
         Optional<String> privatePhoneNumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
         Optional<String> workPhoneNumber = Optional.ofNullable(resultSet.getString("work_phonenumber"));
-        Position position = new Position(positionName);
         int departmentId = resultSet.getInt("fk_department_id");
         try {
+            Position position = PositionFacade.getPositionByPositionName(positionName, connectionPool);
             Department department = DepartmentFacade.getDepartmentById(departmentId, connectionPool);
             return new Employee(id, email, name, password, privatePhoneNumber, workPhoneNumber, position, department);
-        } catch (DepartmentNotFoundException e) {
-            throw new DatabaseException(e, "Could not get department");
+        } catch (DepartmentNotFoundException | PositionNotFoundException e) {
+            throw new DatabaseException(e, e.getMessage());
         }
     }
 }
