@@ -93,12 +93,14 @@
         --color-dark: hsla(210, 98%, 13%, 1);
         --color-light: hsla(210, 98%, 33%, 1);
     }
+
     a {
         color: var(--color);
         display: inline-block;
         position: relative;
         text-decoration: none;
     }
+
     .link {
         color: var(--color);
         display: inline-block;
@@ -124,6 +126,7 @@
         background-position: 100% 100%;
         clip-path: inset(0 100% 0 0);
     }
+
     .btn {
         background-color: var(--color) !important;
     }
@@ -133,6 +136,7 @@
         padding: 0;
         scroll-behavior: smooth;
     }
+
     .footer {
         /*position: fixed;*/
         left: 0;
@@ -142,24 +146,32 @@
         /*color: white;*/
         text-align: center;
     }
+
     .header {
         position: sticky;
         top: 0;
         width: 100%;
+        background-color: #ffffff;
         background-size : cover;
         background-repeat : no-repeat;
         z-index: 100;
     }
+
     .hero-img {
         width: calc(100%*var(--hero-img-multi));
         text-align: center;
         display: block;
         margin: auto;
     }
+
     .navtext {
         color: var(--color);
         border-right: 1px solid #00000038;
         border-radius: 3px 3px 3px 3px;
+    }
+
+    #body {
+        background-color: #f5f5f3;
     }
 </style>
 </html>
