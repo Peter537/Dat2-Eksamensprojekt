@@ -2,10 +2,14 @@ package dat.backend.control;
 
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.Customer;
+import dat.backend.model.entities.Employee;
 import dat.backend.model.exceptions.CustomerNotFoundException;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.EmployeeNotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.CustomerFacade;
+import dat.backend.model.persistence.EmployeeFacade;
+import dat.backend.model.services.Validation;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,16 +37,23 @@ public class Login extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
         HttpSession session = request.getSession();
-        session.setAttribute("customer", null); // invalidating user object in session scope
-        String username = request.getParameter("email");
+        session.setAttribute("customer", null); // invalidating customer object in session scope
+        session.setAttribute("employee", null); // invalidating employee object in session scope
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         try {
             try {
-                Customer customer = CustomerFacade.login(username, password, connectionPool);
-                session.setAttribute("customer", customer);
-                request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
-            } catch (CustomerNotFoundException e) {
+                if (Validation.isCustomerEmail(email)) {
+                    Customer customer = CustomerFacade.login(email, password, connectionPool);
+                    session.setAttribute("customer", customer);
+                    request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
+                } else {
+                    Employee employee = EmployeeFacade.login(email, password, connectionPool);
+                    session.setAttribute("employee", employee);
+                    request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
+                }
+            } catch (CustomerNotFoundException | EmployeeNotFoundException e) {
                 request.setAttribute("errormessage", "Wrong username or password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
