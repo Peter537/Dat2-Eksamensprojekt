@@ -96,18 +96,48 @@ class CustomerMapper {
         }
     }
 
-    static void updateAddress(Customer customer, int addressNumber, String streetName, Zip zip, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateAddress(Customer customer, int addressNumber, String newStreetName, Zip zip, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE customer SET address_" + addressNumber + " = ?, zipcode_" + addressNumber + " = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, streetName);
+                statement.setString(1, newStreetName);
                 statement.setInt(2, zip.getZipCode());
                 statement.setInt(3, customer.getId());
                 statement.executeUpdate();
-                customer.setAddress(addressNumber, Optional.of(new Address(streetName, zip)));
+                customer.setAddress(addressNumber, Optional.of(new Address(newStreetName, zip)));
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update customer address");
+        }
+    }
+
+    static void updateName(Customer customer, String newName, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCustomer(newName, customer.getEmail(), customer.getPassword());
+        String query = "UPDATE customer SET name = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, newName);
+                statement.setInt(2, customer.getId());
+                statement.executeUpdate();
+                customer.setName(newName);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update customer name");
+        }
+    }
+
+    static void updatePhoneNumber(Customer customer, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validatePhoneNumber(newPhoneNumber);
+        String query = "UPDATE customer SET phonenumber = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, newPhoneNumber);
+                statement.setInt(2, customer.getId());
+                statement.executeUpdate();
+                customer.setPersonalPhoneNumber(Optional.of(newPhoneNumber));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update customer phone number");
         }
     }
 
