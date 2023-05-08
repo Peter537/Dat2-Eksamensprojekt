@@ -32,6 +32,14 @@ public class Validation {
         }
     }
 
+    public static boolean isCustomerEmail(String email) {
+        return isValidCustomerEmail(email);
+    }
+
+    public static boolean isEmployeeEmail(String email) {
+        return isValidEmployeeEmail(email);
+    }
+
     private static boolean isValidPassword(String password) {
         if (password == null) {
             return false;
