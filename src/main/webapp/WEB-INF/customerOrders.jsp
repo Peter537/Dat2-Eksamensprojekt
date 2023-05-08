@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: yusef
   Date: 03/05/2023
-  Time: 11.10
+  Time: 11.09
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -13,22 +13,18 @@
 <t:pagetemplate>
 
     <jsp:attribute name="title">
-        partlist:
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<%--        TODO: create the employee object and set it in the session--%>
+        <h1>My Orders</h1>
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        Partlist generator
+        My Orders
     </jsp:attribute>
 
     <jsp:body>
 
-
-
-
-
+        <h1>My orders</h1>
     </jsp:body>
 
 </t:pagetemplate>

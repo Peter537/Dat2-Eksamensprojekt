@@ -5,16 +5,19 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "to-generate-partlist", value = "/to-generate-partlist")
-public class ToGeneratePartlist extends HttpServlet {
-
+@WebServlet(name = "change-password", value = "/change-password")
+public class ChangePassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
+
+        request.setAttribute("newPassword", "hello");
+
+        request.getRequestDispatcher("WEB-INF/testpage.jsp").forward(request, response);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
+
     }
 }
