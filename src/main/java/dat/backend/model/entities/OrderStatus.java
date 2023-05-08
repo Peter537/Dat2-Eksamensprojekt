@@ -4,20 +4,30 @@ import java.util.Objects;
 
 public class OrderStatus {
 
-    private String name;
+    private String status;
+    private String displayName;
     private int sortValue;
 
-    OrderStatus(String name, int sortValue) {
-        this.name = name;
+    public OrderStatus(String status, String displayName, int sortValue) {
+        this.status = status;
+        this.displayName = displayName;
         this.sortValue = sortValue;
     }
 
-    public String getName() {
-        return this.name;
+    public String getStatus() {
+        return this.status;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public int getSortValue() {
@@ -30,7 +40,7 @@ public class OrderStatus {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getName(), this.getSortValue());
+        return Objects.hash(this.getStatus(), this.getDisplayName() this.getSortValue());
     }
 
     @Override
@@ -38,15 +48,16 @@ public class OrderStatus {
         if (other == this) return true;
         if (!(other instanceof OrderStatus)) return false;
         OrderStatus orderStatus = (OrderStatus) other;
-        return this.getName().equals(orderStatus.getName()) &&
+        return this.getStatus().equals(orderStatus.getStatus()) &&
                 this.getSortValue() == orderStatus.getSortValue();
     }
 
     @Override
     public String toString() {
         return "OrderStatus{" +
-                "name='" + this.name + '\'' +
+                "status='" + this.status + '\'' +
+                ", displayName='" + this.displayName + '\'' +
                 ", sortValue=" + this.sortValue +
-                "}";
+                '}';
     }
 }
