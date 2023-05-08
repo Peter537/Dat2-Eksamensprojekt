@@ -1,25 +1,52 @@
 package dat.backend.model.entities;
 
-public enum OrderStatus {
-    NO_ORDERS("Ingen Ordre", 0),
-    CANCELLED("Annulleret", 1),
-    AWAITING_CONTACT("Afventer kontakt fra Medarbejder", 2),
-    READY_FOR_PAYMENT("Klar til betaling", 3),
-    DELIVERED("Leveret", 3);
+import java.util.Objects;
 
-    private final String name;
-    private final int value;
+public class OrderStatus {
 
-    OrderStatus(String name, int value) {
+    private String name;
+    private int sortValue;
+
+    OrderStatus(String name, int sortValue) {
         this.name = name;
-        this.value = value;
+        this.sortValue = sortValue;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public int getValue() {
-        return this.value;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSortValue() {
+        return this.sortValue;
+    }
+
+    public void setSortValue(int sortValue) {
+        this.sortValue = sortValue;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getName(), this.getSortValue());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) return true;
+        if (!(other instanceof OrderStatus)) return false;
+        OrderStatus orderStatus = (OrderStatus) other;
+        return this.getName().equals(orderStatus.getName()) &&
+                this.getSortValue() == orderStatus.getSortValue();
+    }
+
+    @Override
+    public String toString() {
+        return "OrderStatus{" +
+                "name='" + this.name + '\'' +
+                ", sortValue=" + this.sortValue +
+                "}";
     }
 }
