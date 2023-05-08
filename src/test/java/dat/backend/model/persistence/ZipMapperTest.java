@@ -14,7 +14,7 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class ZipMapperTest {
+class ZipMapperTest {
 
     private final static String USER = "root";
     private final static String PASSWORD = "123";
