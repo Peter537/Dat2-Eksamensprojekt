@@ -50,8 +50,8 @@
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control" type="password" id="confirmPassword" name="confirmPassword" placeholder="Bekræft Password"></div>
 
                                     <div class="mb-3">
-                                        <label class="form-check-label" for="remember" style="padding-left: 200px">Husk mig</label>
-                                        <input style="width: 25px; height: 25px; text-align: center" type="checkbox" id="remember" name="remember" value="remember"/>
+                                        <input style="scale: 1.2; text-align: center" type="checkbox" id="remember" name="remember" value="remember"/>
+                                        <label class="form-check-label" for="remember">Husk mig</label>
                                     </div>
                                     <p class="text-muted" style="padding-left: 200px">Glemt password?</p>
                                     <div class="mb-3 text-center"><button class="btn btn-primary d-block w-100" type="submit" >Opret mig</button></div>
