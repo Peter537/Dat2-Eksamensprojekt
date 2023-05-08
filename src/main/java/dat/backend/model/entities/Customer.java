@@ -17,6 +17,35 @@ public class Customer extends Person {
         this.address3 = address3;
     }
 
+    public Optional<Address> getAddress(int number) {
+        switch (number) {
+            case 1:
+                return this.address1;
+            case 2:
+                return this.address2;
+            case 3:
+                return this.address3;
+            default:
+                throw new IllegalArgumentException("Address number must be between 1 and 3");
+        }
+    }
+
+    public void setAddress(int addressNumber, Optional<Address> address) {
+        switch (addressNumber) {
+            case 1:
+                this.address1 = address;
+                break;
+            case 2:
+                this.address2 = address;
+                break;
+            case 3:
+                this.address3 = address;
+                break;
+            default:
+                throw new IllegalArgumentException("Address number must be between 1 and 3");
+        }
+    }
+
     public Optional<Address> getAddress1() {
         return this.address1;
     }
