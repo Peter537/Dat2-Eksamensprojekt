@@ -202,3 +202,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,osx,windows,maven
 .idea/dataSources.xml
+.idea/dataSource.xml
