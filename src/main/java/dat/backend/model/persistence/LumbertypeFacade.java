@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public class LumbertypeFacade {
     public static Optional<LumberType> getLumbertypeByType(String lumberType, ConnectionPool connectionPool) throws DatabaseException {
-        return LumbertypeMapper.getLumberByType(lumberType, connectionPool);
+        return LumbertypeMapper.getLumbertypeByType(lumberType, connectionPool);
     }
 }
