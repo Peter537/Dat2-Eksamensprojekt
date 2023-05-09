@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 class LumberMapper {
@@ -49,7 +50,7 @@ class LumberMapper {
 
                 int length = resultSet.getInt("length");
 
-                Optional<LumberType> lumberTypeOptional = LumbertypeFacade.getLumbertypeByType(resultSet.getString("type"), connectionPool);
+                Optional<LumberType> lumberTypeOptional = LumbertypeFacade.getLumbertypeById(resultSet.getInt("type"), connectionPool);
                 LumberType lumberType;
                 if (lumberTypeOptional.isPresent()) {
                     lumberType = lumberTypeOptional.get();
@@ -67,13 +68,14 @@ class LumberMapper {
         }
     }
 
-    public static Optional<Lumber> getLumberByType(LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
+    public static Optional<ArrayList<Lumber>> getLumberByType(LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM lumber WHERE type = ?";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement statement = connection.prepareStatement(query))
             {
+                ArrayList<Lumber> lumberlist = new ArrayList<Lumber>();
                 statement.setString(1, lumberType.getType());
 
                 ResultSet resultSet = statement.executeQuery();
@@ -82,24 +84,31 @@ class LumberMapper {
                     throw new DatabaseException("Could not get lumber by type");
                 }
 
-                int lumberid = resultSet.getInt("id");
-                int length = resultSet.getInt("length");
-                int amount = resultSet.getInt("amount");
+                while (resultSet.next()) {
+                    int lumberid = resultSet.getInt("id");
+                    int length = resultSet.getInt("length");
+                    int amount = resultSet.getInt("amount");
 
-                return Optional.of(new Lumber(lumberid, length, lumberType, amount));
+                    Lumber lumber = new Lumber(lumberid, length, lumberType, amount);
+                    lumberlist.add(lumber);
+                }
+
+                return Optional.of(lumberlist);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get lumber by type");
         }
     }
 
-    public static Optional<Lumber> getLumberByLength(int length, ConnectionPool connectionPool) throws DatabaseException {
+    public static Optional<ArrayList<Lumber>> getLumberByLength(int length, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM lumber WHERE length = ?";
         try (Connection connection = connectionPool.getConnection())
         {
             try (PreparedStatement statement = connection.prepareStatement(query))
             {
+                ArrayList<Lumber> lumberlist = new ArrayList<Lumber>();
+
                 statement.setInt(1, length);
 
                 ResultSet resultSet = statement.executeQuery();
@@ -108,19 +117,24 @@ class LumberMapper {
                     throw new DatabaseException("Could not get lumber by length");
                 }
 
-                int lumberid = resultSet.getInt("id");
-                int amount = resultSet.getInt("amount");
+                while (resultSet.next()) {
+                    int lumberid = resultSet.getInt("id");
+                    int amount = resultSet.getInt("amount");
 
-                Optional<LumberType> lumberTypeOptional = LumbertypeFacade.getLumbertypeByType(resultSet.getString("type"), connectionPool);
-                LumberType lumberType;
-                if (lumberTypeOptional.isPresent()) {
-                    lumberType = lumberTypeOptional.get();
-                }
-                else {
-                    throw new DatabaseException("Could not get lumber by length");
+                    Optional<LumberType> lumberTypeOptional = LumbertypeFacade.getLumbertypeById(resultSet.getInt("type"), connectionPool);
+                    LumberType lumberType;
+                    if (lumberTypeOptional.isPresent()) {
+                        lumberType = lumberTypeOptional.get();
+                    }
+                    else {
+                        throw new DatabaseException("Could not get lumber by length");
+                    }
+
+                    Lumber lumber = new Lumber(lumberid, length, lumberType, amount);
+                    lumberlist.add(lumber);
                 }
 
-                return Optional.of(new Lumber(lumberid, length, lumberType, amount));
+                return Optional.of(lumberlist);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get lumber by length");
