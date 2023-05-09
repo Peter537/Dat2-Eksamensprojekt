@@ -134,7 +134,7 @@ class CustomerMapper {
                 statement.setString(1, newPhoneNumber);
                 statement.setInt(2, customer.getId());
                 statement.executeUpdate();
-                customer.setPersonalPhoneNumber(Optional.of(newPhoneNumber));
+                customer.setPersonalPhoneNumber(Optional.ofNullable(newPhoneNumber));
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update customer phone number");
