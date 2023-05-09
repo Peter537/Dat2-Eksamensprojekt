@@ -9,6 +9,7 @@ public class LumberType {
     private int height;
     private String name;
     private float meterPrice;
+    private String type;
 
     public LumberType(int id, int width, int height, String name, float meterPrice) {
         this.id = id;
@@ -16,6 +17,14 @@ public class LumberType {
         this.height = height;
         this.name = name;
         this.meterPrice = meterPrice;
+    }
+    public LumberType(int id, int width, int height, String name, float meterPrice, String type) {
+        this.id = id;
+        this.width = width;
+        this.height = height;
+        this.name = name;
+        this.meterPrice = meterPrice;
+        this.type = type;
     }
 
     public int getId() {
@@ -56,6 +65,14 @@ public class LumberType {
 
     public void setMeterPrice(float meterPrice) {
         this.meterPrice = meterPrice;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
