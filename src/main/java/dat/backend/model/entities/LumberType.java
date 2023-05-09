@@ -6,22 +6,22 @@ public class LumberType {
 
     private int id;
     private int width;
-    private int height;
+    private int thickness;
     private String name;
     private float meterPrice;
     private String type;
 
-    public LumberType(int id, int width, int height, String name, float meterPrice) {
+    public LumberType(int id, int width, int thickness, String name, float meterPrice) {
         this.id = id;
         this.width = width;
-        this.height = height;
+        this.thickness = thickness;
         this.name = name;
         this.meterPrice = meterPrice;
     }
-    public LumberType(int id, int width, int height, String name, float meterPrice, String type) {
+    public LumberType(int id, int width, int thickness, String name, float meterPrice, String type) {
         this.id = id;
         this.width = width;
-        this.height = height;
+        this.thickness = thickness;
         this.name = name;
         this.meterPrice = meterPrice;
         this.type = type;
@@ -43,12 +43,12 @@ public class LumberType {
         this.width = width;
     }
 
-    public int getHeight() {
-        return this.height;
+    public int getThickness() {
+        return this.thickness;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setThickness(int thickness) {
+        this.thickness = thickness;
     }
 
     public String getName() {
@@ -82,14 +82,14 @@ public class LumberType {
         LumberType lumberType = (LumberType) other;
         return this.getId() == lumberType.getId() &&
                 this.getWidth() == lumberType.getWidth() &&
-                this.getHeight() == lumberType.getHeight() &&
+                this.getThickness() == lumberType.getThickness() &&
                 this.getName().equals(lumberType.getName()) &&
                 this.getMeterPrice() == lumberType.getMeterPrice();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getWidth(), this.getHeight(), this.getName(), this.getMeterPrice());
+        return Objects.hash(this.getId(), this.getWidth(), this.getThickness(), this.getName(), this.getMeterPrice());
     }
 
     @Override
@@ -97,7 +97,7 @@ public class LumberType {
         return "LumberType{" +
                 "id=" + this.id +
                 ", width=" + this.width +
-                ", height=" + this.height +
+                ", height=" + this.thickness +
                 ", name='" + this.name + '\'' +
                 ", meterPrice=" + this.meterPrice +
                 '}';
