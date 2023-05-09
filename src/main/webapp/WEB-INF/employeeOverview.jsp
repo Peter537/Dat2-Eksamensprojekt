@@ -13,27 +13,71 @@
 <t:pagetemplate>
 
     <jsp:attribute name="title">
-
-<%--        TODO: create the employee object and set it in the session--%>
-        <h1>Welcome, ${sessionScope.employee.getName()}</h1>
+        Medarbejder side
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        My employee site
+        Medarbejder side
     </jsp:attribute>
 
     <jsp:body>
 
-        <h1>Nyheder</h1>
-
         <h2>Medarbejder info</h2>
-        <p>medarbejder position: lager/admin/sælger (skift denne ud)</p>
+        <p>navn: ${sessionScope.employee.name}</p>
+        <p>email: ${sessionScope.employee.email}</p>
+        <p>medarbejder position: ${sessionScope.employee.position.positionName}</p>
+        <p>department name: ${sessionScope.employee.department.departmentName}</p>
+        <c:choose>
+            <c:when test="${sessionScope.employee.personalPhoneNumber.present}">
+                <p>personligt nummer: ${sessionScope.employee.personalPhoneNumber.get()}</p>
+            </c:when>
+            <c:otherwise>
+                <p>personligt nummer: ikke sat</p>
+            </c:otherwise>
+        </c:choose>
+        <c:choose>
+            <c:when test="${sessionScope.employee.workPhoneNumber.present}">
+                <p>arbejdsnummer: ${sessionScope.employee.workPhoneNumber.get()}</p>
+            </c:when>
+            <c:otherwise>
+                <p>arbejdsnummer: ikke sat</p>
+            </c:otherwise>
+        </c:choose>
 
+        <input class="btn btn-primary" type="button" value="Se 'mine' ordre">
 
         <input class="btn btn-primary" type="button" value="Se alle Ordre">
 
+        <br>
+        <br>
+
+        <form action="change-employee-phonenumber" method="post">
+            <label for="newPersonalPhoneNumber" style="padding: 10px">Nyt Personligt nummer</label>
+            <div class="mb-3 text-center"><input style="height: 40px" class="form-control" id="newPersonalPhoneNumber" type="text" name="newPersonalPhoneNumber" placeholder="Nyt Personligt Nummer"></div>
+            <input class="btn btn-primary" type="submit" value="Skift Personligt nummer">
+        </form>
+        <br>
+        <br>
+
+        <form action="change-employee-phonenumber" method="post">
+            <label for="newWorkPhoneNumber" style="padding: 10px">Nyt Arbejdsnummer</label>
+            <div class="mb-3 text-center"><input style="height: 40px" class="form-control" id="newWorkPhoneNumber" type="text" name="newWorkPhoneNumber" placeholder="Nyt Arbejdsnummer"></div>
+            <input class="btn btn-primary" type="submit" value="Skift Arbejdsnummer">
+        </form>
+
+        <!-- ADMIN DEL -->
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
         <input class="btn btn-primary" type="button" value="Ændre materiale-katalog">
 
+        <h1>Nyheder</h1>
+        <p>NYHED 1</p>
+        <p>NYHED 2</p>
+        <p>NYHED 3</p>
     </jsp:body>
 
 </t:pagetemplate>
