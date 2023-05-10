@@ -21,12 +21,6 @@ public class PartsList {
     private int numberOfRafters;
 
     private int totalPrice;
-;
-
-
-
-
-    //TODO: Given height, length and width. Calculate the number of poles, plates and rafters needed.
 
 
     public PartsList(int height, int length, int width) throws DatabaseException {
@@ -158,10 +152,10 @@ public class PartsList {
         for (int i = 0; i < spanTable[0].length; i++) {
             if (spanTable[1][i] >= span) {
                 dimensions = spanTable[0][i];
-                break;
+                return dimensions;
             }
         }
-        return dimensions;
+        throw new IllegalArgumentException("No dimensions found with the required span.");
     }
 
 
@@ -170,7 +164,7 @@ public class PartsList {
     The length of the rafter is width of carport. The length of the plate is length of carport.
     Assume that the lumber is divided into two(or more) pieces of equal length.
     */
-    public int calculateLengthOfLumber(int length) {
+    public static int calculateLengthOfLumber(int length) {
 
         int minlength = length / ((int) Math.ceil(length / 720.0));
 

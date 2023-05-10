@@ -122,4 +122,17 @@ class PartsListTest {
     }
 
 
+    @Test
+    void calculateLengthOfLumber0() {
+        int expected = 670;
+        int actual = PartsList.calculateLengthOfLumber(670);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void calculateLengthOfLumber1() {
+        int expected = 400;
+        int actual = PartsList.calculateLengthOfLumber(800);
+        assertEquals(expected, actual);
+    }
 }
