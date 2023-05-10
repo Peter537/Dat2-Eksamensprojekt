@@ -60,8 +60,9 @@ class LumberMapper {
                 }
 
                 int amount = resultSet.getInt("amount");
+                int price = Math.round(lumberType.getMeterPrice() * length);
 
-                return Optional.of(new Lumber(id, length, lumberType, amount));
+                return Optional.of(new Lumber(id, length, lumberType, price, amount));
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get lumber by id");
@@ -88,8 +89,9 @@ class LumberMapper {
                     int lumberid = resultSet.getInt("id");
                     int length = resultSet.getInt("length");
                     int amount = resultSet.getInt("amount");
+                    int price = Math.round(lumberType.getMeterPrice() * length);
 
-                    Lumber lumber = new Lumber(lumberid, length, lumberType, amount);
+                    Lumber lumber = new Lumber(lumberid, length, lumberType, price, amount);
                     lumberlist.add(lumber);
                 }
 
@@ -129,8 +131,9 @@ class LumberMapper {
                     else {
                         throw new DatabaseException("Could not get lumber by length");
                     }
+                    int price = Math.round(lumberType.getMeterPrice() * length);
 
-                    Lumber lumber = new Lumber(lumberid, length, lumberType, amount);
+                    Lumber lumber = new Lumber(lumberid, length, lumberType, price, amount);
                     lumberlist.add(lumber);
                 }
 
@@ -140,9 +143,4 @@ class LumberMapper {
             throw new DatabaseException(e, "Could not get lumber by length");
         }
     }
-
-
-    /*
-     * TODO: Implement this class
-     */
 }
