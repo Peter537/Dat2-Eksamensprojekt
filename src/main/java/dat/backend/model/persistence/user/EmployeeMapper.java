@@ -15,7 +15,8 @@ import java.util.Optional;
 
 class EmployeeMapper {
 
-    static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException {
+    static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException, ValidationException {
+        Validation.validateEmployee(email, password);
         String query = "SELECT * FROM employee WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -144,7 +145,8 @@ class EmployeeMapper {
         }
     }
 
-    static void updatePosition(Employee employee, Position newPosition, ConnectionPool connectionPool) throws DatabaseException {
+    static void updatePosition(Employee employee, Position newPosition, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validatePosition(newPosition);
         String query = "UPDATE employee SET fk_position = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -158,7 +160,8 @@ class EmployeeMapper {
         }
     }
 
-    static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateDepartment(newDepartment);
         String query = "UPDATE employee SET fk_department_id = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
