@@ -55,7 +55,7 @@ public class PartsList {
         ArrayList<Lumber> lpole = LumberFacade.getLumberByType(pole, connectionPool).get();
         Collections.sort(lpole);
 
-        int minheight = height + 90; //TODO: add width of plate
+        int minheight = height + 90 + (int)plate.getLumberType().getWidth();
 
         for (Lumber lumber : lpole) {
             if (lumber.getLength() >= minheight) {
