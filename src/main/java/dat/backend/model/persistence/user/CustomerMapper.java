@@ -7,15 +7,13 @@ import dat.backend.model.exceptions.*;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.services.Validation;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 
 class CustomerMapper {
 
-    static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException {
+    static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException, ValidationException {
+        Validation.validateCustomer(email, password);
         String query = "SELECT * FROM customer WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -101,11 +99,19 @@ class CustomerMapper {
         String query = "UPDATE customer SET address_" + addressNumber + " = ?, zipcode_" + addressNumber + " = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, newStreetName);
-                statement.setInt(2, zip.getZipCode());
-                statement.setInt(3, customer.getId());
-                statement.executeUpdate();
-                customer.setAddress(addressNumber, Optional.of(new Address(newStreetName, zip)));
+                if (newStreetName == null || zip == null) {
+                    statement.setNull(1, Types.NULL);
+                    statement.setInt(2, Types.NULL);
+                    statement.setInt(3, customer.getId());
+                    statement.executeUpdate();
+                    customer.setAddress(addressNumber, Optional.empty());
+                } else {
+                    statement.setString(1, newStreetName);
+                    statement.setInt(2, zip.getZipCode());
+                    statement.setInt(3, customer.getId());
+                    statement.executeUpdate();
+                    customer.setAddress(addressNumber, Optional.of(new Address(newStreetName, zip)));
+                }
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update customer address");
