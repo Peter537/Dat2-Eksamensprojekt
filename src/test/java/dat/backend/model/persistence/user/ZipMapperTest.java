@@ -31,7 +31,7 @@ class ZipMapperTest {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
 
-                // TODO: Create user table. Add your own tables here
+                // Create user table. Add your own tables here
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.zip LIKE fogcarport.zip;");
             }
         } catch (SQLException e) {
@@ -44,10 +44,10 @@ class ZipMapperTest {
     void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
-                // TODO: Remove all rows from all tables - add your own tables here
+                // Remove all rows from all tables - add your own tables here
                 stmt.execute("DELETE FROM zip");
 
-                // TODO: Insert a few users - insert rows into your own tables here
+                // Insert a few users - insert rows into your own tables here
                 stmt.execute("INSERT INTO zip (zipcode, city_name) VALUES (2800, 'Lyngby'), (1400, 'København'), (3400, 'Hillerød')");
             }
         } catch (SQLException e) {

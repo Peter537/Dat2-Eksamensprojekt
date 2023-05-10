@@ -30,7 +30,7 @@ class CustomerMapperTest {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
 
-                // TODO: Create user table. Add your own tables here
+                // Create user table. Add your own tables here
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.customer LIKE fogcarport.customer;");
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.zip LIKE fogcarport.zip;");
             }
@@ -44,12 +44,12 @@ class CustomerMapperTest {
     void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
-                // TODO: Remove all rows from all tables - add your own tables here
+                // Remove all rows from all tables - add your own tables here
                 stmt.execute("DELETE FROM customer");
                 stmt.execute("DELETE FROM zip");
                 stmt.execute("ALTER TABLE customer AUTO_INCREMENT = 1;");
 
-                // TODO: Insert a few users - insert rows into your own tables here
+                // Insert a few users - insert rows into your own tables here
                 stmt.execute("INSERT INTO customer (email, name, password) " +
                         "VALUES ('ben@gmail.com', 'ben', '123'), ('allan@outlook.dk', 'allan', '1234'), ('alex@hotmail.com', 'alex', '12345')");
                 stmt.execute("INSERT INTO zip (zipcode, city_name)" +
