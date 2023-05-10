@@ -37,6 +37,7 @@ class EmployeeMapperTest {
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.employee LIKE fogcarport.employee;");
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.department LIKE fogcarport.department;");
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.zip LIKE fogcarport.zip;");
+                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.position LIKE fogcarport.position;");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -52,6 +53,7 @@ class EmployeeMapperTest {
                 stmt.execute("DELETE FROM employee");
                 stmt.execute("DELETE FROM department");
                 stmt.execute("DELETE FROM zip");
+                stmt.execute("DELETE FROM position");
                 stmt.execute("ALTER TABLE employee AUTO_INCREMENT = 1;");
                 stmt.execute("ALTER TABLE department AUTO_INCREMENT = 1;");
 
@@ -60,6 +62,7 @@ class EmployeeMapperTest {
                         "VALUES ('ben@johannesfog.dk', 'ben', '123', 'Sales', 1), ('allan@johannesfog.dk', 'allan', '1234', 'Sales', 1), ('alex@johannesfog.dk', 'alex', '12345', 'Sales', 1)");
                 stmt.execute("INSERT INTO department (address, zipcode, name) VALUES ('Lyngby Adresse', 2800, 'Lyngby Trælast')");
                 stmt.execute("INSERT INTO zip (zipcode, city_name) VALUES (2800, 'Lyngby')");
+                stmt.execute("INSERT INTO position (position) VALUES ('Sales')");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
