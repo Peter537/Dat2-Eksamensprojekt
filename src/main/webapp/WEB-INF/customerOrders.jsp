@@ -14,7 +14,6 @@
 
     <jsp:attribute name="title">
 
-<%--        TODO: create the employee object and set it in the session--%>
         <h1>My Orders</h1>
     </jsp:attribute>
 
