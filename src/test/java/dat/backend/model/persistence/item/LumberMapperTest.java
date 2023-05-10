@@ -84,7 +84,7 @@ public class LumberMapperTest {
         LumberType expectedType = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
         int expectedAmount = 1000;
         assert expectedType != null;
-        int expectedPrice = Math.round(expectedType.getMeterPrice() * expectedLength);
+        int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
 
         // Act
         Lumber lumber = LumberMapper.getLumberById(id, connectionPool).orElse(null);
@@ -141,7 +141,7 @@ public class LumberMapperTest {
         assert type != null;
         int expectedLength = 180;
         int expectedAmount = 1000;
-        int expectedPrice = Math.round(type.getMeterPrice() * expectedLength);
+        int expectedPrice = LumberMapper.calcPrice(expectedLength, type.getMeterPrice());
 
         // Act
         ArrayList<Lumber> lumber = LumberMapper.getLumberByLength(expectedLength, connectionPool).orElse(null);
@@ -191,7 +191,7 @@ public class LumberMapperTest {
         LumberType expectedType = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
         assert expectedType != null;
         int expectedAmount = 1000;
-        int expectedPrice = Math.round(expectedType.getMeterPrice() * expectedLength);
+        int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
 
         // Act
         Lumber lumber = LumberMapper.createLumber(expectedLength, expectedType.getId(), expectedAmount, connectionPool).orElse(null);
