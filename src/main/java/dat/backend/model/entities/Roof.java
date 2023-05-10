@@ -2,12 +2,13 @@ package dat.backend.model.entities;
 
 import java.util.Objects;
 
-public class Roof {
+public class Roof extends Item {
 
     private int id;
     private float meterPrice;
 
     public Roof(int id, float meterPrice) {
+        super(id, 0);
         this.id = id;
         this.meterPrice = meterPrice;
     }
