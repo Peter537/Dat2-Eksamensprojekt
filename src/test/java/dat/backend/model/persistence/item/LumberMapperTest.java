@@ -203,4 +203,25 @@ public class LumberMapperTest {
         assertEquals(expectedPrice, lumber.getPrice());
         assertEquals(expectedAmount, lumber.getAmount());
     }
+
+    @Test
+    void testCreateLumberWithLumber() throws DatabaseException {
+        // Arrange
+        int expectedLength = 200;
+        LumberType expectedType = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
+        assert expectedType != null;
+        int expectedAmount = 1000;
+        int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
+        Lumber lumber = new Lumber(0, expectedLength, expectedType, expectedPrice, expectedAmount);
+
+        // Act
+        Lumber newlumber = LumberMapper.createLumber(lumber, connectionPool).orElse(null);
+
+        // Assert
+        assertNotNull(newlumber);
+        assertEquals(expectedLength, newlumber.getLength());
+        assertEquals(expectedType, newlumber.getLumberType());
+        assertEquals(expectedPrice, newlumber.getPrice());
+        assertEquals(expectedAmount, newlumber.getAmount());
+    }
 }
