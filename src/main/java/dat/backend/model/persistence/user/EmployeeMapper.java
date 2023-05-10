@@ -15,7 +15,7 @@ import java.util.Optional;
 
 class EmployeeMapper {
 
-    static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException, ValidationException {
+    static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
         Validation.validateEmployee(email, password);
         String query = "SELECT * FROM employee WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -30,12 +30,12 @@ class EmployeeMapper {
         }
     }
 
-    static Employee createEmployee(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException, ValidationException, EmployeeAlreadyExistsException {
+    static Employee createEmployee(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
         Validation.validateEmployee(name, email, password);
         try {
             getEmployeeByEmail(email, connectionPool);
-            throw new EmployeeAlreadyExistsException("Email already exists");
-        } catch (EmployeeNotFoundException e) {
+            throw new AlreadyExistsException("Email already exists");
+        } catch (NotFoundException e) {
             // Do nothing
         }
 
@@ -54,12 +54,12 @@ class EmployeeMapper {
 
                 return getEmployeeByEmail(email, connectionPool);
             }
-        } catch (SQLException | EmployeeNotFoundException e) {
+        } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Could not create employee");
         }
     }
 
-    static Employee getEmployeeById(int id, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException {
+    static Employee getEmployeeById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM employee WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -72,7 +72,7 @@ class EmployeeMapper {
         }
     }
 
-    static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException {
+    static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM employee WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -175,9 +175,9 @@ class EmployeeMapper {
         }
     }
 
-    private static Employee createEmployeeFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, DatabaseException, EmployeeNotFoundException {
+    private static Employee createEmployeeFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, DatabaseException, NotFoundException {
         if (!resultSet.next()) {
-            throw new EmployeeNotFoundException("Could not find employee");
+            throw new NotFoundException("Could not find employee");
         }
 
         int id = resultSet.getInt("id");
@@ -192,7 +192,7 @@ class EmployeeMapper {
             Position position = PositionFacade.getPositionByPositionName(positionName, connectionPool);
             Department department = DepartmentFacade.getDepartmentById(departmentId, connectionPool);
             return new Employee(id, email, name, password, privatePhoneNumber, workPhoneNumber, position, department);
-        } catch (DepartmentNotFoundException | PositionNotFoundException e) {
+        } catch (NotFoundException e) {
             throw new DatabaseException(e, e.getMessage());
         }
     }

@@ -2,7 +2,7 @@ package dat.backend.model.persistence.user;
 
 import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.ZipNotFoundException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +68,7 @@ class ZipMapperTest {
     }
 
     @Test
-    void testValidGetZipByZipCode() throws ZipNotFoundException, DatabaseException {
+    void testValidGetZipByZipCode() throws NotFoundException, DatabaseException {
         Zip zip = ZipFacade.getZipByZipCode(2800, connectionPool);
         assertNotNull(zip);
         assertEquals(2800, zip.getZipCode());
@@ -77,6 +77,6 @@ class ZipMapperTest {
 
     @Test
     void testInvalidGetZipByZipCode() {
-        assertThrows(ZipNotFoundException.class, () -> ZipFacade.getZipByZipCode(9999, connectionPool));
+        assertThrows(NotFoundException.class, () -> ZipFacade.getZipByZipCode(9999, connectionPool));
     }
 }

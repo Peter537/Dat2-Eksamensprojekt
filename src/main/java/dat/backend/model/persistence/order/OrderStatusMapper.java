@@ -2,7 +2,7 @@ package dat.backend.model.persistence.order;
 
 import dat.backend.model.entities.OrderStatus;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.OrderStatusNotFoundException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 
 import java.sql.Connection;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 class OrderStatusMapper {
 
-    static OrderStatus getOrderStatusByStatus(String status, ConnectionPool connectionPool) throws DatabaseException, OrderStatusNotFoundException {
+    static OrderStatus getOrderStatusByStatus(String status, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM orderstatus WHERE status = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -25,9 +25,9 @@ class OrderStatusMapper {
         }
     }
 
-    private static OrderStatus createOrderStatusFromResultSet(ResultSet resultSet) throws SQLException, OrderStatusNotFoundException {
+    private static OrderStatus createOrderStatusFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
-            throw new OrderStatusNotFoundException("Order status not found");
+            throw new NotFoundException("Order status not found");
         }
 
         String status = resultSet.getString("status");

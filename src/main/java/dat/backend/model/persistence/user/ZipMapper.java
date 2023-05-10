@@ -2,7 +2,7 @@ package dat.backend.model.persistence.user;
 
 import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.ZipNotFoundException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 
 import java.sql.Connection;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 class ZipMapper {
 
-    static Zip getZipByZipCode(int zipCode, ConnectionPool connectionPool) throws DatabaseException, ZipNotFoundException {
+    static Zip getZipByZipCode(int zipCode, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM zip WHERE zipcode = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -25,9 +25,9 @@ class ZipMapper {
         }
     }
 
-    private static Zip createZipFromResultSet(ResultSet resultSet) throws SQLException, ZipNotFoundException {
+    private static Zip createZipFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
-            throw new ZipNotFoundException("Zip not found");
+            throw new NotFoundException("Zip not found");
         }
 
         int zipCode = resultSet.getInt("zipcode");

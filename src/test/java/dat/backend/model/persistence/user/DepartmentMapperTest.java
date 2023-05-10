@@ -2,7 +2,7 @@ package dat.backend.model.persistence.user;
 
 import dat.backend.model.entities.user.Department;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.DepartmentNotFoundException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,7 +73,7 @@ class DepartmentMapperTest {
     }
 
     @Test
-    void testValidGetDepartmentById() throws DatabaseException, DepartmentNotFoundException {
+    void testValidGetDepartmentById() throws DatabaseException, NotFoundException {
         Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
         assertNotNull(department);
         assertEquals(1, department.getId());
@@ -84,6 +84,6 @@ class DepartmentMapperTest {
 
     @Test
     void testInvalidGetDepartmentById() {
-        assertThrows(DepartmentNotFoundException.class, () -> DepartmentFacade.getDepartmentById(0, connectionPool));
+        assertThrows(NotFoundException.class, () -> DepartmentFacade.getDepartmentById(0, connectionPool));
     }
 }
