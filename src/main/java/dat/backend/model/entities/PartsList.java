@@ -1,19 +1,14 @@
 package dat.backend.model.entities;
 
-import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.persistence.LumberFacade;
-import dat.backend.model.persistence.LumbertypeFacade;
-
-import javax.servlet.ServletException;
+import dat.backend.model.persistence.item.LumberFacade;
+import dat.backend.model.persistence.item.LumbertypeFacade;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Optional;
 
-import static dat.backend.model.persistence.LumbertypeFacade.getLumbertypeByType;
+import static dat.backend.model.persistence.item.LumbertypeFacade.getLumbertypeByType;
 
 public class PartsList {
 
