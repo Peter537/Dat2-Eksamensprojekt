@@ -23,10 +23,10 @@ public class PartsList {
     private int totalPrice;
 
 
-    public PartsList(int height, int length, int width) throws DatabaseException {
-        this.pole = calculatePole(height);
-        this.plate = calculatePlate(width);
-        this.rafter = calculateRafter(length, width);
+    public PartsList(int height, int length, int width, ConnectionPool connectionPool) throws DatabaseException {
+        this.pole = calculatePole(height, width, connectionPool);
+        this.plate = calculatePlate(width, connectionPool);
+        this.rafter = calculateRafter(length, width, connectionPool);
         this.numberOfPoles = calculateNumberOfPoles(length, width);
         this.numberOfPlates = calculateNumberOfPlates(width);
         this.numberOfRafters = calculateNumberOfRafters(length);
@@ -34,22 +34,23 @@ public class PartsList {
 
         this.totalPrice = calculateTotalPrice();
 
-  }
+    }
 
     private int calculateTotalPrice() {
         return (pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters); // the getPrice() method is inherited from Item. It is not implemented yet.
     }
 
 
-    private ConnectionPool connectionPool;
+    private static ConnectionPool connectionPool;
 
 
-    public Lumber calculatePole(int height) throws DatabaseException {
+    public static Lumber calculatePole(int height, int width, ConnectionPool connectionPool) throws DatabaseException {
         LumberType pole = getLumbertypeByType("POLE", connectionPool).get().get(0);
         ArrayList<Lumber> lpole = LumberFacade.getLumberByType(pole, connectionPool).get();
         Collections.sort(lpole);
 
-        int minheight = height + 90 + (int)plate.getLumberType().getWidth();
+        LumberType rafterType = calculateRafterType(width, connectionPool);
+        int minheight = height + 90 + (int)rafterType.getWidth();
 
         for (Lumber lumber : lpole) {
             if (lumber.getLength() >= minheight) {
@@ -60,7 +61,7 @@ public class PartsList {
     }
 
 
-    public LumberType calculateRafterType(int width) throws DatabaseException {
+    public static LumberType calculateRafterType(int width, ConnectionPool connectionPool) throws DatabaseException {
         ArrayList<LumberType> lrafter = LumbertypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
         Collections.sort(lrafter);
         float dim = (float)calculateDimensions(width);
@@ -72,8 +73,8 @@ public class PartsList {
         throw new IllegalArgumentException("No rafter found with the required width.");
     }
 
-    public Lumber calculateRafter(int length, int width) throws DatabaseException {
-        LumberType rafterType = calculateRafterType(width);
+    public Lumber calculateRafter(int length, int width, ConnectionPool connectionPool) throws DatabaseException {
+        LumberType rafterType = calculateRafterType(width, connectionPool);
         ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
         Collections.sort(lrafter);
         int minlength = calculateLengthOfLumber(length);
@@ -85,8 +86,8 @@ public class PartsList {
         throw new IllegalArgumentException("No rafter found with the required length.");
     }
 
-    public Lumber calculatePlate(int width) throws DatabaseException {
-        LumberType rafterType = calculateRafterType(width);
+    public Lumber calculatePlate(int width, ConnectionPool connectionPool) throws DatabaseException {
+        LumberType rafterType = calculateRafterType(width, connectionPool);
         ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
         Collections.sort(lrafter);
         int minlength = calculateLengthOfLumber(width);
