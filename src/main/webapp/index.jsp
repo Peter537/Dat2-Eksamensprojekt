@@ -13,10 +13,11 @@
     </jsp:attribute>
 
     <jsp:body>
+<div class="text-center" style="height: 100%; margin-bottom: 20%" >
 
         <h1>Et stort udvalg af carporte</h1>
 
-        <img src="images/carport.jpg" alt="carport" width="700" height="300">
+        <img src="images/carport.jpg" alt="carport" width="70%" height="auto" style="margin-bottom: 5%">
 
 
         <br>
@@ -39,20 +40,7 @@
 
             </div>
         </div>
-
-
-        <%--        This is the frontpage--%>
-        <%--        <br>--%>
-
-        <%--        <a href="login.jsp">Login</a> <br>--%>
-        <%--&lt;%&ndash;//TODO: change "login.jsp" to login serlvet and have it handle the user&ndash;%&gt;--%>
-        <%--        <a href="login.jsp">Carport</a> <br>--%>
-        <%--        not a member already?--%>
-        <%--        <a href="createCustomer.jsp">Sign up!</a>--%>
-
-        <%--        <a href="ToProfileSite">Profile</a>--%>
-
-
+</div>
     </jsp:body>
 
 </t:pagetemplate>
