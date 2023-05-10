@@ -2,14 +2,17 @@ package dat.backend.model.entities;
 
 import java.util.Objects;
 
-public class Roof {
+public class Roof extends Item {
 
     private int id;
-    private float meterPrice;
+    private float SquareMeterPrice;
+    private String type;
 
-    public Roof(int id, float meterPrice) {
+    public Roof(int id, float SquareMeterPrice, String type) {
+        super(id, 0);
         this.id = id;
-        this.meterPrice = meterPrice;
+        this.SquareMeterPrice = SquareMeterPrice;
+        this.type = type;
     }
 
     public int getId() {
@@ -20,12 +23,20 @@ public class Roof {
         this.id = id;
     }
 
-    public float getMeterPrice() {
-        return this.meterPrice;
+    public float getSquareMeterPrice() {
+        return this.SquareMeterPrice;
     }
 
-    public void setMeterPrice(float meterPrice) {
-        this.meterPrice = meterPrice;
+    public void setSquareMeterPrice(float squareMeterPrice) {
+        this.SquareMeterPrice = squareMeterPrice;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -34,19 +45,19 @@ public class Roof {
         if (!(other instanceof Roof)) return false;
         Roof roof = (Roof) other;
         return this.getId() == roof.getId() &&
-                this.getMeterPrice() == roof.getMeterPrice();
+                this.getSquareMeterPrice() == roof.getSquareMeterPrice();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getMeterPrice());
+        return Objects.hash(this.getId(), this.getSquareMeterPrice());
     }
 
     @Override
     public String toString() {
         return "Roof{" +
                 "id=" + this.id +
-                ", meterPrice=" + this.meterPrice +
+                ", meterPrice=" + this.SquareMeterPrice +
                 '}';
     }
 }

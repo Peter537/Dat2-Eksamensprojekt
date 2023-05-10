@@ -20,6 +20,7 @@ public class CarportOrder {
     private int minHeight;
     private int toolRoomWidth;
     private int toolRoomLength;
+    private int price;
 
     public CarportOrder(int id, Address address, Employee employee, Customer customer, Roof roof, List<Lumber> lumberList, List<String> remarks, int length, int width, int minHeight, int toolRoomWidth, int toolRoomLength) {
         this.id = id;
@@ -48,6 +49,30 @@ public class CarportOrder {
         this.minHeight = minHeight;
         this.toolRoomWidth = toolRoomWidth;
         this.toolRoomLength = toolRoomLength;
+    }
+
+    public CarportOrder(int id, Address address, Employee employee, Customer customer, Roof roof, List<Lumber> lumberList, List<String> remarks, int length, int width, int minHeight, int toolRoomWidth, int toolRoomLength, int price) {
+        this.id = id;
+        this.address = address;
+        this.employee = employee;
+        this.customer = customer;
+        this.roof = roof;
+        this.lumberList = lumberList;
+        this.remarks = remarks;
+        this.length = length;
+        this.width = width;
+        this.minHeight = minHeight;
+        this.toolRoomWidth = toolRoomWidth;
+        this.toolRoomLength = toolRoomLength;
+        this.price = price;
+    }
+
+    public CarportOrder(int id, Address address, Customer customer, int length, int width) {
+        this.id = id;
+        this.address = address;
+        this.customer = customer;
+        this.length = length;
+        this.width = width;
     }
 
     public int getId() {
@@ -144,5 +169,13 @@ public class CarportOrder {
 
     public void setToolRoomLength(int toolRoomLength) {
         this.toolRoomLength = toolRoomLength;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

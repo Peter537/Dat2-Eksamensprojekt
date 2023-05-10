@@ -4,8 +4,7 @@ import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Department;
 import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.DepartmentNotFoundException;
-import dat.backend.model.exceptions.ZipNotFoundException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 
 import java.sql.Connection;
@@ -15,7 +14,7 @@ import java.sql.SQLException;
 
 class DepartmentMapper {
 
-    static Department getDepartmentById(int id, ConnectionPool connectionPool) throws DatabaseException, DepartmentNotFoundException {
+    static Department getDepartmentById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM department WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -28,9 +27,9 @@ class DepartmentMapper {
         }
     }
 
-    private static Department createDepartmentFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, DatabaseException, DepartmentNotFoundException {
+    private static Department createDepartmentFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, DatabaseException, NotFoundException {
         if (!resultSet.next()) {
-            throw new DepartmentNotFoundException("Department not found");
+            throw new NotFoundException("Department not found");
         }
 
         int id = resultSet.getInt("id");
@@ -41,7 +40,7 @@ class DepartmentMapper {
             Zip zip = ZipFacade.getZipByZipCode(zipCode, connectionPool);
             Address addressObject = new Address(address, zip);
             return new Department(id, departmentName, addressObject);
-        } catch (ZipNotFoundException e) {
+        } catch (NotFoundException e) {
             throw new DatabaseException("Could not get zip");
         }
     }
