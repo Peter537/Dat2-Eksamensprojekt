@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class CarportOrderFacade {
 
-    public static Optional<CarportOrder> getCarportOrderById(int id, ConnectionPool connectionPool) throws DatabaseException {
+    public static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) throws DatabaseException {
         return CarportOrderMapper.getCarportOrderById(id, connectionPool);
     }
 

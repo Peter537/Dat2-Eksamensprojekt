@@ -10,8 +10,8 @@ import java.util.Optional;
 
 class CarportOrderMapper {
 
-    static Optional<CarportOrder> getCarportOrderById(int id, ConnectionPool connectionPool) {
-        return Optional.empty();
+    static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) {
+        throw new UnsupportedOperationException();
     }
 
     static List<CarportOrder> getCarportByCustomerId(int customerId, ConnectionPool connectionPool) {
@@ -23,7 +23,7 @@ class CarportOrderMapper {
     }
 
     static CarportOrder createCarportOrder(CarportOrder carportOrder, ConnectionPool connectionPool) {
-        return carportOrder;
+        throw new UnsupportedOperationException();
     }
 
     static void updateCarportOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) {

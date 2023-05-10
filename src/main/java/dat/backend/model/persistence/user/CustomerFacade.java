@@ -2,27 +2,24 @@ package dat.backend.model.persistence.user;
 
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Zip;
-import dat.backend.model.exceptions.CustomerAlreadyExistsException;
-import dat.backend.model.exceptions.CustomerNotFoundException;
-import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.ValidationException;
+import dat.backend.model.exceptions.*;
 import dat.backend.model.persistence.ConnectionPool;
 
 public class CustomerFacade {
 
-    public static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException, ValidationException {
+    public static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
         return CustomerMapper.login(email, password, connectionPool);
     }
 
-    public static Customer createCustomer(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, CustomerAlreadyExistsException {
+    public static Customer createCustomer(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
         return CustomerMapper.createCustomer(email, password, name, connectionPool);
     }
 
-    public static Customer getCustomerById(int id, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException {
+    public static Customer getCustomerById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         return CustomerMapper.getCustomerById(id, connectionPool);
     }
 
-    public static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException {
+    public static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         return CustomerMapper.getCustomerByEmail(email, connectionPool);
     }
 

@@ -20,9 +20,8 @@ public class PartsList {
     private int numberOfPlates;
     private int numberOfRafters;
 
-    private int priceOfPole;
-    private int priceOfPlate;
-    private int priceOfRafter;
+    private int totalPrice;
+;
 
 
 
@@ -39,22 +38,14 @@ public class PartsList {
         this.numberOfRafters = calculateNumberOfRafters(length);
 
 
-        this.priceOfPole = calculatePriceOfPole();
-        this.priceOfPlate = calculatePriceOfPlate();
-        this.priceOfRafter = calculatePriceOfRafter();
+        this.totalPrice = calculateTotalPrice();
+
   }
 
-    private int calculatePriceOfRafter() {
-        return 0; //TODO: calculate price of rafter
+    private int calculateTotalPrice() {
+        return (pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters); // the getPrice() method is inherited from Item. It is not implemented yet.
     }
 
-    private int calculatePriceOfPlate() {
-        return 0; //TODO: calculate price of plate
-    }
-
-    private int calculatePriceOfPole() {
-        return 0; //TODO: calculate price of pole
-    }
 
     private ConnectionPool connectionPool;
 
@@ -64,7 +55,7 @@ public class PartsList {
         ArrayList<Lumber> lpole = LumberFacade.getLumberByType(pole, connectionPool).get();
         Collections.sort(lpole);
 
-        int minheight = height + 90; //TODO: add width of plate
+        int minheight = height + 90 + (int)plate.getLumberType().getWidth();
 
         for (Lumber lumber : lpole) {
             if (lumber.getLength() >= minheight) {

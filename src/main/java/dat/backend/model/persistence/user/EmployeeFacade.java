@@ -3,27 +3,24 @@ package dat.backend.model.persistence.user;
 import dat.backend.model.entities.user.Department;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.entities.user.Position;
-import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.EmployeeAlreadyExistsException;
-import dat.backend.model.exceptions.EmployeeNotFoundException;
-import dat.backend.model.exceptions.ValidationException;
+import dat.backend.model.exceptions.*;
 import dat.backend.model.persistence.ConnectionPool;
 
 public class EmployeeFacade {
 
-    public static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException, ValidationException {
+    public static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
         return EmployeeMapper.login(email, password, connectionPool);
     }
 
-    public static Employee createEmployee(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException, ValidationException, EmployeeAlreadyExistsException {
+    public static Employee createEmployee(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
         return EmployeeMapper.createEmployee(email, name, password, position, department, connectionPool);
     }
 
-    public static Employee getEmployeeById(int id, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException {
+    public static Employee getEmployeeById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         return EmployeeMapper.getEmployeeById(id, connectionPool);
     }
 
-    public static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException {
+    public static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         return EmployeeMapper.getEmployeeByEmail(email, connectionPool);
     }
 
