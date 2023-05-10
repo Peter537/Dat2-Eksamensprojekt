@@ -80,7 +80,6 @@ public class PartsList {
         ArrayList<LumberType> lrafter = LumbertypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
         Collections.sort(lrafter);
         float dim = (float)calculateDimensions(width);
-        for
 
         return null;
     }
