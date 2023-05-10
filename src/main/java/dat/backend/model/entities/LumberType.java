@@ -2,7 +2,7 @@ package dat.backend.model.entities;
 
 import java.util.Objects;
 
-public class LumberType {
+public class LumberType implements Comparable<LumberType>{
 
     private int id;
     private float width;
@@ -90,5 +90,10 @@ public class LumberType {
                 ", name='" + this.type + '\'' +
                 ", meterPrice=" + this.meterPrice +
                 '}';
+    }
+
+    @Override
+    public int compareTo(LumberType other) {
+        return Integer.compare((int) this.width, (int) other.width);
     }
 }

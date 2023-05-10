@@ -9,6 +9,8 @@ import dat.backend.model.persistence.LumbertypeFacade;
 import javax.servlet.ServletException;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Optional;
 
 import static dat.backend.model.persistence.LumbertypeFacade.getLumbertypeByType;
@@ -41,16 +43,16 @@ public class PartsList {
     }
 
 
-    // TODO: Given height, length and width. Calculate the number of poles, plates and rafters needed.
+    //TODO: Given height, length and width. Calculate the number of poles, plates and rafters needed.
 
 
 //    public PartsList calculatePartsList(int height, int length, int width) {
 //        Lumber pole = calculatePole(height);
 //        int numberOfPoles = calculateNumberOfPoles(length, width);
 //        int numberOfPlates = calculateNumberOfPlates(width);
-//        Lumber plate = new Lumber( calculateDimensions(width), priceOfPlate);
+//        Lumber plate =
 //        int numberOfRafters = calculateNumberOfRafters(length);
-//        Lumber rafter = new Lumber(60, priceOfRafter); // Assuming all rafters have the same length of 60cm
+//        Lumber rafter =
 //
 //        return new PartsList(pole, plate, rafter, numberOfPoles, numberOfPlates, numberOfRafters, priceOfPole, priceOfPlate, priceOfRafter);
 //    }
@@ -61,6 +63,7 @@ public class PartsList {
     public Lumber calculatePole(int height) throws DatabaseException {
         LumberType pole = getLumbertypeByType("POLE", connectionPool).get().get(0);
         ArrayList<Lumber> lpole = LumberFacade.getLumberByType(pole, connectionPool).get();
+        Collections.sort(lpole);
 
         int minheight = height + 90; //TODO: add width of plate
 
@@ -73,13 +76,16 @@ public class PartsList {
     }
 
 
-    public Lumber calculateRafter(int length, int width) {
-       // new Lumber();
+    public Lumber calculateRafter(int length, int width) throws DatabaseException {
+        ArrayList<LumberType> lrafter = LumbertypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
+        Collections.sort(lrafter);
+        float dim = (float)calculateDimensions(width);
+        for
+
         return null;
     }
 
     public Lumber calculatePlate(int length, int width) {
-        //new Lumber();
         return null;
     }
 
@@ -93,9 +99,12 @@ public class PartsList {
 
     public static int calculateNumberOfPolesLength(int length) {
         int lengthBetweenPoles = length - 140;
+        if (lengthBetweenPoles < 20) {throw new IllegalArgumentException("Length of carport is too small.");
+        }
         int numberOfPolesLength = (int) (Math.ceil(lengthBetweenPoles/340.0)-1);
         return numberOfPolesLength;
     }
+
     public static int calculateNumberOfPoles(int length, int width) {
         int polesBetweenLength = calculateNumberOfPolesLength(length);
         int polesBetweenWidth = calculateNumberOfPolesWidth(width);

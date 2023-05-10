@@ -1,6 +1,6 @@
 package dat.backend.model.entities;
 
-public abstract class Item {
+public abstract class Item{
     private int id;
     private int price;
 
