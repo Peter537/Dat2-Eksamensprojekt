@@ -3,10 +3,7 @@ package dat.backend.control;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
-import dat.backend.model.exceptions.CustomerNotFoundException;
-import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.EmployeeNotFoundException;
-import dat.backend.model.exceptions.ValidationException;
+import dat.backend.model.exceptions.*;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.user.CustomerFacade;
 import dat.backend.model.persistence.user.EmployeeFacade;
@@ -54,7 +51,7 @@ public class Login extends HttpServlet {
                     session.setAttribute("employee", employee);
                     request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
                 }
-            } catch (CustomerNotFoundException | EmployeeNotFoundException e) {
+            } catch (NotFoundException e) {
                 request.setAttribute("errormessage", "Wrong username or password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }

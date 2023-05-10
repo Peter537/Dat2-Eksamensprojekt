@@ -2,6 +2,7 @@ package dat.backend.control;
 
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.user.Customer;
+import dat.backend.model.exceptions.AlreadyExistsException;
 import dat.backend.model.exceptions.CustomerAlreadyExistsException;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.ValidationException;
@@ -48,7 +49,7 @@ public class CreateCustomer extends HttpServlet {
                 Customer customer = CustomerFacade.createCustomer(email, password, name, connectionPool);
                 session.setAttribute("customer", customer);
                 request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
-            } catch (ValidationException | CustomerAlreadyExistsException e) {
+            } catch (ValidationException | AlreadyExistsException e) {
                 request.setAttribute("errormessage", "User could not be created");
                 request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
             }

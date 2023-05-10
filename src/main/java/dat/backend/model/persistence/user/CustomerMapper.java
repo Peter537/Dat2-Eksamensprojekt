@@ -12,7 +12,7 @@ import java.util.Optional;
 
 class CustomerMapper {
 
-    static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException, ValidationException {
+    static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
         Validation.validateCustomer(email, password);
         String query = "SELECT * FROM customer WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -27,12 +27,12 @@ class CustomerMapper {
         }
     }
 
-    static Customer createCustomer(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, CustomerAlreadyExistsException {
+    static Customer createCustomer(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
         Validation.validateCustomer(name, email, password);
         try {
             getCustomerByEmail(email, connectionPool);
-            throw new CustomerAlreadyExistsException("Email already exists");
-        } catch (CustomerNotFoundException e) {
+            throw new AlreadyExistsException("Email already exists");
+        } catch (NotFoundException e) {
             // Do nothing
         }
 
@@ -49,12 +49,12 @@ class CustomerMapper {
 
                 return getCustomerByEmail(email, connectionPool);
             }
-        } catch (SQLException | CustomerNotFoundException e) {
+        } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Could not create customer");
         }
     }
 
-    static Customer getCustomerById(int id, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException {
+    static Customer getCustomerById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM customer WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -67,7 +67,7 @@ class CustomerMapper {
         }
     }
 
-    static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException {
+    static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM customer WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -148,9 +148,9 @@ class CustomerMapper {
         }
     }
 
-    private static Customer createCustomerFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws DatabaseException, SQLException, CustomerNotFoundException {
+    private static Customer createCustomerFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws DatabaseException, SQLException, NotFoundException {
         if (!resultSet.next()) {
-            throw new CustomerNotFoundException("Could not create customer from result set");
+            throw new NotFoundException("Could not create customer from result set");
         }
 
         int id = resultSet.getInt("id");
@@ -174,7 +174,7 @@ class CustomerMapper {
         try {
             Zip zip = ZipFacade.getZipByZipCode(zipCode, connectionPool);
             return Optional.of(new Address(address, zip));
-        } catch (ZipNotFoundException e) {
+        } catch (NotFoundException e) {
             throw new DatabaseException("Could not get zip by zip code");
         }
     }

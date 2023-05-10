@@ -2,6 +2,7 @@ package dat.backend.model.persistence.user;
 
 import dat.backend.model.entities.user.Position;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.PositionNotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 import org.junit.jupiter.api.BeforeAll;
@@ -68,7 +69,7 @@ class PositionMapperTest {
     }
 
     @Test
-    void testValidGetPositionByPositionName() throws PositionNotFoundException, DatabaseException {
+    void testValidGetPositionByPositionName() throws NotFoundException, DatabaseException {
         Position position = PositionFacade.getPositionByPositionName("Sales", connectionPool);
         assertNotNull(position);
         assertEquals("Sales", position.getPositionName());
@@ -76,6 +77,6 @@ class PositionMapperTest {
 
     @Test
     void testInvalidGetPositionByPositionName() {
-        assertThrows(PositionNotFoundException.class, () -> PositionFacade.getPositionByPositionName("Salesman", connectionPool));
+        assertThrows(NotFoundException.class, () -> PositionFacade.getPositionByPositionName("Salesman", connectionPool));
     }
 }
