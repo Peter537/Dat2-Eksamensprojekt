@@ -25,32 +25,36 @@ public class PartsList {
     private int priceOfRafter;
 
 
-    public PartsList(Lumber pole, Lumber plate, Lumber rafter, int numberOfPoles, int numberOfPlates, int numberOfRafters, int priceOfPole, int priceOfPlate, int priceOfRafter) {
-        this.pole = pole;
-        this.plate = plate;
-        this.rafter = rafter;
-        this.numberOfPoles = numberOfPoles;
-        this.numberOfPlates = numberOfPlates;
-        this.numberOfRafters = numberOfRafters;
-        this.priceOfPole = priceOfPole;
-        this.priceOfPlate = priceOfPlate;
-        this.priceOfRafter = priceOfRafter;
-    }
 
 
     //TODO: Given height, length and width. Calculate the number of poles, plates and rafters needed.
 
 
-//    public PartsList calculatePartsList(int height, int length, int width) {
-//        Lumber pole = calculatePole(height);
-//        int numberOfPoles = calculateNumberOfPoles(length, width);
-//        int numberOfPlates = calculateNumberOfPlates(width);
-//        Lumber plate =
-//        int numberOfRafters = calculateNumberOfRafters(length);
-//        Lumber rafter =
-//
-//        return new PartsList(pole, plate, rafter, numberOfPoles, numberOfPlates, numberOfRafters, priceOfPole, priceOfPlate, priceOfRafter);
-//    }
+    public PartsList(int height, int length, int width) throws DatabaseException {
+        this.pole = calculatePole(height);
+        this.plate = calculatePlate(width);
+        this.rafter = calculateRafter(length, width);
+        this.numberOfPoles = calculateNumberOfPoles(length, width);
+        this.numberOfPlates = calculateNumberOfPlates(width);
+        this.numberOfRafters = calculateNumberOfRafters(length);
+
+
+        this.priceOfPole = calculatePriceOfPole();
+        this.priceOfPlate = calculatePriceOfPlate();
+        this.priceOfRafter = calculatePriceOfRafter();
+  }
+
+    private int calculatePriceOfRafter() {
+        return 0; //TODO: calculate price of rafter
+    }
+
+    private int calculatePriceOfPlate() {
+        return 0; //TODO: calculate price of plate
+    }
+
+    private int calculatePriceOfPole() {
+        return 0; //TODO: calculate price of pole
+    }
 
     private ConnectionPool connectionPool;
 
@@ -80,10 +84,10 @@ public class PartsList {
                 return lumberType;
                 }
             }
-        throw new IllegalArgumentException("No rafter found with the required dimensions.");
+        throw new IllegalArgumentException("No rafter found with the required width.");
     }
 
-    public Lumber calculateRafters(int length, int width) throws DatabaseException {
+    public Lumber calculateRafter(int length, int width) throws DatabaseException {
         LumberType rafterType = calculateRafterType(width);
         ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
         Collections.sort(lrafter);
@@ -96,8 +100,18 @@ public class PartsList {
         throw new IllegalArgumentException("No rafter found with the required length.");
     }
 
-    public Lumber calculatePlate(int length, int width) {
-        return null;
+    public Lumber calculatePlate(int width) throws DatabaseException {
+        LumberType rafterType = calculateRafterType(width);
+        ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
+        Collections.sort(lrafter);
+        int minlength = calculateLengthOfLumber(width);
+        for (Lumber lumber : lrafter) {
+            if (lumber.getLength() >= minlength) {
+                return lumber;
+            }
+        }
+        throw new IllegalArgumentException("No plates found with the required length.");
+
     }
 
     public static int calculateNumberOfPolesWidth(int width) {
