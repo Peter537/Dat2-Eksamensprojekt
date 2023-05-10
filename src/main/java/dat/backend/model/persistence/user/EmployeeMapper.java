@@ -1,7 +1,10 @@
-package dat.backend.model.persistence;
+package dat.backend.model.persistence.user;
 
-import dat.backend.model.entities.*;
+import dat.backend.model.entities.user.Department;
+import dat.backend.model.entities.user.Employee;
+import dat.backend.model.entities.user.Position;
 import dat.backend.model.exceptions.*;
+import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.services.Validation;
 
 import java.sql.Connection;

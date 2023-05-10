@@ -1,11 +1,11 @@
 package dat.backend.control;
 
 import dat.backend.model.config.ApplicationStart;
-import dat.backend.model.entities.Employee;
+import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.persistence.EmployeeFacade;
+import dat.backend.model.persistence.user.EmployeeFacade;
 import dat.backend.model.services.Validation;
 
 import javax.servlet.ServletException;
@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Optional;
 
 @WebServlet(name = "change-employee-phonenumber", value = "/change-employee-phonenumber")
 public class ChangeEmployeePhoneNumber extends HttpServlet {

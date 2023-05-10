@@ -1,11 +1,12 @@
-package dat.backend.model.persistence;
+package dat.backend.model.persistence.user;
 
-import dat.backend.model.entities.Address;
-import dat.backend.model.entities.Department;
-import dat.backend.model.entities.Zip;
+import dat.backend.model.entities.user.Address;
+import dat.backend.model.entities.user.Department;
+import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.DepartmentNotFoundException;
 import dat.backend.model.exceptions.ZipNotFoundException;
+import dat.backend.model.persistence.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

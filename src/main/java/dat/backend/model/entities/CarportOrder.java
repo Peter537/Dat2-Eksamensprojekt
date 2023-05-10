@@ -1,5 +1,9 @@
 package dat.backend.model.entities;
 
+import dat.backend.model.entities.user.Address;
+import dat.backend.model.entities.user.Customer;
+import dat.backend.model.entities.user.Employee;
+
 import java.util.List;
 
 public class CarportOrder {

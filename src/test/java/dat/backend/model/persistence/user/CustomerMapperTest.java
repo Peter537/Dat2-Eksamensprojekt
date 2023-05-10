@@ -1,8 +1,9 @@
-package dat.backend.model.persistence;
+package dat.backend.model.persistence.user;
 
-import dat.backend.model.entities.Customer;
-import dat.backend.model.entities.Zip;
+import dat.backend.model.entities.user.Customer;
+import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.*;
+import dat.backend.model.persistence.ConnectionPool;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
