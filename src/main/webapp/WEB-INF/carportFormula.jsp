@@ -15,6 +15,46 @@
     </jsp:attribute>
 
     <jsp:body>
+        <style>
+            /*below is formula*/
+
+            .btn {
+                padding: 10px 60px;
+                font-size: 20px;
+                cursor: pointer;
+
+            }
+
+            .popup {
+                width: 400px;
+                background: #fff;
+                border-radius: 6px;
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0.1);
+                text-align: center;
+                padding: 0 30px 30px;
+                color: #333;
+                visibility: hidden;
+                transition: transform 0.3s ease-in-out;
+            }
+
+
+            .popup img {
+                width: 100px;
+                margin: -50px;
+                border-radius: 50%;
+            }
+
+            .open-popup {
+                visibility: visible !important;
+                top: 50%;
+                transform: translate(-50%, -50%) scale(1);
+                transition: 0.3s ease-in-out;
+
+            }
+        </style>
 
 
         <section class="text-center">
@@ -45,28 +85,28 @@
                 </li>
             </ul>
 
-            <form>
+            <form action="change-customer-info" method="post">
                 <div class="tab-content" id="tab-content">
                     <div class="tab-pane fade show active" id="dimensions" role="tabpanel"
                          aria-labelledby="dimensions-tab"
                          tabindex="0">
 
                         <div class="mb-3 text-center">
-                            <label for="length" class="form-label">Carport Længde (mm)</label>
+                            <label for="length" class="form-label">Carport Længde (cm)</label>
                             <input style="height: 40px" class="form-control" id="length"
-                                   type="length" name="carportLength" placeholder="300 mm">
+                                   type="length" name="carportLength" placeholder="300 cm">
                         </div>
                         <div class="mb-3 text-center">
-                            <label for="width" class="form-label">Carport Bredde (mm)</label>
+                            <label for="width" class="form-label">Carport Bredde (cm)</label>
                             <input style="height: 40px" class="form-control" id="width"
-                                   type="width" name="carportWidth" placeholder="500 mm"></div>
+                                   type="width" name="carportWidth" placeholder="500 cm"></div>
                         <div class="mb-3 text-center">
-                            <label for="carportTag" class="form-label">Carport Højde (mm)</label>
+                            <label for="carportTag" class="form-label">Carport Højde (cm)</label>
                             <select class="btn btn-primary dropdown-toggle" aria-expanded="true"
                                     data-bs-toggle="dropdown" type="button" name="carportRoof" id="carportTag">
                                 <option value="0">Vælg tag</option>
                                 <option value="1">Fladt tag</option>
-                                <option value="2">Rejsning tag</option>
+                                <option disabled value="2">Rejsning tag</option>
                             </select>
                         </div>
 
@@ -105,11 +145,23 @@
                                 <input type="text" id="customerEmail" name="customerEmail"
                                        value="${sessionScope.customer.getEmail()}" class="form-control">
                             </div>
+                                <%--Popup--%>
+                            <div class="popup" id="popup">
+                                <div style="margin-bottom: 13%">
+                                    <img src="${pageContext.request.getContextPath()}/images/greenTickMark.jpg">
+                                </div>
+                                <h2>Thank you!</h2>
+                                <p>Your order has been submitted successfully</p>
+                                <button type="btn btn-primary" onclick="closePopup()">OK</button>
+                            </div>
+
+                                <%--                            popupend--%>
+
 
                             <div class="mb-3">
                                 <label for="customerPhone" class="form-label">Telefonnummer</label>
                                 <input type="text" id="customerPhone" name="customerPhone"
-                                       value="placeholder until programmed" class="form-control">
+                                       value="${sessionScope.customer.getPersonalPhoneNumber()}" class="form-control">
                             </div>
 
                             <div class="mb-3">
@@ -133,8 +185,8 @@
                         </div>
 
 
-                        <div>
-                            <input type="submit" class="btn btn-primary">Next</input>
+                        <div class="container">
+                            <button type="button" class="btn" onclick="openPopup()">Submit</button>
                         </div>
 
 
@@ -145,6 +197,21 @@
                 </div>
             </form>
         </section>
+
+        <script>
+            let popup = document.getElementById("popup");
+
+            function openPopup() {
+                popup.classList.add("open-popup");
+            }
+
+            function closePopup() {
+                popup.classList.remove("open-popup");
+            }
+
+
+        </script>
+
     </jsp:body>
 
 </t:pagetemplate>
