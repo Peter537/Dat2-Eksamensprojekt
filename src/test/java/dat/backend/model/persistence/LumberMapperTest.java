@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -89,6 +90,116 @@ public class LumberMapperTest {
 
         // Act
         Lumber lumber = LumberMapper.getLumberById(id, connectionPool).orElse(null);
+
+        // Assert
+        assertNotNull(lumber);
+        assertEquals(expectedLength, lumber.getLength());
+        assertEquals(expectedType, lumber.getLumberType());
+        assertEquals(expectedPrice, lumber.getPrice());
+        assertEquals(expectedAmount, lumber.getAmount());
+    }
+
+    @Test
+    void testInvalidGetLumberById() throws DatabaseException {
+        // Arrange
+        int id = 100;
+
+        // Assert throws exception
+        assertThrows(DatabaseException.class, () -> LumberMapper.getLumberById(id, connectionPool));
+    }
+
+    @Test
+    void testValidGetLumberByType() throws DatabaseException {
+        // Arrange
+        LumberType type = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
+        assert type != null;
+        int expectedLength = 180;
+        int expectedAmount = 1000;
+        int expectedPrice = Math.round(type.getMeterPrice() * expectedLength);
+
+        // Act
+        ArrayList<Lumber> lumber = LumberMapper.getLumberByType(type, connectionPool).orElse(null);
+        assert lumber != null;
+        assertEquals(2, lumber.size());
+
+        for (Lumber l : lumber) {
+            // Assert
+            assertNotNull(l);
+            assertNotNull(l.getLumberType());
+        }
+    }
+
+    @Test
+    void testInvalidGetLumberByType() throws DatabaseException {
+        // Arrange
+        LumberType type = LumbertypeMapper.getLumbertypeById(3, connectionPool).orElse(null);
+        assert type != null;
+
+        // Assert throws exception
+        assertThrows(DatabaseException.class, () -> LumberMapper.getLumberByType(type, connectionPool));
+    }
+
+    @Test
+    void testValidGetLumberByLength() throws DatabaseException {
+        // Arrange
+        LumberType type = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
+        assert type != null;
+        int expectedLength = 180;
+        int expectedAmount = 1000;
+        int expectedPrice = Math.round(type.getMeterPrice() * expectedLength);
+
+        // Act
+        ArrayList<Lumber> lumber = LumberMapper.getLumberByLength(expectedLength, connectionPool).orElse(null);
+        assert lumber != null;
+        assertEquals(1, lumber.size());
+
+        for (Lumber l : lumber) {
+            // Assert
+            assertNotNull(l);
+            assertEquals(expectedLength, l.getLength());
+            assertEquals(type, l.getLumberType());
+            assertEquals(expectedPrice, l.getPrice());
+            assertEquals(expectedAmount, l.getAmount());
+        }
+    }
+
+    @Test
+    void testInvalidGetLumberByLength() throws DatabaseException {
+        // Arrange
+        int length = 100;
+
+        // Assert throws exception
+        assertThrows(DatabaseException.class, () -> LumberMapper.getLumberByLength(length, connectionPool));
+    }
+
+    @Test
+    void testValidGetAllLumber() throws DatabaseException {
+        // Arrange
+        int expectedAmount = 3;
+
+        // Act
+        ArrayList<Lumber> lumber = LumberMapper.getAllLumber(connectionPool).orElse(null);
+        assert lumber != null;
+        assertEquals(expectedAmount, lumber.size());
+
+        for (Lumber l : lumber) {
+            // Assert
+            assertNotNull(l);
+            assertNotNull(l.getLumberType());
+        }
+    }
+
+    @Test
+    void testCreateLumber() throws DatabaseException {
+        // Arrange
+        int expectedLength = 200;
+        LumberType expectedType = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
+        assert expectedType != null;
+        int expectedAmount = 1000;
+        int expectedPrice = Math.round(expectedType.getMeterPrice() * expectedLength);
+
+        // Act
+        Lumber lumber = LumberMapper.createLumber(expectedLength, expectedType.getId(), expectedAmount, connectionPool).orElse(null);
 
         // Assert
         assertNotNull(lumber);
