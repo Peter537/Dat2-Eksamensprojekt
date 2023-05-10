@@ -12,7 +12,7 @@ public abstract class TestDatabase {
     public TestDatabase() {
         connectionPool = new ConnectionPool(System.getenv("JDBC_USER"), System.getenv("JDBC_PASSWORD"), System.getenv("JDBC_CONNECTION_STRING"));
     }
-    
+
     public abstract void setUpClass();
     public abstract void setUp();
     @Test
