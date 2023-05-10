@@ -5,8 +5,8 @@ import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
-import dat.backend.model.exceptions.ZipNotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.user.CustomerFacade;
 import dat.backend.model.persistence.user.ZipFacade;
@@ -75,7 +75,7 @@ public class ChangeCustomerInfo extends HttpServlet {
 
                     CustomerFacade.updateAddress(customer, i, street, zip, connectionPool);
 
-                } catch (DatabaseException | ZipNotFoundException e) {
+                } catch (DatabaseException | NotFoundException e) {
                     request.setAttribute("errormessage", "zip kunne ikke findes");
                 }
             }
