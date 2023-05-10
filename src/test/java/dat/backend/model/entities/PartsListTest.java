@@ -135,4 +135,5 @@ class PartsListTest {
         int actual = PartsList.calculateLengthOfLumber(800);
         assertEquals(expected, actual);
     }
+
 }
