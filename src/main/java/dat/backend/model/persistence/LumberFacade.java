@@ -8,8 +8,12 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class LumberFacade {
-    public static Optional<Lumber> createLumber(int id, int length, int lumberType, int amount, ConnectionPool connectionPool) throws DatabaseException, DatabaseException {
-        return LumberMapper.createLumber(id, length, lumberType, amount, connectionPool);
+    public static Optional<Lumber> createLumber(float length, int lumberType, int amount, ConnectionPool connectionPool) throws DatabaseException, DatabaseException {
+        return LumberMapper.createLumber(length, lumberType, amount, connectionPool);
+    }
+
+    public static Optional<ArrayList<Lumber>> getAllLumber(ConnectionPool connectionPool) throws DatabaseException {
+        return LumberMapper.getAllLumber(connectionPool);
     }
 
     public static Optional<Lumber> getLumberById(int id, ConnectionPool connectionPool) throws DatabaseException {
