@@ -59,9 +59,9 @@ class EmployeeMapperTest {
                 // TODO: Insert a few users - insert rows into your own tables here
                 stmt.execute("INSERT INTO employee (email, name, password, fk_position, fk_department_id) " +
                         "VALUES ('ben@johannesfog.dk', 'ben', '123', 'Sales', 1), ('allan@johannesfog.dk', 'allan', '1234', 'Sales', 1), ('alex@johannesfog.dk', 'alex', '12345', 'Sales', 1)");
-                stmt.execute("INSERT INTO department (address, zipcode, name) VALUES ('Lyngby Adresse', 2800, 'Lyngby Trælast')");
+                stmt.execute("INSERT INTO department (address, zipcode, name) VALUES ('Lyngby Adresse', 2800, 'Lyngby Trælast'), ('Lyngby Adresse 2', 2800, 'Lyngby Trælast 2')");
                 stmt.execute("INSERT INTO zip (zipcode, city_name) VALUES (2800, 'Lyngby')");
-                stmt.execute("INSERT INTO position (position) VALUES ('Sales')");
+                stmt.execute("INSERT INTO position (position) VALUES ('Sales'), ('CEO')");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -109,7 +109,7 @@ class EmployeeMapperTest {
     }
 
     @Test
-    void testValidLogin() throws DatabaseException, EmployeeNotFoundException {
+    void testValidLogin() throws DatabaseException, EmployeeNotFoundException, ValidationException {
         Employee employee = EmployeeFacade.login("alex@johannesfog.dk", "12345", connectionPool);
         assertEquals(3, employee.getId());
         assertEquals("alex@johannesfog.dk", employee.getEmail());
@@ -129,7 +129,7 @@ class EmployeeMapperTest {
 
     @Test
     void testInvalidLoginNullPassword() throws DatabaseException {
-        assertThrows(EmployeeNotFoundException.class, () -> EmployeeFacade.login("alex@johannesfog.dk", null, connectionPool));
+        assertThrows(ValidationException.class, () -> EmployeeFacade.login("alex@johannesfog.dk", null, connectionPool));
     }
 
     @Test
@@ -195,5 +195,125 @@ class EmployeeMapperTest {
     void testInvalidUpdatePasswordNull() throws DatabaseException, EmployeeNotFoundException {
         Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, null, connectionPool));
+    }
+
+    @Test
+    void testValidUpdateName() throws DatabaseException, EmployeeNotFoundException, ValidationException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertEquals("ben", employee.getName());
+        EmployeeFacade.updateName(employee, "Benjamin", connectionPool);
+        assertEquals("Benjamin", employee.getName());
+    }
+
+    @Test
+    void testInvalidUpdateNameNull() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updateName(employee, null, connectionPool));
+    }
+
+    @Test
+    void testValidUpdatePersonalPhoneNumber() throws DatabaseException, EmployeeNotFoundException, ValidationException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertFalse(employee.getPersonalPhoneNumber().isPresent());
+        EmployeeFacade.updatePersonalPhoneNumber(employee, "87654321", connectionPool);
+        assertTrue(employee.getPersonalPhoneNumber().isPresent());
+        assertEquals("87654321", employee.getPersonalPhoneNumber().get());
+    }
+
+    @Test
+    void testValidUpdatePersonalPhoneNumberRemoved() throws DatabaseException, EmployeeNotFoundException, ValidationException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertFalse(employee.getPersonalPhoneNumber().isPresent());
+        EmployeeFacade.updatePersonalPhoneNumber(employee, "87654321", connectionPool);
+        assertTrue(employee.getPersonalPhoneNumber().isPresent());
+        assertEquals("87654321", employee.getPersonalPhoneNumber().get());
+        EmployeeFacade.updatePersonalPhoneNumber(employee, null, connectionPool);
+        assertFalse(employee.getPersonalPhoneNumber().isPresent());
+    }
+
+    @Test
+    void testInvalidUpdatePersonalPhoneNumberTooShort() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updatePersonalPhoneNumber(employee, "1234567", connectionPool));
+    }
+
+    @Test
+    void testInvalidUpdatePersonalPhoneNumberTooLong() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updatePersonalPhoneNumber(employee, "123456789012345678901", connectionPool));
+    }
+
+    @Test
+    void testInvalidUpdatePersonalPhoneNumberUsingLetters() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updatePersonalPhoneNumber(employee, "1234567a", connectionPool));
+    }
+
+    @Test
+    void testValidUpdateWorkPhoneNumber() throws DatabaseException, EmployeeNotFoundException, ValidationException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertFalse(employee.getWorkPhoneNumber().isPresent());
+        EmployeeFacade.updateWorkPhoneNumber(employee, "87654321", connectionPool);
+        assertTrue(employee.getWorkPhoneNumber().isPresent());
+        assertEquals("87654321", employee.getWorkPhoneNumber().get());
+    }
+
+    @Test
+    void testValidUpdateWorkPhoneNumberRemoved() throws DatabaseException, EmployeeNotFoundException, ValidationException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertFalse(employee.getWorkPhoneNumber().isPresent());
+        EmployeeFacade.updateWorkPhoneNumber(employee, "87654321", connectionPool);
+        assertTrue(employee.getWorkPhoneNumber().isPresent());
+        assertEquals("87654321", employee.getWorkPhoneNumber().get());
+        EmployeeFacade.updateWorkPhoneNumber(employee, null, connectionPool);
+        assertFalse(employee.getWorkPhoneNumber().isPresent());
+    }
+
+    @Test
+    void testInvalidUpdateWorkPhoneNumberTooShort() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updateWorkPhoneNumber(employee, "1234567", connectionPool));
+    }
+
+    @Test
+    void testInvalidUpdateWorkPhoneNumberTooLong() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updateWorkPhoneNumber(employee, "123456789012345678901", connectionPool));
+    }
+
+    @Test
+    void testInvalidUpdateWorkPhoneNumberUsingLetters() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updateWorkPhoneNumber(employee, "1234567a", connectionPool));
+    }
+
+    @Test
+    void testValidUpdatePosition() throws DatabaseException, EmployeeNotFoundException, PositionNotFoundException, ValidationException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertEquals("Sales", employee.getPosition().getPositionName());
+        Position position = PositionFacade.getPositionByPositionName("CEO", connectionPool);
+        EmployeeFacade.updatePosition(employee, position, connectionPool);
+        assertEquals("CEO", employee.getPosition().getPositionName());
+    }
+
+    @Test
+    void testInvalidUpdatePositionNull() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updatePosition(employee, null, connectionPool));
+    }
+
+    @Test
+    void testValidUpdateDepartment() throws DatabaseException, EmployeeNotFoundException, DepartmentNotFoundException, ValidationException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertEquals("Lyngby Trælast", employee.getDepartment().getDepartmentName());
+        Department department = DepartmentFacade.getDepartmentById(2, connectionPool);
+        EmployeeFacade.updateDepartment(employee, department, connectionPool);
+        assertEquals("Lyngby Trælast 2", employee.getDepartment().getDepartmentName());
+    }
+
+    @Test
+    void testInvalidUpdateDepartmentNull() throws DatabaseException, EmployeeNotFoundException {
+        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> EmployeeFacade.updateDepartment(employee, null, connectionPool));
     }
 }

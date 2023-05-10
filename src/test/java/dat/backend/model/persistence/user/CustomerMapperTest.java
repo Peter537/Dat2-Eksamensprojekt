@@ -4,6 +4,7 @@ import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.*;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.services.Validation;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -101,7 +102,12 @@ class CustomerMapperTest {
     }
 
     @Test
-    void testValidLogin() throws DatabaseException, CustomerNotFoundException {
+    void testInvalidGetCustomerByEmailNull() throws DatabaseException {
+        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.getCustomerByEmail(null, connectionPool));
+    }
+
+    @Test
+    void testValidLogin() throws DatabaseException, CustomerNotFoundException, ValidationException {
         Customer customer = CustomerFacade.login("alex@hotmail.com", "12345", connectionPool);
         assertEquals(3, customer.getId());
         assertEquals("alex@hotmail.com", customer.getEmail());
@@ -121,12 +127,17 @@ class CustomerMapperTest {
 
     @Test
     void testInvalidLoginNullPassword() throws DatabaseException {
-        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.login("alex@hotmail.com", null, connectionPool));
+        assertThrows(ValidationException.class, () -> CustomerFacade.login("alex@hotmail.com", null, connectionPool));
     }
 
     @Test
     void testInvalidLoginNullEmail() throws DatabaseException {
-        assertThrows(CustomerNotFoundException.class, () -> CustomerFacade.login(null, "12345", connectionPool));
+        assertThrows(ValidationException.class, () -> CustomerFacade.login(null, "12345", connectionPool));
+    }
+
+    @Test
+    void testInvalidLoginFogEmail() throws DatabaseException {
+        assertThrows(ValidationException.class, () -> CustomerFacade.login("test@johannesfog.dk", "12345", connectionPool));
     }
 
     @Test
@@ -259,5 +270,29 @@ class CustomerMapperTest {
         CustomerFacade.updateAddress(customer, 3, "Testvej 3", zip, connectionPool);
         assertTrue(customer.getAddress(3).isPresent());
         assertEquals("Testvej 3", customer.getAddress(3).get().getStreet());
+    }
+
+    @Test
+    void testValidUpdateAddress_1_Removed() throws DatabaseException, CustomerNotFoundException, ValidationException, ZipNotFoundException {
+        Zip zip = ZipFacade.getZipByZipCode(2800, connectionPool);
+        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        assertFalse(customer.getAddress(1).isPresent());
+        CustomerFacade.updateAddress(customer, 1, "Testvej 1", zip, connectionPool);
+        assertTrue(customer.getAddress(1).isPresent());
+        assertEquals("Testvej 1", customer.getAddress(1).get().getStreet());
+        CustomerFacade.updateAddress(customer, 1, null, null, connectionPool);
+        assertFalse(customer.getAddress(1).isPresent());
+    }
+
+    @Test
+    void testValidGetUserByIdAfterUpdateAddress() throws DatabaseException, CustomerNotFoundException, ValidationException, ZipNotFoundException {
+        Zip zip = ZipFacade.getZipByZipCode(2800, connectionPool);
+        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        assertFalse(customer.getAddress(1).isPresent());
+        CustomerFacade.updateAddress(customer, 1, "Testvej 1", zip, connectionPool);
+        assertTrue(customer.getAddress(1).isPresent());
+        assertEquals("Testvej 1", customer.getAddress(1).get().getStreet());
+        Customer customer2 = CustomerFacade.getCustomerById(1, connectionPool);
+        assertTrue(customer2.getAddress(1).isPresent());
     }
 }
