@@ -71,12 +71,29 @@ public class PartsList {
     }
 
 
-    public Lumber calculateRafter(int length, int width) throws DatabaseException {
+    public LumberType calculateRafterType(int width) throws DatabaseException {
         ArrayList<LumberType> lrafter = LumbertypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
         Collections.sort(lrafter);
         float dim = (float)calculateDimensions(width);
+        for (LumberType lumberType : lrafter) {
+            if (lumberType.getWidth() >= dim) {
+                return lumberType;
+                }
+            }
+        throw new IllegalArgumentException("No rafter found with the required dimensions.");
+    }
 
-        return null;
+    public Lumber calculateRafters(int length, int width) throws DatabaseException {
+        LumberType rafterType = calculateRafterType(width);
+        ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
+        Collections.sort(lrafter);
+        int minlength = calculateLengthOfLumber(length);
+        for (Lumber lumber : lrafter) {
+            if (lumber.getLength() >= minlength) {
+                return lumber;
+            }
+        }
+        throw new IllegalArgumentException("No rafter found with the required length.");
     }
 
     public Lumber calculatePlate(int length, int width) {
@@ -152,9 +169,7 @@ public class PartsList {
 
         int minlength = length / ((int) Math.ceil(length / 720.0));
 
-        // TODO: find lumbersizes in database and return the closest match greater than minlength.
-
-        return 0;
+        return minlength;
     }
 
 }
