@@ -45,32 +45,7 @@ class LumberMapper {
     }
 
     public static Optional<Lumber> createLumber(Lumber lumber, ConnectionPool connectionPool) throws DatabaseException {
-
-            String query = "INSERT INTO lumber (length, type, amount) VALUES (?, ?, ?)";
-            try (Connection connection = connectionPool.getConnection()) {
-                try (PreparedStatement statement = connection.prepareStatement(query, RETURN_GENERATED_KEYS)) {
-                    statement.setFloat(1, lumber.getLength());
-                    statement.setInt(2, lumber.getLumberType().getId());
-                    statement.setInt(3, lumber.getAmount());
-
-                    int rowsAffected = statement.executeUpdate();
-                    if (rowsAffected != 1) {
-                        throw new DatabaseException("Could not create lumber");
-                    }
-
-                    int id;
-                    ResultSet rs = statement.getGeneratedKeys();
-                    if (rs.next()) {
-                        id = rs.getInt(1);
-                    } else {
-                        throw new DatabaseException("Could not create lumber");
-                    }
-
-                    return getLumberById(id, connectionPool);
-                }
-            } catch (SQLException e) {
-                throw new DatabaseException(e, "Could not create lumber");
-            }
+        return createLumber(lumber.getLength(), lumber.getLumberType().getId(), lumber.getAmount(), connectionPool);
     }
 
     public static Optional<ArrayList<Lumber>> getAllLumber(ConnectionPool connectionPool) throws DatabaseException {

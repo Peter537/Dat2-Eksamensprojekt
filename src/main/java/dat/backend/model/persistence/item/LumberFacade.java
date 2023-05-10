@@ -13,6 +13,10 @@ public class LumberFacade {
         return LumberMapper.createLumber(length, lumberType, amount, connectionPool);
     }
 
+    public static Optional<Lumber> createLumber(Lumber lumber, ConnectionPool connectionPool) throws DatabaseException, DatabaseException {
+        return LumberMapper.createLumber(lumber, connectionPool);
+    }
+
     public static Optional<ArrayList<Lumber>> getAllLumber(ConnectionPool connectionPool) throws DatabaseException {
         return LumberMapper.getAllLumber(connectionPool);
     }
