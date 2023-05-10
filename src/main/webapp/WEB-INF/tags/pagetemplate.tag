@@ -33,10 +33,10 @@
             </div>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup2">
                 <div class="navbar-nav">
-                    <c:if test="${sessionScope.user == null }">
+                    <c:if test="${sessionScope.customer == null }"> <%--TODO: Fix user not working--%>
                         <a class="nav-item nav-link navtext link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
                     </c:if>
-                    <c:if test="${sessionScope.user != null }">
+                    <c:if test="${sessionScope.customer != null }">
                         <a class="nav-item nav-link navtext link" href="${pageContext.request.contextPath}/logout">Log out</a>
                     </c:if>
                     <a class="nav-item nav-link link">
@@ -44,7 +44,7 @@
                     </a>
                     <c:if test="${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount() > 0}">
                         <a class="nav-item nav-link navtext link" style="border: 0;" href="${pageContext.request.contextPath}/ToCart">(${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount()})</a>
-                    </c:if>
+                    </c:if> <%--TODO: Fix this so it has a valid target--%>
                 </div>
             </div>
 
