@@ -1,8 +1,14 @@
 package dat.backend.model.services;
 
+import dat.backend.model.entities.user.Department;
+import dat.backend.model.entities.user.Position;
 import dat.backend.model.exceptions.ValidationException;
 
 public class Validation {
+
+    public static void validateCustomer(String email, String password) throws ValidationException {
+        validateCustomer("Peter", email, password);
+    }
 
     public static void validateCustomer(String name, String email, String password) throws ValidationException {
         if (!isValidName(name)) {
@@ -84,5 +90,17 @@ public class Validation {
 
     private static boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("^[0-9]{8}$");
+    }
+
+    public static void validatePosition(Position newPosition) throws ValidationException {
+        if (newPosition == null) {
+            throw new ValidationException("Invalid position");
+        }
+    }
+
+    public static void validateDepartment(Department newDepartment) throws ValidationException {
+        if (newDepartment == null) {
+            throw new ValidationException("Invalid department");
+        }
     }
 }
