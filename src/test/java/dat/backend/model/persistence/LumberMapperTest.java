@@ -28,7 +28,7 @@ public class LumberMapperTest {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
 
-                // TODO: Create user table. Add your own tables here
+                // Create user table. Add your own tables here
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.lumber LIKE fogcarport.lumber;");
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.lumbertype LIKE fogcarport.lumbertype;");
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.type LIKE fogcarport.type;");
@@ -43,14 +43,14 @@ public class LumberMapperTest {
     void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
-                // TODO: Remove all rows from all tables - add your own tables here
+                // Remove all rows from all tables - add your own tables here
                 stmt.execute("DELETE FROM lumber");
                 stmt.execute("DELETE FROM lumbertype");
                 stmt.execute("DELETE FROM type");
                 stmt.execute("ALTER TABLE lumber AUTO_INCREMENT = 1;");
                 stmt.execute("ALTER TABLE lumbertype AUTO_INCREMENT = 1;");
 
-                // TODO: Insert a few lumbers - insert rows into your own tables here
+                // Insert a few lumbers - insert rows into your own tables here
                 stmt.execute("INSERT INTO type (type, displayname) " +
                         "VALUES ('RAFTER', 'Spærtræ'), ('POLE', 'Stolpe'), ('PLASTIC_ROOF', 'Plastic tag')");
                 stmt.execute("INSERT INTO lumbertype (thickness, width, type, meter_price) " +
