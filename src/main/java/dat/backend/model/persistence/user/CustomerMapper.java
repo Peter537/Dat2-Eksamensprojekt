@@ -1,9 +1,10 @@
-package dat.backend.model.persistence;
+package dat.backend.model.persistence.user;
 
-import dat.backend.model.entities.Address;
-import dat.backend.model.entities.Customer;
-import dat.backend.model.entities.Zip;
+import dat.backend.model.entities.user.Address;
+import dat.backend.model.entities.user.Customer;
+import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.*;
+import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.services.Validation;
 
 import java.sql.Connection;

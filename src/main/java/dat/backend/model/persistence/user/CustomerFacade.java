@@ -1,11 +1,12 @@
-package dat.backend.model.persistence;
+package dat.backend.model.persistence.user;
 
-import dat.backend.model.entities.Customer;
-import dat.backend.model.entities.Zip;
+import dat.backend.model.entities.user.Customer;
+import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.CustomerAlreadyExistsException;
 import dat.backend.model.exceptions.CustomerNotFoundException;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.ValidationException;
+import dat.backend.model.persistence.ConnectionPool;
 
 public class CustomerFacade {
 

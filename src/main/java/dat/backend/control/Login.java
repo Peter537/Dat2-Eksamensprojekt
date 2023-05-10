@@ -1,14 +1,14 @@
 package dat.backend.control;
 
 import dat.backend.model.config.ApplicationStart;
-import dat.backend.model.entities.Customer;
-import dat.backend.model.entities.Employee;
+import dat.backend.model.entities.user.Customer;
+import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.CustomerNotFoundException;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.EmployeeNotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.persistence.CustomerFacade;
-import dat.backend.model.persistence.EmployeeFacade;
+import dat.backend.model.persistence.user.CustomerFacade;
+import dat.backend.model.persistence.user.EmployeeFacade;
 import dat.backend.model.services.Validation;
 
 import javax.servlet.ServletException;

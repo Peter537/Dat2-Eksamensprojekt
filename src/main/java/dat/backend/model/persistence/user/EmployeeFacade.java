@@ -1,14 +1,13 @@
-package dat.backend.model.persistence;
+package dat.backend.model.persistence.user;
 
-import dat.backend.model.entities.Department;
-import dat.backend.model.entities.Employee;
-import dat.backend.model.entities.Position;
+import dat.backend.model.entities.user.Department;
+import dat.backend.model.entities.user.Employee;
+import dat.backend.model.entities.user.Position;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.EmployeeAlreadyExistsException;
 import dat.backend.model.exceptions.EmployeeNotFoundException;
 import dat.backend.model.exceptions.ValidationException;
-
-import java.util.Optional;
+import dat.backend.model.persistence.ConnectionPool;
 
 public class EmployeeFacade {
 

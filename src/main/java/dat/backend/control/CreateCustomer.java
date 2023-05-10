@@ -1,12 +1,12 @@
 package dat.backend.control;
 
 import dat.backend.model.config.ApplicationStart;
-import dat.backend.model.entities.Customer;
+import dat.backend.model.entities.user.Customer;
 import dat.backend.model.exceptions.CustomerAlreadyExistsException;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.persistence.CustomerFacade;
+import dat.backend.model.persistence.user.CustomerFacade;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
