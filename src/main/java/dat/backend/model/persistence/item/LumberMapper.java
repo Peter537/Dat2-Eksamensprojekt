@@ -67,7 +67,7 @@ class LumberMapper {
                         throw new DatabaseException("Could not get lumber");
                     }
 
-                    int price = Math.round(lumberType.getMeterPrice() * length);
+                    int price = calcPrice(length, lumberType.getMeterPrice());
 
                     Lumber lumber = new Lumber(id, length, lumberType, price, amount);
                     lumberlist.add(lumber);
@@ -105,7 +105,7 @@ class LumberMapper {
                 }
 
                 int amount = resultSet.getInt("amount");
-                int price = Math.round(lumberType.getMeterPrice() * length);
+                int price = calcPrice(length, lumberType.getMeterPrice());
 
                 return Optional.of(new Lumber(id, length, lumberType, price, amount));
             }
@@ -128,7 +128,7 @@ class LumberMapper {
                     int lumberid = resultSet.getInt("id");
                     int length = resultSet.getInt("length");
                     int amount = resultSet.getInt("amount");
-                    int price = Math.round(lumberType.getMeterPrice() * length);
+                    int price = calcPrice(length, lumberType.getMeterPrice());
 
                     Lumber lumber = new Lumber(lumberid, length, lumberType, price, amount);
                     lumberlist.add(lumber);
@@ -163,24 +163,28 @@ class LumberMapper {
                     Optional<LumberType> lumberTypeOptional = LumbertypeFacade.getLumbertypeById(resultSet.getInt("type"), connectionPool);
                     LumberType lumberType;
                     if (lumberTypeOptional.isPresent()) {
-                            lumberType = lumberTypeOptional.get();
-                        } else {
-                            throw new DatabaseException("Could not get lumber by length");
-                        }
-                        int price = Math.round(lumberType.getMeterPrice() * length);
-
-                        Lumber lumber = new Lumber(lumberid, length, lumberType, price, amount);
-                        lumberlist.add(lumber);
-                    }
-
-                    if (lumberlist.size() == 0) {
+                        lumberType = lumberTypeOptional.get();
+                    } else {
                         throw new DatabaseException("Could not get lumber by length");
                     }
+                    int price = calcPrice(length, lumberType.getMeterPrice());
 
-                    return Optional.of(lumberlist);
+                    Lumber lumber = new Lumber(lumberid, length, lumberType, price, amount);
+                    lumberlist.add(lumber);
                 }
-            } catch (SQLException e) {
-                throw new DatabaseException(e, "Could not get lumber by length");
+
+                if (lumberlist.size() == 0) {
+                    throw new DatabaseException("Could not get lumber by length");
+                }
+
+                return Optional.of(lumberlist);
             }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not get lumber by length");
         }
     }
+
+    public static int calcPrice(float length, float meter_price) {
+        return Math.round(length * (meter_price / 100));
+    }
+}
