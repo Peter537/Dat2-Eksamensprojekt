@@ -1,5 +1,18 @@
 package dat.backend.model.entities;
 
+import dat.backend.model.config.ApplicationStart;
+import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.LumberFacade;
+import dat.backend.model.persistence.LumbertypeFacade;
+
+import javax.servlet.ServletException;
+
+import java.util.ArrayList;
+import java.util.Optional;
+
+import static dat.backend.model.persistence.LumbertypeFacade.getLumbertypeByType;
+
 public class PartsList {
 
     private Lumber pole; // stolpe
@@ -42,11 +55,23 @@ public class PartsList {
 //        return new PartsList(pole, plate, rafter, numberOfPoles, numberOfPlates, numberOfRafters, priceOfPole, priceOfPlate, priceOfRafter);
 //    }
 
+    private ConnectionPool connectionPool;
 
-    public Lumber calculatePole(int height) {
-        // TODO: set the pole length to the height of the carport + 90 cm to be dug into the ground + the width of the plate (same as the rafter).
-        return null;
+
+    public Lumber calculatePole(int height) throws DatabaseException {
+        LumberType pole = getLumbertypeByType("POLE", connectionPool).get().get(0);
+        ArrayList<Lumber> lpole = LumberFacade.getLumberByType(pole, connectionPool).get();
+
+        int minheight = height + 90; //TODO: add width of plate
+
+        for (Lumber lumber : lpole) {
+            if (lumber.getLength() >= minheight) {
+                return lumber;
+            }
+        }
+        throw new IllegalArgumentException("No pole found with the required length.");
     }
+
 
     public Lumber calculateRafter(int length, int width) {
        // new Lumber();
