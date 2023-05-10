@@ -24,6 +24,10 @@ public class Validation {
         }
     }
 
+    public static void validateEmployee(String email, String password) throws ValidationException {
+        validateEmployee("Peter", email, password);
+    }
+
     public static void validateEmployee(String name, String email, String password) throws ValidationException {
         if (!isValidName(name)) {
             throw new ValidationException("Invalid name");
