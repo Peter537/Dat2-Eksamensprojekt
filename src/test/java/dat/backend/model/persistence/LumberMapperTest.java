@@ -16,9 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class LumberMapperTest {
-    private final static String USER = "root";
-    private final static String PASSWORD = "123";
-    private final static String URL = "jdbc:mysql://localhost:3306/fogcarport_test?serverTimezone=CET&allowPublicKeyRetrieval=true&useSSL=false";
 
     private static ConnectionPool connectionPool;
 
@@ -100,7 +97,7 @@ public class LumberMapperTest {
     }
 
     @Test
-    void testInvalidGetLumberById() throws DatabaseException {
+    void testInvalidGetLumberById() {
         // Arrange
         int id = 100;
 
@@ -113,9 +110,6 @@ public class LumberMapperTest {
         // Arrange
         LumberType type = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
         assert type != null;
-        int expectedLength = 180;
-        int expectedAmount = 1000;
-        int expectedPrice = Math.round(type.getMeterPrice() * expectedLength);
 
         // Act
         ArrayList<Lumber> lumber = LumberMapper.getLumberByType(type, connectionPool).orElse(null);
@@ -164,7 +158,7 @@ public class LumberMapperTest {
     }
 
     @Test
-    void testInvalidGetLumberByLength() throws DatabaseException {
+    void testInvalidGetLumberByLength() {
         // Arrange
         int length = 100;
 
