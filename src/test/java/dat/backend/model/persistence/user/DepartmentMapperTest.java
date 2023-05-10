@@ -26,7 +26,6 @@ class DepartmentMapperTest {
     @BeforeAll
     public static void setUpClass() {
         connectionPool = new ConnectionPool(USER, PASSWORD, URL);
-
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // Create test database - if not exist

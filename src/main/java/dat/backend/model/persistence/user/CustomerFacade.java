@@ -10,7 +10,7 @@ import dat.backend.model.persistence.ConnectionPool;
 
 public class CustomerFacade {
 
-    public static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException {
+    public static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, CustomerNotFoundException, ValidationException {
         return CustomerMapper.login(email, password, connectionPool);
     }
 

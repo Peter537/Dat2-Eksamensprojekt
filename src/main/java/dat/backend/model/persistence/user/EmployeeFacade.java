@@ -11,7 +11,7 @@ import dat.backend.model.persistence.ConnectionPool;
 
 public class EmployeeFacade {
 
-    public static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException {
+    public static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, EmployeeNotFoundException, ValidationException {
         return EmployeeMapper.login(email, password, connectionPool);
     }
 
@@ -43,11 +43,11 @@ public class EmployeeFacade {
         EmployeeMapper.updateWorkPhoneNumber(employee, newPhoneNumber, connectionPool);
     }
 
-    public static void updatePosition(Employee employee, Position newPosition, ConnectionPool connectionPool) throws DatabaseException {
+    public static void updatePosition(Employee employee, Position newPosition, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         EmployeeMapper.updatePosition(employee, newPosition, connectionPool);
     }
 
-    public static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException {
+    public static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         EmployeeMapper.updateDepartment(employee, newDepartment, connectionPool);
     }
 }
