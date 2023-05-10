@@ -1,7 +1,8 @@
-package dat.backend.model.persistence;
+package dat.backend.model.persistence.order;
 
 import dat.backend.model.entities.CarportOrder;
 import dat.backend.model.entities.OrderStatus;
+import dat.backend.model.persistence.ConnectionPool;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,7 @@ package dat.backend.model.entities;
 
 import java.util.Objects;
 
-public class Lumber extends Item{
+public class Lumber extends Item implements Comparable<Lumber>{
 
     private int length;
     private LumberType lumberType;
@@ -69,5 +69,10 @@ public class Lumber extends Item{
                 ", lumberType=" + this.lumberType +
                 ", price=" + this.getPrice() +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Lumber other) {
+        return Integer.compare(this.length, other.length);
     }
 }
