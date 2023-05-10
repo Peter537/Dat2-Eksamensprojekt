@@ -6,11 +6,19 @@ public class Lumber extends Item{
 
     private int length;
     private LumberType lumberType;
+    private int amount;
 
     public Lumber(int id, int length, LumberType lumberType, int price) {
         super(id, price);
         this.length = length;
         this.lumberType = lumberType;
+    }
+
+    public Lumber(int id, int length, LumberType lumberType, int price, int amount) {
+        super(id, price);
+        this.length = length;
+        this.lumberType = lumberType;
+        this.amount = amount;
     }
 
 
@@ -28,6 +36,14 @@ public class Lumber extends Item{
 
     public void setLumberType(LumberType lumberType) {
         this.lumberType = lumberType;
+    }
+
+    public int getAmount() {
+    	return this.amount;
+    }
+
+    public void setAmount(int amount) {
+    	this.amount = amount;
     }
 
     @Override
