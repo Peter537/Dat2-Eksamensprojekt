@@ -21,6 +21,7 @@
     </jsp:attribute>
 
     <jsp:body>
+
         <c:if test="${sessionScope.user == null}">
             <jsp:forward page="login"/>
         </c:if>
@@ -193,7 +194,7 @@
 
                                 <c:choose>
                                     <c:when test="${sessionScope.user.getAddress(3).present}">
-                                        <p>Adresse 2: ${sessionScope.user.getAddress(3).get().getAddress()}</p>
+                                        <p>Adresse 3: ${sessionScope.user.getAddress(3).get().getAddress()}</p>
                                     </c:when>
                                     <c:otherwise>
                                         <p>Adresse 3: ikke sat</p>
