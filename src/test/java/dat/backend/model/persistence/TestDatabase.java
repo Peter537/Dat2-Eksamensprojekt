@@ -13,20 +13,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class TestDatabase {
-    protected ConnectionPool connectionPool;
-    public TestDatabase() {
-        connectionPool = new ConnectionPool(System.getenv("JDBC_USER"), System.getenv("JDBC_PASSWORD"), System.getenv("JDBC_CONNECTION_STRING"));
-    }
 
-    public abstract void setUp();
+    protected ConnectionPool connectionPool;
+
+    public TestDatabase() {
+        this.connectionPool = new ConnectionPool(System.getenv("JDBC_USER"), System.getenv("JDBC_PASSWORD"), System.getenv("JDBC_CONNECTION_STRING"));
+    }
 
     @BeforeAll
     public void setUpClass() {
-        connectionPool.getDataSource().close();
-        connectionPool = null;
-        connectionPool = new ConnectionPool(System.getenv("JDBC_USER"), System.getenv("JDBC_PASSWORD"), System.getenv("JDBC_CONNECTION_STRING"));
-
-        try (Connection testConnection = connectionPool.getConnection()) {
+        this.connectionPool.getDataSource().close();
+        this.connectionPool = null;
+        this.connectionPool = new ConnectionPool(System.getenv("JDBC_USER"), System.getenv("JDBC_PASSWORD"), System.getenv("JDBC_CONNECTION_STRING"));
+        try (Connection testConnection = this.connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
@@ -50,20 +49,21 @@ public abstract class TestDatabase {
         }
     }
 
+    public abstract void setUp();
+
     @Test
     void testConnection() throws SQLException {
-        Connection connection = connectionPool.getConnection();
+        Connection connection = this.connectionPool.getConnection();
         assertNotNull(connection);
         assertTrue(connection.isValid(1));
         assertFalse(connection.isClosed());
-
         connection.close();
         assertTrue(connection.isClosed());
         assertFalse(connection.isValid(1));
     }
 
     @AfterAll
-    void closeConnections() {
-        connectionPool.close();
+    void closeConnectionPool() {
+        this.connectionPool.close();
     }
 }
