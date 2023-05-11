@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class RoofFacade {
+
     public static Optional<Roof> createRoof(float squaremeterprice, String type, ConnectionPool connectionPool) throws DatabaseException {
         return RoofMapper.createRoof(squaremeterprice, type, connectionPool);
     }
