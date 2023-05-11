@@ -56,16 +56,8 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
-    static CarportOrder createCarportOrder(Customer customer,
-                                           Address address,
-                                           float width,
-                                           float length,
-                                           float minHeight,
-                                           Roof roof,
-                                           ToolRoom toolRoom,
-                                           String remarks,
-                                           ConnectionPool connectionPool) throws DatabaseException {
-        String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, ToolRoom toolRoom, String remarks, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, customer.getEmail());
