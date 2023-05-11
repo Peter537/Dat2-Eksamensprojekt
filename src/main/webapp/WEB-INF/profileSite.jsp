@@ -21,6 +21,9 @@
     </jsp:attribute>
 
     <jsp:body>
+        <c:if test="${sessionScope.user == null}">
+            <jsp:forward page="login"/>
+        </c:if>
         <script src="${pageContext.request.contextPath}/scripts/profileSiteScript.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profileSiteStyle.css">
 
@@ -69,11 +72,11 @@
 
                 <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
 
-                    <p>Name: ${sessionScope.customer.getName()}</p>
-                    <p>Email: ${sessionScope.customer.getEmail()}</p>
+                    <p>Name: ${sessionScope.user.getName()}</p>
+                    <p>Email: ${sessionScope.user.getEmail()}</p>
                     <c:choose>
-                        <c:when test="${sessionScope.customer.personalPhoneNumber.present}">
-                            <p>personligt nummer: ${sessionScope.customer.personalPhoneNumber.get()}</p>
+                        <c:when test="${sessionScope.user.personalPhoneNumber.present}">
+                            <p>personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
                         </c:when>
                         <c:otherwise>
                             <p>personligt nummer: ikke sat</p>
@@ -84,7 +87,7 @@
                 </div>
                 <div class="col-4 text-center">
                     <h1>Velkommen </h1>
-                    <h1>${sessionScope.customer.getName()}</h1>
+                    <h1>${sessionScope.user.getName()}</h1>
                 </div>
 
 
@@ -164,23 +167,24 @@
                         </div>
 
                         <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
-                            <p>Name: ${sessionScope.customer.getName()}</p>
-                            <p>Email: ${sessionScope.customer.getEmail()}</p>
+                            <p>Name: ${sessionScope.user.getName()}</p>
+                            <p>Email: ${sessionScope.user.getEmail()}</p>
                             <c:choose>
-                                <c:when test="${sessionScope.customer.personalPhoneNumber.present}">
-                                    <p>personligt nummer: ${sessionScope.customer.personalPhoneNumber.get()}</p>
+                                <c:when test="${sessionScope.user.personalPhoneNumber.present}">
+                                    <p>personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
                                 </c:when>
                                 <c:otherwise>
                                     <p>personligt nummer: ikke sat</p>
                                 </c:otherwise>
                             </c:choose>
                             <div class="row adresses">
-                                <c:if test="${sessionScope.customer.getAddress(1).present}">
-                                    <p>Adresse 1: ${sessionScope.customer.getAddress(1).get()}</p>
+                                <c:if test="${sessionScope.user.getAddress(1).present}">
+                                    <p>Adresse 1: ${sessionScope.user.getAddress(1).get().getAddress()}</p>
                                 </c:if>
+
                                 <c:choose>
-                                    <c:when test="${sessionScope.customer.getAddress(2).present}">
-                                        <p>Adresse 2: ${sessionScope.customer.getAddress(2).get()}</p>
+                                    <c:when test="${sessionScope.user.getAddress(2).present}">
+                                        <p>Adresse 2: ${sessionScope.user.getAddress(2).get().getAddress()}</p>
                                     </c:when>
                                     <c:otherwise>
                                         <p>Adresse 2 ikke sat</p>
@@ -188,8 +192,8 @@
                                 </c:choose>
 
                                 <c:choose>
-                                    <c:when test="${sessionScope.customer.getAddress(3).present}">
-                                        <p>Adresse 2: ${sessionScope.customer.getAddress(3).get()}</p>
+                                    <c:when test="${sessionScope.user.getAddress(3).present}">
+                                        <p>Adresse 2: ${sessionScope.user.getAddress(3).get().getAddress()}</p>
                                     </c:when>
                                     <c:otherwise>
                                         <p>Adresse 3: ikke sat</p>
@@ -231,8 +235,8 @@
                         </div>
 
                         <c:choose>
-                            <c:when test="${sessionScope.customer.personalPhoneNumber.present}">
-                            <c:set var="personalPhoneNumber" value="${sessionScope.customer.personalPhoneNumber.get()}"/>
+                            <c:when test="${sessionScope.user.personalPhoneNumber.present}">
+                            <c:set var="personalPhoneNumber" value="${sessionScope.user.personalPhoneNumber.get()}"/>
                         </c:when>
                         <c:otherwise>
                             <c:set var="personalPhoneNumber" value="ikke sat"/>
@@ -257,8 +261,8 @@
 
 
                                 <c:choose>
-                                    <c:when test="${sessionScope.customer.address1.present}">
-                                    <c:set var="address1" value="${sessionScope.customer.address1.get().getStreet()}"/>
+                                    <c:when test="${sessionScope.user.address1.present}">
+                                    <c:set var="address1" value="${sessionScope.user.address1.get().getStreet()}"/>
                                     </c:when>
                                     <c:otherwise>
                                     <c:set var="address1" value="ikke sat"/>
@@ -266,8 +270,8 @@
                                 </c:choose>
 
                                <c:choose>
-                                   <c:when test="${sessionScope.customer.address2.present}">
-                                       <c:set var="address2" value="${sessionScope.customer.address2.get().getStreet()}"/>
+                                   <c:when test="${sessionScope.user.address2.present}">
+                                       <c:set var="address2" value="${sessionScope.user.address2.get().getStreet()}"/>
                                      </c:when>
                                      <c:otherwise>
                                           <c:set var="address2" value="ikke sat"/>
@@ -275,8 +279,8 @@
                                </c:choose>
 
                                 <c:choose>
-                                    <c:when test="${sessionScope.customer.address3.present}">
-                                        <c:set var="address3" value="${sessionScope.customer.address3.get().getStreet()}"/>
+                                    <c:when test="${sessionScope.user.address3.present}">
+                                        <c:set var="address3" value="${sessionScope.user.address3.get().getStreet()}"/>
                                     </c:when>
                                     <c:otherwise>
                                         <c:set var="address3" value="ikke sat"/>
@@ -285,8 +289,8 @@
 
 
                                 <c:choose>
-                                    <c:when test="${sessionScope.customer.getAddress(1).present}">
-                                        <c:set var="zip1" value="${sessionScope.customer.getAddress(1).get().zip.getZipCode()}"/>
+                                    <c:when test="${sessionScope.user.getAddress(1).present}">
+                                        <c:set var="zip1" value="${sessionScope.user.getAddress(1).get().zip.getZipCode()}"/>
                                     </c:when>
                                     <c:otherwise>
                                         <c:set var="zip1" value="ikke sat"/>
@@ -294,8 +298,8 @@
                                 </c:choose>
 
                                 <c:choose>
-                                    <c:when test="${sessionScope.customer.getAddress(2).present}">
-                                        <c:set var="zip2" value="${sessionScope.customer.getAddress(2).get().zip.getZipCode()}"/>
+                                    <c:when test="${sessionScope.user.getAddress(2).present}">
+                                        <c:set var="zip2" value="${sessionScope.user.getAddress(2).get().zip.getZipCode()}"/>
                                     </c:when>
                                     <c:otherwise>
                                         <c:set var="zip2" value="ikke sat"/>
@@ -304,8 +308,8 @@
 
 
                                 <c:choose>
-                                    <c:when test="${sessionScope.customer.getAddress(3).present}">
-                                        <c:set var="zip3" value="${sessionScope.customer.getAddress(3).get().zip.getZipCode()}"/>
+                                    <c:when test="${sessionScope.user.getAddress(3).present}">
+                                        <c:set var="zip3" value="${sessionScope.user.getAddress(3).get().zip.getZipCode()}"/>
                                     </c:when>
                                     <c:otherwise>
                                         <c:set var="zip3" value="ikke sat"/>
