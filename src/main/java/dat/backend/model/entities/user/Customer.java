@@ -1,5 +1,7 @@
 package dat.backend.model.entities.user;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -46,26 +48,32 @@ public class Customer extends Person {
         }
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<Address> getAddress1() {
-        return this.address1;
+        return address1;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setAddress1(Optional<Address> address1) {
         this.address1 = address1;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<Address> getAddress2() {
-        return this.address2;
+        return address2;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setAddress2(Optional<Address> address2) {
         this.address2 = address2;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<Address> getAddress3() {
-        return this.address3;
+        return address3;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setAddress3(Optional<Address> address3) {
         this.address3 = address3;
     }

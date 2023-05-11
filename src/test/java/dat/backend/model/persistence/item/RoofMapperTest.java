@@ -1,41 +1,20 @@
 package dat.backend.model.persistence.item;
 
-import dat.backend.model.entities.Roof;
+import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.TestDatabase;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class RoofMapperTest extends TestDatabase {
-
-    @BeforeAll
-    public void setUpClass() {
-        try (Connection testConnection = super.connectionPool.getConnection()) {
-            try (Statement stmt = testConnection.createStatement()) {
-                // Create test database - if not exist
-                stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
-
-                // Create user table. Add your own tables here
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.roof LIKE fogcarport.roof;");
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.type LIKE fogcarport.type;");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            fail("Database connection failed");
-        }
-    }
+class RoofMapperTest extends TestDatabase {
 
     @BeforeEach
     public void setUp() {
@@ -66,25 +45,7 @@ public class RoofMapperTest extends TestDatabase {
         float expectedPrice = 100;
 
         // Act
-        Roof newRoof = RoofMapper.createRoof(expectedPrice, expectedType, super.connectionPool).orElse(null);
-
-        // Assert
-        assertNotNull(newRoof);
-        assertEquals(expectedId, newRoof.getId());
-        assertEquals(expectedType, newRoof.getType());
-        assertEquals(expectedPrice, newRoof.getSquareMeterPrice());
-    }
-
-    @Test
-    void testValidCreateRoofWithRoof() throws DatabaseException {
-        // Arrange
-        int expectedId = 3;
-        String expectedType = "PLASTIC_ROOF";
-        float expectedPrice = 100;
-        Roof roof = new Roof(expectedId, expectedPrice, expectedType);
-
-        // Act
-        Roof newRoof = RoofMapper.createRoof(roof, super.connectionPool).orElse(null);
+        Roof newRoof = RoofFacade.createRoof(expectedPrice, expectedType, super.connectionPool);
 
         // Assert
         assertNotNull(newRoof);
@@ -97,8 +58,9 @@ public class RoofMapperTest extends TestDatabase {
     void testValidGetAllRoofs() throws DatabaseException {
         // Arrange
         int expectedSize = 2;
+
         // Act
-        ArrayList<Roof> roof = RoofMapper.getAllRoofs(super.connectionPool).orElse(null);
+        List<Roof> roof = RoofFacade.getAllRoofs(super.connectionPool);
 
         // Assert
         assertNotNull(roof);
@@ -106,14 +68,14 @@ public class RoofMapperTest extends TestDatabase {
     }
 
     @Test
-    void testValidGetRoofById() throws DatabaseException {
+    void testValidGetRoofById() throws DatabaseException, NotFoundException {
         // Arrange
         int expectedId = 1;
         String expectedType = "PLASTIC_ROOF";
         float expectedPrice = 100;
 
         // Act
-        Roof roof = RoofMapper.getRoofById(expectedId, super.connectionPool).orElse(null);
+        Roof roof = RoofFacade.getRoofById(expectedId, super.connectionPool);
 
         // Assert
         assertNotNull(roof);
@@ -124,7 +86,7 @@ public class RoofMapperTest extends TestDatabase {
 
     @Test
     void testInvalidGetRoofById() {
-        assertThrows(DatabaseException.class, () -> RoofMapper.getRoofById(3, super.connectionPool));
+        assertThrows(NotFoundException.class, () -> RoofFacade.getRoofById(3, super.connectionPool));
     }
 
     @Test
@@ -133,7 +95,7 @@ public class RoofMapperTest extends TestDatabase {
         int expectedSize = 1;
 
         // Act
-        ArrayList<Roof> roof = RoofMapper.getRoofByType("PLASTIC_ROOF", super.connectionPool).orElse(null);
+        List<Roof> roof = RoofFacade.getRoofByType("PLASTIC_ROOF", super.connectionPool);
 
         // Assert
         assertNotNull(roof);
@@ -141,7 +103,7 @@ public class RoofMapperTest extends TestDatabase {
     }
 
     @Test
-    void testInvalidGetRoofByType() {
-        assertThrows(DatabaseException.class, () -> RoofMapper.getRoofByType("TEST", super.connectionPool));
+    void testInvalidGetRoofByType() throws DatabaseException {
+        assertEquals(0, RoofFacade.getRoofByType("TEST", super.connectionPool).size());
     }
 }

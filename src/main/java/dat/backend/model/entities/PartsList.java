@@ -1,14 +1,18 @@
 package dat.backend.model.entities;
 
+import dat.backend.annotation.IgnoreCoverage;
+import dat.backend.model.entities.item.Lumber;
+import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.item.LumberFacade;
-import dat.backend.model.persistence.item.LumbertypeFacade;
+import dat.backend.model.persistence.item.LumberTypeFacade;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-import static dat.backend.model.persistence.item.LumbertypeFacade.getLumbertypeByType;
+import static dat.backend.model.persistence.item.LumberTypeFacade.getLumberTypeByType;
 
 public class PartsList {
 
@@ -28,16 +32,20 @@ public class PartsList {
         this.plate = calculatePlate(width, connectionPool);
         this.rafter = calculateRafter(length, width, connectionPool);
         this.numberOfPoles = calculateNumberOfPoles(length, width);
-        this.numberOfPlates = calculateNumberOfPlates(width);
-        this.numberOfRafters = calculateNumberOfRafters(length);
+        this.numberOfPlates = calculateNumberOfPlates(width, length);
+        this.numberOfRafters = calculateNumberOfRafters(length, width);
 
 
         this.totalPrice = calculateTotalPrice();
 
     }
 
-    private int calculateTotalPrice() {
-        return (pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters); // the getPrice() method is inherited from Item. It is not implemented yet.
+    public int calculateTotalPrice() {
+        if (!pole.getPrice().isPresent() || !plate.getPrice().isPresent() || !rafter.getPrice().isPresent()) {
+            throw new IllegalStateException("One or more of the lumber types does not have a price.");
+        }
+
+        return (pole.getPrice().get() * numberOfPoles) + (plate.getPrice().get() * numberOfPlates) + (rafter.getPrice().get() * numberOfRafters); // the getPrice() method is inherited from Item. It is not implemented yet.
     }
 
 
@@ -45,12 +53,12 @@ public class PartsList {
 
 
     public static Lumber calculatePole(int height, int width, ConnectionPool connectionPool) throws DatabaseException {
-        LumberType pole = getLumbertypeByType("POLE", connectionPool).get().get(0);
-        ArrayList<Lumber> lpole = LumberFacade.getLumberByType(pole, connectionPool).get();
+        LumberType pole = getLumberTypeByType("POLE", connectionPool).get(0);
+        List<Lumber> lpole = LumberFacade.getLumberByType(pole, connectionPool);
         Collections.sort(lpole);
 
         LumberType rafterType = calculateRafterType(width, connectionPool);
-        int minheight = height + 90 + (int)rafterType.getWidth();
+        int minheight = height + 90 + ((int)rafterType.getWidth()/10);
 
         for (Lumber lumber : lpole) {
             if (lumber.getLength() >= minheight) {
@@ -62,7 +70,7 @@ public class PartsList {
 
 
     public static LumberType calculateRafterType(int width, ConnectionPool connectionPool) throws DatabaseException {
-        ArrayList<LumberType> lrafter = LumbertypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
+        List<LumberType> lrafter = LumberTypeFacade.getLumberTypeByType("RAFTER", connectionPool);
         Collections.sort(lrafter);
         float dim = (float)calculateDimensions(width);
         for (LumberType lumberType : lrafter) {
@@ -73,9 +81,9 @@ public class PartsList {
         throw new IllegalArgumentException("No rafter found with the required width.");
     }
 
-    public Lumber calculateRafter(int length, int width, ConnectionPool connectionPool) throws DatabaseException {
+    public static Lumber calculateRafter(int length, int width, ConnectionPool connectionPool) throws DatabaseException {
         LumberType rafterType = calculateRafterType(width, connectionPool);
-        ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
+        List<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool);
         Collections.sort(lrafter);
         int minlength = calculateLengthOfLumber(length);
         for (Lumber lumber : lrafter) {
@@ -86,9 +94,9 @@ public class PartsList {
         throw new IllegalArgumentException("No rafter found with the required length.");
     }
 
-    public Lumber calculatePlate(int width, ConnectionPool connectionPool) throws DatabaseException {
+    public static Lumber calculatePlate(int width, ConnectionPool connectionPool) throws DatabaseException {
         LumberType rafterType = calculateRafterType(width, connectionPool);
-        ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
+        List<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool);
         Collections.sort(lrafter);
         int minlength = calculateLengthOfLumber(width);
         for (Lumber lumber : lrafter) {
@@ -125,20 +133,25 @@ public class PartsList {
         return numberOfPoles;
     }
 
-    public static int calculateNumberOfPlates(int width) {
+    public static int calculateNumberOfPlates(int width, int length) {
+        int numberOfPlates = 2 + calculateNumberOfPolesWidth(width)*((int) Math.ceil(length / 720.0));
+        return numberOfPlates;
+    }
+
+    public static int calculateNumberOfPlates1D(int width) { // to calculate span between plates
         int numberOfPlates = 2 + calculateNumberOfPolesWidth(width);
         return numberOfPlates;
     }
 
-    public static int calculateNumberOfRafters(int length) {
-        int numberOfRafters = (int) (Math.ceil(length/60));
+    public static int calculateNumberOfRafters(int length, int width) {
+        int numberOfRafters = (int) (Math.ceil(length/60))*((int) Math.ceil(width / 720.0));
         return numberOfRafters;
     }
 
 
     public static double calculateSpanBetweenPlates(int width) {
           int widthBetweenPoles = width - 70;
-          double span = widthBetweenPoles/(calculateNumberOfPlates(width)-1.0);
+          double span = widthBetweenPoles/(calculateNumberOfPlates1D(width)-1.0);
           return span;
     }
 
@@ -171,5 +184,76 @@ public class PartsList {
 
         return minlength;
     }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public Lumber getPole() {
+        return pole;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setPole(Lumber pole) {
+        this.pole = pole;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public Lumber getPlate() {
+        return plate;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setPlate(Lumber plate) {
+        this.plate = plate;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public Lumber getRafter() {
+        return rafter;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setRafter(Lumber rafter) {
+        this.rafter = rafter;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public int getNumberOfPoles() {
+        return numberOfPoles;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setNumberOfPoles(int numberOfPoles) {
+        this.numberOfPoles = numberOfPoles;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public int getNumberOfPlates() {
+        return numberOfPlates;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setNumberOfPlates(int numberOfPlates) {
+        this.numberOfPlates = numberOfPlates;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public int getNumberOfRafters() {
+        return numberOfRafters;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setNumberOfRafters(int numberOfRafters) {
+        this.numberOfRafters = numberOfRafters;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
 
 }

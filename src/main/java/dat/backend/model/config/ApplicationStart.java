@@ -1,5 +1,6 @@
 package dat.backend.model.config;
 
+import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.persistence.ConnectionPool;
 
 import javax.servlet.ServletContextEvent;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
     contextInitialized() initializes the connection pool at application start
     Then the connection pool can be obtained by ApplicationStart.getConnectionPool()
  */
+@IgnoreCoverage(reason = "This is a configuration class that is not meant to be tested")
 @WebListener
 public class ApplicationStart implements ServletContextListener {
 

@@ -21,93 +21,11 @@
     </jsp:attribute>
 
     <jsp:body>
-
-
-        <style>
-            /*below is formula*/
-
-            .btn {
-                padding: 10px 60px;
-                font-size: 20px;
-                cursor: pointer;
-            }
-
-            .popup {
-                width: 95%;
-                height: 95%;
-                background: #fff;
-                border-radius: 50px;
-                position: absolute;
-                border: limegreen 4px solid;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) scale(0.1);
-                text-align: center;
-                padding: 0 30px 30px;
-                color: #333;
-                visibility: hidden;
-                transition: transform 0.5s ease-in-out;
-                box-shadow: black 0px 0px 10px 0px;
-            }
-
-            .popup img {
-                width: 100px;
-                margin-top: -50px;
-                border-radius: 50%;
-            }
-
-            .open-popup {
-                visibility: visible !important;
-                position: absolute;
-                transform: translate(-50%, -50%) scale(1);
-                transition: 0.5s ease-in-out;
-                z-index: 2;
-                padding: 2%;
-                border-radius: 10px;
-                border: black 2px solid;
-            }
-
-            .after-popup {
-                filter: blur(5px);
-                backdrop-filter: blur(5px); /* adjust the blur value as needed */
-            }
-
-            /*below is alert css*/
-
-            .alertRed {
-                padding: 20px;
-                background-color: #f44336; /* Red */
-                color: white;
-                margin-bottom: 15px;
-                z-index: 3;
-            }
-
-            .alertGreen {
-                padding: 20px;
-                background-color: #4CAF50; /* Green */
-                color: white;
-                margin-bottom: 15px;
-                z-index: 3;
-            }
-
-            /* The close button */
-            .closebtn {
-                margin-left: 15px;
-                color: white;
-                font-weight: bold;
-                float: right;
-                font-size: 22px;
-                line-height: 20px;
-                cursor: pointer;
-                transition: 0.3s;
-            }
-
-            /* When moving the mouse over the close button */
-            .closebtn:hover {
-                color: black;
-            }
-
-        </style>
+        <c:if test="${sessionScope.user == null}">
+            <jsp:forward page="login"/>
+        </c:if>
+        <script src="${pageContext.request.contextPath}/scripts/profileSiteScript.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profileSiteStyle.css">
 
         <c:if test="${not empty requestScope.errormessage}">
             <div class="alertRed">
@@ -144,22 +62,21 @@
             </div>
         </c:if>
 
-
         <div class="baseBody" id="baseBody">
 
             <div class="row" style="padding-bottom: 5%; padding-top: 5%">
                 <div class="col-3">
                     <img style="height: 150px; width: 150px"
-                         src="${pageContext.request.contextPath}/images/DefaultProfilePic.png">
+                         src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile picture">
                 </div>
 
                 <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
 
-                    <p>Name: ${sessionScope.customer.getName()}</p>
-                    <p>Email: ${sessionScope.customer.getEmail()}</p>
+                    <p>Name: ${sessionScope.user.getName()}</p>
+                    <p>Email: ${sessionScope.user.getEmail()}</p>
                     <c:choose>
-                        <c:when test="${sessionScope.customer.personalPhoneNumber.present}">
-                            <p>personligt nummer: ${sessionScope.customer.personalPhoneNumber.get()}</p>
+                        <c:when test="${sessionScope.user.personalPhoneNumber.present}">
+                            <p>personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
                         </c:when>
                         <c:otherwise>
                             <p>personligt nummer: ikke sat</p>
@@ -170,7 +87,7 @@
                 </div>
                 <div class="col-4 text-center">
                     <h1>Velkommen </h1>
-                    <h1>${sessionScope.customer.getName()}</h1>
+                    <h1>${sessionScope.user.getName()}</h1>
                 </div>
 
 
@@ -235,245 +152,232 @@
             </div>
 
         </div>
-        <div class="row" style="margin: 3%"></div>
+        <div class="row" style="margin-top: 3%"></div>
 
 
         <div class="popup" id="popup" style="margin-top: 1%; opacity: 90%; background-color: #083d74; height: 85%; color: white">
 
-        <div style="height: 100%; width: 100%; opacity: 100% !important;">
+            <div style="height: 100%; width: 100%; opacity: 100% !important;">
 
-            <form method="post" action="change-customer-info" style="margin-bottom: 5%">
-                <div class="row">
-                    <div class="col-3">
-                        <img style="height: 150px; width: 150px; margin-top: 0.5%"
-                             src="${pageContext.request.contextPath}/images/DefaultProfilePic.png">
-                    </div>
-
-                    <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
-                        <p>Name: ${sessionScope.customer.getName()}</p>
-                        <p>Email: ${sessionScope.customer.getEmail()}</p>
-                        <c:choose>
-                            <c:when test="${sessionScope.customer.personalPhoneNumber.present}">
-                                <p>personligt nummer: ${sessionScope.customer.personalPhoneNumber.get()}</p>
-                            </c:when>
-                            <c:otherwise>
-                                <p>personligt nummer: ikke sat</p>
-                            </c:otherwise>
-                        </c:choose>
-                        <div class="row adresses">
-                            <p>Address 1: ${sessionScope.customer.getAddress(1).get()}</p>
-                            <c:choose>
-                                <c:when test="${sessionScope.customer.getAddress(2).present}">
-                                    <p>Adresse 2: ${sessionScope.customer.getAddress(2).get()}</p>
-                                </c:when>
-                                <c:otherwise>
-                                    <p>Adresse 2 ikke sat</p>
-                                </c:otherwise>
-                            </c:choose>
-
-                            <c:choose>
-                                <c:when test="${sessionScope.customer.getAddress(3).present}">
-                                    <p>Adresse 2: ${sessionScope.customer.getAddress(3).get()}</p>
-                                </c:when>
-                                <c:otherwise>
-                                    <p>Adresse 3: ikke sat</p>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row" style="padding: 50px"></div>
-
-                <div class="row">
-                    <div class="col-4" style="margin-top: 1%">
-                        <h3>Skift kontonavn</h3>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input class="form-control" type="text" name="name" id="name"
-                                   placeholder="ex: Mads Kildeberg">
-                        </div>
-                    </div>
-
-                    <div class="col-4" style="margin-top: 1%">
-                        <h3>Skift kodeord</h3>
-                        <div class="form-group">
-                            <label for="oldPassword">gammelt kodeord</label>
-                            <input class="form-control" type="password" name="oldPassword" id="oldPassword"
-                                   placeholder="skriv dit nuværende kodeord">
-                        </div>
-                        <div class="form-group" style="margin-top: 5%">
-                            <label for="newPassword">Nyt kodeord</label>
-                            <input class="form-control" type="password" name="newPassword" id="newPassword"
-                                   placeholder="skriv dit nye ønskede kodeord">
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmpassword" style="margin-top: 5%">Gentag kodeord</label>
-                            <input class="form-control" type="password" name="confirmPassword" id="confirmpassword"
-                                   placeholder="gentag dit nye ønskede kodeord">
-                        </div>
-                    </div>
-
-                    <c:choose>
-                        <c:when test="${sessionScope.customer.personalPhoneNumber.present}">
-                        <c:set var="personalPhoneNumber" value="${sessionScope.customer.personalPhoneNumber.get()}"/>
-                    </c:when>
-                    <c:otherwise>
-                        <c:set var="personalPhoneNumber" value="ikke sat"/>
-                    </c:otherwise>
-                    </c:choose>
-
-
-                    <div class="col-3" style="margin-top: 20px;">
-                        <div class="row">
-                            <h3>Skift telefonnummer</h3>
-                            <div class="form-group">
-                                <label for="newPhoneNumber">Nyt telefonnummer</label>
-                                <input class="form-control" id="newPhoneNumber" type="text" name="newPhoneNumber"
-                                        placeholder="${personalPhoneNumber}">
-                            </div>
-                        </div>
-                        <div class="row"></div>
-
-                        <div class="row" style="padding-top: 10%">
-                            <h3>Skift adresseinfo</h3>
-
-
-
-                            <c:choose>
-                                <c:when test="${sessionScope.customer.address1.present}">
-                                <c:set var="address1" value="${sessionScope.customer.address1.get().getStreet()}"/>
-                                </c:when>
-                                <c:otherwise>
-                                <c:set var="address1" value="ikke sat"/>
-                                </c:otherwise>
-                            </c:choose>
-
-                           <c:choose>
-                               <c:when test="${sessionScope.customer.address2.present}">
-                                   <c:set var="address2" value="${sessionScope.customer.address2.get().getStreet()}"/>
-                                 </c:when>
-                                 <c:otherwise>
-                                      <c:set var="address2" value="ikke sat"/>
-                                    </c:otherwise>
-                           </c:choose>
-
-                            <c:choose>
-                                <c:when test="${sessionScope.customer.address3.present}">
-                                    <c:set var="address3" value="${sessionScope.customer.address3.get().getStreet()}"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:set var="address3" value="ikke sat"/>
-                                </c:otherwise>
-                            </c:choose>
-
-
-                            <c:choose>
-                                <c:when test="${sessionScope.customer.getAddress(1).present}">
-                                    <c:set var="zip1" value="${sessionScope.customer.getAddress(1).get().zip.getZipCode()}"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:set var="zip1" value="ikke sat"/>
-                                </c:otherwise>
-                            </c:choose>
-
-                            <c:choose>
-                                <c:when test="${sessionScope.customer.getAddress(2).present}">
-                                    <c:set var="zip2" value="${sessionScope.customer.getAddress(2).get().zip.getZipCode()}"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:set var="zip2" value="ikke sat"/>
-                                </c:otherwise>
-                            </c:choose>
-
-
-                            <c:choose>
-                                <c:when test="${sessionScope.customer.getAddress(3).present}">
-                                    <c:set var="zip3" value="${sessionScope.customer.getAddress(3).get().zip.getZipCode()}"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:set var="zip3" value="ikke sat"/>
-                                </c:otherwise>
-                            </c:choose>
-
-                            <div class="row">
-
-                                <div class="col-6">
-                                    <label for="street1">Street</label>
-                                    <input class="form-control" type="text" name="street1" id="street1"
-                                            placeholder="${address1}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="zipCode1">Zip code</label>
-                                    <input class="form-control" type="number" name="zipCode1" id="zipCode1"
-                                           placeholder="${zip1}">
-                                </div>
-
-
-
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="street2">Street 2</label>
-                                    <input class="form-control" type="text" name="street2" id="street2"
-                                           placeholder="${address2}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="zipCode2">Zip code 2</label>
-                                    <input class="form-control" type="number" name="zipCode2" id="zipCode2"
-                                           placeholder="${zip2}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="street3">Street 3</label>
-                                    <input class="form-control" type="text" name="street3" id="street3"
-                                           placeholder="${address2}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="zipCode3">Zip code 3</label>
-                                    <input class="form-control" type="number" name="zipCode3" id="zipCode3"
-                                           placeholder="ex. 2400" value="${zip3}">
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-                <div style="margin-left: 35%; margin-right: 35%; margin-top: 5%">
+                <form method="post" action="change-customer-info" style="margin-bottom: 5%">
                     <div class="row">
-                        <input class="btn btn-secondary" type="submit" value="Save changes">
+                        <div class="col-3">
+                            <img style="height: 150px; width: 150px; margin-top: 0.5%"
+                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile Picture">
+                        </div>
+
+                        <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
+                            <p>Name: ${sessionScope.user.getName()}</p>
+                            <p>Email: ${sessionScope.user.getEmail()}</p>
+                            <c:choose>
+                                <c:when test="${sessionScope.user.personalPhoneNumber.present}">
+                                    <p>personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p>personligt nummer: ikke sat</p>
+                                </c:otherwise>
+                            </c:choose>
+                            <div class="row adresses">
+                                <c:if test="${sessionScope.user.getAddress(1).present}">
+                                    <p>Adresse 1: ${sessionScope.user.getAddress(1).get().getAddress()}</p>
+                                </c:if>
+
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getAddress(2).present}">
+                                        <p>Adresse 2: ${sessionScope.user.getAddress(2).get().getAddress()}</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p>Adresse 2 ikke sat</p>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getAddress(3).present}">
+                                        <p>Adresse 2: ${sessionScope.user.getAddress(3).get().getAddress()}</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p>Adresse 3: ikke sat</p>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
                     </div>
-                    <div class="row" style="margin-top: 3%">
-                        <a class="btn btn-secondary" style="background-color: #a93f60 !important;" type="button"
-                           onclick="closePopup()">Cancel</a>
-                    </div>
-                </div>
+
+                    <div class="row" style="padding: 50px"></div>
+
+                    <div class="row">
+                        <div class="col-4" style="margin-top: 1%">
+                            <h3>Skift kontonavn</h3>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input class="form-control" type="text" name="name" id="name"
+                                       placeholder="ex: Mads Kildeberg">
+                            </div>
+                        </div>
+
+                        <div class="col-4" style="margin-top: 1%">
+                            <h3>Skift kodeord</h3>
+                            <div class="form-group">
+                                <label for="oldPassword">gammelt kodeord</label>
+                                <input class="form-control" type="password" name="oldPassword" id="oldPassword"
+                                       placeholder="skriv dit nuværende kodeord">
+                            </div>
+                            <div class="form-group" style="margin-top: 5%">
+                                <label for="newPassword">Nyt kodeord</label>
+                                <input class="form-control" type="password" name="newPassword" id="newPassword"
+                                       placeholder="skriv dit nye ønskede kodeord">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmpassword" style="margin-top: 5%">Gentag kodeord</label>
+                                <input class="form-control" type="password" name="confirmPassword" id="confirmpassword"
+                                       placeholder="gentag dit nye ønskede kodeord">
+                            </div>
+                        </div>
+
+                        <c:choose>
+                            <c:when test="${sessionScope.user.personalPhoneNumber.present}">
+                            <c:set var="personalPhoneNumber" value="${sessionScope.user.personalPhoneNumber.get()}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="personalPhoneNumber" value="ikke sat"/>
+                        </c:otherwise>
+                        </c:choose>
 
 
-            </form>
+                        <div class="col-3" style="margin-top: 20px;">
+                            <div class="row">
+                                <h3>Skift telefonnummer</h3>
+                                <div class="form-group">
+                                    <label for="newPhoneNumber">Nyt telefonnummer</label>
+                                    <input class="form-control" id="newPhoneNumber" type="text" name="newPhoneNumber"
+                                            placeholder="${personalPhoneNumber}">
+                                </div>
+                            </div>
+                            <div class="row"></div>
+
+                            <div class="row" style="padding-top: 10%">
+                                <h3>Skift adresseinfo</h3>
+
+
+
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.address1.present}">
+                                        <c:set var="address1" value="${sessionScope.user.address1.get().getStreet()}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="address1" value="ikke sat"/>
+                                    </c:otherwise>
+                                </c:choose>
+
+                               <c:choose>
+                                   <c:when test="${sessionScope.user.address2.present}">
+                                       <c:set var="address2" value="${sessionScope.user.address2.get().getStreet()}"/>
+                                   </c:when>
+                                   <c:otherwise>
+                                         <c:set var="address2" value="ikke sat"/>
+                                   </c:otherwise>
+                               </c:choose>
+
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.address3.present}">
+                                        <c:set var="address3" value="${sessionScope.user.address3.get().getStreet()}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="address3" value="ikke sat"/>
+                                    </c:otherwise>
+                                </c:choose>
+
+
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getAddress(1).present}">
+                                        <c:set var="zip1" value="${sessionScope.user.getAddress(1).get().zip.getZipCode()}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="zip1" value="ikke sat"/>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getAddress(2).present}">
+                                        <c:set var="zip2" value="${sessionScope.user.getAddress(2).get().zip.getZipCode()}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="zip2" value="ikke sat"/>
+                                    </c:otherwise>
+                                </c:choose>
+
+
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getAddress(3).present}">
+                                        <c:set var="zip3" value="${sessionScope.user.getAddress(3).get().zip.getZipCode()}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="zip3" value="ikke sat"/>
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <div class="row">
+
+                                    <div class="col-6">
+                                        <label for="street1">Street</label>
+                                        <input class="form-control" type="text" name="street1" id="street1"
+                                                placeholder="${address1}">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="zipCode1">Zip code</label>
+                                        <input class="form-control" type="number" name="zipCode1" id="zipCode1"
+                                               placeholder="${zip1}">
+                                    </div>
+
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="street2">Street 2</label>
+                                        <input class="form-control" type="text" name="street2" id="street2"
+                                               placeholder="${address2}">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="zipCode2">Zip code 2</label>
+                                        <input class="form-control" type="number" name="zipCode2" id="zipCode2"
+                                               placeholder="${zip2}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="street3">Street 3</label>
+                                        <input class="form-control" type="text" name="street3" id="street3"
+                                               placeholder="${address2}">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="zipCode3">Zip code 3</label>
+                                        <input class="form-control" type="number" name="zipCode3" id="zipCode3"
+                                               placeholder="${zip3}">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div style="margin-left: 35%; margin-right: 35%; margin-top: 5%">
+                        <div class="row">
+                            <input class="btn btn-secondary" type="submit" value="Save changes">
+                        </div>
+                        <div class="row" style="margin-top: 3%">
+                            <a class="btn btn-secondary" style="background-color: #a93f60 !important;" type="button"
+                               onclick="closePopup()">Cancel</a>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
         </div>
-
-
-        <script>
-            let popup = document.getElementById("popup");
-
-            function openPopup() {
-                popup.classList.add("open-popup");
-                document.getElementById("baseBody").classList.add("after-popup");
-            }
-
-            function closePopup() {
-                popup.classList.remove("open-popup");
-                document.getElementById("baseBody").classList.remove("after-popup");
-            }
-
-        </script>
-
     </jsp:body>
 
 </t:pagetemplate>
