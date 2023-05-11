@@ -5,7 +5,6 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,8 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class RoofMapperTest extends TestDatabase {
+class RoofMapperTest extends TestDatabase {
 
     @BeforeEach
     public void setUp() {
