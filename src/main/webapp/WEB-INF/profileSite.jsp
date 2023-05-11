@@ -149,7 +149,7 @@
             </div>
 
         </div>
-        <div class="row" style="margin: 3%"></div>
+        <div class="row" style="margin-top: 3%"></div>
 
 
         <div class="popup" id="popup" style="margin-top: 1%; opacity: 90%; background-color: #083d74; height: 85%; color: white">

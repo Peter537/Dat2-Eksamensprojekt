@@ -13,7 +13,7 @@
     </jsp:attribute>
 
     <jsp:body>
-<div class="text-center" style="height: 100%; margin-bottom: 20%" >
+<div class="text-center" style="height: 100%;">
 
         <h1>Et stort udvalg af carporte</h1>
 
