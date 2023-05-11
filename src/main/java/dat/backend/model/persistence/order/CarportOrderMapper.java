@@ -240,7 +240,7 @@ class CarportOrderMapper {
         }
 
         Customer customer = CustomerFacade.getCustomerByEmail(resultSet.getString("fk_customer_email"), connectionPool);
-        Roof roof = RoofFacade.getRoofById(resultSet.getInt("fk_roof_id"), connectionPool).get(); // TODO: Fix RoofFacade to return Roof and throw NotFoundException instead of Optional
+        Roof roof = RoofFacade.getRoofById(resultSet.getInt("fk_roof_id"), connectionPool);
         float width = resultSet.getFloat("width");
         float length = resultSet.getFloat("length");
         float minHeight = resultSet.getFloat("min_height");
