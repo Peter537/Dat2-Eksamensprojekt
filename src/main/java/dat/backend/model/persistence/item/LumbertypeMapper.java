@@ -21,10 +21,6 @@ public class LumbertypeMapper {
                     statement.setString(1, lumberType);
 
                     ResultSet resultSet = statement.executeQuery();
-
-                    if (!resultSet.next()) {
-                        throw new DatabaseException("Could not get lumber by id");
-                    }
                     
                     while (resultSet.next()) {
                         int id = resultSet.getInt("id");

@@ -3,9 +3,11 @@ package dat.backend.model.persistence.item;
 import dat.backend.model.entities.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,11 +17,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class LumbertypeMapperTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class LumbertypeMapperTest extends TestDatabase {
     private static ConnectionPool connectionPool;
 
     @BeforeAll
-    public static void setUpClass() {
+    public void setUpClass() {
         connectionPool = new ConnectionPool(System.getenv("JDBC_USER"), System.getenv("JDBC_PASSWORD"), System.getenv("JDBC_CONNECTION_STRING"));
 
         try (Connection testConnection = connectionPool.getConnection()) {
@@ -38,7 +41,7 @@ public class LumbertypeMapperTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // Remove all rows from all tables - add your own tables here
@@ -56,17 +59,6 @@ public class LumbertypeMapperTest {
             System.out.println(e.getMessage());
             fail("Database connection failed");
         }
-    }
-
-    @Test
-    void testConnection() throws SQLException {
-        Connection connection = connectionPool.getConnection();
-        assertNotNull(connection);
-        assertTrue(connection.isValid(1));
-        assertFalse(connection.isClosed());
-        connection.close();
-        assertTrue(connection.isClosed());
-        assertFalse(connection.isValid(1));
     }
 
     @Test
@@ -95,13 +87,16 @@ public class LumbertypeMapperTest {
             assertEquals("POLE", lt.getType());
             assertEquals(60, lt.getMeterPrice());
         }
-    }
 
-    @Test
-    void testValidGetLumbertypeByTypeRAFTER() throws DatabaseException {
-        ArrayList<LumberType> lumberType = LumbertypeMapper.getLumbertypeByType("RAFTER", connectionPool).orElse(null);
+        ArrayList<LumberType> lumberType2 = LumbertypeMapper.getLumbertypeByType("RAFTER", connectionPool).orElse(null);
 
-        assertEquals(2, lumberType.size());
+        assert lumberType2 != null;
+
+        assertEquals(45, lumberType2.get(0).getThickness());
+        assertEquals(195, lumberType2.get(0).getWidth());
+        assertEquals("RAFTER", lumberType2.get(0).getType());
+        assertEquals(48, lumberType2.get(0).getMeterPrice());
+
     }
 
     @Test
