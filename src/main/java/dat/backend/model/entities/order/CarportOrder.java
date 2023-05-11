@@ -1,5 +1,7 @@
-package dat.backend.model.entities;
+package dat.backend.model.entities.order;
 
+import dat.backend.model.entities.item.Roof;
+import dat.backend.model.entities.item.ToolRoom;
 import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;

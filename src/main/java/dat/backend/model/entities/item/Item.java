@@ -1,4 +1,4 @@
-package dat.backend.model.entities;
+package dat.backend.model.entities.item;
 
 public abstract class Item{
     private int id;

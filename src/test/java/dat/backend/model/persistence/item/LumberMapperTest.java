@@ -1,7 +1,7 @@
 package dat.backend.model.persistence.item;
 
-import dat.backend.model.entities.Lumber;
-import dat.backend.model.entities.LumberType;
+import dat.backend.model.entities.item.Lumber;
+import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeEach;
