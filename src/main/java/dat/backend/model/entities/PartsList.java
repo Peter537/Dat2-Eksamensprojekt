@@ -184,4 +184,59 @@ public class PartsList {
         return minlength;
     }
 
+    public Lumber getPole() {
+        return pole;
+    }
+
+    public void setPole(Lumber pole) {
+        this.pole = pole;
+    }
+
+    public Lumber getPlate() {
+        return plate;
+    }
+
+    public void setPlate(Lumber plate) {
+        this.plate = plate;
+    }
+
+    public Lumber getRafter() {
+        return rafter;
+    }
+
+    public void setRafter(Lumber rafter) {
+        this.rafter = rafter;
+    }
+
+    public int getNumberOfPoles() {
+        return numberOfPoles;
+    }
+
+    public void setNumberOfPoles(int numberOfPoles) {
+        this.numberOfPoles = numberOfPoles;
+    }
+
+    public int getNumberOfPlates() {
+        return numberOfPlates;
+    }
+
+    public void setNumberOfPlates(int numberOfPlates) {
+        this.numberOfPlates = numberOfPlates;
+    }
+
+    public int getNumberOfRafters() {
+        return numberOfRafters;
+    }
+
+    public void setNumberOfRafters(int numberOfRafters) {
+        this.numberOfRafters = numberOfRafters;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }
