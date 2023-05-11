@@ -76,21 +76,21 @@ class PartsListTest {
     @Test
     void calculateNumberOfPlates() {
         int expected = 3;
-        int actual = PartsList.calculateNumberOfPlates(671);
+        int actual = PartsList.calculateNumberOfPlates(671, 300);
         assertEquals(expected, actual);
     }
 
     @Test
     void calculateNumberOfRafters10() {
         int expected = 10;
-        int actual = PartsList.calculateNumberOfRafters(600);
+        int actual = PartsList.calculateNumberOfRafters(600, 400);
         assertEquals(expected, actual);
     }
 
     @Test
     void calculateNumberOfRafters11() {
         int expected = 10;
-        int actual = PartsList.calculateNumberOfRafters(601);
+        int actual = PartsList.calculateNumberOfRafters(601, 400);
         assertEquals(expected, actual);
     }
     @Test
