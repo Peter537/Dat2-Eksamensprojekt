@@ -3,7 +3,10 @@ package dat.backend.model.entities;
 import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.TestDatabase;
+import dat.backend.model.persistence.item.LumbertypeFacade;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -11,6 +14,8 @@ import org.junit.jupiter.api.TestInstance;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -76,17 +81,32 @@ class PartsListTestDB extends TestDatabase {
     @Test
     void calculateRafter() throws DatabaseException {
         // arrange
-        int expectedLength = 480;
+        int expectedLength = 720; // Rafter goes lengthwise in the carport
         int width = 672;
-        int length = 480;
+        int length = 400;
 
         //act
         Lumber rafter = PartsList.calculateRafter(length, width, connectionPool);
 
+        // assert
+        assertEquals(expectedLength, rafter.getLength());
+
     }
 
     @Test
-    void calculatePlate() {
+    void calculatePlate() throws DatabaseException {
+
+        // arrange
+        int expectedLength = 720; // Plate goes Widthwise in the carport
+        int width = 672;
+        int length = 400;
+
+        //act
+        Lumber rafter = PartsList.calculatePlate(width, connectionPool);
+
+        // assert
+        assertEquals(expectedLength, rafter.getLength());
+
     }
 
     @Test

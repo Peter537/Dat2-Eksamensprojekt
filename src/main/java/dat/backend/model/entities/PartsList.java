@@ -92,7 +92,7 @@ public class PartsList {
         throw new IllegalArgumentException("No rafter found with the required length.");
     }
 
-    public Lumber calculatePlate(int width, ConnectionPool connectionPool) throws DatabaseException {
+    public static Lumber calculatePlate(int width, ConnectionPool connectionPool) throws DatabaseException {
         LumberType rafterType = calculateRafterType(width, connectionPool);
         ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
         Collections.sort(lrafter);
