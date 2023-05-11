@@ -1,6 +1,5 @@
 package dat.backend.model.entities;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
