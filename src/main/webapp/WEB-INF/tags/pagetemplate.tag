@@ -139,6 +139,8 @@
         margin: 0;
         padding: 0;
         scroll-behavior: smooth;
+        font-family: Dinpro, sans-serif;
+        font-weight: 400;
     }
 
     .footer {
