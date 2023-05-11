@@ -103,28 +103,28 @@ class RoofMapper {
 
     public static Optional<ArrayList<Roof>> getAllRoofs(ConnectionPool connectionPool) throws DatabaseException {
 
-            String query = "SELECT * FROM roof";
-            try (Connection connection = connectionPool.getConnection()) {
-                try (PreparedStatement statement = connection.prepareStatement(query)) {
+        String query = "SELECT * FROM roof";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
 
-                        ArrayList<Roof> rooflist = new ArrayList<>();
+                    ArrayList<Roof> rooflist = new ArrayList<>();
 
-                        ResultSet resultSet = statement.executeQuery();
+                    ResultSet resultSet = statement.executeQuery();
 
-                        while (resultSet.next()) {
-                            int id = resultSet.getInt("id");
-                            float squaremeterprice = resultSet.getFloat("squaremeter_price");
-                            String type = resultSet.getString("type");
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("id");
+                        float squaremeterprice = resultSet.getFloat("squaremeter_price");
+                        String type = resultSet.getString("type");
 
-                            Roof roof = new Roof(id, squaremeterprice, type);
-                            rooflist.add(roof);
-                        }
+                        Roof roof = new Roof(id, squaremeterprice, type);
+                        rooflist.add(roof);
+                    }
 
-                        return Optional.of(rooflist);
-                }
+                    return Optional.of(rooflist);
             }
-            catch (SQLException e) {
-                throw new DatabaseException(e, "Could not get all roof");
-            }
+        }
+        catch (SQLException e) {
+            throw new DatabaseException(e, "Could not get all roof");
+        }
     }
 }
