@@ -1,5 +1,6 @@
 package dat.backend.model.entities;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
@@ -14,6 +15,7 @@ public class CarportOrder {
     private Address address;
     private Optional<Employee> employee;
     private Customer customer;
+    private OrderStatus orderStatus;
     private Roof roof;
     private Optional<String> remarks;
     private float length;
@@ -22,11 +24,12 @@ public class CarportOrder {
     private Optional<ToolRoom> toolRoom;
     private Optional<Float> price;
 
-    public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom, Optional<Float> price) {
+    public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, OrderStatus orderStatus, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom, Optional<Float> price) {
         this.id = id;
         this.address = address;
         this.employee = employee;
         this.customer = customer;
+        this.orderStatus = orderStatus;
         this.roof = roof;
         this.remarks = remarks;
         this.length = length;
@@ -36,12 +39,12 @@ public class CarportOrder {
         this.price = price;
     }
 
-    public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom) {
-        this(id, address, employee, customer, roof, remarks, length, width, minHeight, toolRoom, Optional.empty());
+    public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, OrderStatus orderStatus, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom) {
+        this(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, Optional.empty());
     }
 
-    public CarportOrder(int id, Address address, Customer customer, Roof roof, float length, float width, float minHeight) {
-        this(id, address, Optional.empty(), customer, roof, Optional.empty(), length, width, minHeight, Optional.empty());
+    public CarportOrder(int id, Address address, Customer customer, OrderStatus orderStatus, Roof roof, float length, float width, float minHeight) {
+        this(id, address, Optional.empty(), customer, orderStatus, roof, Optional.empty(), length, width, minHeight, Optional.empty());
     }
 
     public int getId() {
@@ -74,6 +77,14 @@ public class CarportOrder {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return this.orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public Roof getRoof() {
@@ -144,23 +155,24 @@ public class CarportOrder {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getAddress(), this.getEmployee(), this.getCustomer(), this.getRoof(), this.getRemarks(), this.getLength(), this.getWidth(), this.getMinHeight(), this.getToolRoom(), this.getPrice());
+        return Objects.hash(this.getId(), this.getAddress(), this.getEmployee(), this.getCustomer(), this.getOrderStatus(), this.getRoof(), this.getRemarks(), this.getLength(), this.getWidth(), this.getMinHeight(), this.getToolRoom(), this.getPrice());
     }
 
     @Override
     public String toString() {
         return "CarportOrder{" +
-                "id='" + this.id + '\'' +
-                ", address='" + this.address + '\'' +
-                ", employee='" + this.employee + '\'' +
-                ", customer='" + this.customer + '\'' +
-                ", roof='" + this.roof + '\'' +
-                ", remarks='" + this.remarks + '\'' +
-                ", length='" + this.length + '\'' +
-                ", width='" + this.width + '\'' +
-                ", minHeight='" + this.minHeight + '\'' +
-                ", toolRoom='" + this.toolRoom + '\'' +
-                ", price='" + this.price + '\'' +
+                "id=" + this.id +
+                ", address=" + this.address +
+                ", employee=" + this.employee +
+                ", customer=" + this.customer +
+                ", orderStatus=" + this.orderStatus +
+                ", roof=" + this.roof +
+                ", remarks=" + this.remarks +
+                ", length=" + this.length +
+                ", width=" + this.width +
+                ", minHeight=" + this.minHeight +
+                ", toolRoom=" + this.toolRoom +
+                ", price=" + this.price +
                 '}';
     }
 }
