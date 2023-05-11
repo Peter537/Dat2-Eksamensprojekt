@@ -4,75 +4,44 @@ import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
 
-import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class CarportOrder {
 
     private int id;
     private Address address;
-    private Employee employee;
+    private Optional<Employee> employee;
     private Customer customer;
     private Roof roof;
-    private List<Lumber> lumberList;
-    private List<String> remarks;
-    private int length;
-    private int width;
-    private int minHeight;
-    private int toolRoomWidth;
-    private int toolRoomLength;
-    private int price;
+    private Optional<String> remarks;
+    private float length;
+    private float width;
+    private float minHeight;
+    private Optional<ToolRoom> toolRoom;
+    private Optional<Float> price;
 
-    public CarportOrder(int id, Address address, Employee employee, Customer customer, Roof roof, List<Lumber> lumberList, List<String> remarks, int length, int width, int minHeight, int toolRoomWidth, int toolRoomLength) {
+    public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom, Optional<Float> price) {
         this.id = id;
         this.address = address;
         this.employee = employee;
         this.customer = customer;
         this.roof = roof;
-        this.lumberList = lumberList;
         this.remarks = remarks;
         this.length = length;
         this.width = width;
         this.minHeight = minHeight;
-        this.toolRoomWidth = toolRoomWidth;
-        this.toolRoomLength = toolRoomLength;
-    }
-
-    public CarportOrder(Address address, Employee employee, Customer customer, Roof roof, List<Lumber> lumberList, List<String> remarks, int length, int width, int minHeight, int toolRoomWidth, int toolRoomLength) {
-        this.address = address;
-        this.employee = employee;
-        this.customer = customer;
-        this.roof = roof;
-        this.lumberList = lumberList;
-        this.remarks = remarks;
-        this.length = length;
-        this.width = width;
-        this.minHeight = minHeight;
-        this.toolRoomWidth = toolRoomWidth;
-        this.toolRoomLength = toolRoomLength;
-    }
-
-    public CarportOrder(int id, Address address, Employee employee, Customer customer, Roof roof, List<Lumber> lumberList, List<String> remarks, int length, int width, int minHeight, int toolRoomWidth, int toolRoomLength, int price) {
-        this.id = id;
-        this.address = address;
-        this.employee = employee;
-        this.customer = customer;
-        this.roof = roof;
-        this.lumberList = lumberList;
-        this.remarks = remarks;
-        this.length = length;
-        this.width = width;
-        this.minHeight = minHeight;
-        this.toolRoomWidth = toolRoomWidth;
-        this.toolRoomLength = toolRoomLength;
+        this.toolRoom = toolRoom;
         this.price = price;
     }
 
-    public CarportOrder(int id, Address address, Customer customer, int length, int width) {
-        this.id = id;
-        this.address = address;
-        this.customer = customer;
-        this.length = length;
-        this.width = width;
+    public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom) {
+        this(id, address, employee, customer, roof, remarks, length, width, minHeight, toolRoom, Optional.empty());
+    }
+
+    public CarportOrder(int id, Address address, Customer customer, Roof roof, float length, float width, float minHeight) {
+        this(id, address, Optional.empty(), customer, roof, Optional.empty(), length, width, minHeight, Optional.empty());
     }
 
     public int getId() {
@@ -91,11 +60,11 @@ public class CarportOrder {
         this.address = address;
     }
 
-    public Employee getEmployee() {
+    public Optional<Employee> getEmployee() {
         return this.employee;
     }
 
-    public void setEmployee(Employee employee) {
+    public void setEmployee(Optional<Employee> employee) {
         this.employee = employee;
     }
 
@@ -115,67 +84,83 @@ public class CarportOrder {
         this.roof = roof;
     }
 
-    public List<Lumber> getLumberList() {
-        return this.lumberList;
-    }
-
-    public void setLumberList(List<Lumber> lumberList) {
-        this.lumberList = lumberList;
-    }
-
-    public List<String> getRemarks() {
+    public Optional<String> getRemarks() {
         return this.remarks;
     }
 
-    public void setRemarks(List<String> remarks) {
+    public void setRemarks(Optional<String> remarks) {
         this.remarks = remarks;
     }
 
-    public int getLength() {
+    public float getLength() {
         return this.length;
     }
 
-    public void setLength(int length) {
+    public void setLength(float length) {
         this.length = length;
     }
 
-    public int getWidth() {
+    public float getWidth() {
         return this.width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(float width) {
         this.width = width;
     }
 
-    public int getMinHeight() {
+    public float getMinHeight() {
         return this.minHeight;
     }
 
-    public void setMinHeight(int minHeight) {
+    public void setMinHeight(float minHeight) {
         this.minHeight = minHeight;
     }
 
-    public int getToolRoomWidth() {
-        return this.toolRoomWidth;
+    public Optional<ToolRoom> getToolRoom() {
+        return this.toolRoom;
     }
 
-    public void setToolRoomWidth(int toolRoomWidth) {
-        this.toolRoomWidth = toolRoomWidth;
+    public void setToolRoom(Optional<ToolRoom> toolRoom) {
+        this.toolRoom = toolRoom;
     }
 
-    public int getToolRoomLength() {
-        return this.toolRoomLength;
+    public Optional<Float> getPrice() {
+        return this.price;
     }
 
-    public void setToolRoomLength(int toolRoomLength) {
-        this.toolRoomLength = toolRoomLength;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
+    public void setPrice(Optional<Float> price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof CarportOrder)) return false;
+        CarportOrder carportOrder = (CarportOrder) other;
+        return this.getId() == carportOrder.getId() &&
+                this.getAddress().equals(carportOrder.getAddress()) &&
+                this.getCustomer().equals(carportOrder.getCustomer());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getId(), this.getAddress(), this.getEmployee(), this.getCustomer(), this.getRoof(), this.getRemarks(), this.getLength(), this.getWidth(), this.getMinHeight(), this.getToolRoom(), this.getPrice());
+    }
+
+    @Override
+    public String toString() {
+        return "CarportOrder{" +
+                "id='" + this.id + '\'' +
+                ", address='" + this.address + '\'' +
+                ", employee='" + this.employee + '\'' +
+                ", customer='" + this.customer + '\'' +
+                ", roof='" + this.roof + '\'' +
+                ", remarks='" + this.remarks + '\'' +
+                ", length='" + this.length + '\'' +
+                ", width='" + this.width + '\'' +
+                ", minHeight='" + this.minHeight + '\'' +
+                ", toolRoom='" + this.toolRoom + '\'' +
+                ", price='" + this.price + '\'' +
+                '}';
     }
 }
