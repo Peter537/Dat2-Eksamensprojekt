@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ApplicationStart</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.config</a>
+</div>
+
+<h1>Coverage Summary for Class: ApplicationStart (dat.backend.model.config)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ApplicationStart</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.config;
+&nbsp;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;
+&nbsp;import javax.servlet.ServletContextEvent;
+&nbsp;import javax.servlet.ServletContextListener;
+&nbsp;import javax.servlet.annotation.WebListener;
+&nbsp;import java.sql.Driver;
+&nbsp;import java.sql.DriverManager;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.Enumeration;
+&nbsp;import java.util.logging.Level;
+&nbsp;import java.util.logging.Logger;
+&nbsp;
+&nbsp;/*
+&nbsp;    This class handles the birth and death of the connection pool.
+&nbsp;    contextInitialized() initializes the connection pool at application start
+&nbsp;    Then the connection pool can be obtained by ApplicationStart.getConnectionPool()
+&nbsp; */
+&nbsp;@WebListener
+&nbsp;public class ApplicationStart implements ServletContextListener {
+&nbsp;
+&nbsp;    private static ConnectionPool connectionPool;
+&nbsp;
+<b class="nc">&nbsp;    public ApplicationStart() { }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void contextInitialized(ServletContextEvent sce) {
+<b class="nc">&nbsp;        Logger.getLogger(&quot;web&quot;).log(Level.INFO, &quot;Starting up application and connection pool&quot;);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            Class.forName(&quot;org.slf4j.impl.StaticLoggerBinder&quot;);</b>
+<b class="nc">&nbsp;            connectionPool = new ConnectionPool();</b>
+<b class="nc">&nbsp;        } catch (ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;            Logger.getLogger(&quot;web&quot;).log(Level.SEVERE, e.getMessage(), e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static ConnectionPool getConnectionPool() {
+<b class="nc">&nbsp;        return connectionPool;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void contextDestroyed(ServletContextEvent sce) {
+<b class="nc">&nbsp;        Logger.getLogger(&quot;web&quot;).log(Level.INFO, &quot;Shutting down application and connection pool&quot;);</b>
+<b class="nc">&nbsp;        unregisterJDBCdrivers();</b>
+<b class="nc">&nbsp;        connectionPool.close();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void unregisterJDBCdrivers() {
+<b class="nc">&nbsp;        ClassLoader cl = Thread.currentThread().getContextClassLoader();</b>
+&nbsp;        // Loop through all drivers
+<b class="nc">&nbsp;        Enumeration&lt;Driver&gt; drivers = DriverManager.getDrivers();</b>
+<b class="nc">&nbsp;        while (drivers.hasMoreElements()) {</b>
+<b class="nc">&nbsp;            Driver driver = drivers.nextElement();</b>
+<b class="nc">&nbsp;            if (driver.getClass().getClassLoader() == cl) {</b>
+&nbsp;                // This driver was registered by the webapp&#39;s ClassLoader, so deregister it:
+&nbsp;                try {
+<b class="nc">&nbsp;                    Logger.getLogger(&quot;web&quot;).log(Level.INFO, &quot;Deregistering JDBC driver&quot;);</b>
+<b class="nc">&nbsp;                    DriverManager.deregisterDriver(driver);</b>
+<b class="nc">&nbsp;                } catch (SQLException ex) {</b>
+<b class="nc">&nbsp;                    Logger.getLogger(&quot;web&quot;).log(Level.SEVERE, &quot;Error deregistering JDBC driver&quot;);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            } else {
+&nbsp;                // driver was not registered by the webapp&#39;s ClassLoader and may be in use elsewhere
+<b class="nc">&nbsp;                Logger.getLogger(&quot;web&quot;).log(Level.WARNING, &quot;Error deregistering JDBC driver&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-11 14:23</div>
+</div>
+</body>
+</html>
