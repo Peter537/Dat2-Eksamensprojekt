@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class LumberFacade {
+
     public static Optional<Lumber> createLumber(float length, int lumberType, int amount, ConnectionPool connectionPool) throws DatabaseException, DatabaseException {
         return LumberMapper.createLumber(length, lumberType, amount, connectionPool);
     }
@@ -32,7 +33,4 @@ public class LumberFacade {
     public static Optional<ArrayList<Lumber>> getLumberByLength(int length, ConnectionPool connectionPool) throws DatabaseException {
         return LumberMapper.getLumberByLength(length, connectionPool);
     }
-
-
-
 }
