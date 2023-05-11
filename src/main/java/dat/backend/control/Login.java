@@ -33,10 +33,7 @@ public class Login extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setContentType("text/html");
-        HttpSession session = request.getSession();
-        session.setAttribute("customer", null); // invalidating customer object in session scope
-        session.setAttribute("employee", null); // invalidating employee object in session scope
+        request.getSession().setAttribute("user", null); // invalidating user object in session scope
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -44,11 +41,11 @@ public class Login extends HttpServlet {
             try {
                 if (Validation.isCustomerEmail(email)) {
                     Customer customer = CustomerFacade.login(email, password, connectionPool);
-                    session.setAttribute("customer", customer);
+                    request.getSession().setAttribute("user", customer);
                     request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
                 } else {
                     Employee employee = EmployeeFacade.login(email, password, connectionPool);
-                    session.setAttribute("employee", employee);
+                    request.getSession().setAttribute("user", employee);
                     request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
                 }
             } catch (NotFoundException e) {

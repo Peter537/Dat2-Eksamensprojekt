@@ -33,18 +33,18 @@
             </div>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup2">
                 <div class="navbar-nav">
-                    <c:if test="${sessionScope.customer == null }"> <%--TODO: Fix user not working--%>
+                    <c:if test="${sessionScope.user == null }">
                         <a class="nav-item nav-link navtext link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
                     </c:if>
-                    <c:if test="${sessionScope.customer != null }">
+                    <c:if test="${sessionScope.user != null }">
                         <a class="nav-item nav-link navtext link" href="${pageContext.request.contextPath}/logout">Log out</a>
                     </c:if>
                     <a class="nav-item nav-link link">
                         <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"><path d="M19.167 14.706H8.944L7.167 7.647H20.5l-1.333 7.059Zm-8.445 3.97c0 .732-.596 1.324-1.333 1.324a1.328 1.328 0 0 1-1.333-1.324c0-.731.596-1.323 1.333-1.323s1.333.592 1.333 1.323Zm8.89 0c0 .732-.597 1.324-1.334 1.324a1.328 1.328 0 0 1-1.334-1.324c0-.731.597-1.323 1.334-1.323.737 0 1.333.592 1.333 1.323ZM7.166 7.647 6.277 5H4.5" stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Kurv</span>
                     </a>
-                    <c:if test="${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount() > 0}">
-                        <a class="nav-item nav-link navtext link" style="border: 0;" href="${pageContext.request.contextPath}/ToCart">(${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount()})</a>
-                    </c:if> <%--TODO: Fix this so it has a valid target--%>
+<%--                    <c:if test="${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount() > 0}">--%>
+<%--                        <a class="nav-item nav-link navtext link" style="border: 0;" href="${pageContext.request.contextPath}/ToCart">(${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount()})</a>--%>
+<%--                    </c:if> &lt;%&ndash;TODO: Fix this so it has a valid target&ndash;%&gt;--%>
                 </div>
             </div>
 
