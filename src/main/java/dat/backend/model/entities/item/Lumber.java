@@ -8,12 +8,6 @@ public class Lumber extends Item implements Comparable<Lumber>{
     private LumberType lumberType;
     private int amount;
 
-    public Lumber(int id, int length, LumberType lumberType, int price) {
-        super(id, price);
-        this.length = length;
-        this.lumberType = lumberType;
-    }
-
     public Lumber(int id, int length, LumberType lumberType, int price, int amount) {
         super(id, price);
         this.length = length;
