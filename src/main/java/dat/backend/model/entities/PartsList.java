@@ -9,8 +9,9 @@ import dat.backend.model.persistence.item.LumberTypeFacade;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-import static dat.backend.model.persistence.item.LumberTypeFacade.getLumbertypeByType;
+import static dat.backend.model.persistence.item.LumberTypeFacade.getLumberTypeByType;
 
 public class PartsList {
 
@@ -51,8 +52,8 @@ public class PartsList {
 
 
     public static Lumber calculatePole(int height, int width, ConnectionPool connectionPool) throws DatabaseException {
-        LumberType pole = getLumbertypeByType("POLE", connectionPool).get().get(0);
-        ArrayList<Lumber> lpole = LumberFacade.getLumberByType(pole, connectionPool).get();
+        LumberType pole = getLumberTypeByType("POLE", connectionPool).get(0);
+        List<Lumber> lpole = LumberFacade.getLumberByType(pole, connectionPool);
         Collections.sort(lpole);
 
         LumberType rafterType = calculateRafterType(width, connectionPool);
@@ -68,7 +69,7 @@ public class PartsList {
 
 
     public static LumberType calculateRafterType(int width, ConnectionPool connectionPool) throws DatabaseException {
-        ArrayList<LumberType> lrafter = LumberTypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
+        List<LumberType> lrafter = LumberTypeFacade.getLumberTypeByType("RAFTER", connectionPool);
         Collections.sort(lrafter);
         float dim = (float)calculateDimensions(width);
         for (LumberType lumberType : lrafter) {
@@ -81,7 +82,7 @@ public class PartsList {
 
     public static Lumber calculateRafter(int length, int width, ConnectionPool connectionPool) throws DatabaseException {
         LumberType rafterType = calculateRafterType(width, connectionPool);
-        ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
+        List<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool);
         Collections.sort(lrafter);
         int minlength = calculateLengthOfLumber(length);
         for (Lumber lumber : lrafter) {
@@ -94,7 +95,7 @@ public class PartsList {
 
     public static Lumber calculatePlate(int width, ConnectionPool connectionPool) throws DatabaseException {
         LumberType rafterType = calculateRafterType(width, connectionPool);
-        ArrayList<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool).get();
+        List<Lumber> lrafter = LumberFacade.getLumberByType(rafterType, connectionPool);
         Collections.sort(lrafter);
         int minlength = calculateLengthOfLumber(width);
         for (Lumber lumber : lrafter) {
