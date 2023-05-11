@@ -80,7 +80,7 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="disabled-tab" data-bs-toggle="pill" data-bs-target="#disabled"
                             type="button"
-                            role="tab" aria-controls="disabled" aria-selected="false" disabled>Disabled
+                            role="tab" aria-controls="disabled" aria-selected="false" disabled>tag-type
                     </button>
                 </li>
             </ul>
@@ -161,7 +161,7 @@
                             <div class="mb-3">
                                 <label for="customerPhone" class="form-label">Telefonnummer</label>
                                 <input type="text" id="customerPhone" name="customerPhone"
-                                       value="${sessionScope.customer.getPersonalPhoneNumber()}" class="form-control">
+                                       value="${sessionScope.customer.getPersonalPhoneNumber().get()}" class="form-control">
                             </div>
 
                             <div class="mb-3">
