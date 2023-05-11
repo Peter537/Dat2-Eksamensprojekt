@@ -38,7 +38,7 @@ public class PartsList {
 
     }
 
-    private int calculateTotalPrice() {
+    public int calculateTotalPrice() {
         if (!pole.getPrice().isPresent() || !plate.getPrice().isPresent() || !rafter.getPrice().isPresent()) {
             throw new IllegalStateException("One or more of the lumber types does not have a price.");
         }

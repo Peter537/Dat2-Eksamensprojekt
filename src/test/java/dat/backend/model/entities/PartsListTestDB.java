@@ -11,8 +11,7 @@ import org.junit.jupiter.api.TestInstance;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collections;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -107,6 +106,19 @@ class PartsListTestDB extends TestDatabase {
     }
 
     @Test
-    void calculateTotalPrice() {
+    void calculateTotalPrice() throws DatabaseException {
+        // arrange
+        int height = 200;
+        int width = 672;
+        int length = 400;
+        int pricePoles = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,connectionPool).getPrice().get();
+        double expectedPrice = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,connectionPool).getPrice().get() +
+                PartsList.calculateNumberOfRafters(length) * PartsList.calculateRafter(length,width,connectionPool).getPrice().get() +
+                PartsList.calculateNumberOfPlates(width) * PartsList.calculatePlate(width,connectionPool).getPrice().get();
+        //act
+        PartsList partsList = new PartsList(height,length,width,connectionPool);
+        double totalPrice = partsList.calculateTotalPrice();
+        // assert
+        assertEquals(expectedPrice, totalPrice);
     }
 }
