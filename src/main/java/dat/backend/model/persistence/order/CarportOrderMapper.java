@@ -2,30 +2,146 @@ package dat.backend.model.persistence.order;
 
 import dat.backend.model.entities.CarportOrder;
 import dat.backend.model.entities.OrderStatus;
+import dat.backend.model.entities.Roof;
+import dat.backend.model.entities.ToolRoom;
+import dat.backend.model.entities.user.Address;
+import dat.backend.model.entities.user.Customer;
+import dat.backend.model.entities.user.Employee;
+import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.item.RoofFacade;
+import dat.backend.model.persistence.user.CustomerFacade;
+import dat.backend.model.persistence.user.EmployeeFacade;
+import dat.backend.model.persistence.user.ZipFacade;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 class CarportOrderMapper {
 
-    static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) {
-        throw new UnsupportedOperationException();
+    static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+        String query = "SELECT * FROM carport_order WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, id);
+                ResultSet resultSet = statement.executeQuery();
+                return createCarportOrderFromResultSet(resultSet, connectionPool);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Error while getting CarportOrder with id " + id);
+        }
     }
 
-    static List<CarportOrder> getCarportByCustomerId(int customerId, ConnectionPool connectionPool) {
-        return new ArrayList<>();
+    static List<CarportOrder> getCarportByCustomerEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+        List<CarportOrder> carportOrders = new ArrayList<>();
+        String query = "SELECT * FROM carport_order WHERE fk_customer_email = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, email);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    CarportOrder carportOrder = getCarportOrderById(id, connectionPool);
+                    carportOrders.add(carportOrder);
+                }
+            }
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException(e, "Error while getting CarportOrder with customer email " + email);
+        }
+
+        return carportOrders;
     }
 
-    static List<CarportOrder> getCarportByCustomerEmail(String email, ConnectionPool connectionPool) {
-        return new ArrayList<>();
+    static CarportOrder createCarportOrder(Customer customer,
+                                           Address address,
+                                           float width,
+                                           float length,
+                                           float minHeight,
+                                           Roof roof,
+                                           ToolRoom toolRoom,
+                                           String remarks,
+                                           ConnectionPool connectionPool) throws DatabaseException {
+        String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                statement.setString(1, customer.getEmail());
+                statement.setString(2, address.getStreet());
+                statement.setInt(3, address.getZip().getZipCode());
+                statement.setFloat(4, width);
+                statement.setFloat(5, length);
+                statement.setFloat(6, minHeight);
+                statement.setInt(7, roof.getId());
+                statement.setFloat(8, toolRoom.getWidth());
+                statement.setFloat(9, toolRoom.getLength());
+                statement.setString(10, remarks);
+                statement.setString(11, OrderStatusFacade.getOrderStatusByStatus("PENDING", connectionPool).getStatus());
+                int affectedRows = statement.executeUpdate();
+                if (affectedRows == 0) {
+                    throw new SQLException("Creating carport order failed, no rows affected.");
+                }
+
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (!generatedKeys.next()) {
+                    throw new SQLException("Creating carport order failed, no ID obtained.");
+                }
+
+                int id = generatedKeys.getInt(1);
+                return getCarportOrderById(id, connectionPool);
+            }
+        } catch (SQLException | NotFoundException e) {
+            throw new DatabaseException(e, "Could not update customer phone number");
+        }
     }
 
-    static CarportOrder createCarportOrder(CarportOrder carportOrder, ConnectionPool connectionPool) {
-        throw new UnsupportedOperationException();
+    static void updateCarportOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, newOrderStatus.getStatus());
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order status");
+        }
     }
 
-    static void updateCarportOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) {
+    private static CarportOrder createCarportOrderFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, NotFoundException, DatabaseException {
+        if (!resultSet.next()) {
+            throw new NotFoundException("CarportOrder not found");
+        }
+
+        int id = resultSet.getInt("id");
+        OrderStatus orderStatus = OrderStatusFacade.getOrderStatusByStatus(resultSet.getString("orderstatus"), connectionPool);
+        Address address = new Address(resultSet.getString("address"), ZipFacade.getZipByZipCode(resultSet.getInt("zipcode"), connectionPool));
+        String employeeEmail = resultSet.getString("fk_employee_email");
+        Optional<Employee> employee = Optional.empty();
+        if (employeeEmail != null) {
+            employee = Optional.of(EmployeeFacade.getEmployeeByEmail(employeeEmail, connectionPool));
+        }
+
+        Customer customer = CustomerFacade.getCustomerByEmail(resultSet.getString("fk_customer_email"), connectionPool);
+        Roof roof = RoofFacade.getRoofById(resultSet.getInt("fk_roof_id"), connectionPool).get(); // TODO: Fix RoofFacade to return Roof and throw NotFoundException instead of Optional
+        float width = resultSet.getFloat("width");
+        float length = resultSet.getFloat("length");
+        float minHeight = resultSet.getFloat("min_height");
+        float toolRoomWidth = resultSet.getFloat("toolroom_width");
+        float toolRoomLength = resultSet.getFloat("toolroom_length");
+        Optional<ToolRoom> toolRoom = Optional.empty();
+        if (toolRoomWidth != 0 && toolRoomLength != 0) {
+            toolRoom = Optional.of(new ToolRoom(toolRoomWidth, toolRoomLength));
+        }
+
+        Optional<String> remarks = Optional.ofNullable(resultSet.getString("remarks"));
+        float priceDb = resultSet.getFloat("price");
+        Optional<Float> price = Optional.empty();
+        if (priceDb != 0) {
+            price = Optional.of(priceDb);
+        }
+
+        return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, width, length, minHeight, toolRoom, price);
     }
 }
