@@ -1,5 +1,6 @@
 package dat.backend.model.entities;
 
+import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
@@ -184,59 +185,75 @@ public class PartsList {
         return minlength;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Lumber getPole() {
         return pole;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setPole(Lumber pole) {
         this.pole = pole;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Lumber getPlate() {
         return plate;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setPlate(Lumber plate) {
         this.plate = plate;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Lumber getRafter() {
         return rafter;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setRafter(Lumber rafter) {
         this.rafter = rafter;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getNumberOfPoles() {
         return numberOfPoles;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setNumberOfPoles(int numberOfPoles) {
         this.numberOfPoles = numberOfPoles;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getNumberOfPlates() {
         return numberOfPlates;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setNumberOfPlates(int numberOfPlates) {
         this.numberOfPlates = numberOfPlates;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getNumberOfRafters() {
         return numberOfRafters;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setNumberOfRafters(int numberOfRafters) {
         this.numberOfRafters = numberOfRafters;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getTotalPrice() {
         return totalPrice;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+
 }
