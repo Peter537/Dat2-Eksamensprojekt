@@ -4,9 +4,11 @@ import dat.backend.model.entities.Lumber;
 import dat.backend.model.entities.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,32 +18,11 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class LumberMapperTest {
-
-    private static ConnectionPool connectionPool;
-
-    @BeforeAll
-    public static void setUpClass() {
-        connectionPool = new ConnectionPool(System.getenv("JDBC_USER"), System.getenv("JDBC_PASSWORD"), System.getenv("JDBC_CONNECTION_STRING"));
-
-        try (Connection testConnection = connectionPool.getConnection()) {
-            try (Statement stmt = testConnection.createStatement()) {
-                // Create test database - if not exist
-                stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
-
-                // Create user table. Add your own tables here
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.lumber LIKE fogcarport.lumber;");
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.lumbertype LIKE fogcarport.lumbertype;");
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.type LIKE fogcarport.type;");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            fail("Database connection failed");
-        }
-    }
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class LumberMapperTest extends TestDatabase {
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // Remove all rows from all tables - add your own tables here
@@ -63,17 +44,6 @@ public class LumberMapperTest {
             System.out.println(e.getMessage());
             fail("Database connection failed");
         }
-    }
-
-    @Test
-    void testConnection() throws SQLException {
-        Connection connection = connectionPool.getConnection();
-        assertNotNull(connection);
-        assertTrue(connection.isValid(1));
-        assertFalse(connection.isClosed());
-        connection.close();
-        assertTrue(connection.isClosed());
-        assertFalse(connection.isValid(1));
     }
 
     @Test

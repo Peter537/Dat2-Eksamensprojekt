@@ -20,23 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RoofMapperTest extends TestDatabase {
 
-    @BeforeAll
-    public void setUpClass() {
-        try (Connection testConnection = super.connectionPool.getConnection()) {
-            try (Statement stmt = testConnection.createStatement()) {
-                // Create test database - if not exist
-                stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
-
-                // Create user table. Add your own tables here
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.roof LIKE fogcarport.roof;");
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.type LIKE fogcarport.type;");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            fail("Database connection failed");
-        }
-    }
-
     @BeforeEach
     public void setUp() {
         try (Connection testConnection = super.connectionPool.getConnection()) {

@@ -4,6 +4,7 @@ import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.*;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,34 +15,9 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CustomerMapperTest {
-
-    private final static String USER = "root";
-    private final static String PASSWORD = "123";
-    private final static String URL = "jdbc:mysql://localhost:3306/fogcarport_test?serverTimezone=CET&allowPublicKeyRetrieval=true&useSSL=false";
-
-    private static ConnectionPool connectionPool;
-
-    @BeforeAll
-    public static void setUpClass() {
-        connectionPool = new ConnectionPool(USER, PASSWORD, URL);
-        try (Connection testConnection = connectionPool.getConnection()) {
-            try (Statement stmt = testConnection.createStatement()) {
-                // Create test database - if not exist
-                stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
-
-                // Create user table. Add your own tables here
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.customer LIKE fogcarport.customer;");
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.zip LIKE fogcarport.zip;");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            fail("Database connection failed");
-        }
-    }
-
+class CustomerMapperTest extends TestDatabase {
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // Remove all rows from all tables - add your own tables here
@@ -59,17 +35,6 @@ class CustomerMapperTest {
             System.out.println(e.getMessage());
             fail("Database connection failed");
         }
-    }
-
-    @Test
-    void testConnection() throws SQLException {
-        Connection connection = connectionPool.getConnection();
-        assertNotNull(connection);
-        assertTrue(connection.isValid(1));
-        assertFalse(connection.isClosed());
-        connection.close();
-        assertTrue(connection.isClosed());
-        assertFalse(connection.isValid(1));
     }
 
     @Test
