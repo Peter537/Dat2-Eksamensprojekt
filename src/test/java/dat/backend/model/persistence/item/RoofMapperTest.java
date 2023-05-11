@@ -2,9 +2,7 @@ package dat.backend.model.persistence.item;
 
 import dat.backend.model.entities.Roof;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.TestDatabase;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -15,7 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RoofMapperTest extends TestDatabase {
@@ -49,7 +46,7 @@ public class RoofMapperTest extends TestDatabase {
         float expectedPrice = 100;
 
         // Act
-        Roof newRoof = RoofMapper.createRoof(expectedPrice, expectedType, super.connectionPool).orElse(null);
+        Roof newRoof = RoofFacade.createRoof(expectedPrice, expectedType, super.connectionPool).orElse(null);
 
         // Assert
         assertNotNull(newRoof);
@@ -67,7 +64,7 @@ public class RoofMapperTest extends TestDatabase {
         Roof roof = new Roof(expectedId, expectedPrice, expectedType);
 
         // Act
-        Roof newRoof = RoofMapper.createRoof(roof, super.connectionPool).orElse(null);
+        Roof newRoof = RoofFacade.createRoof(roof, super.connectionPool).orElse(null);
 
         // Assert
         assertNotNull(newRoof);
@@ -81,7 +78,7 @@ public class RoofMapperTest extends TestDatabase {
         // Arrange
         int expectedSize = 2;
         // Act
-        ArrayList<Roof> roof = RoofMapper.getAllRoofs(super.connectionPool).orElse(null);
+        ArrayList<Roof> roof = RoofFacade.getAllRoofs(super.connectionPool).orElse(null);
 
         // Assert
         assertNotNull(roof);
@@ -96,7 +93,7 @@ public class RoofMapperTest extends TestDatabase {
         float expectedPrice = 100;
 
         // Act
-        Roof roof = RoofMapper.getRoofById(expectedId, super.connectionPool).orElse(null);
+        Roof roof = RoofFacade.getRoofById(expectedId, super.connectionPool).orElse(null);
 
         // Assert
         assertNotNull(roof);
@@ -107,7 +104,7 @@ public class RoofMapperTest extends TestDatabase {
 
     @Test
     void testInvalidGetRoofById() {
-        assertThrows(DatabaseException.class, () -> RoofMapper.getRoofById(3, super.connectionPool));
+        assertThrows(DatabaseException.class, () -> RoofFacade.getRoofById(3, super.connectionPool));
     }
 
     @Test
@@ -116,7 +113,7 @@ public class RoofMapperTest extends TestDatabase {
         int expectedSize = 1;
 
         // Act
-        ArrayList<Roof> roof = RoofMapper.getRoofByType("PLASTIC_ROOF", super.connectionPool).orElse(null);
+        ArrayList<Roof> roof = RoofFacade.getRoofByType("PLASTIC_ROOF", super.connectionPool).orElse(null);
 
         // Assert
         assertNotNull(roof);
@@ -125,6 +122,6 @@ public class RoofMapperTest extends TestDatabase {
 
     @Test
     void testInvalidGetRoofByType() {
-        assertThrows(DatabaseException.class, () -> RoofMapper.getRoofByType("TEST", super.connectionPool));
+        assertThrows(DatabaseException.class, () -> RoofFacade.getRoofByType("TEST", super.connectionPool));
     }
 }
