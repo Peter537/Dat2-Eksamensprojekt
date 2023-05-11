@@ -5,12 +5,12 @@ import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.item.LumberFacade;
-import dat.backend.model.persistence.item.LumbertypeFacade;
+import dat.backend.model.persistence.item.LumberTypeFacade;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static dat.backend.model.persistence.item.LumbertypeFacade.getLumbertypeByType;
+import static dat.backend.model.persistence.item.LumberTypeFacade.getLumbertypeByType;
 
 public class PartsList {
 
@@ -68,7 +68,7 @@ public class PartsList {
 
 
     public static LumberType calculateRafterType(int width, ConnectionPool connectionPool) throws DatabaseException {
-        ArrayList<LumberType> lrafter = LumbertypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
+        ArrayList<LumberType> lrafter = LumberTypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
         Collections.sort(lrafter);
         float dim = (float)calculateDimensions(width);
         for (LumberType lumberType : lrafter) {

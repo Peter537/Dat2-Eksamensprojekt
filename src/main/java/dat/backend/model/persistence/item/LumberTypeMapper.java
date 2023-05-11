@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
-class LumbertypeMapper {
+class LumberTypeMapper {
     static Optional<ArrayList<LumberType>> getLumbertypeByType(String lumberType, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM lumbertype WHERE type = ?";
