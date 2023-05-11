@@ -3,9 +3,7 @@ package dat.backend.model.persistence.item;
 import dat.backend.model.entities.Lumber;
 import dat.backend.model.entities.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.TestDatabase;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -16,7 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LumberMapperTest extends TestDatabase {
@@ -51,13 +48,13 @@ public class LumberMapperTest extends TestDatabase {
         // Arrange
         int id = 1;
         int expectedLength = 180;
-        LumberType expectedType = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType expectedType = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         int expectedAmount = 1000;
         assert expectedType != null;
         int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
 
         // Act
-        Lumber lumber = LumberMapper.getLumberById(id, connectionPool).orElse(null);
+        Lumber lumber = LumberFacade.getLumberById(id, connectionPool).orElse(null);
 
         // Assert
         assertNotNull(lumber);
@@ -73,17 +70,17 @@ public class LumberMapperTest extends TestDatabase {
         int id = 100;
 
         // Assert throws exception
-        assertThrows(DatabaseException.class, () -> LumberMapper.getLumberById(id, connectionPool));
+        assertThrows(DatabaseException.class, () -> LumberFacade.getLumberById(id, connectionPool));
     }
 
     @Test
     void testValidGetLumberByType() throws DatabaseException {
         // Arrange
-        LumberType type = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType type = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         assert type != null;
 
         // Act
-        ArrayList<Lumber> lumber = LumberMapper.getLumberByType(type, connectionPool).orElse(null);
+        ArrayList<Lumber> lumber = LumberFacade.getLumberByType(type, connectionPool).orElse(null);
         assert lumber != null;
         assertEquals(2, lumber.size());
 
@@ -97,24 +94,24 @@ public class LumberMapperTest extends TestDatabase {
     @Test
     void testInvalidGetLumberByType() throws DatabaseException {
         // Arrange
-        LumberType type = LumbertypeMapper.getLumbertypeById(3, connectionPool).orElse(null);
+        LumberType type = LumbertypeFacade.getLumbertypeById(3, connectionPool).orElse(null);
         assert type != null;
 
         // Assert throws exception
-        assertThrows(DatabaseException.class, () -> LumberMapper.getLumberByType(type, connectionPool));
+        assertThrows(DatabaseException.class, () -> LumberFacade.getLumberByType(type, connectionPool));
     }
 
     @Test
     void testValidGetLumberByLength() throws DatabaseException {
         // Arrange
-        LumberType type = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType type = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         assert type != null;
         int expectedLength = 180;
         int expectedAmount = 1000;
         int expectedPrice = LumberMapper.calcPrice(expectedLength, type.getMeterPrice());
 
         // Act
-        ArrayList<Lumber> lumber = LumberMapper.getLumberByLength(expectedLength, connectionPool).orElse(null);
+        ArrayList<Lumber> lumber = LumberFacade.getLumberByLength(expectedLength, connectionPool).orElse(null);
         assert lumber != null;
         assertEquals(1, lumber.size());
 
@@ -134,7 +131,7 @@ public class LumberMapperTest extends TestDatabase {
         int length = 100;
 
         // Assert throws exception
-        assertThrows(DatabaseException.class, () -> LumberMapper.getLumberByLength(length, connectionPool));
+        assertThrows(DatabaseException.class, () -> LumberFacade.getLumberByLength(length, connectionPool));
     }
 
     @Test
@@ -143,7 +140,7 @@ public class LumberMapperTest extends TestDatabase {
         int expectedAmount = 3;
 
         // Act
-        ArrayList<Lumber> lumber = LumberMapper.getAllLumber(connectionPool).orElse(null);
+        ArrayList<Lumber> lumber = LumberFacade.getAllLumber(connectionPool).orElse(null);
         assert lumber != null;
         assertEquals(expectedAmount, lumber.size());
 
@@ -158,13 +155,13 @@ public class LumberMapperTest extends TestDatabase {
     void testCreateLumber() throws DatabaseException {
         // Arrange
         int expectedLength = 200;
-        LumberType expectedType = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType expectedType = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         assert expectedType != null;
         int expectedAmount = 1000;
         int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
 
         // Act
-        Lumber lumber = LumberMapper.createLumber(expectedLength, expectedType.getId(), expectedAmount, connectionPool).orElse(null);
+        Lumber lumber = LumberFacade.createLumber(expectedLength, expectedType.getId(), expectedAmount, connectionPool).orElse(null);
 
         // Assert
         assertNotNull(lumber);
@@ -178,14 +175,14 @@ public class LumberMapperTest extends TestDatabase {
     void testCreateLumberWithLumber() throws DatabaseException {
         // Arrange
         int expectedLength = 200;
-        LumberType expectedType = LumbertypeMapper.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType expectedType = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         assert expectedType != null;
         int expectedAmount = 1000;
         int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
         Lumber lumber = new Lumber(0, expectedLength, expectedType, expectedPrice, expectedAmount);
 
         // Act
-        Lumber newlumber = LumberMapper.createLumber(lumber, connectionPool).orElse(null);
+        Lumber newlumber = LumberFacade.createLumber(lumber, connectionPool).orElse(null);
 
         // Assert
         assertNotNull(newlumber);
