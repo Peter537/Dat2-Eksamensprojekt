@@ -122,7 +122,11 @@ public class ChangeCustomerInfo extends HttpServlet {
     }
 
     public void changePersonPhoneNumber(Customer customer, HttpServletRequest request) {
-        String oldCustomerPhone = customer.getPersonalPhoneNumber().get();
+
+        String oldCustomerPhone = "";
+        if (customer.getPersonalPhoneNumber().isPresent()) {
+            oldCustomerPhone = customer.getPersonalPhoneNumber().get();
+        }
 
         String phone = request.getParameter("newPhoneNumber");
 
@@ -131,7 +135,7 @@ public class ChangeCustomerInfo extends HttpServlet {
                 CustomerFacade.updatePhoneNumber(customer, phone, connectionPool);
                 request.setAttribute("phoneSuccess", "telefonnummer-ændring succesfuldt");
             } catch (DatabaseException | ValidationException e) {
-                request.setAttribute("errormessage", "telefonnummer kunne ikke opdateres");
+                request.setAttribute("errormessage", "Telefonnummer kunne ikke opdateres. Telefonnummeret skal være 8 cifre.");
             }
         }
     }
