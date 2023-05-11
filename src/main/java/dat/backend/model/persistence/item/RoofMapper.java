@@ -14,7 +14,7 @@ import java.util.Optional;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 class RoofMapper {
-    public static Optional<Roof> getRoofById(int id, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<Roof> getRoofById(int id, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM roof WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -41,11 +41,11 @@ class RoofMapper {
         }
     }
 
-    public static Optional<Roof> createRoof(Roof roof, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<Roof> createRoof(Roof roof, ConnectionPool connectionPool) throws DatabaseException {
         return createRoof(roof.getSquareMeterPrice(), roof.getType(), connectionPool);
     }
 
-    public static Optional<Roof> createRoof(float squaremeterprice, String type, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<Roof> createRoof(float squaremeterprice, String type, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO roof (squaremeter_price, type) VALUES (?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, RETURN_GENERATED_KEYS)) {
@@ -69,7 +69,7 @@ class RoofMapper {
         }
     }
 
-    public static Optional<ArrayList<Roof>> getRoofByType(String type, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<ArrayList<Roof>> getRoofByType(String type, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM roof WHERE type = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -101,7 +101,7 @@ class RoofMapper {
         }
     }
 
-    public static Optional<ArrayList<Roof>> getAllRoofs(ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<ArrayList<Roof>> getAllRoofs(ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM roof";
         try (Connection connection = connectionPool.getConnection()) {
