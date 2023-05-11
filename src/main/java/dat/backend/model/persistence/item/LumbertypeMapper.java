@@ -31,6 +31,10 @@ public class LumbertypeMapper {
                         LumberType lumberTypeInstance = new LumberType(id, width, thickness, meterprice, lumberType);
                         lumbertypelist.add(lumberTypeInstance);
                     }
+
+                    if (lumbertypelist.isEmpty()) {
+                        throw new DatabaseException("Could not get lumber by type");
+                    }
                     
                     return Optional.of(lumbertypelist);
             }
