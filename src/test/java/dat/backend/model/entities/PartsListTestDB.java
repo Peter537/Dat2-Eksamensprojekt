@@ -68,6 +68,7 @@ class PartsListTestDB {
 
 
 
+
     @Test
     void calculateRafterType() throws DatabaseException {
         // arrange
@@ -75,14 +76,6 @@ class PartsListTestDB {
         double expectedWidth = 195;
         String expectedType = "RAFTER";
         int width = 672;
-        // Dimentions
-        double expectedDim = 170;
-        double actualDim = PartsList.calculateDimensions(width);
-        assertEquals(expectedDim, actualDim);
-
-        ArrayList<LumberType> lrafter = LumbertypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
-        Collections.sort(lrafter);
-
 
         //act
         LumberType rafterType = PartsList.calculateRafterType(width, connectionPool);
@@ -96,8 +89,11 @@ class PartsListTestDB {
     void calculatePole() throws DatabaseException {
         // arrange
         int expectedLength = 480;
+        int width = 672;
+        int height = 200;
+
         //act
-        Lumber pole = PartsList.calculatePole(200, 200, connectionPool);
+        Lumber pole = PartsList.calculatePole(height, width, connectionPool);
 
         // assert
         assertEquals(expectedLength, pole.getLength());

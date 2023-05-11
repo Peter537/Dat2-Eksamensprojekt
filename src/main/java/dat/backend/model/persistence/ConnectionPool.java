@@ -35,7 +35,8 @@ public class ConnectionPool {
         config.setJdbcUrl(url);
         config.setUsername(user);
         config.setPassword(password);
-        config.setMaximumPoolSize(20);
+        config.setMaximumPoolSize(30);
+        config.setConnectionTimeout(30000);
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
@@ -45,6 +46,10 @@ public class ConnectionPool {
     public Connection getConnection() throws SQLException {
         Logger.getLogger("web").log(Level.INFO, ": get data connection");
         return ds.getConnection();
+    }
+
+    public HikariDataSource getDataSource() {
+        return ds;
     }
 
     public void close() {

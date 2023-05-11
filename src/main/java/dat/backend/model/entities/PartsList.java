@@ -50,7 +50,7 @@ public class PartsList {
         Collections.sort(lpole);
 
         LumberType rafterType = calculateRafterType(width, connectionPool);
-        int minheight = height + 90 + (int)rafterType.getWidth();
+        int minheight = height + 90 + ((int)rafterType.getWidth()/10);
 
         for (Lumber lumber : lpole) {
             if (lumber.getLength() >= minheight) {
