@@ -2,108 +2,93 @@ package dat.backend.model.persistence.item;
 
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Optional;
-
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
+import java.util.List;
 
 class RoofMapper {
 
-    static Optional<Roof> getRoofById(int id, ConnectionPool connectionPool) throws DatabaseException {
+    static Roof getRoofById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM roof WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
                 ResultSet resultSet = statement.executeQuery();
                 if (!resultSet.next()) {
-                    throw new DatabaseException("Could not get roof by id");
+                    throw new NotFoundException("Could not get roof by id");
                 }
 
-                float squaremeterprice = resultSet.getFloat("squaremeter_price");
+                float squareMeterPrice = resultSet.getFloat("squaremeter_price");
                 String type = resultSet.getString("type");
-                Roof roof = new Roof(id, squaremeterprice, type);
-                return Optional.of(roof);
+                return new Roof(id, squareMeterPrice, type);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get roof by id");
         }
     }
 
-    static Optional<Roof> createRoof(Roof roof, ConnectionPool connectionPool) throws DatabaseException {
-        return createRoof(roof.getSquareMeterPrice(), roof.getType(), connectionPool);
-    }
-
-    static Optional<Roof> createRoof(float squaremeterprice, String type, ConnectionPool connectionPool) throws DatabaseException {
+    static Roof createRoof(float squareMeterPrice, String type, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO roof (squaremeter_price, type) VALUES (?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query, RETURN_GENERATED_KEYS)) {
-                statement.setFloat(1, squaremeterprice);
+            try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                statement.setFloat(1, squareMeterPrice);
                 statement.setString(2, type); // TODO: Check if type exists. Figure out if we want to create a new type if it doesn't exist or just an error.
                 statement.executeUpdate();
-
                 ResultSet rs = statement.getGeneratedKeys();
                 if (!rs.next()) {
                     throw new DatabaseException("Could not create roof");
                 }
 
                 int id = rs.getInt(1);
-                Roof roof = new Roof(id, squaremeterprice, type);
-                return Optional.of(roof);
+                return new Roof(id, squareMeterPrice, type);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not create roof");
         }
     }
 
-    static Optional<ArrayList<Roof>> getRoofByType(String type, ConnectionPool connectionPool) throws DatabaseException {
+    static List<Roof> getRoofByType(String type, ConnectionPool connectionPool) throws DatabaseException {
+        List<Roof> rooflist = new ArrayList<>();
         String query = "SELECT * FROM roof WHERE type = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, type);
-                ArrayList<Roof> rooflist = new ArrayList<>();
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
-                    float squaremeterprice = resultSet.getFloat("squaremeter_price");
-                    Roof roof = new Roof(id, squaremeterprice, type);
+                    float squareMeterPrice = resultSet.getFloat("squaremeter_price");
+                    Roof roof = new Roof(id, squareMeterPrice, type);
                     rooflist.add(roof);
                 }
-
-                if (rooflist.size() == 0) {
-                    throw new DatabaseException("Could not get roof by type");
-                }
-
-                return Optional.of(rooflist);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get roof by type");
         }
+
+        return rooflist;
     }
 
-    static Optional<ArrayList<Roof>> getAllRoofs(ConnectionPool connectionPool) throws DatabaseException {
+    static List<Roof> getAllRoofs(ConnectionPool connectionPool) throws DatabaseException {
+        List<Roof> rooflist = new ArrayList<>();
         String query = "SELECT * FROM roof";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
-                ArrayList<Roof> rooflist = new ArrayList<>();
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
-                    float squaremeterprice = resultSet.getFloat("squaremeter_price");
+                    float squareMeterPrice = resultSet.getFloat("squaremeter_price");
                     String type = resultSet.getString("type");
-                    Roof roof = new Roof(id, squaremeterprice, type);
+                    Roof roof = new Roof(id, squareMeterPrice, type);
                     rooflist.add(roof);
                 }
-
-                return Optional.of(rooflist);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get all roof");
         }
+
+        return rooflist;
     }
 }
