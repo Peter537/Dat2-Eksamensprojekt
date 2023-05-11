@@ -28,6 +28,10 @@ public class Address {
         this.zip = zip;
     }
 
+    public String getAddress() {
+    	return this.street + ", " + this.zip.getZipCode() + " " + this.zip.getCityName();
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
