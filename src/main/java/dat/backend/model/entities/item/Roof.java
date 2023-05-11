@@ -4,31 +4,21 @@ import java.util.Objects;
 
 public class Roof extends Item {
 
-    private int id;
-    private float SquareMeterPrice;
+    private float squareMeterPrice;
     private String type;
 
-    public Roof(int id, float SquareMeterPrice, String type) {
-        super(id, 0);
-        this.id = id;
-        this.SquareMeterPrice = SquareMeterPrice;
+    public Roof(int id, float squareMeterPrice, String type) {
+        super(id);
+        this.squareMeterPrice = squareMeterPrice;
         this.type = type;
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public float getSquareMeterPrice() {
-        return this.SquareMeterPrice;
+        return this.squareMeterPrice;
     }
 
     public void setSquareMeterPrice(float squareMeterPrice) {
-        this.SquareMeterPrice = squareMeterPrice;
+        this.squareMeterPrice = squareMeterPrice;
     }
 
     public String getType() {
@@ -44,7 +34,7 @@ public class Roof extends Item {
         if (this == other) return true;
         if (!(other instanceof Roof)) return false;
         Roof roof = (Roof) other;
-        return this.getId() == roof.getId() &&
+        return super.equals(other) &&
                 this.getSquareMeterPrice() == roof.getSquareMeterPrice();
     }
 
@@ -56,8 +46,9 @@ public class Roof extends Item {
     @Override
     public String toString() {
         return "Roof{" +
-                "id=" + this.id +
-                ", meterPrice=" + this.SquareMeterPrice +
+                "id=" + this.getId() +
+                ", meterPrice=" + this.squareMeterPrice +
+                ", type='" + this.type + '\'' +
                 '}';
     }
 }

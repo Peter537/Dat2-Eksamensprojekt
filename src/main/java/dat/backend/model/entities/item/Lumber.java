@@ -1,20 +1,20 @@
 package dat.backend.model.entities.item;
 
 import java.util.Objects;
+import java.util.Optional;
 
-public class Lumber extends Item implements Comparable<Lumber>{
+public class Lumber extends Item implements Comparable<Lumber> {
 
     private int length;
     private LumberType lumberType;
     private int amount;
 
-    public Lumber(int id, int length, LumberType lumberType, int price, int amount) {
-        super(id, price);
+    public Lumber(int id, int length, LumberType lumberType, Integer price, int amount) {
+        super(id, Optional.ofNullable(price));
         this.length = length;
         this.lumberType = lumberType;
         this.amount = amount;
     }
-
 
     public int getLength() {
         return this.length;
@@ -45,7 +45,7 @@ public class Lumber extends Item implements Comparable<Lumber>{
         if (this == other) return true;
         if (!(other instanceof Lumber)) return false;
         Lumber lumber = (Lumber) other;
-        return this.getId() == lumber.getId() &&
+        return super.equals(other) &&
                 this.getLength() == lumber.getLength() &&
                 this.getLumberType().equals(lumber.getLumberType());
     }
@@ -61,6 +61,7 @@ public class Lumber extends Item implements Comparable<Lumber>{
                 "id=" + this.getId() +
                 ", length=" + this.length +
                 ", lumberType=" + this.lumberType +
+                ", amount=" + this.amount +
                 ", price=" + this.getPrice() +
                 '}';
     }
