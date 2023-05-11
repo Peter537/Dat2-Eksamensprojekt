@@ -2,6 +2,7 @@ package dat.backend.model.persistence.item;
 
 import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,9 +38,8 @@ class LumberTypeMapperTest extends TestDatabase {
     }
 
     @Test
-    void testValidGetLumbertypeById() throws DatabaseException {
-        LumberType lumberType = LumberTypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
-        assert lumberType != null;
+    void testValidGetLumberTypeById() throws DatabaseException, NotFoundException {
+        LumberType lumberType = LumberTypeFacade.getLumberTypeById(1, connectionPool);
         assertEquals(97, lumberType.getThickness());
         assertEquals(97, lumberType.getWidth());
         assertEquals("POLE", lumberType.getType());
@@ -47,15 +47,14 @@ class LumberTypeMapperTest extends TestDatabase {
     }
 
     @Test
-    void testInvalidGetLumbertypeById() {
-        assertThrows(DatabaseException.class, () -> LumberTypeFacade.getLumbertypeById(0, connectionPool));
+    void testInvalidGetLumberTypeById() {
+        assertThrows(NotFoundException.class, () -> LumberTypeFacade.getLumberTypeById(0, connectionPool));
     }
 
     @Test
-    void testValidGetLumbertypeByType() throws DatabaseException {
-        ArrayList<LumberType> lumberType = LumberTypeFacade.getLumbertypeByType("POLE", connectionPool).orElse(null);
-
-        assert lumberType != null;
+    void testValidGetLumberTypeByType() throws DatabaseException {
+        List<LumberType> lumberType = LumberTypeFacade.getLumberTypeByType("POLE", connectionPool);
+        assertFalse(lumberType.isEmpty());
         for (LumberType lt : lumberType) {
             assertEquals(97, lt.getThickness());
             assertEquals(97, lt.getWidth());
@@ -63,19 +62,17 @@ class LumberTypeMapperTest extends TestDatabase {
             assertEquals(60, lt.getMeterPrice());
         }
 
-        ArrayList<LumberType> lumberType2 = LumberTypeFacade.getLumbertypeByType("RAFTER", connectionPool).orElse(null);
-
-        assert lumberType2 != null;
-
+        List<LumberType> lumberType2 = LumberTypeFacade.getLumberTypeByType("RAFTER", connectionPool);
+        assertFalse(lumberType2.isEmpty());
         assertEquals(45, lumberType2.get(0).getThickness());
         assertEquals(195, lumberType2.get(0).getWidth());
         assertEquals("RAFTER", lumberType2.get(0).getType());
         assertEquals(48, lumberType2.get(0).getMeterPrice());
-
     }
 
     @Test
-    void testInvalidGetLumbertypeByType() {
-        assertThrows(DatabaseException.class, () -> LumberTypeFacade.getLumbertypeByType("INVALID", connectionPool));
+    void testInvalidGetLumberTypeByType() throws DatabaseException {
+        assertTrue(LumberTypeFacade.getLumberTypeByType("INVALID", connectionPool).isEmpty());
+        assertEquals(0, LumberTypeFacade.getLumberTypeByType("INVALID", connectionPool).size());
     }
 }
