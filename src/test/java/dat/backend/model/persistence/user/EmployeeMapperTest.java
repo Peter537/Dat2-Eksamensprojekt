@@ -3,10 +3,11 @@ package dat.backend.model.persistence.user;
 import dat.backend.model.entities.user.Department;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.entities.user.Position;
-import dat.backend.model.exceptions.*;
-import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.exceptions.AlreadyExistsException;
+import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.TestDatabase;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class EmployeeMapperTest extends TestDatabase {
 
