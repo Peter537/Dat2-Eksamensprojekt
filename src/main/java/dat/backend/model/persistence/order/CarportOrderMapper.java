@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 class CarportOrderMapper {
 
     static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
@@ -106,6 +107,129 @@ class CarportOrderMapper {
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order status");
+        }
+    }
+
+    static void updateCarportOrderEmployee(CarportOrder carportOrder, Optional<Employee> employee, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET fk_employee_email = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                if (employee.isPresent()) {
+                    statement.setString(1, employee.get().getEmail());
+                } else {
+                    statement.setNull(1, Types.VARCHAR);
+                }
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order employee");
+        }
+    }
+
+    static void updateCarportOrderWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET width = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setFloat(1, width);
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order width");
+        }
+    }
+
+    static void updateCarportOrderLength(CarportOrder carportOrder, float length, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET length = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setFloat(1, length);
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order length");
+        }
+    }
+
+    static void updateCarportOrderMinHeight(CarportOrder carportOrder, float minHeight, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET min_height = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setFloat(1, minHeight);
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order min height");
+        }
+    }
+
+    static void updateCarportOrderToolRoom(CarportOrder carportOrder, Optional<ToolRoom> toolRoom, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET toolroom_width = ?, toolroom_length = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                if (toolRoom.isPresent()) {
+                    statement.setFloat(1, toolRoom.get().getWidth());
+                    statement.setFloat(2, toolRoom.get().getLength());
+                } else {
+                    statement.setNull(1, Types.FLOAT);
+                    statement.setNull(2, Types.FLOAT);
+                }
+                statement.setInt(3, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order tool room width");
+        }
+    }
+
+    static void updateCarportOrderPrice(CarportOrder carportOrder, Optional<Float> price, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET price = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                if (price.isPresent()) {
+                    statement.setFloat(1, price.get());
+                } else {
+                    statement.setNull(1, Types.FLOAT);
+                }
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order price");
+        }
+    }
+
+    static void updateCarportOrderRemarks(CarportOrder carportOrder, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET remarks = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                if (remarks.isPresent()) {
+                    statement.setString(1, remarks.get());
+                } else {
+                    statement.setNull(1, Types.VARCHAR);
+                }
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order remarks");
+        }
+    }
+
+    static void updateCarportOrderAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET address = ?, zipcode = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, address.getStreet());
+                statement.setInt(2, address.getZip().getZipCode());
+                statement.setInt(3, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order address");
         }
     }
 
