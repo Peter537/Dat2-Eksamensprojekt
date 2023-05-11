@@ -1,5 +1,7 @@
 package dat.backend.model.entities.item;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 
 public class Roof extends Item {
@@ -13,18 +15,22 @@ public class Roof extends Item {
         this.type = type;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public float getSquareMeterPrice() {
-        return this.squareMeterPrice;
+        return squareMeterPrice;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setSquareMeterPrice(float squareMeterPrice) {
         this.squareMeterPrice = squareMeterPrice;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public String getType() {
-        return this.type;
+        return type;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setType(String type) {
         this.type = type;
     }

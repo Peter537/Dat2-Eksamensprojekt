@@ -1,5 +1,7 @@
 package dat.backend.model.entities.item;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,18 +20,22 @@ public abstract class Item {
         this(id, Optional.empty());
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
-        return this.id;
+        return id;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setId(int id) {
         this.id = id;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<Integer> getPrice() {
-        return this.price;
+        return price;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setPrice(Optional<Integer> price) {
         this.price = price;
     }

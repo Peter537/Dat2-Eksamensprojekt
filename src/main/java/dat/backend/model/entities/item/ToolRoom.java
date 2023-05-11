@@ -1,5 +1,7 @@
 package dat.backend.model.entities.item;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 
 public class ToolRoom {
@@ -12,19 +14,23 @@ public class ToolRoom {
         this.width = width;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public float getLength() {
-        return this.length;
+        return length;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setLength(float length) {
         this.length = length;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public float getWidth() {
-        return this.width;
+        return width;
     }
 
-    public void setWidth(Float width) {
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setWidth(float width) {
         this.width = width;
     }
 

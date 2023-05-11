@@ -1,5 +1,7 @@
 package dat.backend.model.entities.item;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -16,28 +18,34 @@ public class Lumber extends Item implements Comparable<Lumber> {
         this.amount = amount;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getLength() {
-        return this.length;
+        return length;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setLength(int length) {
         this.length = length;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public LumberType getLumberType() {
-        return this.lumberType;
+        return lumberType;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setLumberType(LumberType lumberType) {
         this.lumberType = lumberType;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getAmount() {
-    	return this.amount;
+        return amount;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setAmount(int amount) {
-    	this.amount = amount;
+        this.amount = amount;
     }
 
     @Override

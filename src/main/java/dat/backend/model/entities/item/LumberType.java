@@ -1,5 +1,7 @@
 package dat.backend.model.entities.item;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 
 public class LumberType implements Comparable<LumberType> {
@@ -18,42 +20,52 @@ public class LumberType implements Comparable<LumberType> {
         this.type = type;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
-        return this.id;
+        return id;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setId(int id) {
         this.id = id;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public float getWidth() {
-        return this.width;
+        return width;
     }
 
-    public void setWidth(int width) {
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setWidth(float width) {
         this.width = width;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public float getThickness() {
-        return this.thickness;
+        return thickness;
     }
 
-    public void setThickness(int thickness) {
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setThickness(float thickness) {
         this.thickness = thickness;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public float getMeterPrice() {
-        return this.meterPrice;
+        return meterPrice;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setMeterPrice(float meterPrice) {
         this.meterPrice = meterPrice;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public String getType() {
-        return this.type;
+        return type;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setType(String type) {
         this.type = type;
     }
