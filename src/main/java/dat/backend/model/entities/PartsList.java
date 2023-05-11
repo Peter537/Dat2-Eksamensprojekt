@@ -39,7 +39,11 @@ public class PartsList {
     }
 
     private int calculateTotalPrice() {
-        return (pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters); // the getPrice() method is inherited from Item. It is not implemented yet.
+        if (!pole.getPrice().isPresent() || !plate.getPrice().isPresent() || !rafter.getPrice().isPresent()) {
+            throw new IllegalStateException("One or more of the lumber types does not have a price.");
+        }
+
+        return (pole.getPrice().get() * numberOfPoles) + (plate.getPrice().get() * numberOfPlates) + (rafter.getPrice().get() * numberOfRafters); // the getPrice() method is inherited from Item. It is not implemented yet.
     }
 
 
