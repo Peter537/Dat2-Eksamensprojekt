@@ -58,6 +58,8 @@ public class ChangeCustomerInfo extends HttpServlet {
 
     private void saveAddresses(Customer customer, HttpServletRequest request) {
 
+
+
         // for loop 1-3
         int zipcode = 0;
         for (int i = 1; i <= 3; i++) {
@@ -65,7 +67,7 @@ public class ChangeCustomerInfo extends HttpServlet {
 
             String zipTest = request.getParameter("zipCode" + i);
 
-            if (zipTest != null && !zipTest.isEmpty()) {
+            if (zipTest != null && !zipTest.isEmpty() ) {
                 zipcode = Integer.parseInt(zipTest);
 
             Zip zip = null;
@@ -74,6 +76,7 @@ public class ChangeCustomerInfo extends HttpServlet {
                     zip = ZipFacade.getZipByZipCode(zipcode, connectionPool);
 
                     CustomerFacade.updateAddress(customer, i, street, zip, connectionPool);
+                    request.setAttribute("addressSuccess", "adresse-ændring succesfuldt");
 
                 } catch (DatabaseException | NotFoundException e) {
                     request.setAttribute("errormessage", "zip kunne ikke findes");
@@ -92,6 +95,7 @@ public class ChangeCustomerInfo extends HttpServlet {
         if(name != null && !name.isEmpty()) {
             try {
                 CustomerFacade.updateName(customer, name, connectionPool);
+                request.setAttribute("nameSuccess", "navn-ændring succesfuldt");
             } catch (DatabaseException | ValidationException e) {
                 request.setAttribute("errormessage", "navnet kunne til dette");
             }
@@ -100,25 +104,32 @@ public class ChangeCustomerInfo extends HttpServlet {
 
     public void changePassword(Customer customer, HttpServletRequest request) {
 
+        String oldPassword = request.getParameter("oldPassword");
         String password = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
+        String oldCustomerPassword = customer.getPassword();
 
-        if (password != null && !password.isEmpty() && password.equals(confirmPassword)) {
+        if (oldPassword != null && !oldPassword.isEmpty() && !oldCustomerPassword.equals(oldPassword)) {
+            request.setAttribute("errormessage", "gammelt kodeord er ikke korrekt");
+        } else if (password != null && !password.isEmpty() && password.equals(confirmPassword)) {
             try {
                 CustomerFacade.updatePassword(customer, password, connectionPool);
+                request.setAttribute("passwordSuccess", "password-ændring succesfuldt");
             } catch (DatabaseException | ValidationException e) {
-                request.setAttribute("errormessage", "password kunne ikke opdateres");
+                request.setAttribute("errormessage", "password kunne ikke opdateres, prøv igen.");
             }
         }
     }
 
     public void changePersonPhoneNumber(Customer customer, HttpServletRequest request) {
+        String oldCustomerPhone = customer.getPersonalPhoneNumber().get();
 
         String phone = request.getParameter("newPhoneNumber");
 
-        if (phone != null && !phone.isEmpty()) {
+        if (phone != null && !phone.isEmpty() && !oldCustomerPhone.equals(phone)) {
             try {
                 CustomerFacade.updatePhoneNumber(customer, phone, connectionPool);
+                request.setAttribute("phoneSuccess", "telefonnummer-ændring succesfuldt");
             } catch (DatabaseException | ValidationException e) {
                 request.setAttribute("errormessage", "telefonnummer kunne ikke opdateres");
             }
