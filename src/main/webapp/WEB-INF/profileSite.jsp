@@ -262,20 +262,20 @@
 
                                 <c:choose>
                                     <c:when test="${sessionScope.user.address1.present}">
-                                    <c:set var="address1" value="${sessionScope.user.address1.get().getStreet()}"/>
+                                        <c:set var="address1" value="${sessionScope.user.address1.get().getStreet()}"/>
                                     </c:when>
                                     <c:otherwise>
-                                    <c:set var="address1" value="ikke sat"/>
+                                        <c:set var="address1" value="ikke sat"/>
                                     </c:otherwise>
                                 </c:choose>
 
                                <c:choose>
                                    <c:when test="${sessionScope.user.address2.present}">
                                        <c:set var="address2" value="${sessionScope.user.address2.get().getStreet()}"/>
-                                     </c:when>
-                                     <c:otherwise>
-                                          <c:set var="address2" value="ikke sat"/>
-                                        </c:otherwise>
+                                   </c:when>
+                                   <c:otherwise>
+                                         <c:set var="address2" value="ikke sat"/>
+                                   </c:otherwise>
                                </c:choose>
 
                                 <c:choose>
@@ -353,7 +353,7 @@
                                     <div class="col-6">
                                         <label for="zipCode3">Zip code 3</label>
                                         <input class="form-control" type="number" name="zipCode3" id="zipCode3"
-                                               placeholder="ex. 2400" value="${zip3}">
+                                               placeholder="${zip3}">
                                     </div>
 
                                 </div>
