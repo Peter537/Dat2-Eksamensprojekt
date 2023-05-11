@@ -98,6 +98,13 @@ public class LumbertypeMapperTest {
     }
 
     @Test
+    void testValidGetLumbertypeByTypeRAFTER() throws DatabaseException {
+        ArrayList<LumberType> lumberType = LumbertypeMapper.getLumbertypeByType("RAFTER", connectionPool).orElse(null);
+
+        assertEquals(2, lumberType.size());
+    }
+
+    @Test
     void testInvalidGetLumbertypeByType() throws DatabaseException {
         assertThrows(DatabaseException.class, () -> LumbertypeMapper.getLumbertypeByType("INVALID", connectionPool));
     }

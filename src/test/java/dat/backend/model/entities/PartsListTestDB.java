@@ -2,6 +2,8 @@ package dat.backend.model.entities;
 
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.item.LumbertypeFacade;
+import dat.backend.model.persistence.item.LumbertypeMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -63,15 +67,25 @@ class PartsListTestDB {
 
 
 
+
     @Test
     void calculateRafterType() throws DatabaseException {
         // arrange
 
         double expectedWidth = 195;
         String expectedType = "RAFTER";
+        int width = 672;
+        // Dimentions
+        double expectedDim = 170;
+        double actualDim = PartsList.calculateDimensions(width);
+        assertEquals(expectedDim, actualDim);
+
+        ArrayList<LumberType> lrafter = LumbertypeFacade.getLumbertypeByType("RAFTER", connectionPool).get();
+        Collections.sort(lrafter);
+
 
         //act
-        LumberType rafterType = PartsList.calculateRafterType(672, connectionPool);
+        LumberType rafterType = PartsList.calculateRafterType(width, connectionPool);
         // assert
         assertEquals(expectedWidth, rafterType.getWidth());
         assertEquals(expectedType, rafterType.getType());
