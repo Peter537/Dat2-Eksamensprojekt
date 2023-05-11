@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class LumbertypeMapperTest extends TestDatabase {
+public class LumberTypeMapperTest extends TestDatabase {
 
     @BeforeEach
     public void setUp() {
@@ -40,7 +40,7 @@ public class LumbertypeMapperTest extends TestDatabase {
 
     @Test
     void testValidGetLumbertypeById() throws DatabaseException {
-        LumberType lumberType = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType lumberType = LumberTypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         assert lumberType != null;
         assertEquals(97, lumberType.getThickness());
         assertEquals(97, lumberType.getWidth());
@@ -50,12 +50,12 @@ public class LumbertypeMapperTest extends TestDatabase {
 
     @Test
     void testInvalidGetLumbertypeById() {
-        assertThrows(DatabaseException.class, () -> LumbertypeFacade.getLumbertypeById(0, connectionPool));
+        assertThrows(DatabaseException.class, () -> LumberTypeFacade.getLumbertypeById(0, connectionPool));
     }
 
     @Test
     void testValidGetLumbertypeByType() throws DatabaseException {
-        ArrayList<LumberType> lumberType = LumbertypeFacade.getLumbertypeByType("POLE", connectionPool).orElse(null);
+        ArrayList<LumberType> lumberType = LumberTypeFacade.getLumbertypeByType("POLE", connectionPool).orElse(null);
 
         assert lumberType != null;
         for (LumberType lt : lumberType) {
@@ -65,7 +65,7 @@ public class LumbertypeMapperTest extends TestDatabase {
             assertEquals(60, lt.getMeterPrice());
         }
 
-        ArrayList<LumberType> lumberType2 = LumbertypeFacade.getLumbertypeByType("RAFTER", connectionPool).orElse(null);
+        ArrayList<LumberType> lumberType2 = LumberTypeFacade.getLumbertypeByType("RAFTER", connectionPool).orElse(null);
 
         assert lumberType2 != null;
 
@@ -78,6 +78,6 @@ public class LumbertypeMapperTest extends TestDatabase {
 
     @Test
     void testInvalidGetLumbertypeByType() {
-        assertThrows(DatabaseException.class, () -> LumbertypeFacade.getLumbertypeByType("INVALID", connectionPool));
+        assertThrows(DatabaseException.class, () -> LumberTypeFacade.getLumbertypeByType("INVALID", connectionPool));
     }
 }

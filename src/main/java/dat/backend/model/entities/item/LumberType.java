@@ -2,7 +2,7 @@ package dat.backend.model.entities.item;
 
 import java.util.Objects;
 
-public class LumberType implements Comparable<LumberType>{
+public class LumberType implements Comparable<LumberType> {
 
     private int id;
     private float width;
@@ -10,12 +10,6 @@ public class LumberType implements Comparable<LumberType>{
     private float meterPrice;
     private String type;
 
-    public LumberType(int id, float width, float thickness, float meterPrice) {
-        this.id = id;
-        this.width = width;
-        this.thickness = thickness;
-        this.meterPrice = meterPrice;
-    }
     public LumberType(int id, float width, float thickness, float meterPrice, String type) {
         this.id = id;
         this.width = width;

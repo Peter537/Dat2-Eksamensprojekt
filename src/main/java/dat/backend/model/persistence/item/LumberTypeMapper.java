@@ -8,8 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class LumbertypeMapper {
-    public static Optional<ArrayList<LumberType>> getLumbertypeByType(String lumberType, ConnectionPool connectionPool) throws DatabaseException {
+class LumberTypeMapper {
+    static Optional<ArrayList<LumberType>> getLumbertypeByType(String lumberType, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM lumbertype WHERE type = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -42,7 +42,7 @@ public class LumbertypeMapper {
         }
     }
 
-    public static Optional<LumberType> getLumbertypeById(int id, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<LumberType> getLumbertypeById(int id, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM lumbertype WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {

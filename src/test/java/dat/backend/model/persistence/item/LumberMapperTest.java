@@ -48,7 +48,7 @@ public class LumberMapperTest extends TestDatabase {
         // Arrange
         int id = 1;
         int expectedLength = 180;
-        LumberType expectedType = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType expectedType = LumberTypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         int expectedAmount = 1000;
         assert expectedType != null;
         int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
@@ -76,7 +76,7 @@ public class LumberMapperTest extends TestDatabase {
     @Test
     void testValidGetLumberByType() throws DatabaseException {
         // Arrange
-        LumberType type = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType type = LumberTypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         assert type != null;
 
         // Act
@@ -94,7 +94,7 @@ public class LumberMapperTest extends TestDatabase {
     @Test
     void testInvalidGetLumberByType() throws DatabaseException {
         // Arrange
-        LumberType type = LumbertypeFacade.getLumbertypeById(3, connectionPool).orElse(null);
+        LumberType type = LumberTypeFacade.getLumbertypeById(3, connectionPool).orElse(null);
         assert type != null;
 
         // Assert throws exception
@@ -104,7 +104,7 @@ public class LumberMapperTest extends TestDatabase {
     @Test
     void testValidGetLumberByLength() throws DatabaseException {
         // Arrange
-        LumberType type = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType type = LumberTypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         assert type != null;
         int expectedLength = 180;
         int expectedAmount = 1000;
@@ -155,7 +155,7 @@ public class LumberMapperTest extends TestDatabase {
     void testCreateLumber() throws DatabaseException {
         // Arrange
         int expectedLength = 200;
-        LumberType expectedType = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType expectedType = LumberTypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         assert expectedType != null;
         int expectedAmount = 1000;
         int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
@@ -175,7 +175,7 @@ public class LumberMapperTest extends TestDatabase {
     void testCreateLumberWithLumber() throws DatabaseException {
         // Arrange
         int expectedLength = 200;
-        LumberType expectedType = LumbertypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
+        LumberType expectedType = LumberTypeFacade.getLumbertypeById(1, connectionPool).orElse(null);
         assert expectedType != null;
         int expectedAmount = 1000;
         int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());

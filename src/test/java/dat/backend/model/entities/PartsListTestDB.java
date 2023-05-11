@@ -3,43 +3,21 @@ package dat.backend.model.entities;
 import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.persistence.ConnectionPool;
-import org.junit.jupiter.api.BeforeAll;
+import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-class PartsListTestDB {
-
-
-    private static ConnectionPool connectionPool;
-
-    @BeforeAll // Stolen from LumberMapperTest
-    public static void setUpClass() {
-        connectionPool = new ConnectionPool(System.getenv("JDBC_USER"), System.getenv("JDBC_PASSWORD"), System.getenv("JDBC_CONNECTION_STRING"));
-
-        try (Connection testConnection = connectionPool.getConnection()) {
-            try (Statement stmt = testConnection.createStatement()) {
-                // Create test database - if not exist
-                stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
-
-                // Create user table. Add your own tables here
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.lumbertype LIKE fogcarport.lumbertype;");
-                stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.type LIKE fogcarport.type;");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            fail("Database connection failed");
-        }
-    }
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class PartsListTestDB extends TestDatabase {
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // Remove all rows from all tables - add your own tables here
@@ -55,14 +33,13 @@ class PartsListTestDB {
                 stmt.execute("INSERT INTO lumbertype (thickness, width, type, meter_price) " +
                         "VALUES (97, 97, 'POLE', 60), (45, 195, 'RAFTER', 48), (45, 245, 'RAFTER', 82)");
                 stmt.execute("INSERT INTO lumber (length, type, amount)" +
-                        " VALUES (300, 1, 1000), (480, 1, 1000), (360, 2, 1000)");
+                        " VALUES (300, 1, 1000), (480, 1, 1000), (360, 2, 1000), (360, 2, 1000), (720,2,1000), (720, 3, 1000)");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             fail("Database connection failed");
         }
     }
-
 
 
 
@@ -96,10 +73,16 @@ class PartsListTestDB {
         // assert
         assertEquals(expectedLength, pole.getLength());
     }
-
-
     @Test
-    void calculateRafter() {
+    void calculateRafter() throws DatabaseException {
+        // arrange
+        int expectedLength = 480;
+        int width = 672;
+        int length = 480;
+
+        //act
+        Lumber rafter = PartsList.calculateRafter(length, width, connectionPool);
+
     }
 
     @Test

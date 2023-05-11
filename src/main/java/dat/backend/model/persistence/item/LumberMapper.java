@@ -15,7 +15,7 @@ import java.util.Optional;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 class LumberMapper {
-    public static Optional<Lumber> createLumber(float length, int type, int amount, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<Lumber> createLumber(float length, int type, int amount, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "INSERT INTO lumber (length, type, amount) VALUES (?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
@@ -44,11 +44,11 @@ class LumberMapper {
         }
     }
 
-    public static Optional<Lumber> createLumber(Lumber lumber, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<Lumber> createLumber(Lumber lumber, ConnectionPool connectionPool) throws DatabaseException {
         return createLumber(lumber.getLength(), lumber.getLumberType().getId(), lumber.getAmount(), connectionPool);
     }
 
-    public static Optional<ArrayList<Lumber>> getAllLumber(ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<ArrayList<Lumber>> getAllLumber(ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM lumber";
         try (Connection connection = connectionPool.getConnection()) {
@@ -84,7 +84,7 @@ class LumberMapper {
         }
     }
 
-    public static Optional<Lumber> getLumberById(int id, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<Lumber> getLumberById(int id, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM lumber WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -118,7 +118,7 @@ class LumberMapper {
         }
     }
 
-    public static Optional<ArrayList<Lumber>> getLumberByType(LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<ArrayList<Lumber>> getLumberByType(LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM lumber WHERE type = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -149,7 +149,7 @@ class LumberMapper {
         }
     }
 
-    public static Optional<ArrayList<Lumber>> getLumberByLength(int length, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<ArrayList<Lumber>> getLumberByLength(int length, ConnectionPool connectionPool) throws DatabaseException {
 
         String query = "SELECT * FROM lumber WHERE length = ?";
         try (Connection connection = connectionPool.getConnection()) {

@@ -1,28 +1,57 @@
 package dat.backend.model.entities.item;
 
-public abstract class Item{
-    private int id;
-    private int price;
+import java.util.Objects;
+import java.util.Optional;
 
-    public Item(int id, int price) {
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+public abstract class Item {
+
+    private int id;
+    private Optional<Integer> price;
+
+    public Item(int id, Optional<Integer> price) {
         this.id = id;
         this.price = price;
     }
 
+    public Item(int id) {
+        this(id, Optional.empty());
+    }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getPrice() {
-        return price;
+    public Optional<Integer> getPrice() {
+        return this.price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Optional<Integer> price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Item)) return false;
+        Item item = (Item) other;
+        return this.getId() == item.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getId(), this.getPrice());
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + this.id +
+                ", price=" + this.price +
+                '}';
     }
 }
