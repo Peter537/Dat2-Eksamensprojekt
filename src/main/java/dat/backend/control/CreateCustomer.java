@@ -1,5 +1,6 @@
 package dat.backend.control;
 
+import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.exceptions.AlreadyExistsException;
@@ -13,6 +14,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+@IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "create-customer", value = "/create-customer")
 public class CreateCustomer extends HttpServlet {
 

@@ -1,5 +1,7 @@
 package dat.backend.control;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "logout", urlPatterns = {"/logout"})
 public class Logout extends HttpServlet {
 

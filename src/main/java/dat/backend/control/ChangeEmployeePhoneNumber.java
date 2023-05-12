@@ -1,5 +1,6 @@
 package dat.backend.control;
 
+import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "change-employee-phonenumber", value = "/change-employee-phonenumber")
 public class ChangeEmployeePhoneNumber extends HttpServlet {
 

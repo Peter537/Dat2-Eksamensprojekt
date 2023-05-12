@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PartsListTest {
 
     @Test
-    void calculateNumberOfPolesWidth0() {
+    void testValidCalculateNumberOfPolesWidth0() {
         // Arrange
         int expected = 0;
 
@@ -19,7 +19,7 @@ class PartsListTest {
     }
 
     @Test
-    void calculateNumberOfPolesWidth1() {
+    void testValidCalculateNumberOfPolesWidth1() {
         // Arrange
         int expected = 1;
 
@@ -32,21 +32,21 @@ class PartsListTest {
 
 
     @Test
-    void calculateNumberOfPolesLength0() {
+    void testValidCalculateNumberOfPolesLength0() {
         int expected = 0;
         int actual = PartsList.calculateNumberOfPolesLength(480);
         assertEquals(expected, actual);
     }
 
     @Test
-    void calculateNumberOfPolesLength1() {
+    void testValidCalculateNumberOfPolesLength1() {
         int expected = 1;
         int actual = PartsList.calculateNumberOfPolesLength(481);
         assertEquals(expected, actual);
     }
 
     @Test
-    void calculateNumberOfPoles4() {
+    void testValidCalculateNumberOfPoles4() {
         int expected = 4;
         int actual = PartsList.calculateNumberOfPoles(480, 670);
         int polesBetweenLength = PartsList.calculateNumberOfPolesLength(480);
@@ -58,14 +58,14 @@ class PartsListTest {
     }
 
     @Test
-    void calculateNumberOfPoles6(){
+    void testValidCalculateNumberOfPoles6(){
         int expected = 6;
         int actual = PartsList.calculateNumberOfPoles(481, 670);
         assertEquals(expected, actual);
     }
 
     @Test
-    void calculateNumberOfPoles9(){
+    void testValidCalculateNumberOfPoles9(){
         int expected = 9;
         int actual = PartsList.calculateNumberOfPoles(481, 671);
         assertEquals(expected, actual);
@@ -74,48 +74,48 @@ class PartsListTest {
 
 
     @Test
-    void calculateNumberOfPlates() {
+    void testValidCalculateNumberOfPlates() {
         int expected = 3;
         int actual = PartsList.calculateNumberOfPlates(671, 300);
         assertEquals(expected, actual);
     }
 
     @Test
-    void calculateNumberOfRafters10() {
+    void testValidCalculateNumberOfRafters10() {
         int expected = 10;
         int actual = PartsList.calculateNumberOfRafters(600, 400);
         assertEquals(expected, actual);
     }
 
     @Test
-    void calculateNumberOfRafters11() {
+    void testValidCalculateNumberOfRafters11() {
         int expected = 10;
         int actual = PartsList.calculateNumberOfRafters(601, 400);
         assertEquals(expected, actual);
     }
     @Test
-    void calculateSpanBetweenPlates0() {
+    void testValidCalculateSpanBetweenPlates0() {
         double expected = 600;
         double actual = PartsList.calculateSpanBetweenPlates(670);
         assertEquals(expected, actual);
     }
 
     @Test
-    void calculateSpanBetweenPlates1() {
+    void testValidCalculateSpanBetweenPlates1() {
         double expected = 301;
         double actual = PartsList.calculateSpanBetweenPlates(672);
         assertEquals(expected, actual);
     }
 
     @Test
-    void calculateDimensions0() {
+    void testValidCalculateDimensions0() {
         double expected = 295;
         double actual = PartsList.calculateDimensions(670);
         assertEquals(expected, actual);
     }
 
     @Test
-    void calculateDimensions1() {
+    void testValidCalculateDimensions1() {
         double expected = 170;
         double actual = PartsList.calculateDimensions(672);
         assertEquals(expected, actual);
@@ -123,14 +123,14 @@ class PartsListTest {
 
 
     @Test
-    void calculateLengthOfLumber0() {
+    void testValidCalculateLengthOfLumber0() {
         int expected = 670;
         int actual = PartsList.calculateLengthOfLumber(670);
         assertEquals(expected, actual);
     }
 
     @Test
-    void calculateLengthOfLumber1() {
+    void testValidCalculateLengthOfLumber1() {
         int expected = 400;
         int actual = PartsList.calculateLengthOfLumber(800);
         assertEquals(expected, actual);
