@@ -30,7 +30,7 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getCarportOrdersByEmployee(employee, connectionPool);
     }
 
-    public static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException {
+    public static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         return CarportOrderMapper.createCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks, connectionPool);
     }
 
