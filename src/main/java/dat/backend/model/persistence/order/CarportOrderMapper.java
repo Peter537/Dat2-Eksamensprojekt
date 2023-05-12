@@ -142,7 +142,7 @@ class CarportOrderMapper {
 
     static void updateCarportOrderEmployee(CarportOrder carportOrder, Optional<Employee> employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCarportOrder(carportOrder);
-        if(employee.isPresent()) {
+        if (employee.isPresent()) {
             Validation.validateEmployee(employee.get());
         }
 
