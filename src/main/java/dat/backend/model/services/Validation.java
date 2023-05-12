@@ -2,6 +2,8 @@ package dat.backend.model.services;
 
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
+import dat.backend.model.entities.order.CarportOrder;
+import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.user.*;
 import dat.backend.model.exceptions.ValidationException;
 
@@ -129,40 +131,79 @@ public class Validation {
 
     public static void validateCreateCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks) throws ValidationException {
         validateCustomer(customer);
-        if (address == null) {
-            throw new ValidationException("Invalid address");
+        validateAddress(address);
+        validateWidth(width);
+        validateLength(length);
+        validateMinHeight(minHeight);
+        validateRoof(roof);
+        if (toolRoom.isPresent()) {
+            validateToolRoom(toolRoom.get());
         }
-
-        if (width <= 0) {
-            throw new ValidationException("Invalid width");
+        if (remarks.isPresent()) {
+            validateRemarks(remarks.get());
         }
+    }
 
-        if (length <= 0) {
-            throw new ValidationException("Invalid length");
-        }
-
-        if (minHeight <= 0) {
-            throw new ValidationException("Invalid minHeight");
-        }
-
+    private static void validateRoof(Roof roof) throws ValidationException {
         if (roof == null) {
             throw new ValidationException("Invalid roof");
         }
+    }
 
-        if (toolRoom.isPresent()) {
-            if (toolRoom.get().getWidth() <= 0) {
-                throw new ValidationException("Invalid toolRoom width");
-            }
+    public static void validateOrderStatus(OrderStatus newOrderStatus) throws ValidationException {
+        if (newOrderStatus == null) {
+            throw new ValidationException("Invalid orderStatus");
+        }
+    }
 
-            if (toolRoom.get().getLength() <= 0) {
-                throw new ValidationException("Invalid toolRoom length");
-            }
+    public static void validateWidth(float width) throws ValidationException {
+        if (width <= 0) {
+            throw new ValidationException("Invalid width");
+        }
+    }
+
+    public static void validateLength(float length) throws ValidationException {
+        if (length <= 0) {
+            throw new ValidationException("Invalid length");
+        }
+    }
+
+    public static void validateMinHeight(float minHeight) throws ValidationException {
+        if (minHeight <= 0) {
+            throw new ValidationException("Invalid minHeight");
+        }
+    }
+
+    public static void validateToolRoom(ToolRoom toolRoom) throws ValidationException {
+        if (toolRoom == null) {
+            throw new ValidationException("Invalid toolRoom");
         }
 
-        if (remarks.isPresent()) {
-            if (remarks.get().length() > 2048) {
-                throw new ValidationException("Invalid remarks");
-            }
+        validateWidth(toolRoom.getWidth());
+        validateLength(toolRoom.getLength());
+    }
+
+    public static void validatePrice(Float aFloat) throws ValidationException {
+        if (aFloat == null) {
+            throw new ValidationException("Invalid price");
+        }
+    }
+
+    public static void validateRemarks(String s) throws ValidationException {
+        if (s.length() > 2048) {
+            throw new ValidationException("Invalid remarks");
+        }
+    }
+
+    public static void validateAddress(Address address) throws ValidationException {
+        if (address == null) {
+            throw new ValidationException("Invalid address");
+        }
+    }
+
+    public static void validateCarportOrder(CarportOrder carportOrder) throws ValidationException {
+        if (carportOrder == null) {
+            throw new ValidationException("Invalid carportOrder");
         }
     }
 }

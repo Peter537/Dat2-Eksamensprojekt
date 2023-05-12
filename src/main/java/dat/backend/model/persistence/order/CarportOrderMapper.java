@@ -105,7 +105,7 @@ class CarportOrderMapper {
                 } else {
                     statement.setNull(10, Types.VARCHAR);
                 }
-                statement.setString(11, OrderStatusFacade.getOrderStatusByStatus("PENDING", connectionPool).getStatus());
+                statement.setString(11, OrderStatusFacade.getOrderStatusByStatus("ORDER_CREATED", connectionPool).getStatus());
                 int affectedRows = statement.executeUpdate();
                 if (affectedRows == 0) {
                     throw new SQLException("Creating carport order failed, no rows affected.");
@@ -120,11 +120,13 @@ class CarportOrderMapper {
                 return getCarportOrderById(id, connectionPool);
             }
         } catch (SQLException | NotFoundException e) {
-            throw new DatabaseException(e, "Could not update customer phone number");
+            throw new DatabaseException(e, "Could not create order");
         }
     }
 
-    static void updateCarportOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateCarportOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        Validation.validateOrderStatus(newOrderStatus);
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -138,7 +140,12 @@ class CarportOrderMapper {
         }
     }
 
-    static void updateCarportOrderEmployee(CarportOrder carportOrder, Optional<Employee> employee, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateCarportOrderEmployee(CarportOrder carportOrder, Optional<Employee> employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        if (employee.isPresent()) {
+            Validation.validateEmployee(employee.get());
+        }
+
         String query = "UPDATE carport_order SET fk_employee_email = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -156,7 +163,9 @@ class CarportOrderMapper {
         }
     }
 
-    static void updateCarportOrderWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateCarportOrderWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        Validation.validateWidth(width);
         String query = "UPDATE carport_order SET width = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -170,7 +179,9 @@ class CarportOrderMapper {
         }
     }
 
-    static void updateCarportOrderLength(CarportOrder carportOrder, float length, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateCarportOrderLength(CarportOrder carportOrder, float length, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        Validation.validateLength(length);
         String query = "UPDATE carport_order SET length = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -184,7 +195,9 @@ class CarportOrderMapper {
         }
     }
 
-    static void updateCarportOrderMinHeight(CarportOrder carportOrder, float minHeight, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateCarportOrderMinHeight(CarportOrder carportOrder, float minHeight, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        Validation.validateMinHeight(minHeight);
         String query = "UPDATE carport_order SET min_height = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -198,7 +211,12 @@ class CarportOrderMapper {
         }
     }
 
-    static void updateCarportOrderToolRoom(CarportOrder carportOrder, Optional<ToolRoom> toolRoom, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateCarportOrderToolRoom(CarportOrder carportOrder, Optional<ToolRoom> toolRoom, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        if (toolRoom.isPresent()) {
+            Validation.validateToolRoom(toolRoom.get());
+        }
+
         String query = "UPDATE carport_order SET toolroom_width = ?, toolroom_length = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -218,7 +236,12 @@ class CarportOrderMapper {
         }
     }
 
-    static void updateCarportOrderPrice(CarportOrder carportOrder, Optional<Float> price, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateCarportOrderPrice(CarportOrder carportOrder, Optional<Float> price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        if (price.isPresent()) {
+            Validation.validatePrice(price.get());
+        }
+
         String query = "UPDATE carport_order SET price = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -236,7 +259,12 @@ class CarportOrderMapper {
         }
     }
 
-    static void updateCarportOrderRemarks(CarportOrder carportOrder, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateCarportOrderRemarks(CarportOrder carportOrder, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        if (remarks.isPresent()) {
+            Validation.validateRemarks(remarks.get());
+        }
+
         String query = "UPDATE carport_order SET remarks = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -254,7 +282,9 @@ class CarportOrderMapper {
         }
     }
 
-    static void updateCarportOrderAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateCarportOrderAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        Validation.validateAddress(address);
         String query = "UPDATE carport_order SET address = ?, zipcode = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -302,6 +332,6 @@ class CarportOrderMapper {
             price = Optional.of(priceDb);
         }
 
-        return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, width, length, minHeight, toolRoom, price);
+        return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, price);
     }
 }
