@@ -3,21 +3,13 @@ package dat.backend.model.entities.item;
 import dat.backend.annotation.IgnoreCoverage;
 
 import java.util.Objects;
-import java.util.Optional;
 
-@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public abstract class Item {
 
     private int id;
-    private Optional<Integer> price;
-
-    public Item(int id, Optional<Integer> price) {
-        this.id = id;
-        this.price = price;
-    }
 
     public Item(int id) {
-        this(id, Optional.empty());
+        this.id = id;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -30,16 +22,6 @@ public abstract class Item {
         this.id = id;
     }
 
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public Optional<Integer> getPrice() {
-        return price;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setPrice(Optional<Integer> price) {
-        this.price = price;
-    }
-
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -50,14 +32,13 @@ public abstract class Item {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getPrice());
+        return Objects.hash(this.getId());
     }
 
     @Override
     public String toString() {
         return "Item{" +
-                "id=" + this.id +
-                ", price=" + this.price +
+                "id=" + this.getId() +
                 '}';
     }
 }

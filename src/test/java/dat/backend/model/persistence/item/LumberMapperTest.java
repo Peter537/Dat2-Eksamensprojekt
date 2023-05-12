@@ -57,8 +57,7 @@ class LumberMapperTest extends TestDatabase {
         // Assert
         assertEquals(expectedLength, lumber.getLength());
         assertEquals(expectedType, lumber.getLumberType());
-        assertTrue(lumber.getPrice().isPresent());
-        assertEquals(expectedPrice, lumber.getPrice().get());
+        assertEquals(expectedPrice, lumber.getPrice());
         assertEquals(expectedAmount, lumber.getAmount());
     }
 
@@ -114,8 +113,7 @@ class LumberMapperTest extends TestDatabase {
             assertNotNull(l);
             assertEquals(expectedLength, l.getLength());
             assertEquals(type, l.getLumberType());
-            assertTrue(l.getPrice().isPresent());
-            assertEquals(expectedPrice, l.getPrice().get());
+            assertEquals(expectedPrice, l.getPrice());
             assertEquals(expectedAmount, l.getAmount());
         }
     }
@@ -160,8 +158,7 @@ class LumberMapperTest extends TestDatabase {
         // Assert
         assertEquals(expectedLength, lumber.getLength());
         assertEquals(expectedType, lumber.getLumberType());
-        assertTrue(lumber.getPrice().isPresent());
-        assertEquals(expectedPrice, lumber.getPrice().get());
+        assertEquals(expectedPrice, lumber.getPrice());
         assertEquals(expectedAmount, lumber.getAmount());
     }
 }
