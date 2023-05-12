@@ -80,7 +80,8 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
-    static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException {
+    static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);
         String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -130,6 +131,7 @@ class CarportOrderMapper {
                 statement.setString(1, newOrderStatus.getStatus());
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                carportOrder.setOrderStatus(newOrderStatus);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order status");
@@ -147,6 +149,7 @@ class CarportOrderMapper {
                 }
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                carportOrder.setEmployee(employee);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order employee");
@@ -160,6 +163,7 @@ class CarportOrderMapper {
                 statement.setFloat(1, width);
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                carportOrder.setWidth(width);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order width");
@@ -173,6 +177,7 @@ class CarportOrderMapper {
                 statement.setFloat(1, length);
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                carportOrder.setLength(length);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order length");
@@ -186,6 +191,7 @@ class CarportOrderMapper {
                 statement.setFloat(1, minHeight);
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                carportOrder.setMinHeight(minHeight);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order min height");
@@ -205,6 +211,7 @@ class CarportOrderMapper {
                 }
                 statement.setInt(3, carportOrder.getId());
                 statement.executeUpdate();
+                carportOrder.setToolRoom(toolRoom);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order tool room width");
@@ -222,6 +229,7 @@ class CarportOrderMapper {
                 }
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                carportOrder.setPrice(price);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order price");
@@ -239,6 +247,7 @@ class CarportOrderMapper {
                 }
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                carportOrder.setRemarks(remarks);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order remarks");
@@ -253,6 +262,7 @@ class CarportOrderMapper {
                 statement.setInt(2, address.getZip().getZipCode());
                 statement.setInt(3, carportOrder.getId());
                 statement.executeUpdate();
+                carportOrder.setAddress(address);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order address");
