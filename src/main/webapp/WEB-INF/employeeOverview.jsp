@@ -27,6 +27,7 @@
         </c:if>
         <script src="${pageContext.request.contextPath}/scripts/profileSiteScript.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profileSiteStyle.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/employeeOverviewStyle.css">
 
         <c:if test="${not empty requestScope.errormessage}">
             <div class="alertRed">
@@ -107,22 +108,17 @@
 
             <div class="row">
                 <div class="col-sm-8" id="modules">
-                    <div class="card" style="height: 50%">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <img style="height: 350px" class="card-img-top"
-                                     src="${pageContext.request.contextPath}/images/carport.jpg" alt="Card image cap">
-                            </div>
-                            <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-6 card sm-card">
+                            <div class="col-sm-12">
                                 <div class="card-body">
-                                    <h5 class="card-title">Vis mine ordrer</h5>
-                                    <p class="card-text">Her vil du kunne se dine seneste ordre og se status på igangværende og
-                                        gamle bestillinger</p>
-                                    <a href="#" class="btn btn-primary">Til mine ordrer</a>
+                                    <h5 class="card-title">Mine nuværende salg</h5>
+                                    <p class="card-text">Her vil du kunne se din nyeste order og se status på den igangværende salg</p>
+                                    <a href="#" class="btn btn-primary">Til mine salg</a> <%--TODO: FInd ud af hvor den skal poste--%>
 
                                     <div class="row" style="padding-top: 5%">
                                         <div class="col-12">
-                                            <p style="text-decoration: underline black">Status på igangværende ordrer</p>
+                                            <p style="text-decoration: underline black">Status på igangværende salg</p>
                                             <p style="color: red">placeholder for status-method</p>
                                                 <%-- TODO: add necessary methods to do the above line--%>
                                         </div>
@@ -130,31 +126,41 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row" style="padding: 0.5%"></div>
-
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <img style="height: 350px" class="card-img-top"
-                                     src="${pageContext.request.contextPath}/images/workbenchIconForFormula.jpg"
-                                     alt="Card image cap">
-                            </div>
-                            <div class="col-sm-6">
+                        <div class="col-sm-6 card sm-card">
+                            <div class="col-sm-12">
                                 <div class="card-body">
-                                    <h5 class="card-title">Lav ny forestpørgsmål</h5>
-                                    <p class="card-text">Hvis intet i vores brede katalog er noget for dig, så indsend dine egne
-                                        mål
-                                        som en flittig medarbejder vil hjælpe dig hen med</p>
-                                    <a href="to-generate-partlist" class="btn btn-primary">Tag mig til formularen</a>
+                                    <h5 class="card-title">Alle ordre i systemet</h5>
+                                    <p class="card-text">Her kan du se alle ordre som er i systemet.</p>
+                                    <a href="to-generate-partlist" class="btn btn-primary">Til alle ordre</a> <%--TODO: FInd ud af hvor den skal poste--%>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 card sm-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Materiale-kataloget</h5>
+                                <p class="card-text">Se og ret i materiale kataloget.</p>
+                                <a href="to-generate-partlist" class="btn btn-primary">Materiale-kataloget</a> <%--TODO: FInd ud af hvor den skal poste--%>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 card sm-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Generer stykliste</h5>
+                                <p class="card-text">Her kan du generere en stykliste, enten med dine egne mål eller baseret på en brugers ordre.</p>
+                                <a href="to-generate-partlist" class="btn btn-primary">Generer stykliste</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-4" id="news">
-
+                    <div class="card">
+                        <div class="row text-center">
+                            <h3>Nyheder</h3>
+                        </div>
+                        <div class="row text-center">
+                            <span>En nyhed</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
