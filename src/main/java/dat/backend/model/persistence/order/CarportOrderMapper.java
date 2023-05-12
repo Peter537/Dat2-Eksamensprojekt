@@ -36,7 +36,7 @@ class CarportOrderMapper {
         }
     }
 
-    static List<CarportOrder> getCarportByCustomerEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+    static List<CarportOrder> getCarportOrdersByCustomerEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         List<CarportOrder> carportOrders = new ArrayList<>();
         String query = "SELECT * FROM carport_order WHERE fk_customer_email = ?";
         try (Connection connection = connectionPool.getConnection()) {

@@ -21,8 +21,8 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getCarportOrderById(id, connectionPool);
     }
 
-    public static List<CarportOrder> getCarportByCustomerEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        return CarportOrderMapper.getCarportByCustomerEmail(email, connectionPool);
+    public static List<CarportOrder> getCarportOrdersByCustomerEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+        return CarportOrderMapper.getCarportOrdersByCustomerEmail(email, connectionPool);
     }
 
     public static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException {
