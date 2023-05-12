@@ -41,12 +41,13 @@ public class Roof extends Item {
         if (!(other instanceof Roof)) return false;
         Roof roof = (Roof) other;
         return super.equals(other) &&
-                this.getSquareMeterPrice() == roof.getSquareMeterPrice();
+                this.getSquareMeterPrice() == roof.getSquareMeterPrice() &&
+                this.getType().equals(roof.getType());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getSquareMeterPrice());
+        return Objects.hash(super.hashCode(), this.getSquareMeterPrice(), this.getType());
     }
 
     @Override

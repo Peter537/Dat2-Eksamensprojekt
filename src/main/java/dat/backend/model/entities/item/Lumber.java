@@ -3,18 +3,19 @@ package dat.backend.model.entities.item;
 import dat.backend.annotation.IgnoreCoverage;
 
 import java.util.Objects;
-import java.util.Optional;
 
 public class Lumber extends Item implements Comparable<Lumber> {
 
     private int length;
     private LumberType lumberType;
+    private int price;
     private int amount;
 
-    public Lumber(int id, int length, LumberType lumberType, Integer price, int amount) {
-        super(id, Optional.ofNullable(price));
+    public Lumber(int id, int length, LumberType lumberType, int price, int amount) {
+        super(id);
         this.length = length;
         this.lumberType = lumberType;
+        this.price = price;
         this.amount = amount;
     }
 
@@ -39,6 +40,16 @@ public class Lumber extends Item implements Comparable<Lumber> {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
+    public int getPrice() {
+        return this.price;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getAmount() {
         return amount;
     }
@@ -60,7 +71,7 @@ public class Lumber extends Item implements Comparable<Lumber> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getLength(), this.getLumberType());
+        return Objects.hash(super.hashCode(), this.getLength(), this.getLumberType(), this.getAmount(), this.getPrice());
     }
 
     @Override
@@ -70,7 +81,7 @@ public class Lumber extends Item implements Comparable<Lumber> {
                 ", length=" + this.length +
                 ", lumberType=" + this.lumberType +
                 ", amount=" + this.amount +
-                ", price=" + this.getPrice() +
+                ", price=" + this.price +
                 '}';
     }
 
