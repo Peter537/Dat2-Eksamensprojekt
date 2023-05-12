@@ -16,6 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <link href="${pageContext.request.contextPath}/css/pagetemplateStyle.css" rel="stylesheet">
 
 </head>
 <header class="header">
@@ -38,10 +39,14 @@
                     </c:if>
                     <c:if test="${sessionScope.user != null }">
                         <a class="nav-item nav-link navtext link" href="${pageContext.request.contextPath}/logout">Log out</a>
+                        <a class="nav-item nav-link navtext link">
+                            <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"><path d="M19.167 14.706H8.944L7.167 7.647H20.5l-1.333 7.059Zm-8.445 3.97c0 .732-.596 1.324-1.333 1.324a1.328 1.328 0 0 1-1.333-1.324c0-.731.596-1.323 1.333-1.323s1.333.592 1.333 1.323Zm8.89 0c0 .732-.597 1.324-1.334 1.324a1.328 1.328 0 0 1-1.334-1.324c0-.731.597-1.323 1.334-1.323.737 0 1.333.592 1.333 1.323ZM7.166 7.647 6.277 5H4.5" stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Kurv</span>
+                        </a>
+                        <a class="nav-item nav-link" href="ToProfileSite">
+                            <img src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" width="25" height="25" alt="profile icon">
+                        </a>
                     </c:if>
-                    <a class="nav-item nav-link link">
-                        <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"><path d="M19.167 14.706H8.944L7.167 7.647H20.5l-1.333 7.059Zm-8.445 3.97c0 .732-.596 1.324-1.333 1.324a1.328 1.328 0 0 1-1.333-1.324c0-.731.596-1.323 1.333-1.323s1.333.592 1.333 1.323Zm8.89 0c0 .732-.597 1.324-1.334 1.324a1.328 1.328 0 0 1-1.334-1.324c0-.731.597-1.323 1.334-1.323.737 0 1.333.592 1.333 1.323ZM7.166 7.647 6.277 5H4.5" stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Kurv</span>
-                    </a>
+
 <%--                    <c:if test="${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount() > 0}">--%>
 <%--                        <a class="nav-item nav-link navtext link" style="border: 0;" href="${pageContext.request.contextPath}/ToCart">(${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount()})</a>--%>
 <%--                    </c:if> &lt;%&ndash;TODO: Fix this so it has a valid target&ndash;%&gt;--%>
@@ -82,94 +87,4 @@
 
     </div>
 </footer>
-<style>
-    :root {
-        --header-height: 3.75rem;
-        --header-img-multi: 1.5;
-        --hero-img-multi: 0.3;
-        --bs-body-font-family: Dinpro, helvetica, arial, sans-serif;
-        --color: hsla(210, 98%, 23%, 1);
-        --color-dark: hsla(210, 98%, 13%, 1);
-        --color-light: hsla(210, 98%, 33%, 1);
-    }
-
-    #body {
-        background-color: #f5f5f3;
-        min-height: 44rem;
-    }
-
-    a {
-        color: var(--color);
-        display: inline-block;
-        position: relative;
-        text-decoration: none;
-    }
-
-    .link {
-        color: var(--color);
-        display: inline-block;
-        position: relative;
-        text-decoration: none;
-    }
-
-    .link::before {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-image: linear-gradient(transparent calc(100% - 1px), currentcolor 1px);
-        background-size: 1000% 100%;
-        transition: background-position 0.5s ease, clip-path 0.5s ease;
-        background-position: 0 100%;
-        clip-path: inset(0 0 0 1%);
-    }
-
-    .link:hover::before {
-        background-position: 100% 100%;
-        clip-path: inset(0 100% 0 0);
-    }
-
-    .btn {
-        background-color: var(--color) !important;
-    }
-
-    html {
-        margin: 0;
-        padding: 0;
-        scroll-behavior: smooth;
-        font-family: Dinpro, sans-serif;
-        font-weight: 400;
-    }
-
-    .footer {
-        left: 0;
-        bottom: 5%;
-        width: 100%;
-        text-align: center;
-    }
-
-    .header {
-        position: sticky;
-        top: 0;
-        width: 100%;
-        background-color: #ffffff;
-        background-size : cover;
-        background-repeat : no-repeat;
-        z-index: 100;
-    }
-
-    .hero-img {
-        width: calc(100%*var(--hero-img-multi));
-        text-align: center;
-        display: block;
-        margin: auto;
-    }
-
-    .navtext {
-        color: var(--color);
-        margin-right: 5px;
-    }
-</style>
 </html>
