@@ -13,7 +13,7 @@ function closePopup() {
 }
 
 function checkForPopup() {
-if (popup == null) {
+    if (popup == null) {
         popup = document.getElementById("popup");
     }
 }
