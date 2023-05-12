@@ -46,7 +46,7 @@ class PartsListTestDB extends TestDatabase {
 
 
     @Test
-    void calculateRafterType() throws DatabaseException {
+    void testValidCalculateRafterType() throws DatabaseException {
         // arrange
 
         double expectedWidth = 195;
@@ -54,7 +54,7 @@ class PartsListTestDB extends TestDatabase {
         int width = 672;
 
         //act
-        LumberType rafterType = PartsList.calculateRafterType(width, connectionPool);
+        LumberType rafterType = PartsList.calculateRafterType(width, super.connectionPool);
         // assert
         assertEquals(expectedWidth, rafterType.getWidth());
         assertEquals(expectedType, rafterType.getType());
@@ -62,27 +62,27 @@ class PartsListTestDB extends TestDatabase {
 
     }
     @Test
-    void calculatePole() throws DatabaseException {
+    void testValidCalculatePole() throws DatabaseException {
         // arrange
         int expectedLength = 480;
         int width = 672;
         int height = 200;
 
         //act
-        Lumber pole = PartsList.calculatePole(height, width, connectionPool);
+        Lumber pole = PartsList.calculatePole(height, width, super.connectionPool);
 
         // assert
         assertEquals(expectedLength, pole.getLength());
     }
     @Test
-    void calculateRafter() throws DatabaseException {
+    void testValidCalculateRafter() throws DatabaseException {
         // arrange
         int expectedLength = 720; // Rafter goes lengthwise in the carport
         int width = 672;
         int length = 400;
 
         //act
-        Lumber rafter = PartsList.calculateRafter(length, width, connectionPool);
+        Lumber rafter = PartsList.calculateRafter(length, width, super.connectionPool);
 
         // assert
         assertEquals(expectedLength, rafter.getLength());
@@ -90,7 +90,7 @@ class PartsListTestDB extends TestDatabase {
     }
 
     @Test
-    void calculatePlate() throws DatabaseException {
+    void testValidCalculatePlate() throws DatabaseException {
 
         // arrange
         int expectedLength = 720; // Plate goes Widthwise in the carport
@@ -98,7 +98,7 @@ class PartsListTestDB extends TestDatabase {
         int length = 400;
 
         //act
-        Lumber rafter = PartsList.calculatePlate(width, connectionPool);
+        Lumber rafter = PartsList.calculatePlate(width, super.connectionPool);
 
         // assert
         assertEquals(expectedLength, rafter.getLength());
@@ -106,17 +106,17 @@ class PartsListTestDB extends TestDatabase {
     }
 
     @Test
-    void calculateTotalPrice() throws DatabaseException {
+    void testValidCalculateTotalPrice() throws DatabaseException {
         // arrange
         int height = 200;
         int width = 672;
         int length = 400;
-        int pricePoles = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,connectionPool).getPrice().get();
-        double expectedPrice = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,connectionPool).getPrice().get() +
-                PartsList.calculateNumberOfRafters(length, width) * PartsList.calculateRafter(length,width,connectionPool).getPrice().get() +
-                PartsList.calculateNumberOfPlates(width, length) * PartsList.calculatePlate(width,connectionPool).getPrice().get();
+        int pricePoles = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice().get();
+        double expectedPrice = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice().get() +
+                PartsList.calculateNumberOfRafters(length, width) * PartsList.calculateRafter(length,width,super.connectionPool).getPrice().get() +
+                PartsList.calculateNumberOfPlates(width, length) * PartsList.calculatePlate(width,super.connectionPool).getPrice().get();
         //act
-        PartsList partsList = new PartsList(height,length,width,connectionPool);
+        PartsList partsList = new PartsList(height,length,width,super.connectionPool);
         double totalPrice = partsList.calculateTotalPrice();
         // assert
         assertEquals(expectedPrice, totalPrice);
