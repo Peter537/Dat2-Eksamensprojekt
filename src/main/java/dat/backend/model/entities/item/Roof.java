@@ -17,7 +17,7 @@ public class Roof extends Item {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public float getSquareMeterPrice() {
-        return squareMeterPrice;
+        return this.squareMeterPrice;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -27,7 +27,7 @@ public class Roof extends Item {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public String getType() {
-        return type;
+        return this.type;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -45,11 +45,13 @@ public class Roof extends Item {
                 this.getType().equals(roof.getType());
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), this.getSquareMeterPrice(), this.getType());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "Roof{" +

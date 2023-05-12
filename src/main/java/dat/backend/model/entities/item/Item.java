@@ -14,7 +14,7 @@ public abstract class Item {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
-        return id;
+        return this.id;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -30,11 +30,13 @@ public abstract class Item {
         return this.getId() == item.getId();
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(this.getId());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "Item{" +

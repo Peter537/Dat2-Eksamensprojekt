@@ -50,7 +50,7 @@ public class Customer extends Person {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<Address> getAddress1() {
-        return address1;
+        return this.address1;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -60,7 +60,7 @@ public class Customer extends Person {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<Address> getAddress2() {
-        return address2;
+        return this.address2;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -70,7 +70,7 @@ public class Customer extends Person {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<Address> getAddress3() {
-        return address3;
+        return this.address3;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -85,11 +85,13 @@ public class Customer extends Person {
         return super.equals(other);
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getPassword(), this.getPersonalPhoneNumber(), this.getAddress1(), this.getAddress2(), this.getAddress3());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "Customer{" +

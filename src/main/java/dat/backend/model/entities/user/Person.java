@@ -1,5 +1,7 @@
 package dat.backend.model.entities.user;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,42 +22,52 @@ public abstract class Person {
         this.personalPhoneNumber = personalPhoneNumber;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
         return this.id;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setId(int id) {
         this.id = id;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public String getEmail() {
         return this.email;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setEmail(String email) {
         this.email = email;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public String getName() {
         return this.name;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setName(String name) {
         this.name = name;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public String getPassword() {
         return this.password;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setPassword(String password) {
         this.password = password;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<String> getPersonalPhoneNumber() {
         return this.personalPhoneNumber;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setPersonalPhoneNumber(Optional<String> personalPhoneNumber) {
         this.personalPhoneNumber = personalPhoneNumber;
     }
@@ -69,11 +81,13 @@ public abstract class Person {
                 this.getEmail().equals(person.getEmail());
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getPassword(), this.getPersonalPhoneNumber());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "Person{" +

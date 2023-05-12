@@ -16,7 +16,7 @@ public class ToolRoom {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public float getLength() {
-        return length;
+        return this.length;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -26,7 +26,7 @@ public class ToolRoom {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public float getWidth() {
-        return width;
+        return this.width;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -43,11 +43,13 @@ public class ToolRoom {
                 this.getWidth() == toolRoom.getWidth();
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(this.getLength(), this.getWidth());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "ToolRoom{" +

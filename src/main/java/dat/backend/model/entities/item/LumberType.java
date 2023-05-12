@@ -22,7 +22,7 @@ public class LumberType implements Comparable<LumberType> {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
-        return id;
+        return this.id;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -32,7 +32,7 @@ public class LumberType implements Comparable<LumberType> {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public float getWidth() {
-        return width;
+        return this.width;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -42,7 +42,7 @@ public class LumberType implements Comparable<LumberType> {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public float getThickness() {
-        return thickness;
+        return this.thickness;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -52,7 +52,7 @@ public class LumberType implements Comparable<LumberType> {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public float getMeterPrice() {
-        return meterPrice;
+        return this.meterPrice;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -62,7 +62,7 @@ public class LumberType implements Comparable<LumberType> {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public String getType() {
-        return type;
+        return this.type;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -82,11 +82,13 @@ public class LumberType implements Comparable<LumberType> {
                 this.getMeterPrice() == lumberType.getMeterPrice();
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(this.getId(), this.getWidth(), this.getThickness(), this.getType(), this.getMeterPrice());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "LumberType{" +

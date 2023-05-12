@@ -1,5 +1,7 @@
 package dat.backend.model.entities.user;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 
 public class Zip {
@@ -12,18 +14,22 @@ public class Zip {
         this.cityName = cityName;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getZipCode() {
         return this.zipCode;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public String getCityName() {
         return this.cityName;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
@@ -37,11 +43,13 @@ public class Zip {
                 this.getCityName().equals(zip.getCityName());
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(this.getZipCode(), this.getCityName());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "Zip{" +

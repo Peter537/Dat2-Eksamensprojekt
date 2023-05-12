@@ -1,5 +1,7 @@
 package dat.backend.model.entities.order;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 
 public class OrderStatus {
@@ -14,33 +16,34 @@ public class OrderStatus {
         this.sortValue = sortValue;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public String getStatus() {
         return this.status;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setStatus(String status) {
         this.status = status;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public String getDisplayName() {
         return this.displayName;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getSortValue() {
         return this.sortValue;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setSortValue(int sortValue) {
         this.sortValue = sortValue;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.getStatus(), this.getDisplayName(), this.getSortValue());
     }
 
     @Override
@@ -52,6 +55,13 @@ public class OrderStatus {
                 this.getSortValue() == orderStatus.getSortValue();
     }
 
+    @IgnoreCoverage(reason = "hashCode")
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getStatus(), this.getDisplayName(), this.getSortValue());
+    }
+
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "OrderStatus{" +

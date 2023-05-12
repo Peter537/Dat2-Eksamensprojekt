@@ -21,7 +21,7 @@ public class Lumber extends Item implements Comparable<Lumber> {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getLength() {
-        return length;
+        return this.length;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -31,7 +31,7 @@ public class Lumber extends Item implements Comparable<Lumber> {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public LumberType getLumberType() {
-        return lumberType;
+        return this.lumberType;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -51,7 +51,7 @@ public class Lumber extends Item implements Comparable<Lumber> {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getAmount() {
-        return amount;
+        return this.amount;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -69,11 +69,13 @@ public class Lumber extends Item implements Comparable<Lumber> {
                 this.getLumberType().equals(lumber.getLumberType());
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), this.getLength(), this.getLumberType(), this.getAmount(), this.getPrice());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "Lumber{" +

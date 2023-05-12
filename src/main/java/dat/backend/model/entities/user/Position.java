@@ -1,5 +1,7 @@
 package dat.backend.model.entities.user;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 
 public class Position {
@@ -10,10 +12,12 @@ public class Position {
         this.positionName = positionName;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public String getPositionName() {
         return this.positionName;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setPositionName(String positionName) {
         this.positionName = positionName;
     }
@@ -26,11 +30,13 @@ public class Position {
         return this.getPositionName().equals(position.getPositionName());
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(this.getPositionName());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "Position{" +

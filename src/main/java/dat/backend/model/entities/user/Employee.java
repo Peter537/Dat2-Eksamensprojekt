@@ -1,5 +1,7 @@
 package dat.backend.model.entities.user;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -17,26 +19,32 @@ public class Employee extends Person {
         this.department = department;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<String> getWorkPhoneNumber() {
         return this.workPhoneNumber;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setWorkPhoneNumber(Optional<String> workPhoneNumber) {
         this.workPhoneNumber = workPhoneNumber;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Position getPosition() {
         return this.position;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setPosition(Position position) {
         this.position = position;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Department getDepartment() {
         return this.department;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setDepartment(Department department) {
         this.department = department;
     }
@@ -48,11 +56,13 @@ public class Employee extends Person {
         return super.equals(other);
     }
 
+    @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
         return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getPassword(), this.getWorkPhoneNumber(), this.getPersonalPhoneNumber(), this.getPosition(), this.getDepartment());
     }
 
+    @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "Employee{" +
