@@ -1,10 +1,11 @@
 package dat.backend.model.services;
 
-import dat.backend.model.entities.user.Customer;
-import dat.backend.model.entities.user.Department;
-import dat.backend.model.entities.user.Employee;
-import dat.backend.model.entities.user.Position;
+import dat.backend.model.entities.item.Roof;
+import dat.backend.model.entities.item.ToolRoom;
+import dat.backend.model.entities.user.*;
 import dat.backend.model.exceptions.ValidationException;
+
+import java.util.Optional;
 
 public class Validation {
 
@@ -123,6 +124,45 @@ public class Validation {
     public static void validateDepartment(Department newDepartment) throws ValidationException {
         if (newDepartment == null) {
             throw new ValidationException("Invalid department");
+        }
+    }
+
+    public static void validateCreateCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks) throws ValidationException {
+        validateCustomer(customer);
+        if (address == null) {
+            throw new ValidationException("Invalid address");
+        }
+
+        if (width <= 0) {
+            throw new ValidationException("Invalid width");
+        }
+
+        if (length <= 0) {
+            throw new ValidationException("Invalid length");
+        }
+
+        if (minHeight <= 0) {
+            throw new ValidationException("Invalid minHeight");
+        }
+
+        if (roof == null) {
+            throw new ValidationException("Invalid roof");
+        }
+
+        if (toolRoom.isPresent()) {
+            if (toolRoom.get().getWidth() <= 0) {
+                throw new ValidationException("Invalid toolRoom width");
+            }
+
+            if (toolRoom.get().getLength() <= 0) {
+                throw new ValidationException("Invalid toolRoom length");
+            }
+        }
+
+        if (remarks.isPresent()) {
+            if (remarks.get().length() > 2048) {
+                throw new ValidationException("Invalid remarks");
+            }
         }
     }
 }
