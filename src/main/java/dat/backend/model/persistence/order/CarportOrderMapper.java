@@ -56,7 +56,7 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
-    static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, ToolRoom toolRoom, String remarks, ConnectionPool connectionPool) throws DatabaseException {
+    static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -67,9 +67,19 @@ class CarportOrderMapper {
                 statement.setFloat(5, length);
                 statement.setFloat(6, minHeight);
                 statement.setInt(7, roof.getId());
-                statement.setFloat(8, toolRoom.getWidth());
-                statement.setFloat(9, toolRoom.getLength());
-                statement.setString(10, remarks);
+                if (toolRoom.isPresent()) {
+                    statement.setFloat(8, toolRoom.get().getWidth());
+                    statement.setFloat(9, toolRoom.get().getLength());
+                } else {
+                    statement.setNull(8, Types.FLOAT);
+                    statement.setNull(9, Types.FLOAT);
+                }
+
+                if (remarks.isPresent()) {
+                    statement.setString(10, remarks.get());
+                } else {
+                    statement.setNull(10, Types.VARCHAR);
+                }
                 statement.setString(11, OrderStatusFacade.getOrderStatusByStatus("PENDING", connectionPool).getStatus());
                 int affectedRows = statement.executeUpdate();
                 if (affectedRows == 0) {
