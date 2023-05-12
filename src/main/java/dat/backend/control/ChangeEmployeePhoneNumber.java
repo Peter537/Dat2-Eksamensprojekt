@@ -24,7 +24,7 @@ public class ChangeEmployeePhoneNumber extends HttpServlet {
     private ConnectionPool connectionPool;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
 
@@ -72,7 +72,6 @@ public class ChangeEmployeePhoneNumber extends HttpServlet {
             } catch (DatabaseException e) {
                 request.setAttribute("errormessage", e.getMessage());
                 request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
-                return;
             }
         }
     }

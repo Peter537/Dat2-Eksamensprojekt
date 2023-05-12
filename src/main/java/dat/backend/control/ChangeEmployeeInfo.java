@@ -28,28 +28,20 @@ public class ChangeEmployeeInfo extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         Employee employee = (Employee) request.getSession().getAttribute("user");
-
         changeName(employee, request);
         changePassword(employee, request);
         changePersonPhoneNumber(employee, request);
-
         request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
-
-
     }
 
     public void changeName(Employee employee, HttpServletRequest request) {
-
         String name = request.getParameter("name");
-
-        if(name != null && !name.isEmpty()) {
+        if (name != null && !name.isEmpty()) {
             try {
                 EmployeeFacade.updateName(employee, name, connectionPool);
                 request.setAttribute("nameSuccess", "navn-ændring succesfuldt");
@@ -60,12 +52,10 @@ public class ChangeEmployeeInfo extends HttpServlet {
     }
 
     public void changePassword(Employee employee, HttpServletRequest request) {
-
         String oldPassword = request.getParameter("oldPassword");
         String password = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
         String oldEmployeePassword = employee.getPassword();
-
         if (oldPassword != null && !oldPassword.isEmpty() && !oldEmployeePassword.equals(oldPassword)) {
             request.setAttribute("errormessage", "gammelt kodeord er ikke korrekt");
         } else if (password != null && !password.isEmpty() && password.equals(confirmPassword)) {
@@ -79,14 +69,12 @@ public class ChangeEmployeeInfo extends HttpServlet {
     }
 
     public void changePersonPhoneNumber(Employee employee, HttpServletRequest request) {
-
         String oldEmployeePhone = "";
         if (employee.getPersonalPhoneNumber().isPresent()) {
             oldEmployeePhone = employee.getPersonalPhoneNumber().get();
         }
 
         String phone = request.getParameter("newPhoneNumber");
-
         if (phone != null && !phone.isEmpty() && !oldEmployeePhone.equals(phone)) {
             try {
                 EmployeeFacade.updatePersonalPhoneNumber(employee, phone, connectionPool);
@@ -96,6 +84,4 @@ public class ChangeEmployeeInfo extends HttpServlet {
             }
         }
     }
-
-
 }
