@@ -9,6 +9,7 @@ import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getCarportOrderById(id, connectionPool);
     }
 
-    public static List<CarportOrder> getCarportOrdersByCustomerEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        return CarportOrderMapper.getCarportOrdersByCustomerEmail(email, connectionPool);
+    public static List<CarportOrder> getCarportOrdersByCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
+        return CarportOrderMapper.getCarportOrdersByCustomer(customer, connectionPool);
     }
 
     public static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException {

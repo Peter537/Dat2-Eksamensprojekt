@@ -9,11 +9,13 @@ import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.item.RoofFacade;
 import dat.backend.model.persistence.user.CustomerFacade;
 import dat.backend.model.persistence.user.EmployeeFacade;
 import dat.backend.model.persistence.user.ZipFacade;
+import dat.backend.model.services.Validation;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -36,12 +38,13 @@ class CarportOrderMapper {
         }
     }
 
-    static List<CarportOrder> getCarportOrdersByCustomerEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+    static List<CarportOrder> getCarportOrdersByCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
+        Validation.validateCustomer(customer);
         List<CarportOrder> carportOrders = new ArrayList<>();
         String query = "SELECT * FROM carport_order WHERE fk_customer_email = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, email);
+                statement.setString(1, customer.getEmail());
                 ResultSet resultSet = statement.executeQuery();
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
