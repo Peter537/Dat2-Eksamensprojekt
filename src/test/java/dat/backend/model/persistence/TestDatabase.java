@@ -5,15 +5,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class TestDatabase {
-
+    private static boolean isFirst = true;
     protected ConnectionPool connectionPool;
 
     public TestDatabase() {
@@ -27,6 +26,11 @@ public abstract class TestDatabase {
         this.connectionPool = new ConnectionPool(System.getenv("JDBC_USER"), System.getenv("JDBC_PASSWORD"), System.getenv("JDBC_CONNECTION_STRING"));
         try (Connection testConnection = this.connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
+
+                if (isFirst) {
+                    clearDB(stmt);
+                }
+
                 // Create test database - if not exist
                 stmt.execute("CREATE DATABASE IF NOT EXISTS fogcarport_test;");
 
@@ -65,5 +69,24 @@ public abstract class TestDatabase {
     @AfterAll
     void closeConnectionPool() {
         this.connectionPool.close();
+    }
+
+    private void clearDB(Statement stmt) throws SQLException {
+        ResultSet rs = stmt.executeQuery("SELECT CONCAT('DROP TABLE ',table_schema,'.',TABLE_NAME, ';') \n" +
+                "    FROM INFORMATION_SCHEMA.TABLES WHERE table_schema IN ('fogcarport_test');");
+
+        ArrayList<String> dropTables = new ArrayList<>();
+
+        while (rs.next()) {
+            String truncateTables = rs.getString(1);
+            truncateTables = truncateTables.replace("DROP TABLE", "DROP TABLE IF EXISTS");
+            dropTables.add(truncateTables);
+        }
+        for (String dropTable : dropTables) {
+            stmt.execute("SET FOREIGN_KEY_CHECKS=0;");
+            stmt.execute(dropTable);
+            stmt.execute("SET FOREIGN_KEY_CHECKS=1;");
+        }
+        isFirst = false;
     }
 }
