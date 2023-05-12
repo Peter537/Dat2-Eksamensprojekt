@@ -2,6 +2,7 @@ package dat.backend.model.services;
 
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Department;
+import dat.backend.model.entities.user.Employee;
 import dat.backend.model.entities.user.Position;
 import dat.backend.model.exceptions.ValidationException;
 
@@ -31,6 +32,14 @@ public class Validation {
         if (!isValidPassword(password)) {
             throw new ValidationException("Invalid password");
         }
+    }
+
+    public static void validateEmployee(Employee employee) throws ValidationException {
+        if (employee == null) {
+            throw new ValidationException("Invalid employee");
+        }
+
+        validateEmployee(employee.getName(), employee.getEmail(), employee.getPassword());
     }
 
     public static void validateEmployee(String email, String password) throws ValidationException {
