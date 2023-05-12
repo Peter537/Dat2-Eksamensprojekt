@@ -56,15 +56,15 @@
         </div>
     </nav>
 </header>
+
 <body>
-
-<div id="body">
-    <div id="body-inner" class="container mt-4" style="min-height: 400px;">
-        <jsp:doBody/>
+    <div id="body">
+        <div id="body-inner" class="container mt-4" style="min-height: 400px;">
+            <jsp:doBody/>
+        </div>
     </div>
-</div>
-
 </body>
+
 <footer>
     <!-- Footer -->
     <div class="container mt-3">
