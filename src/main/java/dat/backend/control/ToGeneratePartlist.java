@@ -1,10 +1,13 @@
 package dat.backend.control;
 
+import dat.backend.annotation.IgnoreCoverage;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+@IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "to-generate-partlist", value = "/to-generate-partlist")
 public class ToGeneratePartlist extends HttpServlet {
 
