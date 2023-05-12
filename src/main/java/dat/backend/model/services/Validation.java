@@ -2,6 +2,7 @@ package dat.backend.model.services;
 
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
+import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.user.*;
 import dat.backend.model.exceptions.ValidationException;
@@ -197,6 +198,12 @@ public class Validation {
     public static void validateAddress(Address address) throws ValidationException {
         if (address == null) {
             throw new ValidationException("Invalid address");
+        }
+    }
+
+    public static void validateCarportOrder(CarportOrder carportOrder) throws ValidationException {
+        if (carportOrder == null) {
+            throw new ValidationException("Invalid carportOrder");
         }
     }
 }
