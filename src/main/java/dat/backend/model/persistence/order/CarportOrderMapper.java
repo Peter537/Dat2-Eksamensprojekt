@@ -53,7 +53,28 @@ class CarportOrderMapper {
                 }
             }
         } catch (SQLException | DatabaseException e) {
-            throw new DatabaseException(e, "Error while getting CarportOrder with customer email " + email);
+            throw new DatabaseException(e, "Error while getting CarportOrder with customer email " + customer.getEmail());
+        }
+
+        return carportOrders;
+    }
+
+    static List<CarportOrder> getCarportOrdersByEmployee(Employee employee, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
+        Validation.validateEmployee(employee);
+        List<CarportOrder> carportOrders = new ArrayList<>();
+        String query = "SELECT * FROM carport_order WHERE fk_employee_email = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, employee.getEmail());
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    CarportOrder carportOrder = getCarportOrderById(id, connectionPool);
+                    carportOrders.add(carportOrder);
+                }
+            }
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException(e, "Error while getting CarportOrder with employee email " + employee.getEmail());
         }
 
         return carportOrders;
