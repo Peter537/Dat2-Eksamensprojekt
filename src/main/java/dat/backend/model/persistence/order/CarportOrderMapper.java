@@ -323,6 +323,6 @@ class CarportOrderMapper {
             price = Optional.of(priceDb);
         }
 
-        return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, width, length, minHeight, toolRoom, price);
+        return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, price);
     }
 }
