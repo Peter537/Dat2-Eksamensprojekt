@@ -16,6 +16,11 @@
 
     <jsp:body>
 
+        <c:if test="${sessionScope.user != null}">
+            <jsp:forward page="ToProfileSite"/>
+        </c:if>
+
+
         <section class="py-4 py-xl-5">
             <div class="container">
                 <div class="row mb-5">

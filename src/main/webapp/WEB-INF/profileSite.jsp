@@ -116,7 +116,7 @@
                             <h5 class="card-title">Vis mine ordrer</h5>
                             <p class="card-text">Her vil du kunne se dine seneste ordre og se status på igangværende og
                                 gamle bestillinger</p>
-                            <a href="#" class="btn btn-primary">Til mine ordrer</a>
+                            <a href="ToSeeAllOrders" class="btn btn-primary">Til mine ordrer</a>
 
                             <div class="row" style="padding-top: 5%">
                                 <div class="col-12">

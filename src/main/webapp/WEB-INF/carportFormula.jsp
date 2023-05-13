@@ -15,47 +15,15 @@
     </jsp:attribute>
 
     <jsp:body>
-        <style>
-            /*below is formula*/
 
-            .btn {
-                padding: 10px 60px;
-                font-size: 20px;
-                cursor: pointer;
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/carportFormulaStyle.css">
 
-            }
-
-            .popup {
-                width: 400px;
-                background: #fff;
-                border-radius: 6px;
-                position: absolute;
-                top: 0;
-                left: 50%;
-                transform: translate(-50%, -50%) scale(0.1);
-                text-align: center;
-                padding: 0 30px 30px;
-                color: #333;
-                visibility: hidden;
-                transition: transform 0.3s ease-in-out;
-            }
-
-
-            .popup img {
-                width: 100px;
-                margin: -50px;
-                border-radius: 50%;
-            }
-
-            .open-popup {
-                visibility: visible !important;
-                top: 50%;
-                transform: translate(-50%, -50%) scale(1);
-                transition: 0.3s ease-in-out;
-
-            }
-        </style>
-
+        <c:if test="${not empty requestScope.errormessage}">
+            <div class="alertRed">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    ${requestScope.errormessage}
+            </div>
+        </c:if>
 
         <section class="text-center">
             <ul class="nav nav-pills mb-3" id="tab-list" role="tablist">
@@ -85,7 +53,7 @@
                 </li>
             </ul>
 
-            <form action="change-customer-info" method="post">
+            <form action="PartList" method="post">
                 <div class="tab-content" id="tab-content">
                     <div class="tab-pane fade show active" id="dimensions" role="tabpanel"
                          aria-labelledby="dimensions-tab"
@@ -94,16 +62,23 @@
                         <div class="mb-3 text-center">
                             <label for="length" class="form-label">Carport Længde (cm)</label>
                             <input style="height: 40px" class="form-control" id="length"
-                                   type="length" name="carportLength" placeholder="300 cm">
+                                   type="length" name="carportLength" placeholder="300 cm" required>
                         </div>
                         <div class="mb-3 text-center">
                             <label for="width" class="form-label">Carport Bredde (cm)</label>
                             <input style="height: 40px" class="form-control" id="width"
-                                   type="width" name="carportWidth" placeholder="500 cm"></div>
+                                   type="width" name="carportWidth" placeholder="500 cm" required></div>
                         <div class="mb-3 text-center">
+
                             <label for="carportTag" class="form-label">Carport Højde (cm)</label>
+                            <div class="row" style="margin-bottom: 3%">
+                                <label for="carportMinHeight" class="form-label">Min</label>
+                                <input class="form-control" id="carportMinHeight" type="number"
+                                       name="carportMinHeight" placeholder="300 cm" required>
+                            </div>
+
                             <select class="btn btn-primary dropdown-toggle" aria-expanded="true"
-                                    data-bs-toggle="dropdown" type="button" name="carportRoof" id="carportTag">
+                                    data-bs-toggle="dropdown" type="button" name="carportRoof" id="carportTag" required>
                                 <option value="0">Vælg tag</option>
                                 <option value="1">Fladt tag</option>
                                 <option disabled value="2">Rejsning tag</option>
@@ -122,13 +97,14 @@
                             <div class="row">
                                 <label for="toolshedWidth" class="form-label">Redskabsskur bredde (mm)</label>
                                 <input class="form-control" id="toolshedWidth" type="number" name="toolshedWidth"
-                                       placeholder="300 mm">
+                                       placeholder="300 cm">
                             </div>
                             <div class="row">
                                 <label for="toolshedLength" class="form-label">Redskabsskur længde (mm)</label>
                                 <input class="form-control" id="toolshedLength" type="number" name="toolshedLength"
-                                       placeholder="300 mm">
+                                       placeholder="300 cm">
                             </div>
+
                         </div>
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="pills-contact-tab"
@@ -137,56 +113,67 @@
                             <div class="mb-3">
                                 <label for="customerName" class="form-label">Navn</label>
                                 <input type="text" id="customerName" name="customerName"
-                                       value="${sessionScope.customer.getName()}" class="form-control">
+                                       value="${sessionScope.user.getName()}" class="form-control" readonly>
                             </div>
 
                             <div class="mb-3">
                                 <label for="customerEmail" class="form-label">Email</label>
                                 <input type="text" id="customerEmail" name="customerEmail"
-                                       value="${sessionScope.customer.getEmail()}" class="form-control">
+                                       value="${sessionScope.user.getEmail()}" class="form-control" readonly>
                             </div>
-                                <%--Popup--%>
-                            <div class="popup" id="popup">
-                                <div style="margin-bottom: 13%">
-                                    <img src="${pageContext.request.getContextPath()}/images/greenTickMark.jpg">
-                                </div>
-                                <h2>Thank you!</h2>
-                                <p>Your order has been submitted successfully</p>
-                                <button type="btn btn-primary" onclick="closePopup()">OK</button>
-                            </div>
-
-                                <%--                            popupend--%>
-
 
                             <div class="mb-3">
                                 <label for="customerPhone" class="form-label">Telefonnummer</label>
                                 <input type="text" id="customerPhone" name="customerPhone"
-                                       value="${sessionScope.customer.getPersonalPhoneNumber().get()}" class="form-control">
+                                       value="${sessionScope.user.personalPhoneNumber.get()}"
+                                       class="form-control" readonly>
                             </div>
 
                             <div class="mb-3">
+                                <div style="border: dotted black 3px; margin-left: 30%; margin-right: 30%">
+
+                                    <p class="text-center">Hvis ikke ønskede adresse står på nedenstående liste, så
+                                        unlad at vælge denne og skriv i stedet i feltet under</p>
+
+                                </div>
+
                                 <label for="customerAddress" class="form-label">Adresse</label>
                                 <select class="form-select" aria-label="Vælg adresse" name="customerAddress"
                                         id="customerAddress">
-                                    <option value="0">Adresse 1</option>
-                                    <option value="1">Adresse 2</option>
-                                    <option value="2">Adresse 3</option>
+                                    <option value="${sessionScope.user.getAddress(1).get().getAddress()}">${sessionScope.user.getAddress(1).get().getAddress()}</option>
+                                    <option value="${sessionScope.user.getAddress(2).get().getAddress()}">${sessionScope.user.getAddress(2).get().getAddress()}</option>
+                                    <option value="${sessionScope.user.getAddress(3).get().getAddress()}">${sessionScope.user.getAddress(3).get().getAddress()}</option>
                                 </select>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="customerAddressOther" class="form-label">Adresse</label>
+                                        <input type="text" id="customerAddressOther" name="customerAddress"
+                                               placeholder="Skriv adresse her hvis det ikke står på listen."
+                                               class="form-control">
+                                    </div>
+                                <div class="col-6">
+                                    <label for="zipcode" class="form-label">Postnummer</label>
+                                    <input class="form-control" type="number" name="customerZip" id="zipcode"
+                                           placeholder="ex. 2400" required>
+                                </div>
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="zipcode" class="form-label">Postnummer</label>
-                                <select class="form-select" aria-label="Vælg postnummer" name="zipcode" id="zipcode">
-                                    <option value="0">Postnummer 1</option>
-                                    <option value="1">Postnummer 2</option>
-                                    <option value="2">Postnummer 3</option>
-                                </select>
-                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin-bottom: 3%">
+                            <label for="story">Evt. bemærkninger</label>
+
+                            <textarea id="story" name="remarks" class="form-control"
+                                      rows="5" cols="33" placeholder="Skriv bemærkninger her"></textarea>
+
                         </div>
 
 
                         <div class="container">
-                            <button type="button" class="btn" onclick="openPopup()">Submit</button>
+                            <input type="submit" class="btn">Submit</input>
                         </div>
 
 
@@ -198,21 +185,27 @@
             </form>
         </section>
 
-        <script>
-            let popup = document.getElementById("popup");
 
-            function openPopup() {
-                popup.classList.add("open-popup");
-            }
+        <c:if test="${requestScope.partsListSuccess != null}">
 
-            function closePopup() {
-                popup.classList.remove("open-popup");
-            }
+            <div class="popup">
+                <div>
+                    <img style="width: 100px; border-radius: 50%"
+                         src="${pageContext.request.getContextPath()}/images/greenTickMark.jpg">
+                </div>
+                <div style="color: white">
+                    <h2>Thank you!</h2>
+                    <p>Your order has been submitted successfully</p>
+                </div>
+                <button type="btn btn-primary" onclick="closePopup()">OK</button>
+            </div>
+
+        </c:if>
 
 
-        </script>
 
     </jsp:body>
+
 
 </t:pagetemplate>
 
