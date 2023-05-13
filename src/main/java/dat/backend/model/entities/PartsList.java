@@ -23,6 +23,10 @@ public class PartsList {
 
     private int totalPrice;
 
+    private int height;
+    private int length;
+    private int width;
+
     public PartsList(int height, int length, int width, ConnectionPool connectionPool) throws DatabaseException {
         this.pole = calculatePole(height, width, connectionPool);
         this.plate = calculatePlate(width, connectionPool);
@@ -31,6 +35,9 @@ public class PartsList {
         this.numberOfPlates = calculateNumberOfPlates(width, length);
         this.numberOfRafters = calculateNumberOfRafters(length, width);
         this.totalPrice = calculateTotalPrice();
+        this.height = height;
+        this.length = length;
+        this.width = width;
     }
 
     public int calculateTotalPrice() {
@@ -237,4 +244,18 @@ public class PartsList {
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+
+    public int getLengthOfPole() {
+        return height + 90 + ((int) getRafter().getLumberType().getWidth() / 10);
+    }
+
+    public int getLengthOfPlate() {
+        return calculateLengthOfLumber(length);
+    }
+    public int getLengthOfRafter() {
+        return calculateLengthOfLumber(width);
+    }
+
+
 }
