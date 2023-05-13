@@ -20,4 +20,4 @@ public class Rafter3D {
         Geometry3D box = csg.box3D( rafter.getWidth(), rafter.getThickness(), partsList.getLengthOfRafter(), true);
         return box;
     }
-}D
+}
