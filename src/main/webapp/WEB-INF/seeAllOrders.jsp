@@ -104,6 +104,12 @@
                     </tr>
                 </table>
 
+
+                <div class="row">
+                    <a type="button" class="btn" value="Luk" href="ToSeeAllOrders" >Close</a>
+
+                </div>
+
             </div>
 
 

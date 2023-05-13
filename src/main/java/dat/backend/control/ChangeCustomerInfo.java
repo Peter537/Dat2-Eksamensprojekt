@@ -83,9 +83,12 @@ public class ChangeCustomerInfo extends HttpServlet {
     }
 
     public void changePassword(Customer customer, HttpServletRequest request) {
+        
         String oldPassword = request.getParameter("oldPassword");
         String password = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
+
+
         String oldCustomerPassword = customer.getPassword();
         if (oldPassword != null && !oldPassword.isEmpty() && !oldCustomerPassword.equals(oldPassword)) {
             request.setAttribute("errormessage", "gammelt kodeord er ikke korrekt");
