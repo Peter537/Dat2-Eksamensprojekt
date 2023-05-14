@@ -1,5 +1,6 @@
 package dat.backend.control;
 
+import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.item.Roof;
@@ -21,6 +22,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.Optional;
 
+@IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "PartList", value = "/PartList")
 public class CreateOrder extends HttpServlet {
 
