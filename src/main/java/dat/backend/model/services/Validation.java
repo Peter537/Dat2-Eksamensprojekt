@@ -73,14 +73,6 @@ public class Validation {
         }
     }
 
-    public static boolean isCustomerEmail(String email) {
-        return isValidCustomerEmail(email);
-    }
-
-    public static boolean isEmployeeEmail(String email) {
-        return isValidEmployeeEmail(email);
-    }
-
     private static boolean isValidPassword(String password) {
         if (password == null) {
             return false;
@@ -93,7 +85,7 @@ public class Validation {
         return name != null;
     }
 
-    private static boolean isValidEmployeeEmail(String email) {
+    public static boolean isValidEmployeeEmail(String email) {
         if (email == null) {
             return false;
         }
@@ -101,7 +93,7 @@ public class Validation {
         return email.matches("^[A-Za-z0-9+_.-]+@johannesfog.dk$");
     }
 
-    private static boolean isValidCustomerEmail(String email) {
+    public static boolean isValidCustomerEmail(String email) {
         if (email == null) {
             return false;
         }
