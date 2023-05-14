@@ -1,5 +1,5 @@
-package dat.backend.model.print3D;
-import dat.backend.annotation.IgnoreCoverage;
+package dat.backend.model.print3d;
+
 import org.abstractica.javacsg.Geometry3D;
 import org.abstractica.javacsg.JavaCSG;
 import org.abstractica.javacsg.JavaCSGFactory;
