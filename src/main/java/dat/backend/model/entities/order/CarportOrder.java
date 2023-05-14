@@ -41,14 +41,6 @@ public class CarportOrder {
         this.price = price;
     }
 
-    public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, OrderStatus orderStatus, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom) {
-        this(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, Optional.empty());
-    }
-
-    public CarportOrder(int id, Address address, Customer customer, OrderStatus orderStatus, Roof roof, float length, float width, float minHeight) {
-        this(id, address, Optional.empty(), customer, orderStatus, roof, Optional.empty(), length, width, minHeight, Optional.empty());
-    }
-
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
         return this.id;
