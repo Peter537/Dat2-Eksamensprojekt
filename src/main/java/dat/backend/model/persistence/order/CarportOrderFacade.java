@@ -35,38 +35,38 @@ public class CarportOrderFacade {
     }
 
     public static void updateOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateCarportOrderStatus(carportOrder, newOrderStatus, connectionPool);
+        CarportOrderMapper.updateOrderStatus(carportOrder, newOrderStatus, connectionPool);
     }
 
     public static void updateEmployee(CarportOrder carportOrder, Optional<Employee> employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateCarportOrderEmployee(carportOrder, employee, connectionPool);
+        CarportOrderMapper.updateEmployee(carportOrder, employee, connectionPool);
     }
 
     public static void updateWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateCarportOrderWidth(carportOrder, width, connectionPool);
+        CarportOrderMapper.updateWidth(carportOrder, width, connectionPool);
     }
 
     public static void updateLength(CarportOrder carportOrder, float length, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateCarportOrderLength(carportOrder, length, connectionPool);
+        CarportOrderMapper.updateLength(carportOrder, length, connectionPool);
     }
 
     public static void updateMinHeight(CarportOrder carportOrder, float minHeight, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateCarportOrderMinHeight(carportOrder, minHeight, connectionPool);
+        CarportOrderMapper.updateMinHeight(carportOrder, minHeight, connectionPool);
     }
 
     public static void updateToolRoom(CarportOrder carportOrder, Optional<ToolRoom> toolRoom, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateCarportOrderToolRoom(carportOrder, toolRoom, connectionPool);
+        CarportOrderMapper.updateToolRoom(carportOrder, toolRoom, connectionPool);
     }
 
     public static void updatePrice(CarportOrder carportOrder, Optional<Float> price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateCarportOrderPrice(carportOrder, price, connectionPool);
+        CarportOrderMapper.updatePrice(carportOrder, price, connectionPool);
     }
 
     public static void updateRemarks(CarportOrder carportOrder, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateCarportOrderRemarks(carportOrder, remarks, connectionPool);
+        CarportOrderMapper.updateRemarks(carportOrder, remarks, connectionPool);
     }
 
     public static void updateAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateCarportOrderAddress(carportOrder, address, connectionPool);
+        CarportOrderMapper.updateAddress(carportOrder, address, connectionPool);
     }
 }
