@@ -42,7 +42,7 @@ public class Login extends HttpServlet {
 
         try {
             try {
-                if (Validation.isCustomerEmail(email)) {
+                if (Validation.isValidCustomerEmail(email)) {
                     Customer customer = CustomerFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", customer);
                     request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
