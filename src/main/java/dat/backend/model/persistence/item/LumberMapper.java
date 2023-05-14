@@ -97,8 +97,7 @@ class LumberMapper {
                     int length = resultSet.getInt("length");
                     int amount = resultSet.getInt("amount");
                     int price = calcPrice(length, lumberType.getMeterPrice());
-                    Lumber lumber = new Lumber(id, length, lumberType, price, amount);
-                    lumberList.add(lumber);
+                    lumberList.add(new Lumber(id, length, lumberType, price, amount));
                 }
             }
         } catch (SQLException e) {

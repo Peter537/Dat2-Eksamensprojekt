@@ -60,8 +60,7 @@ class RoofMapper {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     float squareMeterPrice = resultSet.getFloat("squaremeter_price");
-                    Roof roof = new Roof(id, squareMeterPrice, type);
-                    rooflist.add(roof);
+                    rooflist.add(new Roof(id, squareMeterPrice, type));
                 }
             }
         } catch (SQLException e) {
@@ -81,8 +80,7 @@ class RoofMapper {
                     int id = resultSet.getInt("id");
                     float squareMeterPrice = resultSet.getFloat("squaremeter_price");
                     String type = resultSet.getString("type");
-                    Roof roof = new Roof(id, squareMeterPrice, type);
-                    rooflist.add(roof);
+                    rooflist.add(new Roof(id, squareMeterPrice, type));
                 }
             }
         } catch (SQLException e) {
