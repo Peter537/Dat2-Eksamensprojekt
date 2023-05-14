@@ -78,6 +78,7 @@ public class Customer extends Person {
         this.address3 = address3;
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

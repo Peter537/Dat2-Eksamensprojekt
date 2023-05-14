@@ -59,6 +59,7 @@ public class Lumber extends Item implements Comparable<Lumber> {
         this.amount = amount;
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

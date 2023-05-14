@@ -34,6 +34,7 @@ public class ToolRoom {
         this.width = width;
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

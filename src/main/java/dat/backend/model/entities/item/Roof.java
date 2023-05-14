@@ -35,6 +35,7 @@ public class Roof extends Item {
         this.type = type;
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

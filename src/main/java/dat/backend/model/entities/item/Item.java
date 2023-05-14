@@ -22,6 +22,7 @@ public abstract class Item {
         this.id = id;
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

@@ -46,6 +46,7 @@ public class OrderStatus {
         this.sortValue = sortValue;
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (other == this) return true;

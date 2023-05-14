@@ -169,6 +169,7 @@ public class CarportOrder {
         this.price = price;
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

@@ -70,6 +70,7 @@ public class LumberType implements Comparable<LumberType> {
         this.type = type;
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

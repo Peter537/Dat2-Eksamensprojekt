@@ -38,6 +38,7 @@ public class Address {
     	return this.street + ", " + this.zip.getZipCode() + " " + this.zip.getCityName();
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

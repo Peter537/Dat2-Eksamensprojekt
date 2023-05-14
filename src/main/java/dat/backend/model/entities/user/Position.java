@@ -22,6 +22,7 @@ public class Position {
         this.positionName = positionName;
     }
 
+    @IgnoreCoverage(reason = "equals")
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
