@@ -24,4 +24,8 @@ public class RoofFacade {
     public static List<Roof> getAllRoofs(ConnectionPool connectionPool) throws DatabaseException {
         return RoofMapper.getAllRoofs(connectionPool);
     }
+
+    public static void deleteRoof(int id, ConnectionPool connectionPool) throws DatabaseException {
+        RoofMapper.deleteRoof(id, connectionPool);
+    }
 }
