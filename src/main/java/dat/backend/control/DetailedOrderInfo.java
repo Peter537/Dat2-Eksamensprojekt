@@ -39,11 +39,8 @@ public class DetailedOrderInfo extends HttpServlet {
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
             request.setAttribute("carportOrder", carportOrder);
             request.setAttribute("load", "true");
-            if (fromJsp.equals("seeAllOrders")) {
-                request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("WEB-INF/seeEmployeeOrders.jsp").forward(request, response);
-            }
+            request.getRequestDispatcher("WEB-INF/customerOrders.jsp").forward(request, response);
+
         } catch (DatabaseException | NotFoundException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
