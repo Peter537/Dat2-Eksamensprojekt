@@ -8,6 +8,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.user.CustomerFacade;
+import dat.backend.model.services.Validation;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +42,14 @@ public class CreateCustomer extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
 
         try {
+
+           if (!Validation.isValidCustomerEmail(email)) {
+               request.setAttribute("errormessage", "Invalid email");
+                request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
+           }
+
+
+
             if (!password.equals(confirmPassword)) {
                 request.setAttribute("errormessage", "Passwords do not match");
                 request.getRequestDispatcher("createCustomer.jsp").forward(request, response);

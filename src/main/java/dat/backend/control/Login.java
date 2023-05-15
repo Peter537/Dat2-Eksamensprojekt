@@ -45,7 +45,7 @@ public class Login extends HttpServlet {
                 if (Validation.isValidCustomerEmail(email)) {
                     Customer customer = CustomerFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", customer);
-                    request.getRequestDispatcher("ToProfileSite").forward(request, response);
+                    request.getRequestDispatcher("profileSite.jsp").forward(request, response);
                 } else {
                     Employee employee = EmployeeFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", employee);

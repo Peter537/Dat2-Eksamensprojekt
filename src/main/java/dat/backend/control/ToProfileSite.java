@@ -33,30 +33,6 @@ public class ToProfileSite extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        Customer customer = (Customer) request.getSession().getAttribute("user");
-
-
-        try {
-
-
-
-
-            List<CarportOrder> orderList = CarportOrderFacade.getCarportOrdersByCustomer(customer, connectionPool);
-
-            if (orderList.size() == 0) {
-                request.setAttribute("noOrder", "Ingen odrer fundet");
-                request.getRequestDispatcher("/WEB-INF/profileSite.jsp").forward(request, response);
-                return;
-            }
-
-            CarportOrder order = orderList.get(orderList.size()-1);
-            request.setAttribute("order", order);
-        } catch (DatabaseException | ValidationException | NotFoundException e) {
-            e.printStackTrace();
-        }
-
-
         request.getRequestDispatcher("/WEB-INF/profileSite.jsp").forward(request, response);
     }
 
