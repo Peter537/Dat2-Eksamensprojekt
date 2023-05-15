@@ -52,6 +52,7 @@
                         <td>
                             <form action="DetailedOrderInfo" method="post">
                                 <input type="hidden" name="orderId" value="${order.id}">
+                                <input type="hidden" name="fromJsp" value="seeEmployeeOrders">
                                 <input style="color: var(--color-light);" type="submit" value="Se mere om ordren">
                             </form>
                         </td>
