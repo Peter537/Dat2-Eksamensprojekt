@@ -80,6 +80,25 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
+    static List<CarportOrder> getAllCarportOrders(ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+        List<CarportOrder> carportOrders = new ArrayList<>();
+        String query = "SELECT * FROM carport_order";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    CarportOrder carportOrder = getCarportOrderById(id, connectionPool);
+                    carportOrders.add(carportOrder);
+                }
+            }
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException(e, "Error while getting all CarportOrders");
+        }
+
+        return carportOrders;
+    }
+
     static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);
         String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
