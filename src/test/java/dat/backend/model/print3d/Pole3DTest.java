@@ -2,6 +2,7 @@ package dat.backend.model.print3d;
 
 import dat.backend.model.entities.PartsList;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ class Pole3DTest extends TestDatabase {
     }
 
     @Test
-    void ValidCreatePole() throws DatabaseException {
+    void ValidCreatePole() throws DatabaseException, NotFoundException {
         PartsList partsList = new PartsList(200,500,300,super.connectionPool);
         Pole3D pole3D = new Pole3D(partsList);
         assertNotNull(pole3D);
@@ -52,7 +53,7 @@ class Pole3DTest extends TestDatabase {
     }
 
     @Test
-    void ValidCreateCutout() throws DatabaseException {
+    void ValidCreateCutout() throws DatabaseException, NotFoundException {
         PartsList partsList = new PartsList(200,500,300,super.connectionPool);
         Pole3D pole3D = new Pole3D(partsList);
         assertNotNull(pole3D);

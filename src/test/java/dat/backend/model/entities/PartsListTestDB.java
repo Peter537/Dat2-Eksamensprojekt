@@ -2,8 +2,11 @@ package dat.backend.model.entities;
 
 import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.LumberType;
+import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.TestDatabase;
+import dat.backend.model.persistence.item.RoofFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -22,11 +25,14 @@ class PartsListTestDB extends TestDatabase {
         try (Connection testConnection = connectionPool.getConnection()) {
             try (Statement stmt = testConnection.createStatement()) {
                 // Remove all rows from all tables - add your own tables here
+                stmt.execute("DELETE FROM roof");
                 stmt.execute("DELETE FROM lumber");
                 stmt.execute("DELETE FROM lumbertype");
                 stmt.execute("DELETE FROM type");
                 stmt.execute("ALTER TABLE lumber AUTO_INCREMENT = 1;");
                 stmt.execute("ALTER TABLE lumbertype AUTO_INCREMENT = 1;");
+                stmt.execute("ALTER TABLE roof AUTO_INCREMENT = 1;");
+
 
                 // Insert a few lumbers - insert rows into your own tables here
                 stmt.execute("INSERT INTO type (type, displayname) " +
@@ -35,6 +41,9 @@ class PartsListTestDB extends TestDatabase {
                         "VALUES (97, 97, 'POLE', 60), (45, 195, 'RAFTER', 48), (45, 245, 'RAFTER', 82)");
                 stmt.execute("INSERT INTO lumber (length, type, amount)" +
                         " VALUES (300, 1, 1000), (480, 1, 1000), (360, 2, 1000), (360, 2, 1000), (720,2,1000), (800,2,1000), (720, 3, 1000)");
+                stmt.execute("INSERT INTO roof (squaremeter_price, type) " +
+                        "VALUES (100, 'PLASTIC_ROOF'), (200, 'TILED_ROOF')");
+
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -106,17 +115,18 @@ class PartsListTestDB extends TestDatabase {
     }
 
     @Test
-    void testValidCalculateTotalPrice() throws DatabaseException {
+    void testValidCalculateTotalPrice() throws DatabaseException, NotFoundException {
         // arrange
         int height = 200;
         int width = 672;
         int length = 400;
+        PartsList partsList = new PartsList(height,length,width,super.connectionPool);
+        Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
         int pricePoles = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice();
         double expectedPrice = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice() +
                 PartsList.calculateNumberOfRafters(length, width) * PartsList.calculateRafter(length,width,super.connectionPool).getPrice() +
-                PartsList.calculateNumberOfPlates(width, length) * PartsList.calculatePlate(width,super.connectionPool).getPrice();
+                PartsList.calculateNumberOfPlates(width, length) * PartsList.calculatePlate(width,super.connectionPool).getPrice() + PartsList.getRoof().getSquareMeterPrice() * PartsList.getRoofArea() ;
         //act
-        PartsList partsList = new PartsList(height,length,width,super.connectionPool);
         double totalPrice = partsList.calculateTotalPrice();
         // assert
         assertEquals(expectedPrice, totalPrice);

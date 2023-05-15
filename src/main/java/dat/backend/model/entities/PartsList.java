@@ -3,10 +3,13 @@ package dat.backend.model.entities;
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.LumberType;
+import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.item.LumberFacade;
 import dat.backend.model.persistence.item.LumberTypeFacade;
+import dat.backend.model.persistence.item.RoofFacade;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,9 +21,15 @@ public class PartsList {
     private Lumber plate; // rem
     private Lumber rafter; // spær
 
+    private static Roof roof;
+
     private int numberOfPoles;
     private int numberOfPlates;
     private int numberOfRafters;
+
+    private static int roofArea;
+
+
 
     private int totalPrice;
 
@@ -30,13 +39,15 @@ public class PartsList {
 
     private ConnectionPool connectionPool;
 
-    public PartsList(int height, int length, int width, ConnectionPool connectionPool) throws DatabaseException {
+    public PartsList(int height, int length, int width, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         this.pole = calculatePole(height, width, connectionPool);
         this.plate = calculatePlate(width, connectionPool);
         this.rafter = calculateRafter(length, width, connectionPool);
+        this.roof = RoofFacade.getRoofById(1, connectionPool);
         this.numberOfPoles = calculateNumberOfPoles(length, width);
         this.numberOfPlates = calculateNumberOfPlates(width, length)*calculateNumber(length, this.plate.getLumberType(), connectionPool);
         this.numberOfRafters = calculateNumberOfRafters(length, width)*calculateNumber(width, this.rafter.getLumberType(), connectionPool);
+        this.roofArea = length/100 *width/100;
         this.totalPrice = calculateTotalPrice();
         this.height = height;
         this.length = length;
@@ -44,7 +55,7 @@ public class PartsList {
     }
 
     public int calculateTotalPrice() {
-        return (pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters); // the getPrice() method is inherited from Item. It is not implemented yet.
+        return (int) ((pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters) + (roof.getSquareMeterPrice() * roofArea)); // the getPrice() method is inherited from Item. It is not implemented yet.
     }
 
     public static Lumber calculatePole(int height, int width, ConnectionPool connectionPool) throws DatabaseException {
@@ -273,5 +284,13 @@ public class PartsList {
         return calculateLengthOfLumber(width, getRafter().getLumberType(), connectionPool);
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public static Roof getRoof() {
+        return roof;
+    }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public static int getRoofArea() {
+        return roofArea;
+    }
 }
