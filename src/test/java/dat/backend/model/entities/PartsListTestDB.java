@@ -34,7 +34,7 @@ class PartsListTestDB extends TestDatabase {
                 stmt.execute("INSERT INTO lumbertype (thickness, width, type, meter_price) " +
                         "VALUES (97, 97, 'POLE', 60), (45, 195, 'RAFTER', 48), (45, 245, 'RAFTER', 82)");
                 stmt.execute("INSERT INTO lumber (length, type, amount)" +
-                        " VALUES (300, 1, 1000), (480, 1, 1000), (360, 2, 1000), (360, 2, 1000), (720,2,1000), (720, 3, 1000)");
+                        " VALUES (300, 1, 1000), (480, 1, 1000), (360, 2, 1000), (360, 2, 1000), (720,2,1000), (800,2,1000), (720, 3, 1000)");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -120,6 +120,21 @@ class PartsListTestDB extends TestDatabase {
         double totalPrice = partsList.calculateTotalPrice();
         // assert
         assertEquals(expectedPrice, totalPrice);
+    }
+
+    @Test
+    void calculateNumber() throws DatabaseException {
+        // arrange
+        int expected = 2;
+        int width = 672;
+        LumberType rafterType = PartsList.calculateRafterType(width, super.connectionPool);
+
+        //act
+        int actual = PartsList.calculateNumber(1500, rafterType, super.connectionPool);
+
+        // assert
+        assertEquals(expected, actual);
+
     }
     /*
     TODO: Fix this test

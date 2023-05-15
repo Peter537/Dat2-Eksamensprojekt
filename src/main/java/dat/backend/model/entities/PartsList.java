@@ -10,6 +10,7 @@ import dat.backend.model.persistence.item.LumberTypeFacade;
 
 import java.util.Collections;
 import java.util.List;
+import java.lang.*;
 
 public class PartsList {
 
@@ -34,8 +35,8 @@ public class PartsList {
         this.plate = calculatePlate(width, connectionPool);
         this.rafter = calculateRafter(length, width, connectionPool);
         this.numberOfPoles = calculateNumberOfPoles(length, width);
-        this.numberOfPlates = calculateNumberOfPlates(width, length);
-        this.numberOfRafters = calculateNumberOfRafters(length, width);
+        this.numberOfPlates = calculateNumberOfPlates(width, length)*calculateNumber(length, this.plate.getLumberType(), connectionPool);
+        this.numberOfRafters = calculateNumberOfRafters(length, width)*calculateNumber(width, this.rafter.getLumberType(), connectionPool);
         this.totalPrice = calculateTotalPrice();
         this.height = height;
         this.length = length;
@@ -130,7 +131,7 @@ public class PartsList {
     }
 
     public static int calculateNumberOfPlates(int width, int length) {
-        int numberOfPlates = 2 + calculateNumberOfPolesWidth(width) * ((int) Math.ceil(length / 720.0));
+        int numberOfPlates = 2 + calculateNumberOfPolesWidth(width);
         return numberOfPlates;
     }
 
@@ -140,7 +141,7 @@ public class PartsList {
     }
 
     public static int calculateNumberOfRafters(int length, int width) {
-        int numberOfRafters = (int) (Math.ceil(length / 60)) * ((int) Math.ceil(width / 720.0));
+        int numberOfRafters = (int) (Math.ceil(length / 60));
         return numberOfRafters;
     }
 
@@ -173,21 +174,20 @@ public class PartsList {
     Assume that the lumber is divided into two(or more) pieces of equal length.
     */
 
-    /*
-    TODO: get all lumber of a type from database, sort by length, and give the longest length
-    */
-
-    public static int calculateLengthOfLumber(int length, LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
-            /*
-        TODO: get all lumber of a type from database, sort by length, and give the longest length
-        */
+    public static int calculateNumber(int length, LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
         List<Lumber> listRafter = LumberFacade.getLumberByType(lumberType, connectionPool);
         Collections.sort(listRafter);
         Collections.reverse(listRafter);
         int maxLumberLength = listRafter.get(0).getLength();
+        double number = (double) length / (double) maxLumberLength;
+
+        return (int) Math.ceil(number);
+    }
 
 
-        int minlength = length / ((int) Math.ceil(length / maxLumberLength));
+    public static int calculateLengthOfLumber(int length, LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
+
+        int minlength = length / calculateNumber(length, lumberType, connectionPool);
         return minlength;
     }
 
