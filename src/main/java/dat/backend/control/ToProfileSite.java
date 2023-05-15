@@ -23,14 +23,6 @@ import java.util.List;
 @WebServlet(name = "ToProfileSite", value = "/ToProfileSite")
 public class ToProfileSite extends HttpServlet {
 
-    private ConnectionPool connectionPool;
-
-    @Override
-    public void init() {
-        this.connectionPool = ApplicationStart.getConnectionPool();
-    }
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/profileSite.jsp").forward(request, response);

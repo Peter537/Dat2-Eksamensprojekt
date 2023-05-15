@@ -49,6 +49,7 @@
                                     <label for="confirmPassword" style="padding: 10px">Bekræft password</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control" type="password" id="confirmPassword" name="confirmPassword" placeholder="Bekræft Password"></div>
 
+                                    <p style="color: red; text-align: center">${requestScope.errormessage}</p>
                                     <div class="mb-3">
                                         <input style="scale: 1.2; text-align: center" type="checkbox" id="remember" name="remember" value="remember"/>
                                         <label class="form-check-label" for="remember">Husk mig</label>

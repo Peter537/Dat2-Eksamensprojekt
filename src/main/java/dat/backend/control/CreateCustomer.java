@@ -43,11 +43,11 @@ public class CreateCustomer extends HttpServlet {
 
         try {
 
-           if (Validation.isValidCustomerEmail(email)) {
+           if (!Validation.isValidCustomerEmail(email)) {
                request.setAttribute("errormessage", "Invalid email");
-                request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
+               request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
+                return;
            }
-
 
 
             if (!password.equals(confirmPassword)) {
