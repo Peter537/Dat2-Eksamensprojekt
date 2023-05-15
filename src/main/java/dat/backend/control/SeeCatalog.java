@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "SeeCatalog", value = "/SeeCatalog")
+@WebServlet(name = "see-catalog", value = "/see-catalog")
 public class SeeCatalog extends HttpServlet {
 
     private ConnectionPool connectionPool;
