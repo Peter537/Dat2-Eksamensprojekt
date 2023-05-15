@@ -61,27 +61,29 @@ public class CreateOrder extends HttpServlet {
 
             //load in info
             Customer customer = (Customer) request.getSession().getAttribute("user");
+            int streetid = Integer.parseInt(request.getParameter("customerAddress"));
 
-            String street = request.getParameter("customerAddress");
-            int tempZip = Integer.parseInt(request.getParameter("customerZip"));
+            Address address;
 
-            Zip zip = ZipFacade.getZipByZipCode(tempZip, connectionPool);
+            if (streetid == 0) {
+                int tempZip = Integer.parseInt(request.getParameter("customerZip"));
+                Zip zip = ZipFacade.getZipByZipCode(tempZip, connectionPool);
 
+                address = new Address(request.getParameter("customerAddressOther"), zip);
 
-           if (street == null || street.isEmpty() || street.equals("0")) {
-               street = request.getParameter("customerAddressOther");
-
-               if(street == null || street.isEmpty()) {
-                   request.setAttribute("errormessage", "Please enter an address");
-                   request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
-                   return;
-               }
-
+                if(address.getStreet() == null || address.getStreet().isEmpty()) {
+                    request.setAttribute("errormessage", "Please enter an address");
+                    request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
+                    return;
+                }
+            } else {
+                address = customer.getAddress(streetid).get();
             }
-            Address address = new Address(street, zip);
-           Roof roof = RoofFacade.getRoofById(1, connectionPool);
-           Optional<ToolRoom> toolRoom = Optional.empty();
-           Optional<String> remarks = Optional.ofNullable(request.getParameter("remarks"));
+
+
+            Roof roof = RoofFacade.getRoofById(1, connectionPool);
+            Optional<ToolRoom> toolRoom = Optional.empty();
+            Optional<String> remarks = Optional.ofNullable(request.getParameter("remarks"));
 
 
             //infoend
