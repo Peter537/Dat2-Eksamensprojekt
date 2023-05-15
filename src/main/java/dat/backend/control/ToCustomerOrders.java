@@ -1,5 +1,6 @@
 package dat.backend.control;
 
+import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.entities.user.Customer;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "ToCustomerOrders", value = "/ToCustomerOrders")
 public class ToCustomerOrders extends HttpServlet {
     private ConnectionPool connectionPool;
