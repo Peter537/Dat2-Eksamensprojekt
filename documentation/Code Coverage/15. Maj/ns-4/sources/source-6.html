@@ -1,0 +1,150 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Position</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.entities.user</a>
+</div>
+
+<h1>Coverage Summary for Class: Position (dat.backend.model.entities.user)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Position</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.entities.user;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;public class Position {
+&nbsp;
+&nbsp;    private String positionName;
+&nbsp;
+<b class="fc">&nbsp;    public Position(String positionName) {</b>
+<b class="fc">&nbsp;        this.positionName = positionName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public String getPositionName() {
+&nbsp;        return this.positionName;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setPositionName(String positionName) {
+&nbsp;        this.positionName = positionName;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;equals&quot;)
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object other) {
+&nbsp;        if (this == other) return true;
+&nbsp;        if (!(other instanceof Position)) return false;
+&nbsp;        Position position = (Position) other;
+&nbsp;        return this.getPositionName().equals(position.getPositionName());
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;hashCode&quot;)
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+&nbsp;        return Objects.hash(this.getPositionName());
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;toString&quot;)
+&nbsp;    @Override
+&nbsp;    public String toString() {
+&nbsp;        return &quot;Position{&quot; +
+&nbsp;                &quot;positionName=&#39;&quot; + this.positionName + &#39;\&#39;&#39; +
+&nbsp;                &#39;}&#39;;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-15 15:15</div>
+</div>
+</body>
+</html>

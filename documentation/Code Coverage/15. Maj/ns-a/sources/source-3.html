@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Pole3D</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.print3d</a>
+</div>
+
+<h1>Coverage Summary for Class: Pole3D (dat.backend.model.print3d)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Pole3D</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.print3d;
+&nbsp;
+&nbsp;import dat.backend.model.entities.PartsList;
+&nbsp;import dat.backend.model.entities.item.LumberType;
+&nbsp;import org.abstractica.javacsg.*;
+&nbsp;
+&nbsp;public class Pole3D {
+&nbsp;    // 3D geometries for the pole, cutout, and the combination of both
+&nbsp;    private Geometry3D pole;
+&nbsp;    private Geometry3D cutout;
+&nbsp;    private Geometry3D poleAndCutout;
+&nbsp;
+&nbsp;    // List of parts used for creating the pole
+&nbsp;    private PartsList partsList;
+&nbsp;
+<b class="fc">&nbsp;    public Pole3D(PartsList partsList) {</b>
+<b class="fc">&nbsp;        this.partsList = partsList;</b>
+<b class="fc">&nbsp;        this.pole = createPole(partsList);</b>
+<b class="fc">&nbsp;        this.cutout = createCutout(partsList);</b>
+<b class="fc">&nbsp;        this.poleAndCutout = createPoleAndCutout(partsList);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Method to create a 3D geometry by subtracting the cutout from the pole
+&nbsp;    private Geometry3D createPoleAndCutout(PartsList partsList) {
+<b class="fc">&nbsp;        JavaCSG csg = JavaCSGFactory.createDefault();</b>
+<b class="fc">&nbsp;        Geometry3D difference = csg.difference3D(pole, cutout);</b>
+<b class="fc">&nbsp;        csg.view(difference, 1);</b>
+<b class="fc">&nbsp;        return difference;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Method to create a 3D geometry for the pole
+&nbsp;    private Geometry3D createPole(PartsList partsList) {
+<b class="fc">&nbsp;        JavaCSG csg = JavaCSGFactory.createDefault();</b>
+<b class="fc">&nbsp;        LumberType pole = partsList.getPole().getLumberType();</b>
+<b class="fc">&nbsp;        Geometry3D box = csg.box3D( partsList.getLengthOfPole()*10, pole.getWidth(), pole.getThickness(), false);</b>
+<b class="fc">&nbsp;        return box;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Method to create a 3D geometry for the cutout
+&nbsp;    private Geometry3D createCutout(PartsList partsList) {
+<b class="fc">&nbsp;        JavaCSG csg = JavaCSGFactory.createDefault();</b>
+<b class="fc">&nbsp;        LumberType rafter = partsList.getRafter().getLumberType();</b>
+<b class="fc">&nbsp;        LumberType pole = partsList.getPole().getLumberType();</b>
+&nbsp;
+<b class="fc">&nbsp;        Geometry3D box = csg.box3D(rafter.getWidth() * 2, pole.getThickness() * 1.5, rafter.getThickness(), false);</b>
+<b class="fc">&nbsp;        Geometry3D translateX = csg.translate3DX(partsList.getLengthOfPole() * 5).transform(box);</b>
+<b class="fc">&nbsp;        Geometry3D translateZ = csg.translate3DZ(pole.getWidth() - rafter.getThickness()).transform(translateX);</b>
+<b class="fc">&nbsp;        return translateZ;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-15 15:15</div>
+</div>
+</body>
+</html>
