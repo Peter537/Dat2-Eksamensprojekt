@@ -41,7 +41,7 @@ public class DeleteCatalogItem extends HttpServlet {
                 default:
                     throw new IllegalArgumentException("Unknown type: " + catalogItemType);
             }
-            request.getRequestDispatcher("SeeCatalog").forward(request, response);
+            request.getRequestDispatcher("see-catalog").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
