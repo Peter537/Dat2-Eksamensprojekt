@@ -13,6 +13,7 @@ public abstract class Person {
     private String name;
     private String password;
     private Optional<String> personalPhoneNumber;
+    private boolean isEmployee = false;
 
     public Person(int id, String email, String name, String password, Optional<String> personalPhoneNumber) {
         this.id = id;
@@ -70,6 +71,16 @@ public abstract class Person {
     @IgnoreCoverage(reason = "Getter or Setter")
     public void setPersonalPhoneNumber(Optional<String> personalPhoneNumber) {
         this.personalPhoneNumber = personalPhoneNumber;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public boolean getIsEmployee() {
+        return this.isEmployee;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setIsEmployee(boolean isEmployee) {
+        this.isEmployee = isEmployee;
     }
 
     @IgnoreCoverage(reason = "equals")
