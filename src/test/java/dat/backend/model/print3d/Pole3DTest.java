@@ -49,7 +49,13 @@ class Pole3DTest extends TestDatabase {
         Pole3D pole3D = new Pole3D(partsList);
         assertNotNull(pole3D);
 
+    }
 
+    @Test
+    void ValidCreateCutout() throws DatabaseException {
+        PartsList partsList = new PartsList(200,500,300,super.connectionPool);
+        Pole3D pole3D = new Pole3D(partsList);
+        assertNotNull(pole3D);
 
     }
 }
