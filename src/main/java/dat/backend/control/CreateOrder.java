@@ -67,7 +67,7 @@ public class CreateOrder extends HttpServlet {
             Zip zip = ZipFacade.getZipByZipCode(tempZip, connectionPool);
 
 
-           if (street == null || street.isEmpty()) {
+           if (street == null || street.isEmpty() || street.equals("0")) {
                street = request.getParameter("customerAddressOther");
 
                if(street == null || street.isEmpty()) {

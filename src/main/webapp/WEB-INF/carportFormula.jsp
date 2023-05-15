@@ -143,6 +143,7 @@
                                     <option value="${sessionScope.user.getAddress(1).get().getAddress()}">${sessionScope.user.getAddress(1).get().getAddress()}</option>
                                     <option value="${sessionScope.user.getAddress(2).get().getAddress()}">${sessionScope.user.getAddress(2).get().getAddress()}</option>
                                     <option value="${sessionScope.user.getAddress(3).get().getAddress()}">${sessionScope.user.getAddress(3).get().getAddress()}</option>
+                                    <option value="0">Anden adresse</option>
                                 </select>
 
                                 <div class="row">

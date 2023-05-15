@@ -23,8 +23,16 @@
     <jsp:body>
 
         <div style="margin-bottom: 2%">
-            <h1>Se alle ordrer</h1>
+            <div class="row">
 
+                <div class="col-sm-11">
+                    <h1>Se alle ordrer</h1>
+                </div>
+
+                <div class="col-sm-1">
+                    <a href="ToProfileSite" class="btn btn-primary" style="margin-top: 10%;">Tilbage</a>
+                </div>
+            </div>
         </div>
 
         <div style="width: 80%; text-align: center; margin-left: 5%" class="text-center">
