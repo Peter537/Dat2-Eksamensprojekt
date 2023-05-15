@@ -18,7 +18,7 @@ public class Pole3D {
         JavaCSG csg = JavaCSGFactory.createDefault();
         LumberType pole = partsList.getPole().getLumberType();
         Geometry3D box = csg.box3D( partsList.getLengthOfPole()*10,pole.getWidth(), pole.getThickness(), false);
-        csg.view(box);
+        csg.view(box, 1);
         return box;
     }
 }

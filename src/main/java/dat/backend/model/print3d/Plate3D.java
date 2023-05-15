@@ -18,7 +18,8 @@ public class Plate3D {
     private Geometry3D createPLate(PartsList partsList) throws DatabaseException {
         JavaCSG csg = JavaCSGFactory.createDefault();
         LumberType plate = partsList.getPlate().getLumberType();
-        Geometry3D box = csg.box3D( plate.getWidth(), plate.getThickness(), partsList.getLengthOfPlate(), true);
+        Geometry3D box = csg.box3D(partsList.getLengthOfPlate()*10, plate.getWidth(), plate.getThickness(), true);
+        csg.view(box, 2);
         return box;
     }
 }
