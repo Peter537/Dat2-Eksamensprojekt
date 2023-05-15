@@ -140,9 +140,9 @@
                                 <label for="customerAddress" class="form-label">Adresse</label>
                                 <select class="form-select" aria-label="Vælg adresse" name="customerAddress"
                                         id="customerAddress">
-                                    <option value="${sessionScope.user.getAddress(1).get().getAddress()}">${sessionScope.user.getAddress(1).get().getAddress()}</option>
-                                    <option value="${sessionScope.user.getAddress(2).get().getAddress()}">${sessionScope.user.getAddress(2).get().getAddress()}</option>
-                                    <option value="${sessionScope.user.getAddress(3).get().getAddress()}">${sessionScope.user.getAddress(3).get().getAddress()}</option>
+                                    <option value="1">${sessionScope.user.getAddress(1).get().getAddress()}</option>
+                                    <option value="2">${sessionScope.user.getAddress(2).get().getAddress()}</option>
+                                    <option value="3">${sessionScope.user.getAddress(3).get().getAddress()}</option>
                                     <option value="0">Anden adresse</option>
                                 </select>
 
