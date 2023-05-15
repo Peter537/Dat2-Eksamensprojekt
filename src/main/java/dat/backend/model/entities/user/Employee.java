@@ -14,6 +14,7 @@ public class Employee extends Person {
 
     public Employee(int id, String email, String name, String password, Optional<String> personalPhone, Optional<String> workPhoneNumber, Position position, Department department) {
         super(id, email, name, password, personalPhone);
+        super.setIsEmployee(true);
         this.workPhoneNumber = workPhoneNumber;
         this.position = position;
         this.department = department;
