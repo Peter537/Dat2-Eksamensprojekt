@@ -101,4 +101,18 @@ class RoofMapper {
             throw new DatabaseException(e, "Could not delete roof");
         }
     }
+
+    static void updateRoof(int id, float squareMeterPrice, String roofType, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE roof SET squaremeter_price = ?, type = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setFloat(1, squareMeterPrice);
+                statement.setString(2, roofType);
+                statement.setInt(3, id);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update roof");
+        }
+    }
 }

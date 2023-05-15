@@ -28,4 +28,8 @@ public class RoofFacade {
     public static void deleteRoof(int id, ConnectionPool connectionPool) throws DatabaseException {
         RoofMapper.deleteRoof(id, connectionPool);
     }
+
+    public static void updateRoof(int id, float squareMeterPrice, String roofType, ConnectionPool connectionPool) throws DatabaseException {
+        RoofMapper.updateRoof(id, squareMeterPrice, roofType, connectionPool);
+    }
 }
