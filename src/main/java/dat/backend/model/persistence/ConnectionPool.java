@@ -35,7 +35,7 @@ public class ConnectionPool {
         config.setJdbcUrl(url);
         config.setUsername(user);
         config.setPassword(password);
-        config.setMaximumPoolSize(30);
+        config.setMaximumPoolSize(20);
         config.setConnectionTimeout(30000);
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
