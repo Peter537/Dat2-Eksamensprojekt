@@ -36,8 +36,8 @@
         </div>
 
         <div style="width: 80%; text-align: center; margin-left: 5%" class="text-center">
-        <table class="table table-striped table-bordered table-hover">
-            <thead>
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
                 <tr>
                     <th>ID</th>
                     <th>Kundens navn</th>
@@ -46,26 +46,26 @@
                     <th>Status</th>
                     <th>Pris</th>
                 </tr>
-            </thead>
-            <tbody>
-                <c:set var="order" value="${requestScope.order}">
-                </c:set>
-
-                    <tr>
-                        <td>${order.id}</td>
-                        <td>${order.customer.name}</td>
-                        <td>${order.address.address}</td>
-                        <td>${order.employee.get().name}</td>
-                        <td>${order.orderStatus.displayName}</td>
-                        <td>${order.price.get()} DKK</td>
-                        <td>
-                            <form action="DetailedOrderInfo" method="post">
-                                <input type="hidden" name="orderId" value="${order.id}">
-                                <input style="color: var(--color-light);" type="submit" value="Se mere om ordren">
-                            </form>
-                        </td>
-                    </tr>
-        </table>
+                </thead>
+                <tbody>
+                <c:forEach var="order" items="${requestScope.carportOrders}">
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.customer.name}</td>
+                    <td>${order.address.address}</td>
+                    <td>${order.employee.get().name}</td>
+                    <td>${order.orderStatus.displayName}</td>
+                    <td>${order.price.get()} DKK</td>
+                    <td>
+                        <form action="DetailedOrderInfo" method="post">
+                            <input type="hidden" name="orderId" value="${order.id}">
+                            <input type="hidden" name="fromJsp" value="seeAllOrders">
+                            <input style="color: var(--color-light);" type="submit" value="Se mere om ordren">
+                        </form>
+                    </td>
+                </tr>
+                </c:forEach>
+            </table>
         </div>
 
         <c:if test="${requestScope.load != null}">
@@ -114,14 +114,14 @@
 
 
                 <div class="row">
-                    <a type="button" class="btn" value="Luk" href="ToSeeAllOrders" >Close</a>
+                    <a type="button" class="btn" value="Luk" href="ToSeeAllOrders">Close</a>
 
                 </div>
 
             </div>
 
 
-                </c:if>
+        </c:if>
 
         <style>
             .popup {
@@ -141,10 +141,6 @@
             }
 
         </style>
-
-
-
-
 
 
     </jsp:body>

@@ -34,13 +34,13 @@ public class DetailedOrderInfo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-        Person person = (Person) request.getSession().getAttribute("user");
+        String fromJsp = request.getParameter("fromJsp");
 
         try {
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
             request.setAttribute("carportOrder", carportOrder);
             request.setAttribute("load", "true");
-            if (person instanceof Customer) {
+            if (fromJsp.equals("seeAllOrders")) {
                 request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
             } else {
                 request.getRequestDispatcher("WEB-INF/seeEmployeeOrders.jsp").forward(request, response);

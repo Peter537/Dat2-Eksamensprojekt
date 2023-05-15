@@ -72,22 +72,36 @@
                          src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile picture">
                 </div>
 
-                <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
+                <div class="col-3 user-info" style="float: left; border-left: 2px solid green; height: 130px">
 
-                    <p>Name: ${sessionScope.user.getName()}</p>
+                    <p>Navn: ${sessionScope.user.getName()}</p>
                     <p>Email: ${sessionScope.user.getEmail()}</p>
                     <c:choose>
                         <c:when test="${sessionScope.user.personalPhoneNumber.present}">
-                            <p>personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
+                            <p>Personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
                         </c:when>
                         <c:otherwise>
-                            <p>personligt nummer: ikke sat</p>
+                            <p>Personligt nummer: ikke sat</p>
                         </c:otherwise>
                     </c:choose>
                     <a class="link" type="button" onclick="openPopup()">Konto Redigering</a>
 
                 </div>
-                <div class="col-4 text-center">
+                <div class="col-3">
+
+                    <p>Afdeling: ${sessionScope.user.getDepartment().getDepartmentName()}</p>
+                    <p>Stilling: ${sessionScope.user.getPosition().getPositionName()}</p>
+                    <c:choose>
+                        <c:when test="${sessionScope.user.workPhoneNumber.present}">
+                            <p>Arbejdsnummer: ${sessionScope.user.getWorkPhoneNumber().get()}</p>
+                        </c:when>
+                        <c:otherwise>
+                            <p>Arbejdsnummer: ikke sat</p>
+                        </c:otherwise>
+                    </c:choose>
+
+                </div>
+                <div class="col-3 text-center">
                     <h1>Velkommen </h1>
                     <h1>${sessionScope.user.getName()}</h1>
                 </div>

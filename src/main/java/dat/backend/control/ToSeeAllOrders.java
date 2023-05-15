@@ -12,6 +12,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "ToSeeAllOrders", value = "/ToSeeAllOrders")
@@ -27,22 +28,13 @@ public class ToSeeAllOrders extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
-
-            CarportOrder order = CarportOrderFacade.getCarportOrderById(1, connectionPool);
-
-            request.setAttribute("order", order);
-
+            List<CarportOrder> carportOrders = CarportOrderFacade.getAllCarportOrders(connectionPool);
+            request.setAttribute("carportOrders", carportOrders);
+            request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
         } catch (DatabaseException | NotFoundException e) {
-            e.printStackTrace();
+            request.setAttribute("errormessage", e.getMessage());
+            request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
         }
-
-        request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }
