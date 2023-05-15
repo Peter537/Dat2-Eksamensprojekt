@@ -3,6 +3,8 @@ package dat.backend.control;
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.order.CarportOrder;
+import dat.backend.model.entities.user.Customer;
+import dat.backend.model.entities.user.Person;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
@@ -31,21 +33,21 @@ public class DetailedOrderInfo extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-
+        Person person = (Person) request.getSession().getAttribute("user");
 
         try {
-            CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(1, connectionPool);
+            CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
             request.setAttribute("carportOrder", carportOrder);
             request.setAttribute("load", "true");
-            request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
-
-
+            if (person instanceof Customer) {
+                request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("WEB-INF/seeEmployeeOrders.jsp").forward(request, response);
+            }
         } catch (DatabaseException | NotFoundException e) {
-            e.printStackTrace();
+            request.setAttribute("errormessage", e.getMessage());
+            request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
         }
-
-
     }
 }
