@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "ToEmployeeOverview", value = "/ToEmployeeOverview")
-public class ToEmployeeOverview extends HttpServlet {
+@WebServlet(name = "ToEmployeeSite", value = "/ToEmployeeSite")
+public class ToEmployeeSite extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
     }
 }
