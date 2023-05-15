@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div style="width: 80%; text-align: center; margin-left: 5%" class="text-center">
+        <div style="text-align: center; margin-left: 5%" class="text-center">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
@@ -45,6 +45,7 @@
                     <th>Medarbejderens navn</th>
                     <th>Status</th>
                     <th>Pris</th>
+                    <th>Mere info</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,14 +54,27 @@
                     <td>${order.id}</td>
                     <td>${order.customer.name}</td>
                     <td>${order.address.address}</td>
-                    <td>${order.employee.get().name}</td>
+                    <c:choose>
+                        <c:when test="${order.employee.present}">
+                            <td>${order.employee.get().name}</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>Ikke tildelt</td>
+                        </c:otherwise>
+                    </c:choose>
                     <td>${order.orderStatus.displayName}</td>
-                    <td>${order.price.get()} DKK</td>
+                    <c:choose>
+                        <c:when test="${order.price.present}">
+                            <td>${order.price.get()}</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>Ikke beregnet</td>
+                        </c:otherwise>
+                    </c:choose>
                     <td>
                         <form action="DetailedOrderInfo" method="post">
                             <input type="hidden" name="orderId" value="${order.id}">
-                            <input type="hidden" name="fromJsp" value="seeAllOrders">
-                            <input style="color: var(--color-light);" type="submit" value="Se mere om ordren">
+                            <input type="submit" value="Se mere om ordren">
                         </form>
                     </td>
                 </tr>
@@ -100,6 +114,10 @@
                         <td>${carportOrder.orderStatus.displayName}</td>
                         <td>${carportOrder.address.address}</td>
                         <td>${carportOrder.address.zip.zipCode}</td>
+                        <c:if test="${carportOrder.employee.present}">
+                            <td>${carportOrder.employee.get().name}</td>
+                        </c:if>
+
                         <td>${carportOrder.employee.get().email}</td>
                         <td>${carportOrder.customer.email}</td>
                         <td>${carportOrder.width}</td>

@@ -145,7 +145,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Alle ordre i systemet</h5>
                                     <p class="card-text">Her kan du se alle ordre som er i systemet.</p>
-                                    <a href="to-generate-partlist" class="btn btn-primary">Til alle ordre</a> <%--TODO: FInd ud af hvor den skal poste--%>
+                                    <a href="ToSeeAllOrders" class="btn btn-primary">Til alle ordre</a> <%--TODO: FInd ud af hvor den skal poste--%>
                                 </div>
                             </div>
                         </div>

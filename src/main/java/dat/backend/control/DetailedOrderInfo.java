@@ -34,7 +34,6 @@ public class DetailedOrderInfo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-        String fromJsp = request.getParameter("fromJsp");
 
         try {
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
