@@ -1,8 +1,6 @@
 package dat.backend.model.persistence.user;
 
-import dat.backend.model.entities.user.Department;
-import dat.backend.model.entities.user.Employee;
-import dat.backend.model.entities.user.Position;
+import dat.backend.model.entities.user.*;
 import dat.backend.model.exceptions.*;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.services.Validation;
@@ -17,7 +15,7 @@ class EmployeeMapper {
 
     static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
         Validation.validateEmployee(email, password);
-        String query = "SELECT * FROM employee WHERE email = ? AND password = ?";
+        String query = "SELECT * FROM employeeWithDepartment WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, email);
@@ -60,7 +58,7 @@ class EmployeeMapper {
     }
 
     static Employee getEmployeeById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        String query = "SELECT * FROM employee WHERE id = ?";
+        String query = "SELECT * FROM employeeWithDepartment WHERE employeeid = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
@@ -73,7 +71,7 @@ class EmployeeMapper {
     }
 
     static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        String query = "SELECT * FROM employee WHERE email = ?";
+        String query = "SELECT * FROM employeeWithDepartment WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, email);
@@ -180,20 +178,22 @@ class EmployeeMapper {
             throw new NotFoundException("Could not find employee");
         }
 
-        int id = resultSet.getInt("id");
+        int id = resultSet.getInt("employeeid");
         String email = resultSet.getString("email");
-        String name = resultSet.getString("name");
+        String name = resultSet.getString("employeename");
         String password = resultSet.getString("password");
         String positionName = resultSet.getString("fk_position");
         Optional<String> privatePhoneNumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
         Optional<String> workPhoneNumber = Optional.ofNullable(resultSet.getString("work_phonenumber"));
-        int departmentId = resultSet.getInt("fk_department_id");
-        try {
-            Position position = PositionFacade.getPositionByPositionName(positionName, connectionPool);
-            Department department = DepartmentFacade.getDepartmentById(departmentId, connectionPool);
-            return new Employee(id, email, name, password, privatePhoneNumber, workPhoneNumber, position, department);
-        } catch (NotFoundException e) {
-            throw new DatabaseException(e, e.getMessage());
-        }
+
+        int departmentId = resultSet.getInt("id");
+        String departmentStreet = resultSet.getString("address");
+        Zip departmentZipCode = new Zip(resultSet.getInt("zipcode"), resultSet.getString("city_name"));
+        Address departmentAddress = new Address(departmentStreet, departmentZipCode);
+        String departmentName = resultSet.getString("name");
+
+        Position position = new Position(positionName);
+        Department department = new Department(departmentId, departmentName, departmentAddress);
+        return new Employee(id, email, name, password, privatePhoneNumber, workPhoneNumber, position, department);
     }
 }
