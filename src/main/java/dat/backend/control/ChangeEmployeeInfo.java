@@ -36,7 +36,7 @@ public class ChangeEmployeeInfo extends HttpServlet {
         changeName(employee, request);
         changePassword(employee, request);
         changePersonPhoneNumber(employee, request);
-        request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
     }
 
     public void changeName(Employee employee, HttpServletRequest request) {

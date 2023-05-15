@@ -43,10 +43,10 @@ public class ChangeEmployeePhoneNumber extends HttpServlet {
             try {
                 Validation.validatePhoneNumber(newPersonalPhoneNumber);
                 EmployeeFacade.updatePersonalPhoneNumber(employee, newPersonalPhoneNumber, connectionPool);
-                request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
             } catch (ValidationException e) {
                 request.setAttribute("errormessage", "'" + newPersonalPhoneNumber + "' er ikke et dansk telefonnummer");
-                request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
             } catch (DatabaseException e) {
                 request.setAttribute("errormessage", e.getMessage());
                 request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
@@ -65,10 +65,10 @@ public class ChangeEmployeePhoneNumber extends HttpServlet {
             try {
                 Validation.validatePhoneNumber(newWorkPhoneNumber);
                 EmployeeFacade.updateWorkPhoneNumber(employee, newWorkPhoneNumber, connectionPool);
-                request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
             } catch (ValidationException e) {
                 request.setAttribute("errormessage", "'" + newWorkPhoneNumber + "' er ikke et dansk telefonnummer");
-                request.getRequestDispatcher("WEB-INF/employeeOverview.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
             } catch (DatabaseException e) {
                 request.setAttribute("errormessage", e.getMessage());
                 request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
