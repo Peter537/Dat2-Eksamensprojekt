@@ -14,7 +14,7 @@
 
     <jsp:attribute name="title">
 
-        <h1>My Orders</h1>
+      My Orders
     </jsp:attribute>
 
     <jsp:attribute name="footer">
@@ -40,7 +40,7 @@
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Ordrenummer</th>
                     <th>Kundens navn</th>
                     <th>Kundens adresse</th>
                     <th>Medarbejderens navn</th>
@@ -85,56 +85,57 @@
 
         <c:if test="${requestScope.load != null}">
 
-            <div class="popup" id="popup">
+            <div class=" row popup" id="popup">
 
-                <table class="table table-striped table-bordered table-hover" style="padding-right: 5%">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>ordrestatus</th>
-                        <th>Kundens adresse</th>
-                        <th>Postnummer</th>
-                        <th>Medarbejderens email</th>
-                        <th>Kundens email</th>
-                        <th>Carport bredde</th>
-                        <th>Carport længde</th>
-                        <th>Carport minimum-højde</th>
-                        <th>Redskabsskur bredde</th>
-                        <th>Redskabsskur længde</th>
-                        <th>pris</th>
-                        <th>bemærkninger</th>
-                    </tr>
-                    </thead>
-                    <c:set var="carportOrder" value="${requestScope.carportOrder}">
-                    </c:set>
-                    <tbody>
-                    <tr>
-                        <td>${carportOrder.id}</td>
-                        <td>${carportOrder.orderStatus.displayName}</td>
-                        <td>${carportOrder.address.address}</td>
-                        <td>${carportOrder.address.zip.zipCode}</td>
-                        <c:if test="${carportOrder.employee.present}">
-                            <td>${carportOrder.employee.get().name}</td>
-                        </c:if>
+                <div  id="Seller" class="col-4 text-center">
 
-                        <td>${carportOrder.employee.get().email}</td>
-                        <td>${carportOrder.customer.email}</td>
-                        <td>${carportOrder.width}</td>
-                        <td>${carportOrder.length}</td>
-                        <td>${carportOrder.minHeight}</td>
-                        <td>${carportOrder.toolRoom.get().width} cm</td>
-                        <td>${carportOrder.toolRoom.get().length} cm</td>
-                        <td>${carportOrder.price.get()}</td>
-                        <td>${carportOrder.remarks.get()}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                    <div class="row" style="margin-bottom: 2%">
+                        <h1>Sælger</h1>
+                        <img style="height: 250px; width: 250px; text-align: center" class="card-img-top"
+                             src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="SellerProfile">
+                    </div>
+
+                    <div class="row">
+                    <c:choose>
+                        <c:when test="${requestScope.carportOrder.employee.present}">
+                            <p>Medarbejder: ${requestScope.carportOrder.employee.get().name}</p>
+                        </c:when>
+                        <c:otherwise>
+                            <h1>Medarbejder: Ikke tildelt</h1>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                    <div class="row">
+                        <c:choose>
+                            <c:when test="${requestScope.carportOrder.employee.present}">
+                                <p>Medarbejder: ${requestScope.carportOrder.employee.get().email}</p>
+                            </c:when>
+                            <c:otherwise>
+                            <h1>Medarbejder: Ikke tildelt</h1>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+
+                    <h2>Kontakt sælger</h2>
+
+                    <textarea id="story" name="remarks" class="form-control"
+                              rows="5" cols="33" placeholder="En besked til sælgeren">
+                    </textarea>
+
+                    <button type="button" class="btn btn-primary" style="margin-top: 2%">Send til sælger</button>
 
 
-                <div class="row" style="padding-left: 30%; padding-right: 30%">
-                    <a type="button" class="btn" value="Luk" href="ToCustomerOrders">Close</a>
 
                 </div>
+
+                <div  id="Customer" class="col-4">
+
+                </div>
+
+                <div id="CarportInfo" class="col-4">
+
+                </div>
+
 
             </div>
 

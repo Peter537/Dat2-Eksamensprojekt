@@ -120,7 +120,7 @@
 
                             <div class="row" style="padding-top: 5%">
                                 <div class="col-12">
-                                    <p style="text-decoration: underline black">Status på igangværende ordrer</p>
+                                    <p style="text-decoration: underline black">Status på seneste ordrer</p>
                                     <c:choose>
                                         <c:when test="${requestScope.noOrder != null}">
                                             <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">Status: ${requestScope.noOrder}</p>
