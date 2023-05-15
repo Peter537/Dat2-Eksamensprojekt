@@ -116,7 +116,7 @@
                         <form action="delete-catalog-item" method="post">
                             <input type="hidden" name="id" value="${pole.id}">
                             <input type="hidden" name="catalogItemType" value="pole">
-                            <input style="color: var(--color-light);" type="submit" value="Slet katalog vare">
+                            <input style="color: var(--color-light);" type="submit" value="Slet vare">
                             </td>
                         </form>
                     </tr>
@@ -173,7 +173,7 @@
                         <form action="delete-catalog-item" method="post">
                             <input type="hidden" name="id" value="${rafter.id}">
                             <input type="hidden" name="catalogItemType" value="rafter">
-                            <input style="color: var(--color-light);" type="submit" value="Slet katalog vare">
+                            <input style="color: var(--color-light);" type="submit" value="Slet vare">
                         </form>
                         </td>
                     </tr>
