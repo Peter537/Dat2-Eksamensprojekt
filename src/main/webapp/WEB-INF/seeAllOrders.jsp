@@ -61,7 +61,7 @@
                         <td>
                             <form action="DetailedOrderInfo" method="post">
                                 <input type="hidden" name="orderId" value="${order.id}">
-                                <input style="color: white" type="submit" value="Se mere om ordren">
+                                <input style="color: var(--color-light);" type="submit" value="Se mere om ordren">
                             </form>
                         </td>
                     </tr>
