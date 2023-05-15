@@ -21,6 +21,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "PartList", value = "/PartList")
@@ -97,6 +98,9 @@ public class CreateOrder extends HttpServlet {
 
         } catch (DatabaseException | IllegalArgumentException | NotFoundException | ValidationException e) {
             e.printStackTrace();
+            Logger.getLogger("CreateOrder").warning(e.getMessage());
+            request.setAttribute("errormessage", e.getMessage());
+            request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
         }
 
 
