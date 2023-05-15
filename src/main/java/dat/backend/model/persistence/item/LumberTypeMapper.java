@@ -5,10 +5,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,5 +52,58 @@ class LumberTypeMapper {
         }
 
         return lumberTypelist;
+    }
+
+    static LumberType getLumberType(float poleThickness, float poleWidth, float poleMeterPrice, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+        String query = "SELECT * FROM lumbertype WHERE thickness = ? AND width = ? AND meter_price = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setFloat(1, poleThickness);
+                statement.setFloat(2, poleWidth);
+                statement.setFloat(3, poleMeterPrice);
+                ResultSet resultSet = statement.executeQuery();
+                if (!resultSet.next()) {
+                    throw new NotFoundException("Could not get lumber by id");
+                }
+
+                int id = resultSet.getInt("id");
+                String type = resultSet.getString("type");
+                return new LumberType(id, poleWidth, poleThickness, poleMeterPrice, type);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not get lumber by id");
+        }
+    }
+
+    static LumberType createLumberType(float poleThickness, float poleWidth, float poleMeterPrice, String pole, ConnectionPool connectionPool) throws DatabaseException {
+        try {
+            return getLumberType(poleThickness, poleWidth, poleMeterPrice, connectionPool);
+        } catch (DatabaseException | NotFoundException e) {
+            // Do nothing
+        }
+
+        String query = "INSERT INTO lumbertype (thickness, width, meter_price, type) VALUES (?, ?, ?, ?)";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                statement.setFloat(1, poleThickness);
+                statement.setFloat(2, poleWidth);
+                statement.setFloat(3, poleMeterPrice);
+                statement.setString(4, pole);
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected != 1) {
+                    throw new DatabaseException("Could not create lumber type");
+                }
+
+                ResultSet rs = statement.getGeneratedKeys();
+                if (!rs.next()) {
+                    throw new DatabaseException("Could not create lumber type");
+                }
+
+                int id = rs.getInt(1);
+                return getLumberTypeById(id, connectionPool);
+            }
+        } catch (SQLException | DatabaseException | NotFoundException e) {
+            throw new DatabaseException(e, "Could not create lumber type");
+        }
     }
 }
