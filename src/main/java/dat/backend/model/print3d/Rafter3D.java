@@ -18,7 +18,8 @@ public class Rafter3D {
     private Geometry3D createRafter(PartsList partsList) throws DatabaseException {
         JavaCSG csg = JavaCSGFactory.createDefault();
         LumberType rafter = partsList.getRafter().getLumberType();
-        Geometry3D box = csg.box3D( rafter.getWidth(), rafter.getThickness(), partsList.getLengthOfRafter(), true);
+        Geometry3D box = csg.box3D( partsList.getLengthOfRafter()*10,rafter.getWidth(), rafter.getThickness(), true);
+        csg.view(box, 3);
         return box;
     }
 }
