@@ -49,7 +49,7 @@ public class Login extends HttpServlet {
                 } else {
                     Employee employee = EmployeeFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", employee);
-                    request.getRequestDispatcher("employeeSite.jsp").forward(request, response);
+                    request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
                 }
             } catch (NotFoundException e) {
                 request.setAttribute("errormessage", "Wrong username or password");
