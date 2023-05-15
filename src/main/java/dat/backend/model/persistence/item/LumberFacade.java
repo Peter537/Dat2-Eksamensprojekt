@@ -33,4 +33,8 @@ public class LumberFacade {
     public static void deleteLumber(int id, ConnectionPool connectionPool) throws DatabaseException {
         LumberMapper.deleteLumber(id, connectionPool);
     }
+
+    public static void updateLumber(int id, float poleLength, int lumberTypeId, int amount, ConnectionPool connectionPool) throws DatabaseException {
+        LumberMapper.updateLumber(id, poleLength, lumberTypeId, amount, connectionPool);
+    }
 }

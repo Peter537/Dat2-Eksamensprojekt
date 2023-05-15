@@ -144,4 +144,19 @@ class LumberMapper {
             throw new DatabaseException(e, "Could not delete lumber");
         }
     }
+
+    public static void updateLumber(int id, float poleLength, int lumberTypeId, int amount, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE lumber SET length = ?, type = ?, amount = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setFloat(1, poleLength);
+                statement.setInt(2, lumberTypeId);
+                statement.setInt(3, amount);
+                statement.setInt(4, id);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update lumber");
+        }
+    }
 }
