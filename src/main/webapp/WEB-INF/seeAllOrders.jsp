@@ -8,7 +8,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page errorPage="error.jsp" isErrorPage="false" %>
+<%--<%@page errorPage="error.jsp" isErrorPage="false" %>--%>
 
 <t:pagetemplate>
 
@@ -134,7 +134,7 @@
                 height: 80%;
                 padding: 20px;
                 background-color: white;
-                z-index: 9999; /* set z-index higher than other elements to display the pop-up on top */
+                z-index: 10;
                 border: 1px solid black;
                 border-radius: 10px;
                 visibility: visible;
