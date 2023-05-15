@@ -132,4 +132,16 @@ class LumberMapper {
     protected static int calcPrice(float length, float meterPrice) {
         return Math.round(length * (meterPrice / 100));
     }
+
+    static void deleteLumber(int id, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "DELETE FROM lumber WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, id);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not delete lumber");
+        }
+    }
 }

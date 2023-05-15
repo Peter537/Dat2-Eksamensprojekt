@@ -89,4 +89,16 @@ class RoofMapper {
 
         return rooflist;
     }
+
+    static void deleteRoof(int id, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "DELETE FROM roof WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, id);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not delete roof");
+        }
+    }
 }

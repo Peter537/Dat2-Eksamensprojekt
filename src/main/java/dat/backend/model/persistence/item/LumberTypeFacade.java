@@ -16,4 +16,8 @@ public class LumberTypeFacade {
     public static List<LumberType> getLumberTypeByType(String lumberType, ConnectionPool connectionPool) throws DatabaseException {
         return LumberTypeMapper.getLumberTypeByType(lumberType, connectionPool);
     }
+
+    public static LumberType createLumberType(float poleThickness, float poleWidth, float poleMeterPrice, String pole, ConnectionPool connectionPool) throws DatabaseException {
+        return LumberTypeMapper.createLumberType(poleThickness, poleWidth, poleMeterPrice, pole, connectionPool);
+    }
 }

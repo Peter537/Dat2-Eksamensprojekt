@@ -128,7 +128,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Mine nuværende salg</h5>
                                     <p class="card-text">Her vil du kunne se din nyeste order og se status på den igangværende salg</p>
-                                    <a href="#" class="btn btn-primary">Til mine salg</a> <%--TODO: FInd ud af hvor den skal poste--%>
+                                    <a href="see-employee-orders" class="btn btn-primary">Til mine salg</a>
 
                                     <div class="row" style="padding-top: 5%">
                                         <div class="col-12">
@@ -145,7 +145,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Alle ordre i systemet</h5>
                                     <p class="card-text">Her kan du se alle ordre som er i systemet.</p>
-                                    <a href="ToSeeAllOrders" class="btn btn-primary">Til alle ordre</a> <%--TODO: FInd ud af hvor den skal poste--%>
+                                    <a href="see-all-orders" class="btn btn-primary">Til alle ordre</a>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Materiale-kataloget</h5>
                                 <p class="card-text">Se og ret i materiale kataloget.</p>
-                                <a href="to-generate-partlist" class="btn btn-primary">Materiale-kataloget</a> <%--TODO: FInd ud af hvor den skal poste--%>
+                                <a href="see-catalog" class="btn btn-primary">Materiale-kataloget</a>
                             </div>
                         </div>
                         <div class="col-sm-6 card sm-card">
