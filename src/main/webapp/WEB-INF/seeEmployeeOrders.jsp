@@ -69,7 +69,7 @@
                 <table class="table table-striped table-bordered table-hover" style="padding-right: 5%">
                     <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Ordrenummer</th>
                         <th>ordrestatus</th>
                         <th>Kundens adresse</th>
                         <th>Postnummer</th>
