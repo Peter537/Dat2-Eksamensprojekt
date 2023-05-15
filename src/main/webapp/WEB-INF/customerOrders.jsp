@@ -87,7 +87,7 @@
 
             <div class="popup" id="popup">
 
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-striped table-bordered table-hover" style="padding-right: 5%">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -103,13 +103,11 @@
                         <th>Redskabsskur længde</th>
                         <th>pris</th>
                         <th>bemærkninger</th>
-
                     </tr>
                     </thead>
-                    <tbody>
                     <c:set var="carportOrder" value="${requestScope.carportOrder}">
                     </c:set>
-
+                    <tbody>
                     <tr>
                         <td>${carportOrder.id}</td>
                         <td>${carportOrder.orderStatus.displayName}</td>
@@ -133,8 +131,8 @@
                 </table>
 
 
-                <div class="row">
-                    <a type="button" class="btn" value="Luk" href="ToSeeAllOrders">Close</a>
+                <div class="row" style="padding-left: 30%; padding-right: 30%">
+                    <a type="button" class="btn" value="Luk" href="ToCustomerOrders">Close</a>
 
                 </div>
 
@@ -150,7 +148,7 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                width: 80%;
+                width: 90%;
                 height: 80%;
                 padding: 20px;
                 background-color: white;

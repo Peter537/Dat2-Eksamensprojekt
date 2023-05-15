@@ -49,6 +49,7 @@ public abstract class TestDatabase {
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.position LIKE fogcarport.position;");
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.roof LIKE fogcarport.roof;");
                 stmt.execute("CREATE TABLE IF NOT EXISTS fogcarport_test.zip LIKE fogcarport.zip;");
+
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

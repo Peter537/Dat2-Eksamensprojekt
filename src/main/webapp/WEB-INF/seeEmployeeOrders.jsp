@@ -66,7 +66,7 @@
 
             <div class="popup" id="popup">
 
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-striped table-bordered table-hover" style="padding-right: 5%">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -82,18 +82,20 @@
                         <th>Redskabsskur længde</th>
                         <th>pris</th>
                         <th>bemærkninger</th>
-
                     </tr>
                     </thead>
-                    <tbody>
                     <c:set var="carportOrder" value="${requestScope.carportOrder}">
                     </c:set>
-
+                    <tbody>
                     <tr>
                         <td>${carportOrder.id}</td>
                         <td>${carportOrder.orderStatus.displayName}</td>
                         <td>${carportOrder.address.address}</td>
                         <td>${carportOrder.address.zip.zipCode}</td>
+                        <c:if test="${carportOrder.employee.present}">
+                            <td>${carportOrder.employee.get().name}</td>
+                        </c:if>
+
                         <td>${carportOrder.employee.get().email}</td>
                         <td>${carportOrder.customer.email}</td>
                         <td>${carportOrder.width}</td>
@@ -104,11 +106,12 @@
                         <td>${carportOrder.price.get()}</td>
                         <td>${carportOrder.remarks.get()}</td>
                     </tr>
+                    </tbody>
                 </table>
 
 
-                <div class="row">
-                    <a type="button" class="btn" value="Luk" href="see-employee-orders">Close</a>
+                <div class="row" style="padding-left: 30%; padding-right: 30%">
+                    <a type="button" class="btn" value="Luk" href="ToSeeAllOrders">Close</a>
 
                 </div>
 

@@ -156,7 +156,7 @@
                                 <div class="col-6">
                                     <label for="zipcode" class="form-label">Postnummer</label>
                                     <input class="form-control" type="number" name="customerZip" id="zipcode"
-                                           placeholder="ex. 2400" required>
+                                           placeholder="ex. 2400">
                                 </div>
                                 </div>
                             </div>
@@ -195,10 +195,12 @@
                          src="${pageContext.request.getContextPath()}/images/greenTickMark.jpg">
                 </div>
                 <div style="color: white">
-                    <h2>Thank you!</h2>
-                    <p>Your order has been submitted successfully</p>
+                    <h2>Tak for bestillingen</h2>
+                    <p>Din forespørgsmål er blevet indsendt korrekt. Venligst vent 3-4 dage
+                    på at en medarbejder tager kontakt til dig. Medarbejderen vil manuelt teste på </p>
+                    din forespørgsel.
                 </div>
-                <button type="btn btn-primary" onclick="closePopup()">OK</button>
+                <a class="btn" type="button" href="ToProfileSite">OK</a>
             </div>
 
         </c:if>
