@@ -120,11 +120,11 @@
                         <td>${carportOrder.address.zip.zipCode}</td>
                         <c:choose>
                             <c:when test="${carportOrder.employee.present}">
-                                 <td>${carportOrder.employee.get().name}</td>
+                                <td>${carportOrder.employee.get().name}</td>
                                 <td>${carportOrder.employee.get().email}</td>
                             </c:when>
                             <c:otherwise>
-                                 <td>Ikke tildelt</td>
+                                <td>Ikke tildelt</td>
                                 <td>Ikke tildelt</td>
                             </c:otherwise>
                         </c:choose>
@@ -137,47 +137,60 @@
                         <td>${carportOrder.roof.id}</td>
 
 
-                       <c:choose>
+                        <c:choose>
                             <c:when test="${carportOrder.toolRoom.present}">
-                                 <td>${carportOrder.toolRoom.get().width}</td>
+                                <td>${carportOrder.toolRoom.get().width}</td>
                                 <td>${carportOrder.toolRoom.get().length}</td>
                             </c:when>
                             <c:otherwise>
-                                 <td>Ikke tilføjet</td>
-                                    <td>Ikke tilføjet</td>
+                                <td>Ikke tilføjet</td>
+                                <td>Ikke tilføjet</td>
                             </c:otherwise>
-                       </c:choose>
+                        </c:choose>
 
                         <c:choose>
                             <c:when test="${carportOrder.price.present}">
-                                 <td>${carportOrder.price.get()}</td>
+                                <td>${carportOrder.price.get()}</td>
                             </c:when>
                             <c:otherwise>
-                                 <td>Ikke beregnet</td>
+                                <td>Ikke beregnet</td>
                             </c:otherwise>
                         </c:choose>
 
                         <c:choose>
                             <c:when test="${carportOrder.remarks.present}">
-                                 <td>${carportOrder.remarks.get()}</td>
+                                <td>${carportOrder.remarks.get()}</td>
                             </c:when>
                             <c:otherwise>
-                                 <td>Ikke tilføjet</td>
+                                <td>Ikke tilføjet</td>
                             </c:otherwise>
                         </c:choose>
                     </tr>
                 </table>
 
-                <div>
-                    <input type="number" name="makeOfferPrice" value="0">
-                </div>
 
-<div>
-    <form action="EmployeeClaimOrder" method="post">
-        <input type="hidden" name="orderId" value="${carportOrder.id}">
-        <input type="submit" value="Tag ordre">
-    </form>
-</div>
+                <c:choose>
+                    <c:when test="${!carportOrder.employee.present}">
+                        <div>
+                            <form action="EmployeeClaimOrder" method="post">
+                                <input type="hidden" name="orderId" value="${carportOrder.id}">
+                                <input type="submit" value="Tag ordre">
+                            </form>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div>
+                            <form action="" method="post">
+                                <input class="form-control" type="number" name="makeOfferPrice" value="0">
+                                <br>
+                                <input type="hidden" name="orderId" value="${carportOrder.id}">
+                                <input class="btn" type="submit" name="orderId" value="Lav tilbud">
+                                <br>
+                            </form>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+                <br>
 
                 <div class="row">
                     <a type="button" class="btn" value="Luk" href="see-all-orders">Close</a>
