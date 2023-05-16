@@ -51,14 +51,39 @@ class Model3DTest extends TestDatabase {
     void ValidCreatePole() throws DatabaseException, NotFoundException {
         PartsList partsList = new PartsList(200,500,300,super.connectionPool);
         Pole3D pole3D = new Pole3D(partsList);
+
         assertNotNull(pole3D);
 
     }
+
+
+    @Test
+    void ValidCreatePlate() throws DatabaseException, NotFoundException {
+        PartsList partsList = new PartsList(200,500,300,super.connectionPool);
+        Plate3D plate3D = new Plate3D(partsList);
+
+        assertNotNull(plate3D);
+
+    }
+
+
+    @Test
+    void ValidCreateRafter() throws DatabaseException, NotFoundException {
+        PartsList partsList = new PartsList(200,500,300,super.connectionPool);
+
+        Rafter3D rafter3D = new Rafter3D(partsList);
+
+        assertNotNull(rafter3D);
+
+    }
+
+
 
     @Test
     void ValidModel() throws DatabaseException, NotFoundException {
         PartsList partsList = new PartsList(200,500,300,super.connectionPool);
         Model3D model3D = new Model3D();
+       // model3D.createModel(partsList);
         assertNotNull(model3D);
 
     }

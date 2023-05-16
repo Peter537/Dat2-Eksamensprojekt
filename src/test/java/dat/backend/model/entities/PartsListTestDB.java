@@ -146,15 +146,18 @@ class PartsListTestDB extends TestDatabase {
         assertEquals(expected, actual);
 
     }
-    /*
-    TODO: Fix this test
+
     @Test
-    void testValidCalculateLengthOfLumber0() {
-        int expected = 670;
-        int actual = PartsList.calculateLengthOfLumber(670);
+    void testValidCalculateLengthOfLumber0() throws NotFoundException, DatabaseException {
+
+        int width = 672;
+        LumberType rafterType = PartsList.calculateRafterType(width, super.connectionPool);
+        int expected = 672;
+
+        int actual = PartsList.calculateLengthOfLumber(width, rafterType, super.connectionPool);
         assertEquals(expected, actual);
     }
-
+/*
     @Test
     void testValidCalculateLengthOfLumber1() {
         int expected = 400;

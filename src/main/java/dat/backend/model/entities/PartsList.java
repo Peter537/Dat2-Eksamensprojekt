@@ -293,4 +293,19 @@ public class PartsList {
     public static int getRoofArea() {
         return roofArea;
     }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public int getHeight() {
+        return height;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public int getLength() {
+        return length;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public int getWidth() {
+        return width;
+    }
 }
