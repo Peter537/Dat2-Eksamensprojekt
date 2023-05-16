@@ -241,7 +241,7 @@ class EmployeeMapperTest extends TestDatabase {
     void testValidUpdatePosition() throws DatabaseException, NotFoundException, ValidationException {
         Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertEquals("Sales", employee.getPosition().getPositionName());
-        Position position = PositionFacade.getPositionByPositionName("CEO", connectionPool);
+        Position position = new Position("CEO");
         EmployeeFacade.updatePosition(employee, position, connectionPool);
         assertEquals("CEO", employee.getPosition().getPositionName());
     }
