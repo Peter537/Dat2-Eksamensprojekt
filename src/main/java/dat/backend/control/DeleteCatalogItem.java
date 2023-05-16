@@ -30,7 +30,7 @@ public class DeleteCatalogItem extends HttpServlet {
         try {
             String catalogItemType = request.getParameter("catalogItemType");
             String id = request.getParameter("id");
-            String returnpage = "see-catalog";
+            String returnpage;
 
             switch (catalogItemType) {
                 case "roof":
@@ -38,8 +38,12 @@ public class DeleteCatalogItem extends HttpServlet {
                     returnpage = "ToRoofFrame";
                     break;
                 case "pole":
+                    LumberFacade.deleteLumber(Integer.parseInt(id), connectionPool);
+                    returnpage = "ToPoleFrame";
+                    break;
                 case "rafter":
                     LumberFacade.deleteLumber(Integer.parseInt(id), connectionPool);
+                    returnpage = "ToRafterFrame";
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown type: " + catalogItemType);

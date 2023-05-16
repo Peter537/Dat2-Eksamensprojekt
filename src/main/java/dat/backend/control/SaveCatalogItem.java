@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "save-catalog-item", value = "/save-catalog-item")
@@ -57,6 +58,11 @@ public class SaveCatalogItem extends HttpServlet {
                         LumberFacade.updateLumber(Integer.parseInt(id), poleLength, lumberTypeObj.getId(), amount, connectionPool);
                     } else {
                         LumberFacade.createLumber(poleLength, lumberTypeObj.getId(), amount, connectionPool);
+                    }
+                    if (Objects.equals(lumberType, "POLE")) {
+                        returnpage = "ToPoleFrame";
+                    } else {
+                        returnpage = "ToRafterFrame";
                     }
                     break;
                 default:
