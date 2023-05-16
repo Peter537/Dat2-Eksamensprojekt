@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Roof {
 
     private final int id;
+
     private float squareMeterPrice;
     private String type;
 

@@ -14,9 +14,10 @@ import java.util.Optional;
 public class CarportOrder {
 
     private final int id;
+    private final Customer customer;
+
     private Address address;
     private Optional<Employee> employee;
-    private Customer customer;
     private OrderStatus orderStatus;
     private Roof roof;
     private Optional<String> remarks;
@@ -47,6 +48,11 @@ public class CarportOrder {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
+    public Customer getCustomer() {
+        return this.customer;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Address getAddress() {
         return this.address;
     }
@@ -64,16 +70,6 @@ public class CarportOrder {
     @IgnoreCoverage(reason = "Getter or Setter")
     public void setEmployee(Optional<Employee> employee) {
         this.employee = employee;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public Customer getCustomer() {
-        return this.customer;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")

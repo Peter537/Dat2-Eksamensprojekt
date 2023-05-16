@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Position {
 
-    private String positionName;
+    private final String positionName;
 
     public Position(String positionName) {
         this.positionName = positionName;
@@ -15,11 +15,6 @@ public class Position {
     @IgnoreCoverage(reason = "Getter or Setter")
     public String getPositionName() {
         return this.positionName;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setPositionName(String positionName) {
-        this.positionName = positionName;
     }
 
     @IgnoreCoverage(reason = "equals")

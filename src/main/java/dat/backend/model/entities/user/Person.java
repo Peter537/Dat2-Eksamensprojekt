@@ -9,18 +9,24 @@ import java.util.Optional;
 public abstract class Person {
 
     private final int id;
-    private String email;
+    private final String email;
+    private final boolean isEmployee;
+
     private String name;
     private String password;
     private Optional<String> personalPhoneNumber;
-    private boolean isEmployee = false;
 
-    public Person(int id, String email, String name, String password, Optional<String> personalPhoneNumber) {
+    public Person(int id, String email, String name, String password, Optional<String> personalPhoneNumber, boolean isEmployee) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.password = password;
         this.personalPhoneNumber = personalPhoneNumber;
+        this.isEmployee = isEmployee;
+    }
+
+    public Person(int id, String email, String name, String password, Optional<String> personalPhoneNumber) {
+        this(id, email, name, password, personalPhoneNumber, false);
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -34,8 +40,8 @@ public abstract class Person {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setEmail(String email) {
-        this.email = email;
+    public boolean isEmployee() {
+        return this.isEmployee;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -66,16 +72,6 @@ public abstract class Person {
     @IgnoreCoverage(reason = "Getter or Setter")
     public void setPersonalPhoneNumber(Optional<String> personalPhoneNumber) {
         this.personalPhoneNumber = personalPhoneNumber;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public boolean getIsEmployee() {
-        return this.isEmployee;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setIsEmployee(boolean isEmployee) {
-        this.isEmployee = isEmployee;
     }
 
     @IgnoreCoverage(reason = "equals")

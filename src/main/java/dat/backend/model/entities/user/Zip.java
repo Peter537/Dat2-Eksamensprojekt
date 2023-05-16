@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class Zip {
 
-    private int zipCode;
-    private String cityName;
+    private final int zipCode;
+    private final String cityName;
 
     public Zip(int zipCode, String cityName) {
         this.zipCode = zipCode;
@@ -20,18 +20,8 @@ public class Zip {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setZipCode(int zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public String getCityName() {
         return this.cityName;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
     }
 
     @IgnoreCoverage(reason = "equals")

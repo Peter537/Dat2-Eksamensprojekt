@@ -24,7 +24,7 @@
         <div class="container">
             <c:if test="${sessionScope.user != null}">
                 <c:choose>
-                    <c:when test="${sessionScope.user.getIsEmployee() == false}">
+                    <c:when test="${sessionScope.user.isEmployee() == false}">
                         <c:set var="page" value="ToProfileSite"/>
                     </c:when>
                     <c:otherwise>

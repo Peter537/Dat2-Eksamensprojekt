@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Lumber implements Comparable<Lumber> {
 
     private final int id;
+
     private int length;
     private LumberType lumberType;
     private int amount;

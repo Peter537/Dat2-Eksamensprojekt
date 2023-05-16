@@ -6,9 +6,9 @@ import java.util.Objects;
 
 public class OrderStatus {
 
-    private String status;
-    private String displayName;
-    private int sortValue;
+    private final String status;
+    private final String displayName;
+    private final int sortValue;
 
     public OrderStatus(String status, String displayName, int sortValue) {
         this.status = status;
@@ -22,28 +22,13 @@ public class OrderStatus {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public String getDisplayName() {
         return this.displayName;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public int getSortValue() {
         return this.sortValue;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setSortValue(int sortValue) {
-        this.sortValue = sortValue;
     }
 
     @IgnoreCoverage(reason = "equals")
