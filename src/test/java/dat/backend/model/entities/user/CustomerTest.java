@@ -10,7 +10,7 @@ class CustomerTest {
 
     @Test
     void testValidSetAddress() {
-        Customer customer = new Customer(0, "email", "name", "password", Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        Customer customer = new Customer(0, "email", "name", Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
         for (int i = 1; i <= 3; i++) {
             assertFalse(customer.getAddress(i).isPresent());
             customer.setAddress(i, Optional.of(new Address("street", new Zip(2800, "city"))));
@@ -23,14 +23,14 @@ class CustomerTest {
 
     @Test
     void testInvalidSetAddress() {
-        Customer customer = new Customer(0, "email", "name", "password", Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        Customer customer = new Customer(0, "email", "name", Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
         assertThrows(IllegalArgumentException.class, () -> customer.setAddress(0, Optional.of(new Address("street", new Zip(2800, "city")))));
         assertThrows(IllegalArgumentException.class, () -> customer.setAddress(4, Optional.of(new Address("street", new Zip(2800, "city")))));
     }
 
     @Test
     void testValidGetAddress() {
-        Customer customer = new Customer(0, "email", "name", "password", Optional.empty(), Optional.of(new Address("street1", new Zip(2800, "city1"))), Optional.of(new Address("street2", new Zip(2800, "city2"))), Optional.of(new Address("street3", new Zip(2800, "city3"))));
+        Customer customer = new Customer(0, "email", "name", Optional.empty(), Optional.of(new Address("street1", new Zip(2800, "city1"))), Optional.of(new Address("street2", new Zip(2800, "city2"))), Optional.of(new Address("street3", new Zip(2800, "city3"))));
         for (int i = 1; i <= 3; i++) {
             assertTrue(customer.getAddress(i).isPresent());
             assertEquals("street" + i, customer.getAddress(i).get().getStreet());
@@ -41,7 +41,7 @@ class CustomerTest {
 
     @Test
     void testInvalidGetAddress() {
-        Customer customer = new Customer(0, "email", "name", "password", Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
+        Customer customer = new Customer(0, "email", "name", Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty());
         assertThrows(IllegalArgumentException.class, () -> customer.getAddress(0));
         assertThrows(IllegalArgumentException.class, () -> customer.getAddress(4));
     }
