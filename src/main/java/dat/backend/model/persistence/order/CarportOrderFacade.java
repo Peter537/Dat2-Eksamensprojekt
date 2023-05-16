@@ -1,7 +1,6 @@
 package dat.backend.model.persistence.order;
 
 import dat.backend.model.entities.order.CarportOrder;
-import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
 import dat.backend.model.entities.user.Address;
@@ -34,8 +33,8 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getAllCarportOrders(connectionPool);
     }
 
-    public static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        return CarportOrderMapper.createCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks, connectionPool);
+    public static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        return CarportOrderMapper.create(customer, address, width, length, minHeight, roof, toolRoom, remarks, connectionPool);
     }
 
     public static void claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {

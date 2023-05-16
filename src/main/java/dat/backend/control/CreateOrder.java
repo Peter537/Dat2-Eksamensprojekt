@@ -93,7 +93,7 @@ public class CreateOrder extends HttpServlet {
 
             String successMessage = "good job";
 
-            CarportOrderFacade.createCarportOrder(customer, address, width, length, height, roof, toolRoom, remarks, connectionPool);
+            CarportOrderFacade.create(customer, address, width, length, height, roof, toolRoom, remarks, connectionPool);
 
             request.setAttribute("partsListSuccess", successMessage);
             request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
