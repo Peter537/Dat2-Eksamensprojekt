@@ -92,7 +92,7 @@ class CustomerMapperTest extends TestDatabase {
 
     @Test
     void testValidCreateCustomer() throws DatabaseException, ValidationException, AlreadyExistsException {
-        Customer customer = CustomerFacade.createCustomer("test@gmail.com", "1234566", "Test", connectionPool);
+        Customer customer = CustomerFacade.create("test@gmail.com", "1234566", "Test", connectionPool);
         assertEquals(4, customer.getId());
         assertEquals("test@gmail.com", customer.getEmail());
         assertEquals("Test", customer.getName());
@@ -100,17 +100,17 @@ class CustomerMapperTest extends TestDatabase {
 
     @Test
     void testInvalidCreateCustomerEmailAlreadyInUse() throws DatabaseException {
-        assertThrows(AlreadyExistsException.class, () -> CustomerFacade.createCustomer("alex@hotmail.com", "1234566", "Test", connectionPool));
+        assertThrows(AlreadyExistsException.class, () -> CustomerFacade.create("alex@hotmail.com", "1234566", "Test", connectionPool));
     }
 
     @Test
     void testInvalidCreateCustomerNullPassword() throws DatabaseException {
-        assertThrows(ValidationException.class, () -> CustomerFacade.createCustomer("new@gmail.com", null, "Test", connectionPool));
+        assertThrows(ValidationException.class, () -> CustomerFacade.create("new@gmail.com", null, "Test", connectionPool));
     }
 
     @Test
     void testInvalidCreateCustomerNullName() throws DatabaseException {
-        assertThrows(ValidationException.class, () -> CustomerFacade.createCustomer("new@gmail.com", "1234566", null, connectionPool));
+        assertThrows(ValidationException.class, () -> CustomerFacade.create("new@gmail.com", "1234566", null, connectionPool));
     }
 
     @Test

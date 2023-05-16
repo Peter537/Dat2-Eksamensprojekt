@@ -1,0 +1,134 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Plate3D</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.print3d</a>
+</div>
+
+<h1>Coverage Summary for Class: Plate3D (dat.backend.model.print3d)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Plate3D</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (5/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.print3d;
+&nbsp;
+&nbsp;import dat.backend.model.entities.PartsList;
+&nbsp;import dat.backend.model.entities.item.LumberType;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import org.abstractica.javacsg.*;
+&nbsp;
+&nbsp;public class Plate3D {
+&nbsp;    Geometry3D plate;
+&nbsp;
+&nbsp;    PartsList partsList;
+&nbsp;
+&nbsp;    ConnectionPool connectionPool;
+&nbsp;
+<b class="fc">&nbsp;    public Plate3D(PartsList partsList) throws DatabaseException {</b>
+<b class="fc">&nbsp;        this.plate = createPLate(partsList);</b>
+<b class="nc">&nbsp;        this.partsList = partsList;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Geometry3D createPLate(PartsList partsList) throws DatabaseException {
+<b class="fc">&nbsp;        JavaCSG csg = JavaCSGFactory.createDefault();</b>
+<b class="fc">&nbsp;        LumberType plate = partsList.getPlate().getLumberType();</b>
+&nbsp;
+<b class="fc">&nbsp;        int l = partsList.calculateLengthOfLumber(partsList.getLength(), plate, connectionPool); // TODO: 2021-05-11 Fix this. Somehow connectionpool is null?</b>
+<b class="nc">&nbsp;        int length = partsList.getLengthOfPlate();</b>
+<b class="nc">&nbsp;        Geometry3D box = csg.box3D(partsList.getLengthOfPlate()*10, plate.getWidth(), plate.getThickness(), false);</b>
+<b class="nc">&nbsp;        csg.view(box, 2);</b>
+<b class="nc">&nbsp;        return box;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-16 14:31</div>
+</div>
+</body>
+</html>

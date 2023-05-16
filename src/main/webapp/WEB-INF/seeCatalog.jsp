@@ -35,123 +35,21 @@
             </div>
         </div>
 
-        <div style="width: 80%; text-align: center; margin-left: 5%" class="text-center">
-            <iframe src="ToRoofFrame" width="100%" height="500px" sandbox="allow-forms"></iframe>
+        <div class="text-center">
+            <iframe src="ToRoofFrame" style="box-shadow: 1px 0 3px 0 gray;" width="100%" height="500px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
 
             <br>
             <br>
             <br>
 
-            <h3>Stolper</h3>
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tykkelse</th>
-                    <th>Bredde</th>
-                    <th>Længde</th>
-                    <th>Meter Price</th>
-                    <th>Antal</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="pole" items="${requestScope.poles}">
-                    <tr>
-                        <form action="save-catalog-item" method="post">
-                            <td>${pole.id}</td>
-                            <td><input type="number" name="poleThickness" value="${pole.lumberType.thickness}"></td>
-                            <td><input type="number" name="poleWidth" value="${pole.lumberType.width}"></td>
-                            <td><input type="number" name="poleLength" value="${pole.length}"></td>
-                            <td><input type="number" name="poleMeterPrice" value="${pole.lumberType.meterPrice}"></td>
-                            <td><input type="number" name="amount" value="${pole.amount}"></td>
-                            <td>
-                                <input type="hidden" name="id" value="${pole.id}">
-                                <input type="hidden" name="catalogItemType" value="pole">
-                                <input type="hidden" name="lumberType" value="POLE">
-                                <input style="color: var(--color-light);" type="submit" value="Gem vare">
-                        </form>
-                        <form action="delete-catalog-item" method="post">
-                            <input type="hidden" name="id" value="${pole.id}">
-                            <input type="hidden" name="catalogItemType" value="pole">
-                            <input style="color: var(--color-light);" type="submit" value="Slet vare">
-                            </td>
-                        </form>
-                    </tr>
-                </c:forEach>
-                <tr>
-                    <form action="save-catalog-item" method="post">
-                        <td></td>
-                        <td><input type="number" name="poleThickness" placeholder="Tykkelse"></td>
-                        <td><input type="number" name="poleWidth" placeholder="Bredde"></td>
-                        <td><input type="number" name="poleLength" placeholder="Længde"></td>
-                        <td><input type="number" name="poleMeterPrice" placeholder="Meterpris"></td>
-                        <td><input type="number" name="amount" placeholder="Antal"></td>
-                        <input type="hidden" name="catalogItemType" value="pole">
-                        <input type="hidden" name="lumberType" value="POLE">
-                        <td>
-                            <input style="color: var(--color-light);" type="submit" value="Tilføj vare">
-                        </td>
-                    </form>
-                </tr>
-                </tbody>
-            </table>
+            <iframe src="ToPoleFrame" style="box-shadow: 1px 0px 3px 0px gray;" width="100%" height="500px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+
             <br>
             <br>
             <br>
 
-            <h3>Spærtræ</h3>
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tykkelse</th>
-                    <th>Bredde</th>
-                    <th>Længde</th>
-                    <th>Meter Price</th>
-                    <th>Antal</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="rafter" items="${requestScope.rafters}">
-                    <tr>
-                        <form action="save-catalog-item" method="post">
-                            <td>${rafter.id}</td>
-                            <td><input type="number" name="poleThickness" value="${rafter.lumberType.thickness}"></td>
-                            <td><input type="number" name="poleWidth" value="${rafter.lumberType.width}"></td>
-                            <td><input type="number" name="poleLength" value="${rafter.length}"></td>
-                            <td><input type="number" name="poleMeterPrice" value="${rafter.lumberType.meterPrice}"></td>
-                            <td><input type="number" name="amount" value="${rafter.amount}"></td>
-                            <td>
-                                <input type="hidden" name="id" value="${rafter.id}">
-                                <input type="hidden" name="catalogItemType" value="rafter">
-                                <input type="hidden" name="lumberType" value="RAFTER">
-                                <input style="color: var(--color-light);" type="submit" value="Gem vare">
-                        </form>
-                        <form action="delete-catalog-item" method="post">
-                            <input type="hidden" name="id" value="${rafter.id}">
-                            <input type="hidden" name="catalogItemType" value="rafter">
-                            <input style="color: var(--color-light);" type="submit" value="Slet vare">
-                        </form>
-                        </td>
-                    </tr>
-                </c:forEach>
-                <tr>
-                    <form action="save-catalog-item" method="post">
-                        <td></td>
-                        <td><input type="number" name="poleThickness" placeholder="Tykkelse"></td>
-                        <td><input type="number" name="poleWidth" placeholder="Bredde"></td>
-                        <td><input type="number" name="poleLength" placeholder="Længde"></td>
-                        <td><input type="number" name="poleMeterPrice" placeholder="Meterpris"></td>
-                        <td><input type="number" name="amount" placeholder="Antal"></td>
-                        <input type="hidden" name="catalogItemType" value="rafter">
-                        <input type="hidden" name="lumberType" value="RAFTER">
-                        <td>
-                            <input style="color: var(--color-light);" type="submit" value="Tilføj vare">
-                        </td>
-                    </form>
-                </tr>
-                </tbody>
-            </table>
+            <iframe src="ToRafterFrame" style="box-shadow: 1px 0px 3px 0px gray;" width="100%" height="500px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+
             <br>
             <br>
             <br>
