@@ -18,10 +18,6 @@ public class LumberFacade {
         return LumberMapper.getLumberByType(lumberType, connectionPool);
     }
 
-    public static List<Lumber> getLumberByLength(int length, ConnectionPool connectionPool) throws DatabaseException {
-        return LumberMapper.getLumberByLength(length, connectionPool);
-    }
-
     public static void deleteLumber(int id, ConnectionPool connectionPool) throws DatabaseException {
         LumberMapper.deleteLumber(id, connectionPool);
     }

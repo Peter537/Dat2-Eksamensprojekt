@@ -66,28 +66,6 @@ class LumberMapper {
         return lumberList;
     }
 
-    static List<Lumber> getLumberByLength(int length, ConnectionPool connectionPool) throws DatabaseException {
-        List<Lumber> lumberList = new ArrayList<>();
-        String query = "SELECT * FROM lumber WHERE length = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, length);
-                ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    int amount = resultSet.getInt("amount");
-                    LumberType lumberType = LumberTypeFacade.getLumberTypeById(resultSet.getInt("type"), connectionPool);
-                    int price = calcPrice(length, lumberType.getMeterPrice());
-                    lumberList.add(new Lumber(id, length, lumberType, price, amount));
-                }
-            }
-        } catch (SQLException | NotFoundException e) {
-            throw new DatabaseException(e, "Could not get lumber by length");
-        }
-
-        return lumberList;
-    }
-
     protected static int calcPrice(float length, float meterPrice) {
         return Math.round(length * (meterPrice / 100));
     }
