@@ -38,6 +38,10 @@ public class CarportOrderFacade {
         return CarportOrderMapper.createCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks, connectionPool);
     }
 
+    public static void claimCarportOrder(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        CarportOrderMapper.claimCarportOrder(carportOrder, employee, connectionPool);
+    }
+
     public static void updateOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         CarportOrderMapper.updateOrderStatus(carportOrder, newOrderStatus, connectionPool);
     }

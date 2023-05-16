@@ -137,6 +137,21 @@ class CarportOrderMapper {
         }
     }
 
+    static void claimCarportOrder(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        Validation.validateEmployee(employee);
+        String query = "UPDATE carport_order SET fk_employee_email = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, employee.getEmail());
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Error while claiming CarportOrder with id " + carportOrder.getId());
+        }
+    }
+
     static void updateOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCarportOrder(carportOrder);
         Validation.validateOrderStatus(newOrderStatus);
