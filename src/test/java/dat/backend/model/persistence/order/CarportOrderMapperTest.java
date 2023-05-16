@@ -292,7 +292,7 @@ class CarportOrderMapperTest extends TestDatabase {
         CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(1, connectionPool);
         assertTrue(carportOrder.getEmployee().isPresent());
         assertEquals(1, carportOrder.getEmployee().get().getId());
-        Employee employee = EmployeeFacade.getEmployeeById(2, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("allan@johannesfog.dk", connectionPool);
         CarportOrderFacade.updateEmployee(carportOrder, Optional.of(employee), connectionPool);
         assertTrue(carportOrder.getEmployee().isPresent());
         assertEquals(2, carportOrder.getEmployee().get().getId());

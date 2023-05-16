@@ -45,20 +45,6 @@ class EmployeeMapperTest extends TestDatabase {
     }
 
     @Test
-    void testValidGetEmployeeById() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
-        assertEquals(1, employee.getId());
-        assertEquals("ben@johannesfog.dk", employee.getEmail());
-        assertEquals("ben", employee.getName());
-        assertEquals("123", employee.getPassword());
-    }
-
-    @Test
-    void testInvalidGetEmployeeById() throws DatabaseException {
-        assertThrows(NotFoundException.class, () -> EmployeeFacade.getEmployeeById(4, connectionPool));
-    }
-
-    @Test
     void testValidGetEmployeeByEmail() throws DatabaseException, NotFoundException {
         Employee employee = EmployeeFacade.getEmployeeByEmail("allan@johannesfog.dk", connectionPool);
         assertEquals(2, employee.getId());
@@ -137,7 +123,7 @@ class EmployeeMapperTest extends TestDatabase {
 
     @Test
     void testValidUpdatePassword() throws DatabaseException, NotFoundException, ValidationException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertEquals("123", employee.getPassword());
         EmployeeFacade.updatePassword(employee, "123456", connectionPool);
         assertEquals("123456", employee.getPassword());
@@ -145,25 +131,25 @@ class EmployeeMapperTest extends TestDatabase {
 
     @Test
     void testInvalidUpdatePasswordTooShortPassword() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, "12", connectionPool));
     }
 
     @Test
     void testInvalidUpdatePasswordTooLongPassword() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, "0123456789012345678901234567890123456", connectionPool));
     }
 
     @Test
     void testInvalidUpdatePasswordNull() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updatePassword(employee, null, connectionPool));
     }
 
     @Test
     void testValidUpdateName() throws DatabaseException, NotFoundException, ValidationException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertEquals("ben", employee.getName());
         EmployeeFacade.updateName(employee, "Benjamin", connectionPool);
         assertEquals("Benjamin", employee.getName());
@@ -171,13 +157,13 @@ class EmployeeMapperTest extends TestDatabase {
 
     @Test
     void testInvalidUpdateNameNull() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updateName(employee, null, connectionPool));
     }
 
     @Test
     void testValidUpdatePersonalPhoneNumber() throws DatabaseException, NotFoundException, ValidationException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertFalse(employee.getPersonalPhoneNumber().isPresent());
         EmployeeFacade.updatePersonalPhoneNumber(employee, "87654321", connectionPool);
         assertTrue(employee.getPersonalPhoneNumber().isPresent());
@@ -186,7 +172,7 @@ class EmployeeMapperTest extends TestDatabase {
 
     @Test
     void testValidUpdatePersonalPhoneNumberRemoved() throws DatabaseException, NotFoundException, ValidationException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertFalse(employee.getPersonalPhoneNumber().isPresent());
         EmployeeFacade.updatePersonalPhoneNumber(employee, "87654321", connectionPool);
         assertTrue(employee.getPersonalPhoneNumber().isPresent());
@@ -197,25 +183,25 @@ class EmployeeMapperTest extends TestDatabase {
 
     @Test
     void testInvalidUpdatePersonalPhoneNumberTooShort() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updatePersonalPhoneNumber(employee, "1234567", connectionPool));
     }
 
     @Test
     void testInvalidUpdatePersonalPhoneNumberTooLong() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updatePersonalPhoneNumber(employee, "123456789012345678901", connectionPool));
     }
 
     @Test
     void testInvalidUpdatePersonalPhoneNumberUsingLetters() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updatePersonalPhoneNumber(employee, "1234567a", connectionPool));
     }
 
     @Test
     void testValidUpdateWorkPhoneNumber() throws DatabaseException, NotFoundException, ValidationException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertFalse(employee.getWorkPhoneNumber().isPresent());
         EmployeeFacade.updateWorkPhoneNumber(employee, "87654321", connectionPool);
         assertTrue(employee.getWorkPhoneNumber().isPresent());
@@ -224,7 +210,7 @@ class EmployeeMapperTest extends TestDatabase {
 
     @Test
     void testValidUpdateWorkPhoneNumberRemoved() throws DatabaseException, NotFoundException, ValidationException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertFalse(employee.getWorkPhoneNumber().isPresent());
         EmployeeFacade.updateWorkPhoneNumber(employee, "87654321", connectionPool);
         assertTrue(employee.getWorkPhoneNumber().isPresent());
@@ -235,25 +221,25 @@ class EmployeeMapperTest extends TestDatabase {
 
     @Test
     void testInvalidUpdateWorkPhoneNumberTooShort() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updateWorkPhoneNumber(employee, "1234567", connectionPool));
     }
 
     @Test
     void testInvalidUpdateWorkPhoneNumberTooLong() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updateWorkPhoneNumber(employee, "123456789012345678901", connectionPool));
     }
 
     @Test
     void testInvalidUpdateWorkPhoneNumberUsingLetters() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updateWorkPhoneNumber(employee, "1234567a", connectionPool));
     }
 
     @Test
     void testValidUpdatePosition() throws DatabaseException, NotFoundException, ValidationException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertEquals("Sales", employee.getPosition().getPositionName());
         Position position = PositionFacade.getPositionByPositionName("CEO", connectionPool);
         EmployeeFacade.updatePosition(employee, position, connectionPool);
@@ -262,13 +248,13 @@ class EmployeeMapperTest extends TestDatabase {
 
     @Test
     void testInvalidUpdatePositionNull() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updatePosition(employee, null, connectionPool));
     }
 
     @Test
     void testValidUpdateDepartment() throws DatabaseException, NotFoundException, ValidationException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertEquals("Lyngby Trælast", employee.getDepartment().getDepartmentName());
         Department department = DepartmentFacade.getDepartmentById(2, connectionPool);
         EmployeeFacade.updateDepartment(employee, department, connectionPool);
@@ -277,7 +263,7 @@ class EmployeeMapperTest extends TestDatabase {
 
     @Test
     void testInvalidUpdateDepartmentNull() throws DatabaseException, NotFoundException {
-        Employee employee = EmployeeFacade.getEmployeeById(1, connectionPool);
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
         assertThrows(ValidationException.class, () -> EmployeeFacade.updateDepartment(employee, null, connectionPool));
     }
 }

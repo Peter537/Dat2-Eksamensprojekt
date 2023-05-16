@@ -16,10 +16,6 @@ public class EmployeeFacade {
         return EmployeeMapper.createEmployee(email, name, password, position, department, connectionPool);
     }
 
-    public static Employee getEmployeeById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        return EmployeeMapper.getEmployeeById(id, connectionPool);
-    }
-
     public static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         return EmployeeMapper.getEmployeeByEmail(email, connectionPool);
     }
