@@ -62,14 +62,6 @@ public class CarportOrderFacade {
         CarportOrderMapper.deliver(carportOrder, connectionPool);
     }
 
-    public static void updateOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateOrderStatus(carportOrder, newOrderStatus, connectionPool);
-    }
-
-    public static void updateEmployee(CarportOrder carportOrder, Optional<Employee> employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateEmployee(carportOrder, employee, connectionPool);
-    }
-
     public static void updateWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         CarportOrderMapper.updateWidth(carportOrder, width, connectionPool);
     }
@@ -88,10 +80,6 @@ public class CarportOrderFacade {
 
     public static void updatePrice(CarportOrder carportOrder, Optional<Float> price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         CarportOrderMapper.updatePrice(carportOrder, price, connectionPool);
-    }
-
-    public static void updateRemarks(CarportOrder carportOrder, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateRemarks(carportOrder, remarks, connectionPool);
     }
 
     public static void updateAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
