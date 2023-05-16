@@ -9,15 +9,19 @@ public class Lumber implements Comparable<Lumber> {
     private int id;
     private int length;
     private LumberType lumberType;
-    private int price;
     private int amount;
 
-    public Lumber(int id, int length, LumberType lumberType, int price, int amount) {
+    public Lumber(int id, int length, LumberType lumberType, int amount) {
         this.id = id;
         this.length = length;
         this.lumberType = lumberType;
-        this.price = price;
         this.amount = amount;
+    }
+
+    public float getPrice() {
+        // Length is in CM, so we divide by 100 to get meters
+        float lengthInMeters = this.length / 100.0f;
+        return lengthInMeters * this.lumberType.getMeterPrice();
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -51,16 +55,6 @@ public class Lumber implements Comparable<Lumber> {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public int getPrice() {
-        return this.price;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public int getAmount() {
         return this.amount;
     }
@@ -84,7 +78,7 @@ public class Lumber implements Comparable<Lumber> {
     @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getLength(), this.getLumberType(), this.getAmount(), this.getPrice());
+        return Objects.hash(this.getId(), this.getLength(), this.getLumberType(), this.getAmount());
     }
 
     @IgnoreCoverage(reason = "toString")
@@ -95,7 +89,6 @@ public class Lumber implements Comparable<Lumber> {
                 ", length=" + this.length +
                 ", lumberType=" + this.lumberType +
                 ", amount=" + this.amount +
-                ", price=" + this.price +
                 '}';
     }
 

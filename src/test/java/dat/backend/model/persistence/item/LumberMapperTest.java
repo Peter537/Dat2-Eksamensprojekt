@@ -74,7 +74,6 @@ class LumberMapperTest extends TestDatabase {
         int expectedLength = 200;
         LumberType expectedType = LumberTypeFacade.getLumberTypeById(1, connectionPool);
         int expectedAmount = 1000;
-        int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
 
         // Act
         Lumber lumber = LumberFacade.createLumber(expectedLength, expectedType.getId(), expectedAmount, connectionPool);
@@ -82,7 +81,6 @@ class LumberMapperTest extends TestDatabase {
         // Assert
         assertEquals(expectedLength, lumber.getLength());
         assertEquals(expectedType, lumber.getLumberType());
-        assertEquals(expectedPrice, lumber.getPrice());
         assertEquals(expectedAmount, lumber.getAmount());
     }
 }

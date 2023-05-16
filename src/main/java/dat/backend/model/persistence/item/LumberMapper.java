@@ -36,8 +36,7 @@ class LumberMapper {
 
                 LumberType lumberType = LumberTypeFacade.getLumberTypeById(type, connectionPool);
                 int id = rs.getInt(1);
-                int price = calcPrice(length, lumberType.getMeterPrice());
-                return new Lumber(id, length, lumberType, price, amount);
+                return new Lumber(id, length, lumberType, amount);
             }
         } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Could not create lumber");
@@ -55,8 +54,7 @@ class LumberMapper {
                     int id = resultSet.getInt("id");
                     int length = resultSet.getInt("length");
                     int amount = resultSet.getInt("amount");
-                    int price = calcPrice(length, lumberType.getMeterPrice());
-                    lumberList.add(new Lumber(id, length, lumberType, price, amount));
+                    lumberList.add(new Lumber(id, length, lumberType, amount));
                 }
             }
         } catch (SQLException e) {
@@ -64,10 +62,6 @@ class LumberMapper {
         }
 
         return lumberList;
-    }
-
-    protected static int calcPrice(float length, float meterPrice) {
-        return Math.round(length * (meterPrice / 100));
     }
 
     static void deleteLumber(int id, ConnectionPool connectionPool) throws DatabaseException {
