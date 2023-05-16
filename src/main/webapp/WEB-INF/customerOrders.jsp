@@ -85,54 +85,87 @@
 
         <c:if test="${requestScope.load != null}">
 
-            <div class=" row popup" id="popup">
+            <div class=" row popup" id="popup" style="z-index: 6">
 
-                <div  id="Seller" class="col-4 text-center">
+                <div class="row" style="width: 25%; height: 5%; background-color: white; border-left: black 1px solid; border-top: black 1px solid; border-right: black 1px solid; transform: translate(-2.3%, -130%); border-radius: 5px; position: absolute">
+                    <p style="margin-top: 3%; margin-bottom: 5%; text-align: left">Ordrenummer: ${requestScope.carportOrder.id}   |  Status: ${requestScope.carportOrder.orderStatus.displayName}</p>
+                </div>
 
-                    <div class="row" style="margin-bottom: 2%">
-                        <h1>Sælger</h1>
-                        <img style="height: 250px; width: 250px; text-align: center" class="card-img-top"
-                             src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="SellerProfile">
+                <div id="Seller" class="col-4 text-center">
+
+                    <div class="row">
+                        <h2>Sælger Information</h2>
+                        <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;" class="card-img-top" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="SellerProfile">
+
                     </div>
 
                     <div class="row">
-                    <c:choose>
-                        <c:when test="${requestScope.carportOrder.employee.present}">
-                            <p>Medarbejder: ${requestScope.carportOrder.employee.get().name}</p>
-                        </c:when>
-                        <c:otherwise>
-                            <h1>Medarbejder: Ikke tildelt</h1>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
+                        <c:choose>
+                            <c:when test="${requestScope.carportOrder.employee.present}">
+                                <p>Medarbejder: ${requestScope.carportOrder.employee.get().name}</p>
+                            </c:when>
+                            <c:otherwise>
+                                <h1>Medarbejder: Ikke tildelt</h1>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                     <div class="row">
                         <c:choose>
                             <c:when test="${requestScope.carportOrder.employee.present}">
                                 <p>Medarbejder: ${requestScope.carportOrder.employee.get().email}</p>
                             </c:when>
                             <c:otherwise>
-                            <h1>Medarbejder: Ikke tildelt</h1>
+                                <h1>Medarbejder: Ikke tildelt</h1>
                             </c:otherwise>
                         </c:choose>
                     </div>
 
+                    <div class="row" style="margin-right: 1%; margin-top: 50%">
                     <h2>Kontakt sælger</h2>
 
-                    <textarea id="story" name="remarks" class="form-control"
-                              rows="5" cols="33" placeholder="En besked til sælgeren">
-                    </textarea>
+                    <textarea id="messageToSeller" name="CustomerMessage" class="form-control"
+                              rows="5" cols="33" placeholder="En besked til sælgeren"></textarea>
 
                     <button type="button" class="btn btn-primary" style="margin-top: 2%">Send til sælger</button>
 
-
-
+                    </div>
                 </div>
 
-                <div  id="Customer" class="col-4">
+                <div id="Customer" class="col-4 text-center" style="border-left: grey dashed 1px">
+                    <h2>Din Information</h2>
+                    <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;" class="card-img-top" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="SellerProfile">
+                    <div class="row" id="userInfo">
+                        <p>${sessionScope.user.name}</p>
+                        <p>${sessionScope.user.email}</p>
+                        <p>${sessionScope.user.personalPhoneNumber.get()}</p>
+                        <p>${requestScope.carportOrder.address.address}</p>
 
+                    </div>
                 </div>
 
-                <div id="CarportInfo" class="col-4">
+                <div id="CarportInfo" class="col-4" style="border-left: grey dashed 1px">
+
+                    <h2>Carport Information</h2>
+
+
+                    <p>Bredde: ${requestScope.carportOrder.width}</p>
+                    <p>Længde: ${requestScope.carportOrder.length}</p>
+                    <p>Højde: ${requestScope.carportOrder.minHeight}</p>
+                    <p>Tag-type: ${requestScope.carportOrder.roof.type}</p>
+
+                    <h2>Redskabs skur</h2>
+                    <p>Bredde: ${requestScope.carportOrder.toolRoom.get().width} cm</p>
+                    <p>Længde: ${requestScope.carportOrder.toolRoom.get().length} cm</p>
+                    <p>Højde: ${requestScope.carportOrder.price.get()}</p>
+
+                    <div class="row" style="margin-top: 40%; margin-left: 1%">
+                    <h2>Remarks</h2>
+
+                    <textarea name="CustomerMessage" class="form-control"
+                              rows="5" cols="33" placeholder="Ingen bemærkelser" readonly>${requestScope.carportOrder.remarks.get()}</textarea>
+
+                    </div>
+
 
                 </div>
 
