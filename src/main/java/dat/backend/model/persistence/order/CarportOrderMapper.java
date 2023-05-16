@@ -1,18 +1,14 @@
 package dat.backend.model.persistence.order;
 
-import dat.backend.model.entities.order.CarportOrder;
-import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
+import dat.backend.model.entities.order.CarportOrder;
+import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.user.*;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.persistence.item.RoofFacade;
-import dat.backend.model.persistence.user.CustomerFacade;
-import dat.backend.model.persistence.user.EmployeeFacade;
-import dat.backend.model.persistence.user.ZipFacade;
 import dat.backend.model.services.Validation;
 
 import java.sql.*;
