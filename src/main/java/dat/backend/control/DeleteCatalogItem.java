@@ -30,9 +30,12 @@ public class DeleteCatalogItem extends HttpServlet {
         try {
             String catalogItemType = request.getParameter("catalogItemType");
             String id = request.getParameter("id");
+            String returnpage = "see-catalog";
+
             switch (catalogItemType) {
                 case "roof":
                     RoofFacade.deleteRoof(Integer.parseInt(id), connectionPool);
+                    returnpage = "ToRoofFrame";
                     break;
                 case "pole":
                 case "rafter":
@@ -41,7 +44,7 @@ public class DeleteCatalogItem extends HttpServlet {
                 default:
                     throw new IllegalArgumentException("Unknown type: " + catalogItemType);
             }
-            request.getRequestDispatcher("see-catalog").forward(request, response);
+            request.getRequestDispatcher(returnpage).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);

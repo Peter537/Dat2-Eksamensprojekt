@@ -32,7 +32,6 @@ public class SeeCatalog extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
         try {
-            List<Roof> roofs = RoofFacade.getAllRoofs(connectionPool);
             List<LumberType> lumberTypePoles = LumberTypeFacade.getLumberTypeByType("POLE", connectionPool);
             List<Lumber> lumberPoles = new ArrayList<>();
             for (LumberType type : lumberTypePoles) {
@@ -45,7 +44,6 @@ public class SeeCatalog extends HttpServlet {
                 lumberRafters.addAll(LumberFacade.getLumberByType(type, connectionPool));
             }
 
-            request.setAttribute("roofs", roofs);
             request.setAttribute("poles", lumberPoles);
             request.setAttribute("rafters", lumberRafters);
             request.getRequestDispatcher("WEB-INF/seeCatalog.jsp").forward(request, response);
