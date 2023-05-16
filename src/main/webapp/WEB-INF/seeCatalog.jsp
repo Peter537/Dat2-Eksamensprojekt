@@ -36,51 +36,8 @@
         </div>
 
         <div style="width: 80%; text-align: center; margin-left: 5%" class="text-center">
-            <h3>Tag</h3>
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Kvadratmeterpris</th>
-                    <th>Type</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="roof" items="${requestScope.roofs}">
-                    <tr>
-                        <form action="save-catalog-item" method="post">
-                            <td>${roof.id}</td>
-                            <td><input type="number" name="squareMeterPrice" value="${roof.squareMeterPrice}">
-                            </td>
-                            <td>${roof.type}</td>
-                            <td>
-                                <input type="hidden" name="id" value="${roof.id}">
-                                <input type="hidden" name="catalogItemType" value="roof">
-                                <input type="hidden" name="roofType" value="PLASTIC_ROOF">
-                                <input style="color: var(--color-light);" type="submit" value="Gem vare">
-                        </form>
-                        <form action="delete-catalog-item" method="post">
-                            <input type="hidden" name="id" value="${roof.id}">
-                            <input type="hidden" name="catalogItemType" value="roof">
-                            <input style="color: var(--color-light);" type="submit" value="Slet vare">
-                        </form>
-                        </td>
-                    </tr>
-                </c:forEach>
-                <tr>
-                    <form action="save-catalog-item" method="post">
-                        <td></td>
-                        <td><input type="number" name="squareMeterPrice" placeholder="Kvadratmeterpris"></td>
-                        <td>PLASTIC_ROOF</td>
-                        <input type="hidden" name="catalogItemType" value="roof">
-                        <input type="hidden" name="roofType" value="PLASTIC_ROOF">
-                        <td>
-                            <input style="color: var(--color-light);" type="submit" value="Tilføj vare">
-                        </td>
-                    </form>
-                </tr>
-                </tbody>
-            </table>
+            <iframe src="ToRoofFrame" width="100%" height="500px" sandbox="allow-forms"></iframe>
+
             <br>
             <br>
             <br>
