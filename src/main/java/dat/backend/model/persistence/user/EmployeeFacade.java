@@ -15,8 +15,8 @@ public class EmployeeFacade {
         return EmployeeMapper.login(email, password, connectionPool);
     }
 
-    public static Employee createEmployee(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
-        return EmployeeMapper.createEmployee(email, name, password, position, department, connectionPool);
+    public static Employee create(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
+        return EmployeeMapper.create(email, name, password, position, department, connectionPool);
     }
 
     public static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
