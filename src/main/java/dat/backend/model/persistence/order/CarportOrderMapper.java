@@ -118,7 +118,7 @@ class CarportOrderMapper {
                 } else {
                     statement.setNull(10, Types.VARCHAR);
                 }
-                statement.setString(11, OrderStatusFacade.getOrderStatusByStatus("ORDER_CREATED", connectionPool).getStatus());
+                statement.setString(11, "ORDER_CREATED");
                 int affectedRows = statement.executeUpdate();
                 if (affectedRows == 0) {
                     throw new SQLException("Creating carport order failed, no rows affected.");
