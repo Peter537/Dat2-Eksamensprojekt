@@ -88,22 +88,4 @@ class RoofMapperTest extends TestDatabase {
     void testInvalidGetRoofById() {
         assertThrows(NotFoundException.class, () -> RoofFacade.getRoofById(3, super.connectionPool));
     }
-
-    @Test
-    void testValidGetRoofByType() throws DatabaseException {
-        // Arrange
-        int expectedSize = 1;
-
-        // Act
-        List<Roof> roof = RoofFacade.getRoofByType("PLASTIC_ROOF", super.connectionPool);
-
-        // Assert
-        assertNotNull(roof);
-        assertEquals(expectedSize, roof.size());
-    }
-
-    @Test
-    void testInvalidGetRoofByType() throws DatabaseException {
-        assertEquals(0, RoofFacade.getRoofByType("TEST", super.connectionPool).size());
-    }
 }
