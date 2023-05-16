@@ -4,12 +4,10 @@ import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.LumberType;
-import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.item.LumberFacade;
 import dat.backend.model.persistence.item.LumberTypeFacade;
-import dat.backend.model.persistence.item.RoofFacade;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
