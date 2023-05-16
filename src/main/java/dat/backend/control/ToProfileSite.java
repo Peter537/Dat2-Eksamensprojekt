@@ -1,15 +1,6 @@
 package dat.backend.control;
 
 import dat.backend.annotation.IgnoreCoverage;
-import dat.backend.model.config.ApplicationStart;
-import dat.backend.model.entities.order.CarportOrder;
-import dat.backend.model.entities.user.Customer;
-import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.NotFoundException;
-import dat.backend.model.exceptions.ValidationException;
-import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.persistence.order.CarportOrderFacade;
-import dat.backend.model.persistence.order.OrderStatusFacade;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "ToProfileSite", value = "/ToProfileSite")
