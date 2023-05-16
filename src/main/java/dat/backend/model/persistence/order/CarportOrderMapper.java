@@ -167,45 +167,6 @@ class CarportOrderMapper {
     public static void deliver(CarportOrder carportOrder, ConnectionPool connectionPool) {
     }
 
-    static void updateOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateCarportOrder(carportOrder);
-        Validation.validateOrderStatus(newOrderStatus);
-        String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, newOrderStatus.getStatus());
-                statement.setInt(2, carportOrder.getId());
-                statement.executeUpdate();
-                carportOrder.setOrderStatus(newOrderStatus);
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Could not update carport order status");
-        }
-    }
-
-    static void updateEmployee(CarportOrder carportOrder, Optional<Employee> employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateCarportOrder(carportOrder);
-        if (employee.isPresent()) {
-            Validation.validateEmployee(employee.get());
-        }
-
-        String query = "UPDATE carport_order SET fk_employee_email = ? WHERE id = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                if (employee.isPresent()) {
-                    statement.setString(1, employee.get().getEmail());
-                } else {
-                    statement.setNull(1, Types.VARCHAR);
-                }
-                statement.setInt(2, carportOrder.getId());
-                statement.executeUpdate();
-                carportOrder.setEmployee(employee);
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Could not update carport order employee");
-        }
-    }
-
     static void updateWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCarportOrder(carportOrder);
         Validation.validateWidth(width);
@@ -299,29 +260,6 @@ class CarportOrderMapper {
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update carport order price");
-        }
-    }
-
-    static void updateRemarks(CarportOrder carportOrder, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateCarportOrder(carportOrder);
-        if (remarks.isPresent()) {
-            Validation.validateRemarks(remarks.get());
-        }
-
-        String query = "UPDATE carport_order SET remarks = ? WHERE id = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                if (remarks.isPresent()) {
-                    statement.setString(1, remarks.get());
-                } else {
-                    statement.setNull(1, Types.VARCHAR);
-                }
-                statement.setInt(2, carportOrder.getId());
-                statement.executeUpdate();
-                carportOrder.setRemarks(remarks);
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Could not update carport order remarks");
         }
     }
 
