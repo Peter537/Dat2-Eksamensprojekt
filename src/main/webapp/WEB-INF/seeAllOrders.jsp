@@ -74,6 +74,7 @@
                     <td>
                         <form action="DetailedOrderInfo" method="post">
                             <input type="hidden" name="orderId" value="${order.id}">
+                            <input type="hidden" name="fromJsp" value="employee">
                             <input type="submit" value="Se mere om ordren">
                         </form>
                     </td>
@@ -86,18 +87,21 @@
 
             <div class="popup" id="popup">
 
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-striped table-bordered table-hover" style="overflow: auto">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>ordrestatus</th>
                         <th>Kundens adresse</th>
                         <th>Postnummer</th>
+                        <th>Medarbejderens navn</th>
                         <th>Medarbejderens email</th>
                         <th>Kundens email</th>
+                        <th>Kundens navn</th>
                         <th>Carport bredde</th>
                         <th>Carport længde</th>
                         <th>Carport minimum-højde</th>
+                        <th>Tagets varenummer</th>
                         <th>Redskabsskur bredde</th>
                         <th>Redskabsskur længde</th>
                         <th>pris</th>
@@ -114,25 +118,69 @@
                         <td>${carportOrder.orderStatus.displayName}</td>
                         <td>${carportOrder.address.address}</td>
                         <td>${carportOrder.address.zip.zipCode}</td>
-                        <c:if test="${carportOrder.employee.present}">
-                            <td>${carportOrder.employee.get().name}</td>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${carportOrder.employee.present}">
+                                 <td>${carportOrder.employee.get().name}</td>
+                                <td>${carportOrder.employee.get().email}</td>
+                            </c:when>
+                            <c:otherwise>
+                                 <td>Ikke tildelt</td>
+                                <td>Ikke tildelt</td>
+                            </c:otherwise>
+                        </c:choose>
 
-                        <td>${carportOrder.employee.get().email}</td>
                         <td>${carportOrder.customer.email}</td>
+                        <td>${carportOrder.customer.name}</td>
                         <td>${carportOrder.width}</td>
                         <td>${carportOrder.length}</td>
                         <td>${carportOrder.minHeight}</td>
-                        <td>${carportOrder.toolRoom.get().width} cm</td>
-                        <td>${carportOrder.toolRoom.get().length} cm</td>
-                        <td>${carportOrder.price.get()}</td>
-                        <td>${carportOrder.remarks.get()}</td>
+                        <td>${carportOrder.roof.id}</td>
+
+
+                       <c:choose>
+                            <c:when test="${carportOrder.toolRoom.present}">
+                                 <td>${carportOrder.toolRoom.get().width}</td>
+                                <td>${carportOrder.toolRoom.get().length}</td>
+                            </c:when>
+                            <c:otherwise>
+                                 <td>Ikke tilføjet</td>
+                                    <td>Ikke tilføjet</td>
+                            </c:otherwise>
+                       </c:choose>
+
+                        <c:choose>
+                            <c:when test="${carportOrder.price.present}">
+                                 <td>${carportOrder.price.get()}</td>
+                            </c:when>
+                            <c:otherwise>
+                                 <td>Ikke beregnet</td>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <c:choose>
+                            <c:when test="${carportOrder.remarks.present}">
+                                 <td>${carportOrder.remarks.get()}</td>
+                            </c:when>
+                            <c:otherwise>
+                                 <td>Ikke tilføjet</td>
+                            </c:otherwise>
+                        </c:choose>
                     </tr>
                 </table>
 
+                <div>
+                    <input type="number" name="makeOfferPrice" value="0">
+                </div>
+
+<div>
+    <form action="EmployeeClaimOrder" method="post">
+        <input type="hidden" name="orderId" value="${carportOrder.id}">
+        <input type="submit" value="Tag ordre">
+    </form>
+</div>
 
                 <div class="row">
-                    <a type="button" class="btn" value="Luk" href="ToSeeAllOrders">Close</a>
+                    <a type="button" class="btn" value="Luk" href="see-all-orders">Close</a>
 
                 </div>
 
