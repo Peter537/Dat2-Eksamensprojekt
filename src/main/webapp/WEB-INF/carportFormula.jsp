@@ -174,7 +174,7 @@
 
 
                         <div class="container">
-                            <input type="submit" class="btn">Submit</input>
+                            <input type="submit" class="btn btn-primary" value="Bestil"/>
                         </div>
 
 
