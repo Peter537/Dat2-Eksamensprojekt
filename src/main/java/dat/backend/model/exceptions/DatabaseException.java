@@ -5,7 +5,7 @@ import dat.backend.annotation.IgnoreCoverage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@IgnoreCoverage(reason = "We are not able to test DatabaseExceptions")
+@IgnoreCoverage(reason = "We are not testing Exceptions")
 public class DatabaseException extends Exception {
 
     public DatabaseException(String message) {
