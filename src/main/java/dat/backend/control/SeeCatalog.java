@@ -31,26 +31,7 @@ public class SeeCatalog extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
-        try {
-            List<LumberType> lumberTypePoles = LumberTypeFacade.getLumberTypeByType("POLE", connectionPool);
-            List<Lumber> lumberPoles = new ArrayList<>();
-            for (LumberType type : lumberTypePoles) {
-                lumberPoles.addAll(LumberFacade.getLumberByType(type, connectionPool));
-            }
-
-            List<LumberType> lumberTypeRafters = LumberTypeFacade.getLumberTypeByType("RAFTER", connectionPool);
-            List<Lumber> lumberRafters = new ArrayList<>();
-            for (LumberType type : lumberTypeRafters) {
-                lumberRafters.addAll(LumberFacade.getLumberByType(type, connectionPool));
-            }
-
-            request.setAttribute("poles", lumberPoles);
-            request.setAttribute("rafters", lumberRafters);
-            request.getRequestDispatcher("WEB-INF/seeCatalog.jsp").forward(request, response);
-        } catch (DatabaseException e) {
-            request.setAttribute("errormessage", e.getMessage());
-            request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
-        }
+        request.getRequestDispatcher("WEB-INF/seeCatalog.jsp").forward(request, response);
     }
 
     @Override
