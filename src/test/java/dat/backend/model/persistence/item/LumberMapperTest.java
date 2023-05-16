@@ -101,22 +101,6 @@ class LumberMapperTest extends TestDatabase {
     }
 
     @Test
-    void testValidGetAllLumber() throws DatabaseException {
-        // Arrange
-        int expectedAmount = 3;
-
-        // Act
-        List<Lumber> lumber = LumberFacade.getAllLumber(connectionPool);
-        assertEquals(expectedAmount, lumber.size());
-
-        for (Lumber l : lumber) {
-            // Assert
-            assertNotNull(l);
-            assertNotNull(l.getLumberType());
-        }
-    }
-
-    @Test
     void testValidCreateLumber() throws DatabaseException, NotFoundException {
         // Arrange
         int expectedLength = 200;

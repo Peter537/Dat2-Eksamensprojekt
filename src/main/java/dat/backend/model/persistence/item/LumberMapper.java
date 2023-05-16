@@ -44,28 +44,6 @@ class LumberMapper {
         }
     }
 
-    static List<Lumber> getAllLumber(ConnectionPool connectionPool) throws DatabaseException {
-        List<Lumber> lumberList = new ArrayList<>();
-        String query = "SELECT * FROM lumber";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    int length = resultSet.getInt("length");
-                    int amount = resultSet.getInt("amount");
-                    LumberType lumberType = LumberTypeFacade.getLumberTypeById(resultSet.getInt("type"), connectionPool);
-                    int price = calcPrice(length, lumberType.getMeterPrice());
-                    lumberList.add(new Lumber(id, length, lumberType, price, amount));
-                }
-            }
-        } catch (SQLException | NotFoundException e) {
-            throw new DatabaseException(e, "Could not get lumber");
-        }
-
-        return lumberList;
-    }
-
     static List<Lumber> getLumberByType(LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
         List<Lumber> lumberList = new ArrayList<>();
         String query = "SELECT * FROM lumber WHERE type = ?";

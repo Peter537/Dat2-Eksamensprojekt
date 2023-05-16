@@ -14,10 +14,6 @@ public class LumberFacade {
         return LumberMapper.createLumber(length, lumberType, amount, connectionPool);
     }
 
-    public static List<Lumber> getAllLumber(ConnectionPool connectionPool) throws DatabaseException {
-        return LumberMapper.getAllLumber(connectionPool);
-    }
-
     public static List<Lumber> getLumberByType(LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
         return LumberMapper.getLumberByType(lumberType, connectionPool);
     }
