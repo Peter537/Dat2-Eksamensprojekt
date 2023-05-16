@@ -81,7 +81,6 @@ class EmployeeMapper {
                 statement.setString(1, newPassword);
                 statement.setInt(2, employee.getId());
                 statement.executeUpdate();
-                employee.setPassword(newPassword);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update password");
@@ -89,7 +88,7 @@ class EmployeeMapper {
     }
 
     static void updateName(Employee employee, String newName, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateEmployee(newName, employee.getEmail(), employee.getPassword());
+        Validation.validateName(newName);
         String query = "UPDATE employee SET name = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -171,7 +170,6 @@ class EmployeeMapper {
         int id = resultSet.getInt("employeeid");
         String email = resultSet.getString("email");
         String name = resultSet.getString("employeename");
-        String password = resultSet.getString("password");
         String positionName = resultSet.getString("fk_position");
         Optional<String> privatePhoneNumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
         Optional<String> workPhoneNumber = Optional.ofNullable(resultSet.getString("work_phonenumber"));
@@ -184,6 +182,6 @@ class EmployeeMapper {
 
         Position position = new Position(positionName);
         Department department = new Department(departmentId, departmentName, departmentAddress);
-        return new Employee(id, email, name, password, privatePhoneNumber, workPhoneNumber, position, department);
+        return new Employee(id, email, name, privatePhoneNumber, workPhoneNumber, position, department);
     }
 }

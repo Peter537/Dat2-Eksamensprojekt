@@ -50,7 +50,6 @@ class EmployeeMapperTest extends TestDatabase {
         assertEquals(2, employee.getId());
         assertEquals("allan@johannesfog.dk", employee.getEmail());
         assertEquals("allan", employee.getName());
-        assertEquals("1234", employee.getPassword());
     }
 
     @Test
@@ -64,7 +63,6 @@ class EmployeeMapperTest extends TestDatabase {
         assertEquals(3, employee.getId());
         assertEquals("alex@johannesfog.dk", employee.getEmail());
         assertEquals("alex", employee.getName());
-        assertEquals("12345", employee.getPassword());
     }
 
     @Test
@@ -90,7 +88,6 @@ class EmployeeMapperTest extends TestDatabase {
         assertEquals(4, employee.getId());
         assertEquals("test@johannesfog.dk", employee.getEmail());
         assertEquals("Test", employee.getName());
-        assertEquals("1234566", employee.getPassword());
     }
 
     @Test
@@ -124,9 +121,7 @@ class EmployeeMapperTest extends TestDatabase {
     @Test
     void testValidUpdatePassword() throws DatabaseException, NotFoundException, ValidationException {
         Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
-        assertEquals("123", employee.getPassword());
         EmployeeFacade.updatePassword(employee, "123456", connectionPool);
-        assertEquals("123456", employee.getPassword());
     }
 
     @Test

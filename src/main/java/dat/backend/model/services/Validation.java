@@ -16,7 +16,13 @@ public class Validation {
             throw new ValidationException("Invalid customer");
         }
 
-        validateCustomer(customer.getName(), customer.getEmail(), customer.getPassword());
+        if (!isValidName(customer.getName())) {
+            throw new ValidationException("Invalid name");
+        }
+
+        if (!isValidCustomerEmail(customer.getEmail())) {
+            throw new ValidationException("Invalid customer email");
+        }
     }
 
     public static void validateCustomer(String email, String password) throws ValidationException {
@@ -42,7 +48,13 @@ public class Validation {
             throw new ValidationException("Invalid employee");
         }
 
-        validateEmployee(employee.getName(), employee.getEmail(), employee.getPassword());
+        if (!isValidName(employee.getName())) {
+            throw new ValidationException("Invalid name");
+        }
+
+        if (!isValidEmployeeEmail(employee.getEmail())) {
+            throw new ValidationException("Invalid employee email");
+        }
     }
 
     public static void validateEmployee(String email, String password) throws ValidationException {
@@ -60,6 +72,12 @@ public class Validation {
 
         if (!isValidPassword(password)) {
             throw new ValidationException("Invalid password");
+        }
+    }
+
+    public static void validateName(String name) throws ValidationException {
+        if (!isValidName(name)) {
+            throw new ValidationException("Invalid name");
         }
     }
 

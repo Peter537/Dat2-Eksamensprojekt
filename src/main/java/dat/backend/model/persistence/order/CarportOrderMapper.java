@@ -327,8 +327,8 @@ class CarportOrderMapper {
             //Generate employee object
             int employeeId = resultSet.getInt("employeeid");
             String employeeName = resultSet.getString("employeename");
-            Optional<String> privatephone = Optional.ofNullable(resultSet.getString("private_phonenumber"));
-            Optional<String> workphone = Optional.ofNullable(resultSet.getString("work_phonenumber"));
+            Optional<String> privatePhonenumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
+            Optional<String> workPhonenumber = Optional.ofNullable(resultSet.getString("work_phonenumber"));
             Position position = new Position(resultSet.getString("fk_position"));
 
             //Generate department object for employee
@@ -338,8 +338,7 @@ class CarportOrderMapper {
             Address departmentAddress = new Address(resultSet.getString("departmentaddress"), departmentZip);
             Department department = new Department(departmentId, departmentName, departmentAddress);
 
-            //We don't want to send the password to the client as they can't do anything with it, and it's a security risk
-            employee = Optional.of(new Employee(employeeId, employeeEmail, employeeName,null, privatephone, workphone, position, department));
+            employee = Optional.of(new Employee(employeeId, employeeEmail, employeeName, privatePhonenumber, workPhonenumber, position, department));
         }
 
         //Generate customer object
@@ -351,7 +350,7 @@ class CarportOrderMapper {
         Optional<Address> address2 = Optional.of(new Address(resultSet.getString("address_2"), new Zip(resultSet.getInt("zipcode_2"), resultSet.getString("city_2"))));
         Optional<Address> address3 = Optional.of(new Address(resultSet.getString("address_3"), new Zip(resultSet.getInt("zipcode_3"), resultSet.getString("city_3"))));
 
-        Customer customer = new Customer(customerId,customerEmail, customerName, null, customerPhone, address1, address2, address3);
+        Customer customer = new Customer(customerId, customerEmail, customerName, customerPhone, address1, address2, address3);
         Roof roof = new Roof(resultSet.getInt("fk_roof_id"), resultSet.getFloat("squaremeter_price"), resultSet.getString("type"));
         float width = resultSet.getFloat("width");
         float length = resultSet.getFloat("length");

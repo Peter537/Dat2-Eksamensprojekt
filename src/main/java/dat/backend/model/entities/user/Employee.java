@@ -12,8 +12,8 @@ public class Employee extends Person {
     private Position position;
     private Department department;
 
-    public Employee(int id, String email, String name, String password, Optional<String> personalPhone, Optional<String> workPhoneNumber, Position position, Department department) {
-        super(id, email, name, password, personalPhone, true);
+    public Employee(int id, String email, String name, Optional<String> personalPhone, Optional<String> workPhoneNumber, Position position, Department department) {
+        super(id, email, name, personalPhone, true);
         this.workPhoneNumber = workPhoneNumber;
         this.position = position;
         this.department = department;
@@ -60,7 +60,7 @@ public class Employee extends Person {
     @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getPassword(), this.getWorkPhoneNumber(), this.getPersonalPhoneNumber(), this.getPosition(), this.getDepartment());
+        return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getWorkPhoneNumber(), this.getPersonalPhoneNumber(), this.getPosition(), this.getDepartment());
     }
 
     @IgnoreCoverage(reason = "toString")
@@ -70,7 +70,6 @@ public class Employee extends Person {
                 "id=" + this.getId() +
                 ", email='" + this.getEmail() + '\'' +
                 ", name='" + this.getName() + '\'' +
-                ", password='" + this.getPassword() + '\'' +
                 ", workPhoneNumber='" + this.workPhoneNumber + '\'' +
                 ", personalPhoneNumber='" + this.getPersonalPhoneNumber() + '\'' +
                 ", position=" + this.position +

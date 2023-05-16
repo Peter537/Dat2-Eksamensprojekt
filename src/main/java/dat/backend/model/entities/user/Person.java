@@ -13,20 +13,18 @@ public abstract class Person {
     private final boolean isEmployee;
 
     private String name;
-    private String password;
     private Optional<String> personalPhoneNumber;
 
-    public Person(int id, String email, String name, String password, Optional<String> personalPhoneNumber, boolean isEmployee) {
+    public Person(int id, String email, String name, Optional<String> personalPhoneNumber, boolean isEmployee) {
         this.id = id;
         this.email = email;
         this.name = name;
-        this.password = password;
         this.personalPhoneNumber = personalPhoneNumber;
         this.isEmployee = isEmployee;
     }
 
-    public Person(int id, String email, String name, String password, Optional<String> personalPhoneNumber) {
-        this(id, email, name, password, personalPhoneNumber, false);
+    public Person(int id, String email, String name, Optional<String> personalPhoneNumber) {
+        this(id, email, name, personalPhoneNumber, false);
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -55,16 +53,6 @@ public abstract class Person {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public String getPassword() {
-        return this.password;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<String> getPersonalPhoneNumber() {
         return this.personalPhoneNumber;
     }
@@ -87,7 +75,7 @@ public abstract class Person {
     @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getPassword(), this.getPersonalPhoneNumber());
+        return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getPersonalPhoneNumber());
     }
 
     @IgnoreCoverage(reason = "toString")
@@ -97,7 +85,6 @@ public abstract class Person {
                 "id=" + this.id +
                 ", email='" + this.email + '\'' +
                 ", name='" + this.name + '\'' +
-                ", password='" + this.password + '\'' +
                 ", phoneNumber='" + this.personalPhoneNumber + '\'' +
                 '}';
     }

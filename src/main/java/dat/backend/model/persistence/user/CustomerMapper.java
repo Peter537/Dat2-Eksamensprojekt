@@ -78,7 +78,6 @@ class CustomerMapper {
                 statement.setString(1, newPassword);
                 statement.setString(2, customer.getEmail());
                 statement.executeUpdate();
-                customer.setPassword(newPassword);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update customer password");
@@ -109,7 +108,7 @@ class CustomerMapper {
     }
 
     static void updateName(Customer customer, String newName, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateCustomer(newName, customer.getEmail(), customer.getPassword());
+        Validation.validateName(newName);
         String query = "UPDATE customer SET name = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -145,13 +144,12 @@ class CustomerMapper {
 
         int id = resultSet.getInt("id");
         String email = resultSet.getString("email");
-        String password = resultSet.getString("password");
         String name = resultSet.getString("name");
         Optional<String> personalPhoneNumber = Optional.ofNullable(resultSet.getString("phonenumber"));
         Optional<Address> address1 = createCustomerAddressFromResultSet(1, resultSet, connectionPool);
         Optional<Address> address2 = createCustomerAddressFromResultSet(2, resultSet, connectionPool);
         Optional<Address> address3 = createCustomerAddressFromResultSet(3, resultSet, connectionPool);
-        return new Customer(id, email, name, password, personalPhoneNumber, address1, address2, address3);
+        return new Customer(id, email, name, personalPhoneNumber, address1, address2, address3);
     }
 
     private static Optional<Address> createCustomerAddressFromResultSet(int addressNumber, ResultSet resultSet, ConnectionPool connectionPool) throws DatabaseException, SQLException {

@@ -12,8 +12,8 @@ public class Customer extends Person {
     private Optional<Address> address2;
     private Optional<Address> address3;
 
-    public Customer(int id, String email, String name, String password, Optional<String> personalPhoneNumber, Optional<Address> address1, Optional<Address> address2, Optional<Address> address3) {
-        super(id, email, name, password, personalPhoneNumber);
+    public Customer(int id, String email, String name, Optional<String> personalPhoneNumber, Optional<Address> address1, Optional<Address> address2, Optional<Address> address3) {
+        super(id, email, name, personalPhoneNumber);
         this.address1 = address1;
         this.address2 = address2;
         this.address3 = address3;
@@ -89,7 +89,7 @@ public class Customer extends Person {
     @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getPassword(), this.getPersonalPhoneNumber(), this.getAddress1(), this.getAddress2(), this.getAddress3());
+        return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getPersonalPhoneNumber(), this.getAddress1(), this.getAddress2(), this.getAddress3());
     }
 
     @IgnoreCoverage(reason = "toString")
@@ -99,7 +99,6 @@ public class Customer extends Person {
                 "id=" + this.getId() +
                 ", email='" + this.getEmail() + '\'' +
                 ", name='" + this.getName() + '\'' +
-                ", password='" + this.getPassword() + '\'' +
                 ", personalPhoneNumber='" + this.getPersonalPhoneNumber() + '\'' +
                 ", address1='" + this.getAddress1() + '\'' +
                 ", address2='" + this.getAddress2() + '\'' +

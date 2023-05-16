@@ -45,7 +45,6 @@ class CustomerMapperTest extends TestDatabase {
         assertEquals(2, customer.getId());
         assertEquals("allan@outlook.dk", customer.getEmail());
         assertEquals("allan", customer.getName());
-        assertEquals("1234", customer.getPassword());
     }
 
     @Test
@@ -64,7 +63,6 @@ class CustomerMapperTest extends TestDatabase {
         assertEquals(3, customer.getId());
         assertEquals("alex@hotmail.com", customer.getEmail());
         assertEquals("alex", customer.getName());
-        assertEquals("12345", customer.getPassword());
     }
 
     @Test
@@ -98,7 +96,6 @@ class CustomerMapperTest extends TestDatabase {
         assertEquals(4, customer.getId());
         assertEquals("test@gmail.com", customer.getEmail());
         assertEquals("Test", customer.getName());
-        assertEquals("1234566", customer.getPassword());
     }
 
     @Test
@@ -119,9 +116,7 @@ class CustomerMapperTest extends TestDatabase {
     @Test
     void testValidUpdatePassword() throws DatabaseException, NotFoundException, ValidationException {
         Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
-        assertEquals("123", customer.getPassword());
         CustomerFacade.updatePassword(customer, "123456", connectionPool);
-        assertEquals("123456", customer.getPassword());
     }
 
     @Test
