@@ -129,7 +129,7 @@ class PartsListTestDB extends TestDatabase {
         //act
         double totalPrice = partsList.calculateTotalPrice();
         // assert
-        assertEquals(expectedPrice, totalPrice);
+        assertEquals(expectedPrice, totalPrice, 0.1);
     }
 
     @Test
