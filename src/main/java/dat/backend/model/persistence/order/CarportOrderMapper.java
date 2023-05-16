@@ -137,7 +137,7 @@ class CarportOrderMapper {
         }
     }
 
-    static void claimCarportOrder(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+    static void claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCarportOrder(carportOrder);
         Validation.validateEmployee(employee);
         String query = "UPDATE carport_order SET fk_employee_email = ? WHERE id = ?";
@@ -150,6 +150,21 @@ class CarportOrderMapper {
         } catch (SQLException e) {
             throw new DatabaseException(e, "Error while claiming CarportOrder with id " + carportOrder.getId());
         }
+    }
+
+    public static void makeOffer(CarportOrder carportOrder, float price, ConnectionPool connectionPool) {
+    }
+
+    public static void rejectOffer(CarportOrder carportOrder, ConnectionPool connectionPool) {
+    }
+
+    public static void acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) {
+    }
+
+    public static void ready(CarportOrder carportOrder, ConnectionPool connectionPool) {
+    }
+
+    public static void deliver(CarportOrder carportOrder, ConnectionPool connectionPool) {
     }
 
     static void updateOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
