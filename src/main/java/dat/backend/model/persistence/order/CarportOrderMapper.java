@@ -4,9 +4,7 @@ import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
-import dat.backend.model.entities.user.Address;
-import dat.backend.model.entities.user.Customer;
-import dat.backend.model.entities.user.Employee;
+import dat.backend.model.entities.user.*;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
@@ -26,7 +24,7 @@ import java.util.Optional;
 class CarportOrderMapper {
 
     static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        String query = "SELECT * FROM carport_order WHERE id = ?";
+        String query = "SELECT * FROM carportorderWithAll WHERE carportorderWithAll.id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
@@ -324,16 +322,41 @@ class CarportOrderMapper {
         }
 
         int id = resultSet.getInt("id");
-        OrderStatus orderStatus = OrderStatusFacade.getOrderStatusByStatus(resultSet.getString("orderstatus"), connectionPool);
-        Address address = new Address(resultSet.getString("address"), ZipFacade.getZipByZipCode(resultSet.getInt("zipcode"), connectionPool));
+        OrderStatus orderStatus = new OrderStatus(resultSet.getString("orderstatus"), resultSet.getString("displayname"), resultSet.getInt("sortvalue"));
+        Address address = new Address(resultSet.getString("address"), new Zip(resultSet.getInt("zipcode"), resultSet.getString("city_name")));
         String employeeEmail = resultSet.getString("fk_employee_email");
         Optional<Employee> employee = Optional.empty();
+
         if (employeeEmail != null) {
-            employee = Optional.of(EmployeeFacade.getEmployeeByEmail(employeeEmail, connectionPool));
+            //Generate employee object
+            int employeeId = resultSet.getInt("employeeid");
+            String employeeName = resultSet.getString("employeename");
+            Optional<String> privatephone = Optional.ofNullable(resultSet.getString("private_phonenumber"));
+            Optional<String> workphone = Optional.ofNullable(resultSet.getString("work_phonenumber"));
+            Position position = new Position(resultSet.getString("fk_position"));
+
+            //Generate department object for employee
+            int departmentId = resultSet.getInt("departmentid");
+            String departmentName = resultSet.getString("departmentname");
+            Zip departmentZip = new Zip(resultSet.getInt("departmentzip"), resultSet.getString("departmentcity"));
+            Address departmentAddress = new Address(resultSet.getString("departmentaddress"), departmentZip);
+            Department department = new Department(departmentId, departmentName, departmentAddress);
+
+            //We don't want to send the password to the client as they can't do anything with it, and it's a security risk
+            employee = Optional.of(new Employee(employeeId, employeeEmail, employeeName,null, privatephone, workphone, position, department));
         }
 
-        Customer customer = CustomerFacade.getCustomerByEmail(resultSet.getString("fk_customer_email"), connectionPool);
-        Roof roof = RoofFacade.getRoofById(resultSet.getInt("fk_roof_id"), connectionPool);
+        //Generate customer object
+        int customerId = resultSet.getInt("customerid");
+        String customerName = resultSet.getString("name");
+        String customerEmail = resultSet.getString("email");
+        Optional<String> customerPhone = Optional.ofNullable(resultSet.getString("phonenumber"));
+        Optional<Address> address1 = Optional.of(new Address(resultSet.getString("address_1"), new Zip(resultSet.getInt("zipcode_1"), resultSet.getString("city_1"))));
+        Optional<Address> address2 = Optional.of(new Address(resultSet.getString("address_2"), new Zip(resultSet.getInt("zipcode_2"), resultSet.getString("city_2"))));
+        Optional<Address> address3 = Optional.of(new Address(resultSet.getString("address_3"), new Zip(resultSet.getInt("zipcode_3"), resultSet.getString("city_3"))));
+
+        Customer customer = new Customer(customerId,customerEmail, customerName, null, customerPhone, address1, address2, address3);
+        Roof roof = new Roof(resultSet.getInt("fk_roof_id"), resultSet.getFloat("squaremeter_price"), resultSet.getString("type"));
         float width = resultSet.getFloat("width");
         float length = resultSet.getFloat("length");
         float minHeight = resultSet.getFloat("min_height");

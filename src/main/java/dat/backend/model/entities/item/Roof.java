@@ -4,15 +4,26 @@ import dat.backend.annotation.IgnoreCoverage;
 
 import java.util.Objects;
 
-public class Roof extends Item {
+public class Roof {
 
+    private int id;
     private float squareMeterPrice;
     private String type;
 
     public Roof(int id, float squareMeterPrice, String type) {
-        super(id);
+        this.id = id;
         this.squareMeterPrice = squareMeterPrice;
         this.type = type;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public int getId() {
+        return this.id;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setId(int id) {
+        this.id = id;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -41,7 +52,7 @@ public class Roof extends Item {
         if (this == other) return true;
         if (!(other instanceof Roof)) return false;
         Roof roof = (Roof) other;
-        return super.equals(other) &&
+        return this.getId() == roof.getId() &&
                 this.getSquareMeterPrice() == roof.getSquareMeterPrice() &&
                 this.getType().equals(roof.getType());
     }
@@ -49,14 +60,14 @@ public class Roof extends Item {
     @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), this.getSquareMeterPrice(), this.getType());
+        return Objects.hash(this.getId(), this.getSquareMeterPrice(), this.getType());
     }
 
     @IgnoreCoverage(reason = "toString")
     @Override
     public String toString() {
         return "Roof{" +
-                "id=" + this.getId() +
+                "id=" + this.id +
                 ", meterPrice=" + this.squareMeterPrice +
                 ", type='" + this.type + '\'' +
                 '}';

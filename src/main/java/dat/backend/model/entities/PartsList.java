@@ -31,7 +31,7 @@ public class PartsList {
 
 
 
-    private int totalPrice;
+    private float totalPrice;
 
     private int height;
     private int length;
@@ -54,8 +54,8 @@ public class PartsList {
         this.width = width;
     }
 
-    public int calculateTotalPrice() {
-        return (int) ((pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters) + (roof.getSquareMeterPrice() * roofArea)); // the getPrice() method is inherited from Item. It is not implemented yet.
+    public float calculateTotalPrice() {
+        return ((pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters) + (roof.getSquareMeterPrice() * roofArea));
     }
 
     public static Lumber calculatePole(int height, int width, ConnectionPool connectionPool) throws DatabaseException {
@@ -263,7 +263,7 @@ public class PartsList {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public int getTotalPrice() {
+    public float getTotalPrice() {
         return this.totalPrice;
     }
 

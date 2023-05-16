@@ -54,19 +54,6 @@ class CustomerMapper {
         }
     }
 
-    static Customer getCustomerById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        String query = "SELECT * FROM customerWithAddress WHERE id = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, id);
-                ResultSet resultSet = statement.executeQuery();
-                return createCustomerFromResultSet(resultSet, connectionPool);
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Could not get customer by id");
-        }
-    }
-
     static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM customerWithAddress WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {

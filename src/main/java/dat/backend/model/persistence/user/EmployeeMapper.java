@@ -57,19 +57,6 @@ class EmployeeMapper {
         }
     }
 
-    static Employee getEmployeeById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        String query = "SELECT * FROM employeeWithDepartment WHERE employeeid = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, id);
-                ResultSet resultSet = statement.executeQuery();
-                return createEmployeeFromResultSet(resultSet, connectionPool);
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Could not get employee");
-        }
-    }
-
     static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM employeeWithDepartment WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {

@@ -15,10 +15,6 @@ public class CustomerFacade {
         return CustomerMapper.createCustomer(email, password, name, connectionPool);
     }
 
-    public static Customer getCustomerById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        return CustomerMapper.getCustomerById(id, connectionPool);
-    }
-
     public static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         return CustomerMapper.getCustomerByEmail(email, connectionPool);
     }

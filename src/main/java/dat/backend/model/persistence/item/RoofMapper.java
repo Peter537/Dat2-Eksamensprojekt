@@ -50,26 +50,6 @@ class RoofMapper {
         }
     }
 
-    static List<Roof> getRoofByType(String type, ConnectionPool connectionPool) throws DatabaseException {
-        List<Roof> rooflist = new ArrayList<>();
-        String query = "SELECT * FROM roof WHERE type = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, type);
-                ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    float squareMeterPrice = resultSet.getFloat("squaremeter_price");
-                    rooflist.add(new Roof(id, squareMeterPrice, type));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Could not get roof by type");
-        }
-
-        return rooflist;
-    }
-
     static List<Roof> getAllRoofs(ConnectionPool connectionPool) throws DatabaseException {
         List<Roof> rooflist = new ArrayList<>();
         String query = "SELECT * FROM roof";

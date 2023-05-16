@@ -122,7 +122,7 @@ class PartsListTestDB extends TestDatabase {
         int length = 400;
         PartsList partsList = new PartsList(height,length,width,super.connectionPool);
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
-        int pricePoles = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice();
+        float pricePoles = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice();
         double expectedPrice = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice() +
                 PartsList.calculateNumberOfRafters(length, width) * PartsList.calculateRafter(length,width,super.connectionPool).getPrice() +
                 PartsList.calculateNumberOfPlates(width, length) * PartsList.calculatePlate(width,super.connectionPool).getPrice() + PartsList.getRoof().getSquareMeterPrice() * PartsList.getRoofArea() ;
