@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Roof {
 
-    private int id;
+    private final int id;
     private float squareMeterPrice;
     private String type;
 
@@ -19,11 +19,6 @@ public class Roof {
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
         return this.id;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setId(int id) {
-        this.id = id;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")

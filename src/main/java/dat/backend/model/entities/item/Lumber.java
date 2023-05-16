@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Lumber implements Comparable<Lumber> {
 
-    private int id;
+    private final int id;
     private int length;
     private LumberType lumberType;
     private int amount;
@@ -27,11 +27,6 @@ public class Lumber implements Comparable<Lumber> {
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
         return this.id;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setId(int id) {
-        this.id = id;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")

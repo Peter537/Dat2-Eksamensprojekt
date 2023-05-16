@@ -8,7 +8,7 @@ import java.util.Optional;
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public abstract class Person {
 
-    private int id;
+    private final int id;
     private String email;
     private String name;
     private String password;
@@ -26,11 +26,6 @@ public abstract class Person {
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
         return this.id;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setId(int id) {
-        this.id = id;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")

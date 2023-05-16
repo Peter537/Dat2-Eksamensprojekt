@@ -13,7 +13,7 @@ import java.util.Optional;
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class CarportOrder {
 
-    private int id;
+    private final int id;
     private Address address;
     private Optional<Employee> employee;
     private Customer customer;
@@ -44,11 +44,6 @@ public class CarportOrder {
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
         return this.id;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setId(int id) {
-        this.id = id;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
