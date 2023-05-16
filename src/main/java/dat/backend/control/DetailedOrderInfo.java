@@ -34,12 +34,18 @@ public class DetailedOrderInfo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
+        String code = request.getParameter("fromJsp");
 
         try {
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
             request.setAttribute("carportOrder", carportOrder);
             request.setAttribute("load", "true");
-            request.getRequestDispatcher("WEB-INF/customerOrders.jsp").forward(request, response);
+            if (code.equalsIgnoreCase("customer")) {
+                request.getRequestDispatcher("WEB-INF/customerOrders.jsp").forward(request, response);
+            }else {
+                request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
+            }
+
 
         } catch (DatabaseException | NotFoundException e) {
             request.setAttribute("errormessage", e.getMessage());

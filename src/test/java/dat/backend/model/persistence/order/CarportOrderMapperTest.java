@@ -3,7 +3,6 @@ package dat.backend.model.persistence.order;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
 import dat.backend.model.entities.order.CarportOrder;
-import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
@@ -143,7 +142,7 @@ class CarportOrderMapperTest extends TestDatabase {
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
-        CarportOrder carportOrder = CarportOrderFacade.createCarportOrder(customer, address, 360, 720, 300, roof, Optional.empty(), Optional.empty(), connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, address, 360, 720, 300, roof, Optional.empty(), Optional.empty(), connectionPool);
         assertEquals(2, carportOrder.getId());
         assertEquals("Herlev Adresse", carportOrder.getAddress().getStreet());
         assertEquals(2730, carportOrder.getAddress().getZip().getZipCode());
@@ -164,14 +163,14 @@ class CarportOrderMapperTest extends TestDatabase {
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
-        assertThrows(ValidationException.class, () -> CarportOrderFacade.createCarportOrder(null, address, 360, 720, 300, roof, Optional.empty(), Optional.empty(), connectionPool));
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.create(null, address, 360, 720, 300, roof, Optional.empty(), Optional.empty(), connectionPool));
     }
 
     @Test
     void testInvalidCreateCarportOrderAddressNull() throws NotFoundException, DatabaseException {
         Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
-        assertThrows(ValidationException.class, () -> CarportOrderFacade.createCarportOrder(customer, null, 360, 720, 300, roof, Optional.empty(), Optional.empty(), connectionPool));
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.create(customer, null, 360, 720, 300, roof, Optional.empty(), Optional.empty(), connectionPool));
     }
 
     @Test
@@ -180,7 +179,7 @@ class CarportOrderMapperTest extends TestDatabase {
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
-        assertThrows(ValidationException.class, () -> CarportOrderFacade.createCarportOrder(customer, address, -1, 720, 300, roof, Optional.empty(), Optional.empty(), connectionPool));
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.create(customer, address, -1, 720, 300, roof, Optional.empty(), Optional.empty(), connectionPool));
     }
 
     @Test
@@ -189,7 +188,7 @@ class CarportOrderMapperTest extends TestDatabase {
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
-        assertThrows(ValidationException.class, () -> CarportOrderFacade.createCarportOrder(customer, address, 360, -1, 300, roof, Optional.empty(), Optional.empty(), connectionPool));
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.create(customer, address, 360, -1, 300, roof, Optional.empty(), Optional.empty(), connectionPool));
     }
 
     @Test
@@ -198,7 +197,7 @@ class CarportOrderMapperTest extends TestDatabase {
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
-        assertThrows(ValidationException.class, () -> CarportOrderFacade.createCarportOrder(customer, address, 360, 720, -1, roof, Optional.empty(), Optional.empty(), connectionPool));
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.create(customer, address, 360, 720, -1, roof, Optional.empty(), Optional.empty(), connectionPool));
     }
 
     @Test
@@ -206,32 +205,7 @@ class CarportOrderMapperTest extends TestDatabase {
         Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
-        assertThrows(ValidationException.class, () -> CarportOrderFacade.createCarportOrder(customer, address, 360, 720, 300, null, Optional.empty(), Optional.empty(), connectionPool));
-    }
-
-    @Test
-    void testValidUpdateRemarks() throws NotFoundException, DatabaseException, ValidationException {
-        CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(1, connectionPool);
-        assertFalse(carportOrder.getRemarks().isPresent());
-        CarportOrderFacade.updateRemarks(carportOrder, Optional.of("Updated remarks"), connectionPool);
-        assertTrue(carportOrder.getRemarks().isPresent());
-        assertEquals("Updated remarks", carportOrder.getRemarks().get());
-    }
-
-    @Test
-    void testValidUpdateRemarksEmpty() throws NotFoundException, DatabaseException, ValidationException {
-        CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(1, connectionPool);
-        assertFalse(carportOrder.getRemarks().isPresent());
-        CarportOrderFacade.updateRemarks(carportOrder, Optional.of("Updated remarks"), connectionPool);
-        assertTrue(carportOrder.getRemarks().isPresent());
-        assertEquals("Updated remarks", carportOrder.getRemarks().get());
-        CarportOrderFacade.updateRemarks(carportOrder, Optional.empty(), connectionPool);
-        assertFalse(carportOrder.getRemarks().isPresent());
-    }
-
-    @Test
-    void testInvalidUpdateRemarksNullCarportOrder() {
-        assertThrows(ValidationException.class, () -> CarportOrderFacade.updateRemarks(null, Optional.of("Updated remarks"), connectionPool));
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.create(customer, address, 360, 720, 300, null, Optional.empty(), Optional.empty(), connectionPool));
     }
 
     @Test
@@ -285,26 +259,6 @@ class CarportOrderMapperTest extends TestDatabase {
     @Test
     void testInvalidUpdateAddressNullCarportOrder() {
         assertThrows(ValidationException.class, () -> CarportOrderFacade.updateAddress(null, new Address("Updated Adresse", new Zip(2800, "Lyngby")), connectionPool));
-    }
-
-    @Test
-    void testValidUpdateEmployee() throws NotFoundException, DatabaseException, ValidationException {
-        CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(1, connectionPool);
-        assertTrue(carportOrder.getEmployee().isPresent());
-        assertEquals(1, carportOrder.getEmployee().get().getId());
-        Employee employee = EmployeeFacade.getEmployeeByEmail("allan@johannesfog.dk", connectionPool);
-        CarportOrderFacade.updateEmployee(carportOrder, Optional.of(employee), connectionPool);
-        assertTrue(carportOrder.getEmployee().isPresent());
-        assertEquals(2, carportOrder.getEmployee().get().getId());
-    }
-
-    @Test
-    void testValidUpdateEmployeeEmpty() throws NotFoundException, DatabaseException, ValidationException {
-        CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(1, connectionPool);
-        assertTrue(carportOrder.getEmployee().isPresent());
-        assertEquals(1, carportOrder.getEmployee().get().getId());
-        CarportOrderFacade.updateEmployee(carportOrder, Optional.empty(), connectionPool);
-        assertFalse(carportOrder.getEmployee().isPresent());
     }
 
     @Test
@@ -387,25 +341,5 @@ class CarportOrderMapperTest extends TestDatabase {
     @Test
     void testInvalidUpdatePriceNullCarportOrder() {
         assertThrows(ValidationException.class, () -> CarportOrderFacade.updatePrice(null, Optional.of(1000F), connectionPool));
-    }
-
-    @Test
-    void testValidUpdateOrderStatus() throws NotFoundException, DatabaseException, ValidationException {
-        CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(1, connectionPool);
-        assertEquals("ORDER_CREATED", carportOrder.getOrderStatus().getStatus());
-        OrderStatus orderStatus = OrderStatusFacade.getOrderStatusByStatus("ORDER_ACCEPTED", connectionPool);
-        CarportOrderFacade.updateOrderStatus(carportOrder, orderStatus, connectionPool);
-        assertEquals("ORDER_ACCEPTED", carportOrder.getOrderStatus().getStatus());
-    }
-
-    @Test
-    void testInvalidUpdateOrderStatusNullCarportOrder() {
-        assertThrows(ValidationException.class, () -> CarportOrderFacade.updateOrderStatus(null, OrderStatusFacade.getOrderStatusByStatus("ORDER_ACCEPTED", connectionPool), connectionPool));
-    }
-
-    @Test
-    void testInvalidUpdateOrderStatusNullOrderStatus() throws NotFoundException, DatabaseException {
-        CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(1, connectionPool);
-        assertThrows(ValidationException.class, () -> CarportOrderFacade.updateOrderStatus(carportOrder, null, connectionPool));
     }
 }

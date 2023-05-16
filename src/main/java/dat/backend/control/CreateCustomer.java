@@ -57,7 +57,7 @@ public class CreateCustomer extends HttpServlet {
             }
 
             try {
-                Customer customer = CustomerFacade.createCustomer(email, password, name, connectionPool);
+                Customer customer = CustomerFacade.create(email, password, name, connectionPool);
                 session.setAttribute("user", customer);
                 request.getRequestDispatcher("WEB-INF/ToProfileSite").forward(request, response);
             } catch (ValidationException | AlreadyExistsException e) {

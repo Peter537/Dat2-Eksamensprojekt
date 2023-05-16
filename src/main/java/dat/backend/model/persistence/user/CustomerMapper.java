@@ -30,7 +30,7 @@ class CustomerMapper {
         }
     }
 
-    static Customer createCustomer(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
+    static Customer create(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
         Validation.validateCustomer(name, email, password);
         try {
             getCustomerByEmail(email, connectionPool);

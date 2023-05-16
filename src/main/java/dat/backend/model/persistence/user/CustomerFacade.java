@@ -14,8 +14,8 @@ public class CustomerFacade {
         return CustomerMapper.login(email, password, connectionPool);
     }
 
-    public static Customer createCustomer(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
-        return CustomerMapper.createCustomer(email, password, name, connectionPool);
+    public static Customer create(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
+        return CustomerMapper.create(email, password, name, connectionPool);
     }
 
     public static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {

@@ -1,7 +1,6 @@
 package dat.backend.model.persistence.order;
 
 import dat.backend.model.entities.order.CarportOrder;
-import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
 import dat.backend.model.entities.user.Address;
@@ -34,20 +33,32 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getAllCarportOrders(connectionPool);
     }
 
-    public static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        return CarportOrderMapper.createCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks, connectionPool);
+    public static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        return CarportOrderMapper.create(customer, address, width, length, minHeight, roof, toolRoom, remarks, connectionPool);
     }
 
-    public static void claimCarportOrder(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.claimCarportOrder(carportOrder, employee, connectionPool);
+    public static void claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        CarportOrderMapper.claim(carportOrder, employee, connectionPool);
     }
 
-    public static void updateOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateOrderStatus(carportOrder, newOrderStatus, connectionPool);
+    public static void makeOffer(CarportOrder carportOrder, float price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        CarportOrderMapper.makeOffer(carportOrder, price, connectionPool);
     }
 
-    public static void updateEmployee(CarportOrder carportOrder, Optional<Employee> employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateEmployee(carportOrder, employee, connectionPool);
+    public static void rejectOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        CarportOrderMapper.rejectOffer(carportOrder, connectionPool);
+    }
+
+    public static void acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        CarportOrderMapper.acceptOffer(carportOrder, connectionPool);
+    }
+
+    public static void ready(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        CarportOrderMapper.ready(carportOrder, connectionPool);
+    }
+
+    public static void deliver(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        CarportOrderMapper.deliver(carportOrder, connectionPool);
     }
 
     public static void updateWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
@@ -68,10 +79,6 @@ public class CarportOrderFacade {
 
     public static void updatePrice(CarportOrder carportOrder, Optional<Float> price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         CarportOrderMapper.updatePrice(carportOrder, price, connectionPool);
-    }
-
-    public static void updateRemarks(CarportOrder carportOrder, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.updateRemarks(carportOrder, remarks, connectionPool);
     }
 
     public static void updateAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException, ValidationException {

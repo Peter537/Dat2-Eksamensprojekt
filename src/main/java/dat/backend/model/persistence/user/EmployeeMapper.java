@@ -31,7 +31,7 @@ class EmployeeMapper {
         }
     }
 
-    static Employee createEmployee(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
+    static Employee create(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
         Validation.validateEmployee(name, email, password);
         try {
             getEmployeeByEmail(email, connectionPool);

@@ -84,7 +84,7 @@ class EmployeeMapperTest extends TestDatabase {
     void testValidCreateEmployee() throws DatabaseException, NotFoundException, ValidationException, AlreadyExistsException {
         Position position = new Position("Sales");
         Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
-        Employee employee = EmployeeFacade.createEmployee("test@johannesfog.dk", "Test", "1234566", position, department, connectionPool);
+        Employee employee = EmployeeFacade.create("test@johannesfog.dk", "Test", "1234566", position, department, connectionPool);
         assertEquals(4, employee.getId());
         assertEquals("test@johannesfog.dk", employee.getEmail());
         assertEquals("Test", employee.getName());
@@ -94,28 +94,28 @@ class EmployeeMapperTest extends TestDatabase {
     void testInvalidCreateEmployeeEmailAlreadyInUse() throws DatabaseException, NotFoundException {
         Position position = new Position("Sales");
         Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
-        assertThrows(AlreadyExistsException.class, () -> EmployeeFacade.createEmployee("alex@johannesfog.dk", "Test", "1234566", position, department, connectionPool));
+        assertThrows(AlreadyExistsException.class, () -> EmployeeFacade.create("alex@johannesfog.dk", "Test", "1234566", position, department, connectionPool));
     }
 
     @Test
     void testInvalidCreateEmployeeNullPassword() throws DatabaseException, NotFoundException {
         Position position = new Position("Sales");
         Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
-        assertThrows(ValidationException.class, () -> EmployeeFacade.createEmployee("new@johannesfog.dk", "Test", null, position, department, connectionPool));
+        assertThrows(ValidationException.class, () -> EmployeeFacade.create("new@johannesfog.dk", "Test", null, position, department, connectionPool));
     }
 
     @Test
     void testInvalidCreateEmployeeNullName() throws DatabaseException, NotFoundException {
         Position position = new Position("Sales");
         Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
-        assertThrows(ValidationException.class, () -> EmployeeFacade.createEmployee("new@johannesfog.dk", "1234566", null, position, department, connectionPool));
+        assertThrows(ValidationException.class, () -> EmployeeFacade.create("new@johannesfog.dk", "1234566", null, position, department, connectionPool));
     }
 
     @Test
     void testInvalidCreateEmployeeEmail() throws DatabaseException, NotFoundException {
         Position position = new Position("Sales");
         Department department = DepartmentFacade.getDepartmentById(1, connectionPool);
-        assertThrows(ValidationException.class, () -> EmployeeFacade.createEmployee("test@gmail.com", "Test", "1234566", position, department, connectionPool));
+        assertThrows(ValidationException.class, () -> EmployeeFacade.create("test@gmail.com", "Test", "1234566", position, department, connectionPool));
     }
 
     @Test

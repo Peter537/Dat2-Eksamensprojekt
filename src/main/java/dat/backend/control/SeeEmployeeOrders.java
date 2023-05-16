@@ -32,10 +32,15 @@ public class SeeEmployeeOrders extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
         Employee employee = (Employee) request.getSession().getAttribute("user");
+
         List<CarportOrder> carportOrders = new ArrayList<>();
+
         try {
+
             carportOrders.addAll(CarportOrderFacade.getCarportOrdersByEmployee(employee, connectionPool));
+            
         } catch (DatabaseException | NotFoundException | ValidationException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
