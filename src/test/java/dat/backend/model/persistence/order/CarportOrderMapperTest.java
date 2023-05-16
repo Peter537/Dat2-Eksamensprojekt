@@ -139,7 +139,7 @@ class CarportOrderMapperTest extends TestDatabase {
 
     @Test
     void testValidCreateCarportOrder() throws NotFoundException, DatabaseException, ValidationException {
-        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
@@ -169,14 +169,14 @@ class CarportOrderMapperTest extends TestDatabase {
 
     @Test
     void testInvalidCreateCarportOrderAddressNull() throws NotFoundException, DatabaseException {
-        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
         assertThrows(ValidationException.class, () -> CarportOrderFacade.createCarportOrder(customer, null, 360, 720, 300, roof, Optional.empty(), Optional.empty(), connectionPool));
     }
 
     @Test
     void testInvalidCreateCarportOrderNegativeWidth() throws NotFoundException, DatabaseException {
-        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
@@ -185,7 +185,7 @@ class CarportOrderMapperTest extends TestDatabase {
 
     @Test
     void testInvalidCreateCarportOrderNegativeLength() throws NotFoundException, DatabaseException {
-        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
@@ -194,7 +194,7 @@ class CarportOrderMapperTest extends TestDatabase {
 
     @Test
     void testInvalidCreateCarportOrderNegativeMinHeight() throws NotFoundException, DatabaseException {
-        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         Roof roof = RoofFacade.getRoofById(1, connectionPool);
@@ -203,7 +203,7 @@ class CarportOrderMapperTest extends TestDatabase {
 
     @Test
     void testInvalidCreateCarportOrderRoofNull() throws NotFoundException, DatabaseException {
-        Customer customer = CustomerFacade.getCustomerById(1, connectionPool);
+        Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         assertThrows(ValidationException.class, () -> CarportOrderFacade.createCarportOrder(customer, address, 360, 720, 300, null, Optional.empty(), Optional.empty(), connectionPool));
