@@ -17,28 +17,7 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 class LumberMapper {
 
-    static Lumber getLumberById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        String query = "SELECT * FROM lumber WHERE id = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, id);
-                ResultSet resultSet = statement.executeQuery();
-                if (!resultSet.next()) {
-                    throw new NotFoundException("Could not get lumber by id");
-                }
-
-                int length = resultSet.getInt("length");
-                LumberType lumberType = LumberTypeFacade.getLumberTypeById(resultSet.getInt("type"), connectionPool);
-                int amount = resultSet.getInt("amount");
-                int price = calcPrice(length, lumberType.getMeterPrice());
-                return new Lumber(id, length, lumberType, price, amount);
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Could not get lumber by id");
-        }
-    }
-
-    static Lumber createLumber(float length, int type, int amount, ConnectionPool connectionPool) throws DatabaseException {
+    static Lumber createLumber(int length, int type, int amount, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO lumber (length, type, amount) VALUES (?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, RETURN_GENERATED_KEYS)) {
@@ -55,8 +34,10 @@ class LumberMapper {
                     throw new DatabaseException("Could not create lumber");
                 }
 
+                LumberType lumberType = LumberTypeFacade.getLumberTypeById(type, connectionPool);
                 int id = rs.getInt(1);
-                return getLumberById(id, connectionPool);
+                int price = calcPrice(length, lumberType.getMeterPrice());
+                return new Lumber(id, length, lumberType, price, amount);
             }
         } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Could not create lumber");

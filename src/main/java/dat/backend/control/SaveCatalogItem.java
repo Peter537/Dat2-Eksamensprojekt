@@ -44,7 +44,7 @@ public class SaveCatalogItem extends HttpServlet {
                 case "pole":
                 case "rafter":
                     String lumberType = request.getParameter("lumberType");
-                    float poleLength = Float.parseFloat(request.getParameter("poleLength"));
+                    int poleLength = Integer.parseInt(request.getParameter("poleLength"));
                     float poleWidth = Float.parseFloat(request.getParameter("poleWidth"));
                     float poleThickness = Float.parseFloat(request.getParameter("poleThickness"));
                     float poleMeterPrice = Float.parseFloat(request.getParameter("poleMeterPrice"));
