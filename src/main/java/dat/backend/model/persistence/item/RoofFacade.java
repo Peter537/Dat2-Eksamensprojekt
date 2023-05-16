@@ -17,10 +17,6 @@ public class RoofFacade {
         return RoofMapper.createRoof(squareMeterPrice, type, connectionPool);
     }
 
-    public static List<Roof> getRoofByType(String type, ConnectionPool connectionPool) throws DatabaseException {
-        return RoofMapper.getRoofByType(type, connectionPool);
-    }
-
     public static List<Roof> getAllRoofs(ConnectionPool connectionPool) throws DatabaseException {
         return RoofMapper.getAllRoofs(connectionPool);
     }

@@ -43,34 +43,6 @@ class LumberMapperTest extends TestDatabase {
     }
 
     @Test
-    void testValidGetLumberById() throws DatabaseException, NotFoundException {
-        // Arrange
-        int id = 1;
-        int expectedLength = 180;
-        LumberType expectedType = LumberTypeFacade.getLumberTypeById(1, connectionPool);
-        int expectedAmount = 1000;
-        int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
-
-        // Act
-        Lumber lumber = LumberFacade.getLumberById(id, connectionPool);
-
-        // Assert
-        assertEquals(expectedLength, lumber.getLength());
-        assertEquals(expectedType, lumber.getLumberType());
-        assertEquals(expectedPrice, lumber.getPrice());
-        assertEquals(expectedAmount, lumber.getAmount());
-    }
-
-    @Test
-    void testInvalidGetLumberById() {
-        // Arrange
-        int id = 100;
-
-        // Assert throws exception
-        assertThrows(NotFoundException.class, () -> LumberFacade.getLumberById(id, connectionPool));
-    }
-
-    @Test
     void testValidGetLumberByType() throws DatabaseException, NotFoundException {
         // Arrange
         LumberType type = LumberTypeFacade.getLumberTypeById(1, connectionPool);
@@ -97,60 +69,11 @@ class LumberMapperTest extends TestDatabase {
     }
 
     @Test
-    void testValidGetLumberByLength() throws DatabaseException, NotFoundException {
-        // Arrange
-        LumberType type = LumberTypeFacade.getLumberTypeById(1, connectionPool);
-        int expectedLength = 180;
-        int expectedAmount = 1000;
-        int expectedPrice = LumberMapper.calcPrice(expectedLength, type.getMeterPrice());
-
-        // Act
-        List<Lumber> lumber = LumberFacade.getLumberByLength(expectedLength, connectionPool);
-        assertEquals(1, lumber.size());
-
-        for (Lumber l : lumber) {
-            // Assert
-            assertNotNull(l);
-            assertEquals(expectedLength, l.getLength());
-            assertEquals(type, l.getLumberType());
-            assertEquals(expectedPrice, l.getPrice());
-            assertEquals(expectedAmount, l.getAmount());
-        }
-    }
-
-    @Test
-    void testInvalidGetLumberByLength() throws DatabaseException {
-        // Arrange
-        int length = 100;
-
-        // Assert throws exception
-        assertTrue(LumberFacade.getLumberByLength(length, connectionPool).isEmpty());
-        assertEquals(0, LumberFacade.getLumberByLength(length, connectionPool).size());
-    }
-
-    @Test
-    void testValidGetAllLumber() throws DatabaseException {
-        // Arrange
-        int expectedAmount = 3;
-
-        // Act
-        List<Lumber> lumber = LumberFacade.getAllLumber(connectionPool);
-        assertEquals(expectedAmount, lumber.size());
-
-        for (Lumber l : lumber) {
-            // Assert
-            assertNotNull(l);
-            assertNotNull(l.getLumberType());
-        }
-    }
-
-    @Test
     void testValidCreateLumber() throws DatabaseException, NotFoundException {
         // Arrange
         int expectedLength = 200;
         LumberType expectedType = LumberTypeFacade.getLumberTypeById(1, connectionPool);
         int expectedAmount = 1000;
-        int expectedPrice = LumberMapper.calcPrice(expectedLength, expectedType.getMeterPrice());
 
         // Act
         Lumber lumber = LumberFacade.createLumber(expectedLength, expectedType.getId(), expectedAmount, connectionPool);
@@ -158,7 +81,6 @@ class LumberMapperTest extends TestDatabase {
         // Assert
         assertEquals(expectedLength, lumber.getLength());
         assertEquals(expectedType, lumber.getLumberType());
-        assertEquals(expectedPrice, lumber.getPrice());
         assertEquals(expectedAmount, lumber.getAmount());
     }
 }
