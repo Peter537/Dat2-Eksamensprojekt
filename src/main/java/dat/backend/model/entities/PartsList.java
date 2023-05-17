@@ -52,6 +52,7 @@ public class PartsList {
         this.height = height;
         this.length = length;
         this.width = width;
+        this.connectionPool = connectionPool;
     }
 
     public float calculateTotalPrice() {

@@ -83,7 +83,7 @@ class Model3DTest extends TestDatabase {
     void ValidModel() throws DatabaseException, NotFoundException {
         PartsList partsList = new PartsList(200,500,300,super.connectionPool);
         Model3D model3D = new Model3D();
-       // model3D.createModel(partsList);
+        model3D.createModel(partsList);
         assertNotNull(model3D);
 
     }
