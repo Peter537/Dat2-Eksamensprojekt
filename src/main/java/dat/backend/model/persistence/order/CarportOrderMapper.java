@@ -25,7 +25,7 @@ class CarportOrderMapper {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
                 ResultSet resultSet = statement.executeQuery();
-                return createCarportOrderFromResultSet(resultSet, connectionPool);
+                return createCarportOrderFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Error while getting CarportOrder with id " + id);
@@ -324,7 +324,7 @@ class CarportOrderMapper {
         }
     }
 
-    private static CarportOrder createCarportOrderFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, NotFoundException, DatabaseException {
+    private static CarportOrder createCarportOrderFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
             throw new NotFoundException("CarportOrder not found");
         }

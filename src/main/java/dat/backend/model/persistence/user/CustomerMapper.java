@@ -23,7 +23,7 @@ class CustomerMapper {
                 statement.setString(1, email);
                 statement.setString(2, password);
                 ResultSet resultSet = statement.executeQuery();
-                return createCustomerFromResultSet(resultSet, connectionPool);
+                return createCustomerFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not login customer");
@@ -63,7 +63,7 @@ class CustomerMapper {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, email);
                 ResultSet resultSet = statement.executeQuery();
-                return createCustomerFromResultSet(resultSet, connectionPool);
+                return createCustomerFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get customer by email");
@@ -137,7 +137,7 @@ class CustomerMapper {
         }
     }
 
-    private static Customer createCustomerFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws DatabaseException, SQLException, NotFoundException {
+    private static Customer createCustomerFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
             throw new NotFoundException("Could not create customer from result set");
         }
@@ -146,13 +146,13 @@ class CustomerMapper {
         String email = resultSet.getString("email");
         String name = resultSet.getString("name");
         Optional<String> personalPhoneNumber = Optional.ofNullable(resultSet.getString("phonenumber"));
-        Optional<Address> address1 = createCustomerAddressFromResultSet(1, resultSet, connectionPool);
-        Optional<Address> address2 = createCustomerAddressFromResultSet(2, resultSet, connectionPool);
-        Optional<Address> address3 = createCustomerAddressFromResultSet(3, resultSet, connectionPool);
+        Optional<Address> address1 = createCustomerAddressFromResultSet(1, resultSet);
+        Optional<Address> address2 = createCustomerAddressFromResultSet(2, resultSet);
+        Optional<Address> address3 = createCustomerAddressFromResultSet(3, resultSet);
         return new Customer(id, email, name, personalPhoneNumber, address1, address2, address3);
     }
 
-    private static Optional<Address> createCustomerAddressFromResultSet(int addressNumber, ResultSet resultSet, ConnectionPool connectionPool) throws DatabaseException, SQLException {
+    private static Optional<Address> createCustomerAddressFromResultSet(int addressNumber, ResultSet resultSet) throws SQLException {
         String address = resultSet.getString("address_" + addressNumber);
         int zipCode = resultSet.getInt("zipcode_" + addressNumber);
         String city = resultSet.getString("city_" + addressNumber);

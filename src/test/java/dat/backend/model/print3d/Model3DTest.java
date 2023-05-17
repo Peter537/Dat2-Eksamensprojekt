@@ -50,6 +50,7 @@ class Model3DTest extends TestDatabase {
     @Test
     void ValidCreatePole() throws DatabaseException, NotFoundException {
         PartsList partsList = new PartsList(200,500,300,super.connectionPool);
+        //partsList.getNumberOfPoles();
         Pole3D pole3D = new Pole3D(partsList);
 
         assertNotNull(pole3D);
