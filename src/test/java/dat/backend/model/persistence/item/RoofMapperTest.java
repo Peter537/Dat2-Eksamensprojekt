@@ -3,6 +3,7 @@ package dat.backend.model.persistence.item;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,5 +88,52 @@ class RoofMapperTest extends TestDatabase {
     @Test
     void testInvalidGetRoofById() {
         assertThrows(NotFoundException.class, () -> RoofFacade.getRoofById(3, super.connectionPool));
+    }
+
+    @Test
+    void testValidDeleteRoof() throws DatabaseException, NotFoundException {
+        // Arrange
+        int expectedSize = 1;
+
+        // Act
+        RoofFacade.deleteRoof(2, super.connectionPool);
+        List<Roof> roof = RoofFacade.getAllRoofs(super.connectionPool);
+
+        // Assert
+        assertNotNull(roof);
+        assertEquals(expectedSize, roof.size());
+    }
+
+    @Test
+    void testInvalidDeleteRoof() {
+        assertThrows(NotFoundException.class, () -> RoofFacade.deleteRoof(3, super.connectionPool));
+    }
+
+    @Test
+    void testValidUpdateRoof() throws DatabaseException, NotFoundException, ValidationException {
+        // Arrange
+        int expectedId = 1;
+        String expectedType = "TILED_ROOF";
+        float expectedPrice = 200;
+
+        // Act
+        RoofFacade.updateRoof(expectedId, expectedPrice, expectedType, super.connectionPool);
+        Roof roof = RoofFacade.getRoofById(expectedId, super.connectionPool);
+
+        // Assert
+        assertNotNull(roof);
+        assertEquals(expectedId, roof.getId());
+        assertEquals(expectedType, roof.getType());
+        assertEquals(expectedPrice, roof.getSquareMeterPrice());
+    }
+
+    @Test
+    void testInvalidUpdateRoof() {
+        assertThrows(NotFoundException.class, () -> RoofFacade.updateRoof(3, 200, "TILED_ROOF", super.connectionPool));
+    }
+
+    @Test
+    void testInvalidUpdateRoofNegativePrice() {
+        assertThrows(ValidationException.class, () -> RoofFacade.updateRoof(1, -200, "TILED_ROOF", super.connectionPool));
     }
 }
