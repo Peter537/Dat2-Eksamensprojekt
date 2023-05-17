@@ -7,6 +7,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.TestDatabase;
 import dat.backend.model.persistence.item.RoofFacade;
+import dat.backend.model.services.PartsListCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -62,7 +63,7 @@ class PartsListTestDB extends TestDatabase {
         int width = 672;
 
         //act
-        LumberType rafterType = PartsList.calculateRafterType(width, super.connectionPool);
+        LumberType rafterType = PartsListCalculator.calculateRafterType(width, super.connectionPool);
         // assert
         assertEquals(expectedWidth, rafterType.getWidth());
         assertEquals(expectedType, rafterType.getType());
@@ -78,7 +79,7 @@ class PartsListTestDB extends TestDatabase {
         int height = 200;
 
         //act
-        Lumber pole = PartsList.calculatePole(height, width, super.connectionPool);
+        Lumber pole = PartsListCalculator.calculatePole(height, width, super.connectionPool);
 
         // assert
         assertEquals(expectedLength, pole.getLength());
@@ -92,7 +93,7 @@ class PartsListTestDB extends TestDatabase {
         int length = 400;
 
         //act
-        Lumber rafter = PartsList.calculateRafter(length, width, super.connectionPool);
+        Lumber rafter = PartsListCalculator.calculateRafter(length, width, super.connectionPool);
 
         // assert
         assertEquals(expectedLength, rafter.getLength());
@@ -108,7 +109,7 @@ class PartsListTestDB extends TestDatabase {
         int length = 400;
 
         //act
-        Lumber rafter = PartsList.calculatePlate(width, super.connectionPool);
+        Lumber rafter = PartsListCalculator.calculatePlate(width, super.connectionPool);
 
         // assert
         assertEquals(expectedLength, rafter.getLength());
@@ -123,10 +124,10 @@ class PartsListTestDB extends TestDatabase {
         int length = 400;
         PartsList partsList = new PartsList(height, length, width, super.connectionPool);
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
-        float pricePoles = PartsList.calculateNumberOfPoles(length, width) * PartsList.calculatePole(height, width, super.connectionPool).getPrice();
-        double expectedPrice = PartsList.calculateNumberOfPoles(length, width) * PartsList.calculatePole(height, width, super.connectionPool).getPrice() +
-                PartsList.calculateNumberOfRafters(length) * PartsList.calculateRafter(length, width, super.connectionPool).getPrice() +
-                PartsList.calculateNumberOfPlates(width) * PartsList.calculatePlate(width, super.connectionPool).getPrice() + partsList.getRoof().getSquareMeterPrice() * partsList.getRoofArea();
+        float pricePoles = PartsListCalculator.calculateNumberOfPoles(length, width) * PartsListCalculator.calculatePole(height, width, super.connectionPool).getPrice();
+        double expectedPrice = PartsListCalculator.calculateNumberOfPoles(length, width) * PartsListCalculator.calculatePole(height, width, super.connectionPool).getPrice() +
+                PartsListCalculator.calculateNumberOfRafters(length) * PartsListCalculator.calculateRafter(length, width, super.connectionPool).getPrice() +
+                PartsListCalculator.calculateNumberOfPlates(width) * PartsListCalculator.calculatePlate(width, super.connectionPool).getPrice() + partsList.getRoof().getSquareMeterPrice() * partsList.getRoofArea();
         //act
         double totalPrice = partsList.calculateTotalPrice();
         // assert
@@ -138,10 +139,10 @@ class PartsListTestDB extends TestDatabase {
         // arrange
         int expected = 2;
         int width = 672;
-        LumberType rafterType = PartsList.calculateRafterType(width, super.connectionPool);
+        LumberType rafterType = PartsListCalculator.calculateRafterType(width, super.connectionPool);
 
         //act
-        int actual = PartsList.calculateNumber(1500, rafterType, super.connectionPool);
+        int actual = PartsListCalculator.calculateNumber(1500, rafterType, super.connectionPool);
 
         // assert
         assertEquals(expected, actual);
@@ -152,10 +153,10 @@ class PartsListTestDB extends TestDatabase {
     void testValidCalculateLengthOfLumber0() throws NotFoundException, DatabaseException {
 
         int width = 672;
-        LumberType rafterType = PartsList.calculateRafterType(width, super.connectionPool);
+        LumberType rafterType = PartsListCalculator.calculateRafterType(width, super.connectionPool);
         int expected = 672;
 
-        int actual = PartsList.calculateLengthOfLumber(width, rafterType, super.connectionPool);
+        int actual = PartsListCalculator.calculateLengthOfLumber(width, rafterType, super.connectionPool);
         assertEquals(expected, actual);
     }
 /*
