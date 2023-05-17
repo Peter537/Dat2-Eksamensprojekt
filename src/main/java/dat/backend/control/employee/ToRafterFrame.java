@@ -21,6 +21,7 @@ import java.util.List;
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "ToRafterFrame", value = "/ToRafterFrame")
 public class ToRafterFrame extends HttpServlet {
+
     private ConnectionPool connectionPool;
 
     @Override
@@ -47,7 +48,6 @@ public class ToRafterFrame extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         doGet(request, response);
     }
 }

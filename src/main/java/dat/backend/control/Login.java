@@ -39,7 +39,6 @@ public class Login extends HttpServlet {
         request.getSession().setAttribute("user", null); // invalidating user object in session scope
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
         try {
             try {
                 if (Validation.isValidCustomerEmail(email)) {

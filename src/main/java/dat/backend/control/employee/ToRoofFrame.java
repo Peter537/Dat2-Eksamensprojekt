@@ -18,6 +18,7 @@ import java.util.List;
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "ToRoofFrame", value = "/ToRoofFrame")
 public class ToRoofFrame extends HttpServlet {
+
     private ConnectionPool connectionPool;
 
     @Override
@@ -29,7 +30,6 @@ public class ToRoofFrame extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<Roof> roofs = RoofFacade.getAllRoofs(connectionPool);
-
             request.setAttribute("roofs", roofs);
             request.getRequestDispatcher("/WEB-INF/Frames/roofFrame.jsp").forward(request, response);
         } catch (DatabaseException e) {
@@ -40,7 +40,6 @@ public class ToRoofFrame extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         doGet(request, response);
     }
 }

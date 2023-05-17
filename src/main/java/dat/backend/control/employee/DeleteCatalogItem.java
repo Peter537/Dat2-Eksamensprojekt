@@ -4,7 +4,6 @@ import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.item.LumberFacade;
-import dat.backend.model.persistence.item.LumberTypeFacade;
 import dat.backend.model.persistence.item.RoofFacade;
 
 import javax.servlet.ServletException;
@@ -30,25 +29,25 @@ public class DeleteCatalogItem extends HttpServlet {
         try {
             String catalogItemType = request.getParameter("catalogItemType");
             String id = request.getParameter("id");
-            String returnpage;
+            String returnPage;
 
             switch (catalogItemType) {
                 case "roof":
                     RoofFacade.deleteRoof(Integer.parseInt(id), connectionPool);
-                    returnpage = "ToRoofFrame";
+                    returnPage = "ToRoofFrame";
                     break;
                 case "pole":
                     LumberFacade.deleteLumber(Integer.parseInt(id), connectionPool);
-                    returnpage = "ToPoleFrame";
+                    returnPage = "ToPoleFrame";
                     break;
                 case "rafter":
                     LumberFacade.deleteLumber(Integer.parseInt(id), connectionPool);
-                    returnpage = "ToRafterFrame";
+                    returnPage = "ToRafterFrame";
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown type: " + catalogItemType);
             }
-            request.getRequestDispatcher(returnpage).forward(request, response);
+            request.getRequestDispatcher(returnPage).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);

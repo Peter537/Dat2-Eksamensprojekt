@@ -9,11 +9,12 @@ import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.order.CarportOrderFacade;
-import dat.backend.model.persistence.user.EmployeeFacade;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
@@ -28,27 +29,18 @@ public class EmployeeClaimOrder extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         Employee employee = (Employee) request.getSession().getAttribute("user");
         try {
             CarportOrder carport = CarportOrderFacade.getCarportOrderById(Integer.parseInt(request.getParameter("orderId")), connectionPool);
-
             CarportOrderFacade.claim(carport, employee, connectionPool);
-
             request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
-
-
         } catch (DatabaseException | NotFoundException | ValidationException e) {
-            e.printStackTrace();
+            request.setAttribute("errormessage", e.getMessage());
+            request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
         }
-
-
-
     }
 }
