@@ -3,6 +3,7 @@ package dat.backend.model.persistence.item;
 import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.TestDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,5 +75,38 @@ class LumberTypeMapperTest extends TestDatabase {
     void testInvalidGetLumberTypeByType() throws DatabaseException {
         assertTrue(LumberTypeFacade.getLumberTypeByType("INVALID", connectionPool).isEmpty());
         assertEquals(0, LumberTypeFacade.getLumberTypeByType("INVALID", connectionPool).size());
+    }
+
+    @Test
+    void testValidCreateLumberType() throws DatabaseException, ValidationException {
+        LumberType lumberType = LumberTypeFacade.createLumberType(55, 195, 48, "RAFTER", connectionPool);
+        assertEquals(55, lumberType.getThickness());
+        assertEquals(195, lumberType.getWidth());
+        assertEquals("RAFTER", lumberType.getType());
+        assertEquals(48, lumberType.getMeterPrice());
+    }
+
+    @Test
+    void testValidCreateLumberTypeAlreadyExists() throws DatabaseException, ValidationException {
+        LumberType lumberType = LumberTypeFacade.createLumberType(97, 97, 60, "POLE", connectionPool);
+        assertEquals(97, lumberType.getThickness());
+        assertEquals(97, lumberType.getWidth());
+        assertEquals("POLE", lumberType.getType());
+        assertEquals(60, lumberType.getMeterPrice());
+    }
+
+    @Test
+    void testInvalidCreateLumberTypeNegativeThickness() {
+        assertThrows(ValidationException.class, () -> LumberTypeFacade.createLumberType(-1, 97, 60, "POLE", connectionPool));
+    }
+
+    @Test
+    void testInvalidCreateLumberTypeNegativeWidth() {
+        assertThrows(ValidationException.class, () -> LumberTypeFacade.createLumberType(97, -1, 60, "POLE", connectionPool));
+    }
+
+    @Test
+    void testInvalidCreateLumberTypeNegativeMeterPrice() {
+        assertThrows(ValidationException.class, () -> LumberTypeFacade.createLumberType(97, 97, -1, "POLE", connectionPool));
     }
 }

@@ -4,7 +4,9 @@ import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.TestDatabase;
+import dat.backend.model.services.Validation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -69,7 +71,7 @@ class LumberMapperTest extends TestDatabase {
     }
 
     @Test
-    void testValidCreateLumber() throws DatabaseException, NotFoundException {
+    void testValidCreateLumber() throws DatabaseException, NotFoundException, ValidationException {
         // Arrange
         int expectedLength = 200;
         LumberType expectedType = LumberTypeFacade.getLumberTypeById(1, connectionPool);
@@ -82,5 +84,48 @@ class LumberMapperTest extends TestDatabase {
         assertEquals(expectedLength, lumber.getLength());
         assertEquals(expectedType, lumber.getLumberType());
         assertEquals(expectedAmount, lumber.getAmount());
+    }
+
+    @Test
+    void testInvalidCreateLumber() throws DatabaseException, NotFoundException {
+        LumberType lumberType = LumberTypeFacade.getLumberTypeById(1, connectionPool);
+        assertThrows(ValidationException.class, () -> LumberFacade.createLumber(-1, lumberType.getId(), 1, connectionPool));
+    }
+
+    @Test
+    void testValidDeleteLumber() throws DatabaseException, NotFoundException, ValidationException {
+        // Arrange
+        LumberType lumberType = LumberTypeFacade.getLumberTypeById(1, connectionPool);
+        Lumber lumber = LumberFacade.createLumber(1, lumberType.getId(), 1, connectionPool);
+
+        // Act
+        LumberFacade.deleteLumber(lumber.getId(), connectionPool);
+    }
+
+    @Test
+    void testInvalidDeleteLumber() throws DatabaseException, NotFoundException {
+        assertThrows(NotFoundException.class, () -> LumberFacade.deleteLumber(0, connectionPool));
+    }
+
+    @Test
+    void testValidUpdateLumber() throws DatabaseException, NotFoundException, ValidationException {
+        // Arrange
+        LumberType lumberType = LumberTypeFacade.getLumberTypeById(1, connectionPool);
+        Lumber lumber = LumberFacade.createLumber(1, lumberType.getId(), 1, connectionPool);
+
+        // Act
+        LumberFacade.updateLumber(lumber.getId(), 2, lumberType.getId(), 2, connectionPool);
+    }
+
+    @Test
+    void testInvalidUpdateLumber() throws DatabaseException, NotFoundException, ValidationException {
+        // Arrange
+        LumberType lumberType = LumberTypeFacade.getLumberTypeById(1, connectionPool);
+        Lumber lumber = LumberFacade.createLumber(1, lumberType.getId(), 1, connectionPool);
+
+        // Assert
+        assertThrows(ValidationException.class, () -> LumberFacade.updateLumber(lumber.getId(), -1, lumberType.getId(), 1, connectionPool));
+        assertThrows(ValidationException.class, () -> LumberFacade.updateLumber(lumber.getId(), 1, lumberType.getId(), -1, connectionPool));
+        assertThrows(ValidationException.class, () -> LumberFacade.updateLumber(lumber.getId(), -1, lumberType.getId(), -1, connectionPool));
     }
 }

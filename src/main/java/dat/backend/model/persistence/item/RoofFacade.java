@@ -3,6 +3,7 @@ package dat.backend.model.persistence.item;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 
 import java.util.List;
@@ -21,11 +22,11 @@ public class RoofFacade {
         return RoofMapper.getAllRoofs(connectionPool);
     }
 
-    public static void deleteRoof(int id, ConnectionPool connectionPool) throws DatabaseException {
+    public static void deleteRoof(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         RoofMapper.deleteRoof(id, connectionPool);
     }
 
-    public static void updateRoof(int id, float squareMeterPrice, String roofType, ConnectionPool connectionPool) throws DatabaseException {
+    public static void updateRoof(int id, float squareMeterPrice, String roofType, ConnectionPool connectionPool) throws DatabaseException, ValidationException, NotFoundException {
         RoofMapper.updateRoof(id, squareMeterPrice, roofType, connectionPool);
     }
 }
