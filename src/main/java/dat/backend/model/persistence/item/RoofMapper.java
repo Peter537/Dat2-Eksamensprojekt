@@ -3,7 +3,9 @@ package dat.backend.model.persistence.item;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.services.Validation;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -70,26 +72,33 @@ class RoofMapper {
         return rooflist;
     }
 
-    static void deleteRoof(int id, ConnectionPool connectionPool) throws DatabaseException {
+    static void deleteRoof(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "DELETE FROM roof WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
-                statement.executeUpdate();
+                int affectedRows = statement.executeUpdate();
+                if (affectedRows == 0) {
+                    throw new NotFoundException("Could not delete roof");
+                }
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not delete roof");
         }
     }
 
-    static void updateRoof(int id, float squareMeterPrice, String roofType, ConnectionPool connectionPool) throws DatabaseException {
+    static void updateRoof(int id, float squareMeterPrice, String roofType, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
+        Validation.validatePrice(squareMeterPrice);
         String query = "UPDATE roof SET squaremeter_price = ?, type = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setFloat(1, squareMeterPrice);
                 statement.setString(2, roofType);
                 statement.setInt(3, id);
-                statement.executeUpdate();
+                int affectedRows = statement.executeUpdate();
+                if (affectedRows == 0) {
+                    throw new NotFoundException("Could not update roof");
+                }
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update roof");
