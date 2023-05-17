@@ -35,6 +35,7 @@ public class DetailedOrderInfo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         String code = request.getParameter("fromJsp");
+        String from = request.getHeader("referer").split("/")[request.getHeader("referer").split("/").length-1];
 
         try {
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
@@ -43,6 +44,12 @@ public class DetailedOrderInfo extends HttpServlet {
             if (code.equalsIgnoreCase("customer")) {
                 request.getRequestDispatcher("WEB-INF/customerOrders.jsp").forward(request, response);
             }else {
+                if (from.equalsIgnoreCase("see-employee-orders")) {
+                    request.setAttribute("from", "see-employee-orders");
+                } else {
+                    request.setAttribute("from", "see-all-orders");
+                }
+
                 request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
             }
 

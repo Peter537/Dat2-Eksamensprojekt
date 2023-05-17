@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="col-sm-1">
-                    <a href="ToProfileSite" class="btn btn-primary" style="margin-top: 10%;">Tilbage</a>
+                    <a href="${sessionScope.myhome}" class="btn btn-primary" style="margin-top: 10%;">Tilbage</a>
                 </div>
             </div>
         </div>
@@ -193,7 +193,7 @@
                 <br>
 
                 <div class="row">
-                    <a type="button" class="btn" value="Luk" href="see-all-orders">Close</a>
+                    <a type="button" class="btn" value="Luk" href="${requestScope.from}">Close</a>
 
                 </div>
 
