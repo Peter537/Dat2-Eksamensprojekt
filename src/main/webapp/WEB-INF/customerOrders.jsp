@@ -66,7 +66,7 @@
                     <td>${order.orderStatus.displayName}</td>
                     <c:choose>
                         <c:when test="${order.price.present}">
-                            <td>${order.price.get()}</td>
+                            <td>${order.price.get()} kr.</td>
                         </c:when>
                         <c:otherwise>
                             <td>Ikke beregnet</td>
