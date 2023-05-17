@@ -1,4 +1,4 @@
-package dat.backend.control;
+package dat.backend.control.employee;
 
 import dat.backend.annotation.IgnoreCoverage;
 

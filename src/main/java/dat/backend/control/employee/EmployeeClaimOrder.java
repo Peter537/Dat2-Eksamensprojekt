@@ -1,4 +1,4 @@
-package dat.backend.control;
+package dat.backend.control.employee;
 
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
@@ -6,35 +6,49 @@ import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.order.CarportOrderFacade;
+import dat.backend.model.persistence.user.EmployeeFacade;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.List;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "see-all-orders", value = "/see-all-orders")
-public class SeeAllOrders extends HttpServlet {
+@WebServlet(name = "EmployeeClaimOrder", value = "/EmployeeClaimOrder")
+public class EmployeeClaimOrder extends HttpServlet {
 
     private ConnectionPool connectionPool;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         this.connectionPool = ApplicationStart.getConnectionPool();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        Employee employee = (Employee) request.getSession().getAttribute("user");
         try {
-            List<CarportOrder> carportOrders = CarportOrderFacade.getAllCarportOrders(connectionPool);
-            request.setAttribute("carportOrders", carportOrders);
+            CarportOrder carport = CarportOrderFacade.getCarportOrderById(Integer.parseInt(request.getParameter("orderId")), connectionPool);
+
+            CarportOrderFacade.claim(carport, employee, connectionPool);
+
             request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
-        } catch (DatabaseException | NotFoundException e) {
-            request.setAttribute("errormessage", e.getMessage());
-            request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
+
+
+        } catch (DatabaseException | NotFoundException | ValidationException e) {
+            e.printStackTrace();
         }
+
+
+
     }
 }

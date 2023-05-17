@@ -1,13 +1,15 @@
-package dat.backend.control;
+package dat.backend.control.employee;
 
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.LumberType;
+import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.item.LumberFacade;
 import dat.backend.model.persistence.item.LumberTypeFacade;
+import dat.backend.model.persistence.item.RoofFacade;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "ToRafterFrame", value = "/ToRafterFrame")
-public class ToRafterFrame extends HttpServlet {
+@WebServlet(name = "ToPoleFrame", value = "/ToPoleFrame")
+public class ToPoleFrame extends HttpServlet {
     private ConnectionPool connectionPool;
 
     @Override
@@ -31,14 +33,14 @@ public class ToRafterFrame extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<LumberType> lumberTypeRafters = LumberTypeFacade.getLumberTypeByType("RAFTER", connectionPool);
-            List<Lumber> lumberRafters = new ArrayList<>();
-            for (LumberType type : lumberTypeRafters) {
-                lumberRafters.addAll(LumberFacade.getLumberByType(type, connectionPool));
+            List<LumberType> lumberTypePoles = LumberTypeFacade.getLumberTypeByType("POLE", connectionPool);
+            List<Lumber> lumberPoles = new ArrayList<>();
+            for (LumberType type : lumberTypePoles) {
+                lumberPoles.addAll(LumberFacade.getLumberByType(type, connectionPool));
             }
 
-            request.setAttribute("rafters", lumberRafters);
-            request.getRequestDispatcher("/WEB-INF/Frames/rafterFrame.jsp").forward(request, response);
+            request.setAttribute("poles", lumberPoles);
+            request.getRequestDispatcher("/WEB-INF/Frames/poleFrame.jsp").forward(request, response);
         } catch (DatabaseException e) {
             request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
             throw new RuntimeException(e);

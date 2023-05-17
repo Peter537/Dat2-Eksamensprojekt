@@ -1,4 +1,4 @@
-package dat.backend.control;
+package dat.backend.control.customer;
 
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
