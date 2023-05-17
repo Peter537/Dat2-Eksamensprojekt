@@ -216,4 +216,10 @@ public class Validation {
             throw new ValidationException("Invalid carportOrder");
         }
     }
+
+    public static void validateAmount(int amount) throws ValidationException {
+        if (amount <= 0) {
+            throw new ValidationException("Invalid amount");
+        }
+    }
 }
