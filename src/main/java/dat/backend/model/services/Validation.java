@@ -160,12 +160,6 @@ public class Validation {
         }
     }
 
-    public static void validateOrderStatus(OrderStatus newOrderStatus) throws ValidationException {
-        if (newOrderStatus == null) {
-            throw new ValidationException("Invalid orderStatus");
-        }
-    }
-
     public static void validateWidth(float width) throws ValidationException {
         if (width <= 0) {
             throw new ValidationException("Invalid width");
