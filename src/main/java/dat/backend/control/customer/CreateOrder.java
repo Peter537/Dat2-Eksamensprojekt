@@ -16,9 +16,11 @@ import dat.backend.model.persistence.item.RoofFacade;
 import dat.backend.model.persistence.order.CarportOrderFacade;
 import dat.backend.model.persistence.user.ZipFacade;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -35,76 +37,60 @@ public class CreateOrder extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-
         if (request.getParameter("carportMinHeight") == null || request.getParameter("carportWidth") == null || request.getParameter("carportLength") == null) {
             request.setAttribute("errormessage", "Please enter all dimensions");
             request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
             return;
         }
 
-
         int height = Integer.parseInt(request.getParameter("carportMinHeight"));
         int width = Integer.parseInt(request.getParameter("carportWidth"));
         int length = Integer.parseInt(request.getParameter("carportLength"));
-
         try {
             PartsList partsList = new PartsList(height, length, width, connectionPool);
             request.setAttribute("partsList", partsList);
 
-            //load in info
+            // load in info
             Customer customer = (Customer) request.getSession().getAttribute("user");
-            int streetid = Integer.parseInt(request.getParameter("customerAddress"));
-
+            int streetId = Integer.parseInt(request.getParameter("customerAddress"));
             Address address;
-
-            if (streetid == 0) {
-                int tempZip = Integer.parseInt(request.getParameter("customerZip"));
-                Zip zip = ZipFacade.getZipByZipCode(tempZip, connectionPool);
-
+            if (streetId == 0) {
+                int zipCode = Integer.parseInt(request.getParameter("customerZip"));
+                Zip zip = ZipFacade.getZipByZipCode(zipCode, connectionPool);
                 address = new Address(request.getParameter("customerAddressOther"), zip);
-
-                if(address.getStreet() == null || address.getStreet().isEmpty()) {
+                if (address.getStreet() == null || address.getStreet().isEmpty()) {
                     request.setAttribute("errormessage", "Please enter an address");
                     request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
                     return;
                 }
             } else {
-                address = customer.getAddress(streetid).get();
-            }
+                if (!customer.getAddress(streetId).isPresent()) {
+                    request.setAttribute("errormessage", "Please enter an address");
+                    request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
+                    return;
+                }
 
+                address = customer.getAddress(streetId).get();
+            }
 
             Roof roof = RoofFacade.getRoofById(1, connectionPool);
             Optional<ToolRoom> toolRoom = Optional.empty();
             Optional<String> remarks = Optional.ofNullable(request.getParameter("remarks"));
 
-
-            //infoend
-
-
-
-
+            // info end
             String successMessage = "good job";
-
             CarportOrderFacade.create(customer, address, width, length, height, roof, toolRoom, remarks, connectionPool);
-
             request.setAttribute("partsListSuccess", successMessage);
             request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
-
         } catch (DatabaseException | IllegalArgumentException | NotFoundException | ValidationException e) {
             e.printStackTrace();
             Logger.getLogger("CreateOrder").warning(e.getMessage());
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
         }
-
-
     }
 }

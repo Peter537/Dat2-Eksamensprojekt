@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class ToolRoom {
 
-    private float length;
-    private float width;
+    private final float length;
+    private final float width;
 
     public ToolRoom(float length, float width) {
         this.length = length;
@@ -20,18 +20,8 @@ public class ToolRoom {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setLength(float length) {
-        this.length = length;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public float getWidth() {
         return this.width;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setWidth(float width) {
-        this.width = width;
     }
 
     @IgnoreCoverage(reason = "equals")

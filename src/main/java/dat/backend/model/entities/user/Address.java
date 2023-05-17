@@ -6,12 +6,16 @@ import java.util.Objects;
 
 public class Address {
 
-    private String street;
-    private Zip zip;
+    private final String street;
+    private final Zip zip;
 
     public Address(String street, Zip zip) {
         this.street = street;
         this.zip = zip;
+    }
+
+    public String getAddress() {
+        return this.street + ", " + this.zip.getZipCode() + " " + this.zip.getCityName();
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -20,22 +24,8 @@ public class Address {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public Zip getZip() {
         return this.zip;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setZip(Zip zip) {
-        this.zip = zip;
-    }
-
-    public String getAddress() {
-    	return this.street + ", " + this.zip.getZipCode() + " " + this.zip.getCityName();
     }
 
     @IgnoreCoverage(reason = "equals")

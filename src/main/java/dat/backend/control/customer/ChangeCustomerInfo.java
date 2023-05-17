@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "change-customer-info", value = "/change-customer-info")
@@ -31,22 +30,15 @@ public class ChangeCustomerInfo extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) { }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Customer customer = (Customer) request.getSession().getAttribute("user");
-        String password = request.getParameter("password");
-        String confirmPassword = request.getParameter("confirmPassword");
-        String email = request.getParameter("email");
-        String address = request.getParameter("address");
-        Optional<String> phone = Optional.ofNullable(request.getParameter("phone"));
-        String city = request.getParameter("city");
-        saveAddresses(customer, request);
-        changeName(customer, request);
-        changePassword(customer, request);
-        changePersonPhoneNumber(customer, request);
+        this.saveAddresses(customer, request);
+        this.changeName(customer, request);
+        this.changePassword(customer, request);
+        this.changePersonPhoneNumber(customer, request);
         request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
     }
 
@@ -54,12 +46,12 @@ public class ChangeCustomerInfo extends HttpServlet {
         // for loop 1-3
         for (int i = 1; i <= 3; i++) {
             String street = request.getParameter("street" + i);
-            String zipTest = request.getParameter("zipCode" + i);
-            if (zipTest != null && !zipTest.isEmpty()) {
-                int zipcode = Integer.parseInt(zipTest);
-                if (zipcode != 0 && !street.isEmpty() || street != null) {
+            String zipCodeStr = request.getParameter("zipCode" + i);
+            if (zipCodeStr != null && !zipCodeStr.isEmpty()) {
+                int zipCode = Integer.parseInt(zipCodeStr);
+                if (zipCode != 0 && !street.isEmpty() || street != null) {
                     try {
-                        Zip zip = ZipFacade.getZipByZipCode(zipcode, connectionPool);
+                        Zip zip = ZipFacade.getZipByZipCode(zipCode, connectionPool);
                         CustomerFacade.updateAddress(customer, i, street, zip, connectionPool);
                         request.setAttribute("addressSuccess", "adresse-ændring succesfuldt");
                     } catch (DatabaseException | NotFoundException e) {
@@ -83,10 +75,8 @@ public class ChangeCustomerInfo extends HttpServlet {
     }
 
     public void changePassword(Customer customer, HttpServletRequest request) {
-        
         String password = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
-
         if (password != null && !password.isEmpty() && password.equals(confirmPassword)) {
             try {
                 CustomerFacade.updatePassword(customer, password, connectionPool);
@@ -98,15 +88,15 @@ public class ChangeCustomerInfo extends HttpServlet {
     }
 
     public void changePersonPhoneNumber(Customer customer, HttpServletRequest request) {
-        String oldCustomerPhone = "";
+        String oldCustomerPhoneNumber = "";
         if (customer.getPersonalPhoneNumber().isPresent()) {
-            oldCustomerPhone = customer.getPersonalPhoneNumber().get();
+            oldCustomerPhoneNumber = customer.getPersonalPhoneNumber().get();
         }
 
-        String phone = request.getParameter("newPhoneNumber");
-        if (phone != null && !phone.isEmpty() && !oldCustomerPhone.equals(phone)) {
+        String newPhoneNumber = request.getParameter("newPhoneNumber");
+        if (newPhoneNumber != null && !newPhoneNumber.isEmpty() && !oldCustomerPhoneNumber.equals(newPhoneNumber)) {
             try {
-                CustomerFacade.updatePhoneNumber(customer, phone, connectionPool);
+                CustomerFacade.updatePhoneNumber(customer, newPhoneNumber, connectionPool);
                 request.setAttribute("phoneSuccess", "telefonnummer-ændring succesfuldt");
             } catch (DatabaseException | ValidationException e) {
                 request.setAttribute("errormessage", "Telefonnummer kunne ikke opdateres. Telefonnummeret skal være 8 cifre.");

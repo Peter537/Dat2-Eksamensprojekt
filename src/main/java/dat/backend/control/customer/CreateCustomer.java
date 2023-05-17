@@ -40,15 +40,12 @@ public class CreateCustomer extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
-
         try {
-
-           if (!Validation.isValidCustomerEmail(email)) {
-               request.setAttribute("errormessage", "Invalid email");
-               request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
+            if (!Validation.isValidCustomerEmail(email)) {
+                request.setAttribute("errormessage", "Invalid email");
+                request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
                 return;
-           }
-
+            }
 
             if (!password.equals(confirmPassword)) {
                 request.setAttribute("errormessage", "Passwords do not match");

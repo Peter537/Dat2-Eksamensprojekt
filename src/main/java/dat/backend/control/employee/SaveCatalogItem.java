@@ -32,8 +32,7 @@ public class SaveCatalogItem extends HttpServlet {
         try {
             String catalogItemType = request.getParameter("catalogItemType");
             String id = request.getParameter("id");
-            String returnpage = "see-catalog";
-
+            String returnPage;
             switch (catalogItemType) {
                 case "roof":
                     float squareMeterPrice = Float.parseFloat(request.getParameter("squareMeterPrice"));
@@ -43,7 +42,7 @@ public class SaveCatalogItem extends HttpServlet {
                     } else {
                         RoofFacade.createRoof(squareMeterPrice, roofType, connectionPool);
                     }
-                    returnpage = "ToRoofFrame";
+                    returnPage = "ToRoofFrame";
                     break;
                 case "pole":
                 case "rafter":
@@ -60,15 +59,15 @@ public class SaveCatalogItem extends HttpServlet {
                         LumberFacade.createLumber(poleLength, lumberTypeObj.getId(), amount, connectionPool);
                     }
                     if (Objects.equals(lumberType, "POLE")) {
-                        returnpage = "ToPoleFrame";
+                        returnPage = "ToPoleFrame";
                     } else {
-                        returnpage = "ToRafterFrame";
+                        returnPage = "ToRafterFrame";
                     }
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown type: " + catalogItemType);
             }
-            request.getRequestDispatcher(returnpage).forward(request, response);
+            request.getRequestDispatcher(returnPage).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);

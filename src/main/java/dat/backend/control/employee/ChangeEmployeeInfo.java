@@ -27,15 +27,14 @@ public class ChangeEmployeeInfo extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) { }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Employee employee = (Employee) request.getSession().getAttribute("user");
-        changeName(employee, request);
-        changePassword(employee, request);
-        changePersonPhoneNumber(employee, request);
+        this.changeName(employee, request);
+        this.changePassword(employee, request);
+        this.changePersonPhoneNumber(employee, request);
         request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
     }
 
@@ -54,7 +53,6 @@ public class ChangeEmployeeInfo extends HttpServlet {
     public void changePassword(Employee employee, HttpServletRequest request) {
         String password = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
-
         if (password != null && !password.isEmpty() && password.equals(confirmPassword)) {
             try {
                 EmployeeFacade.updatePassword(employee, password, connectionPool);
@@ -66,15 +64,15 @@ public class ChangeEmployeeInfo extends HttpServlet {
     }
 
     public void changePersonPhoneNumber(Employee employee, HttpServletRequest request) {
-        String oldEmployeePhone = "";
+        String oldEmployeePhoneNumber = "";
         if (employee.getPersonalPhoneNumber().isPresent()) {
-            oldEmployeePhone = employee.getPersonalPhoneNumber().get();
+            oldEmployeePhoneNumber = employee.getPersonalPhoneNumber().get();
         }
 
-        String phone = request.getParameter("newPhoneNumber");
-        if (phone != null && !phone.isEmpty() && !oldEmployeePhone.equals(phone)) {
+        String newPhoneNumber = request.getParameter("newPhoneNumber");
+        if (newPhoneNumber != null && !newPhoneNumber.isEmpty() && !oldEmployeePhoneNumber.equals(newPhoneNumber)) {
             try {
-                EmployeeFacade.updatePersonalPhoneNumber(employee, phone, connectionPool);
+                EmployeeFacade.updatePersonalPhoneNumber(employee, newPhoneNumber, connectionPool);
                 request.setAttribute("phoneSuccess", "telefonnummer-ændring succesfuldt");
             } catch (DatabaseException | ValidationException e) {
                 request.setAttribute("errormessage", "Telefonnummer kunne ikke opdateres. Telefonnummeret skal være 8 cifre.");
