@@ -15,8 +15,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PartsListTestDB extends TestDatabase {
 
@@ -52,8 +53,6 @@ class PartsListTestDB extends TestDatabase {
     }
 
 
-
-
     @Test
     void testValidCalculateRafterType() throws DatabaseException {
         // arrange
@@ -70,6 +69,7 @@ class PartsListTestDB extends TestDatabase {
 
 
     }
+
     @Test
     void testValidCalculatePole() throws DatabaseException {
         // arrange
@@ -83,6 +83,7 @@ class PartsListTestDB extends TestDatabase {
         // assert
         assertEquals(expectedLength, pole.getLength());
     }
+
     @Test
     void testValidCalculateRafter() throws DatabaseException {
         // arrange
@@ -120,12 +121,12 @@ class PartsListTestDB extends TestDatabase {
         int height = 200;
         int width = 672;
         int length = 400;
-        PartsList partsList = new PartsList(height,length,width,super.connectionPool);
+        PartsList partsList = new PartsList(height, length, width, super.connectionPool);
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
-        float pricePoles = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice();
-        double expectedPrice = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice() +
-                PartsList.calculateNumberOfRafters(length, width) * PartsList.calculateRafter(length,width,super.connectionPool).getPrice() +
-                PartsList.calculateNumberOfPlates(width) * PartsList.calculatePlate(width,super.connectionPool).getPrice() + PartsList.getRoof().getSquareMeterPrice() * PartsList.getRoofArea() ;
+        float pricePoles = PartsList.calculateNumberOfPoles(length, width) * PartsList.calculatePole(height, width, super.connectionPool).getPrice();
+        double expectedPrice = PartsList.calculateNumberOfPoles(length, width) * PartsList.calculatePole(height, width, super.connectionPool).getPrice() +
+                PartsList.calculateNumberOfRafters(length) * PartsList.calculateRafter(length, width, super.connectionPool).getPrice() +
+                PartsList.calculateNumberOfPlates(width) * PartsList.calculatePlate(width, super.connectionPool).getPrice() + partsList.getRoof().getSquareMeterPrice() * partsList.getRoofArea();
         //act
         double totalPrice = partsList.calculateTotalPrice();
         // assert

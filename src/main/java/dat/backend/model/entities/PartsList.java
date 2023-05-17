@@ -12,47 +12,52 @@ import dat.backend.model.persistence.item.LumberTypeFacade;
 import dat.backend.model.persistence.item.RoofFacade;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.lang.*;
+import java.util.Map;
 
 public class PartsList {
 
+    private final ConnectionPool connectionPool;
+    private final int height;
+    private final int length;
+    private final int width;
+    private final Roof roof;
+    private final int roofArea;
+
     private Lumber pole; // stolpe
-    private Lumber plate; // rem
-    private Lumber rafter; // spær
-
-    private static Roof roof;
-
     private int numberOfPoles;
+
+    private Lumber plate; // rem
     private int numberOfPlates;
+
+    private Lumber rafter; // spær
     private int numberOfRafters;
 
-    private static int roofArea;
-
-
-
     private float totalPrice;
-
-    private int height;
-    private int length;
-    private int width;
-
-    private ConnectionPool connectionPool;
 
     public PartsList(int height, int length, int width, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         this.pole = calculatePole(height, width, connectionPool);
         this.plate = calculatePlate(width, connectionPool);
         this.rafter = calculateRafter(length, width, connectionPool);
         this.roof = RoofFacade.getRoofById(1, connectionPool);
+        this.roofArea = length / 100 * width / 100;
         this.numberOfPoles = calculateNumberOfPoles(length, width);
-        this.numberOfPlates = calculateNumberOfPlates(width)*calculateNumber(length, this.plate.getLumberType(), connectionPool);
-        this.numberOfRafters = calculateNumberOfRafters(length, width)*calculateNumber(width, this.rafter.getLumberType(), connectionPool);
-        this.roofArea = length/100 *width/100;
+        this.numberOfPlates = calculateNumberOfPlates(width) * calculateNumber(length, this.plate.getLumberType(), connectionPool);
+        this.numberOfRafters = calculateNumberOfRafters(length) * calculateNumber(width, this.rafter.getLumberType(), connectionPool);
         this.totalPrice = calculateTotalPrice();
         this.height = height;
         this.length = length;
         this.width = width;
         this.connectionPool = connectionPool;
+    }
+
+    public Map<Lumber, Integer> getPartsList() {
+        Map<Lumber, Integer> map = new LinkedHashMap<>();
+        map.put(plate, numberOfPlates);
+        map.put(rafter, numberOfRafters);
+        map.put(pole, numberOfPoles);
+        return map;
     }
 
     public float calculateTotalPrice() {
@@ -121,8 +126,7 @@ public class PartsList {
             throw new IllegalArgumentException("Width of carport is too small.");
         }
 
-        int numberOfPolesWidth = (int) (Math.ceil(widthBetweenPoles / 600.0) - 1);
-        return numberOfPolesWidth;
+        return (int) (Math.ceil(widthBetweenPoles / 600.0) - 1);
     }
 
     public static int calculateNumberOfPolesLength(int length) {
@@ -131,32 +135,26 @@ public class PartsList {
             throw new IllegalArgumentException("Length of carport is too small.");
         }
 
-        int numberOfPolesLength = (int) (Math.ceil(lengthBetweenPoles / 340.0) - 1);
-        return numberOfPolesLength;
+        return (int) (Math.ceil(lengthBetweenPoles / 340.0) - 1);
     }
 
     public static int calculateNumberOfPoles(int length, int width) {
         int polesBetweenLength = calculateNumberOfPolesLength(length);
         int polesBetweenWidth = calculateNumberOfPolesWidth(width);
-        int numberOfPoles = (2 + polesBetweenWidth) * (2 + polesBetweenLength);
-        return numberOfPoles;
+        return (2 + polesBetweenWidth) * (2 + polesBetweenLength);
     }
 
     public static int calculateNumberOfPlates(int width) {
-        int numberOfPlates = 2 + calculateNumberOfPolesWidth(width);
-        return numberOfPlates;
+        return 2 + calculateNumberOfPolesWidth(width);
     }
 
-
-    public static int calculateNumberOfRafters(int length, int width) {
-        int numberOfRafters = (int) (Math.ceil(length / 60));
-        return numberOfRafters;
+    public static int calculateNumberOfRafters(int length) {
+        return (int) (Math.ceil(length / 60.0));
     }
 
     public static double calculateSpanBetweenPlates(int width) {
         int widthBetweenPoles = width - 70;
-        double span = widthBetweenPoles / (calculateNumberOfPlates(width) - 1.0);
-        return span;
+        return widthBetweenPoles / (calculateNumberOfPlates(width) - 1.0);
     }
 
     static double[][] spanTable = {
@@ -194,9 +192,7 @@ public class PartsList {
 
 
     public static int calculateLengthOfLumber(int length, LumberType lumberType, ConnectionPool connectionPool) throws DatabaseException {
-
-        int minlength = length / calculateNumber(length, lumberType, connectionPool);
-        return minlength;
+        return length / calculateNumber(length, lumberType, connectionPool);
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -277,18 +273,19 @@ public class PartsList {
     public int getLengthOfPlate() throws DatabaseException {
         return calculateLengthOfLumber(length, getPlate().getLumberType(), connectionPool);
     }
+
     public int getLengthOfRafter() throws DatabaseException {
         return calculateLengthOfLumber(width, getRafter().getLumberType(), connectionPool);
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public static Roof getRoof() {
-        return roof;
+    public Roof getRoof() {
+        return this.roof;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public static int getRoofArea() {
-        return roofArea;
+    public int getRoofArea() {
+        return this.roofArea;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
