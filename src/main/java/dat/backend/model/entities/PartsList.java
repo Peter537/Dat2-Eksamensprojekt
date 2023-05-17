@@ -231,28 +231,13 @@ public class PartsList {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setNumberOfPoles(int numberOfPoles) {
-        this.numberOfPoles = numberOfPoles;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public int getNumberOfPlates() {
         return this.numberOfPlates;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setNumberOfPlates(int numberOfPlates) {
-        this.numberOfPlates = numberOfPlates;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public int getNumberOfRafters() {
         return this.numberOfRafters;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setNumberOfRafters(int numberOfRafters) {
-        this.numberOfRafters = numberOfRafters;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
