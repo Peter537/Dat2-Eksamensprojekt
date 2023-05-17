@@ -7,11 +7,11 @@ import java.util.Objects;
 public class LumberType implements Comparable<LumberType> {
 
     private final int id;
+    private final String type;
 
     private float width;
     private float thickness;
     private float meterPrice;
-    private String type;
 
     public LumberType(int id, float width, float thickness, float meterPrice, String type) {
         this.id = id;
@@ -24,6 +24,11 @@ public class LumberType implements Comparable<LumberType> {
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getId() {
         return this.id;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public String getType() {
+        return this.type;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -54,16 +59,6 @@ public class LumberType implements Comparable<LumberType> {
     @IgnoreCoverage(reason = "Getter or Setter")
     public void setMeterPrice(float meterPrice) {
         this.meterPrice = meterPrice;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public String getType() {
-        return this.type;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setType(String type) {
-        this.type = type;
     }
 
     @IgnoreCoverage(reason = "equals")

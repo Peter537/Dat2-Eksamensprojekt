@@ -23,6 +23,11 @@ public class Roof {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
+    public String getType() {
+        return this.type;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
     public float getSquareMeterPrice() {
         return this.squareMeterPrice;
     }
@@ -30,11 +35,6 @@ public class Roof {
     @IgnoreCoverage(reason = "Getter or Setter")
     public void setSquareMeterPrice(float squareMeterPrice) {
         this.squareMeterPrice = squareMeterPrice;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public String getType() {
-        return this.type;
     }
 
     @IgnoreCoverage(reason = "equals")
