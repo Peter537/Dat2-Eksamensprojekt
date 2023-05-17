@@ -197,6 +197,10 @@ public class Validation {
         if (aFloat == null) {
             throw new ValidationException("Invalid price");
         }
+
+        if (aFloat < 0) {
+            throw new ValidationException("Invalid price");
+        }
     }
 
     public static void validateRemarks(String s) throws ValidationException {
@@ -220,6 +224,12 @@ public class Validation {
     public static void validateAmount(int amount) throws ValidationException {
         if (amount <= 0) {
             throw new ValidationException("Invalid amount");
+        }
+    }
+
+    public static void validateThickness(float thickness) throws ValidationException {
+        if (thickness <= 0) {
+            throw new ValidationException("Invalid thickness");
         }
     }
 }
