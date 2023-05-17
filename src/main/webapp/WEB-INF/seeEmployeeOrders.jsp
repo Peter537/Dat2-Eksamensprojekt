@@ -71,81 +71,99 @@
 
         <c:if test="${requestScope.load != null}">
 
-            <div class="popup" id="popup">
-
-                <table class="table table-striped table-bordered table-hover" style="padding-right: 5%">
-                    <thead>
-                    <tr>
-                        <th>Ordrenummer</th>
-                        <th>ordrestatus</th>
-                        <th>Kundens adresse</th>
-                        <th>Postnummer</th>
-                        <th>Medarbejderens email</th>
-                        <th>Kundens email</th>
-                        <th>Carport bredde</th>
-                        <th>Carport længde</th>
-                        <th>Carport minimum-højde</th>
-                        <th>Redskabsskur bredde</th>
-                        <th>Redskabsskur længde</th>
-                        <th>pris</th>
-                        <th>bemærkninger</th>
-                    </tr>
-                    </thead>
-                    <c:set var="carportOrder" value="${requestScope.carportOrder}">
-                    </c:set>
-                    <tbody>
-                    <tr>
-                        <td>${carportOrder.id}</td>
-                        <td>${carportOrder.orderStatus.displayName}</td>
-                        <td>${carportOrder.address.address}</td>
-                        <td>${carportOrder.address.zip.zipCode}</td>
-                        <c:if test="${carportOrder.employee.present}">
-                            <td>${carportOrder.employee.get().name}</td>
-                        </c:if>
-
-                        <td>${carportOrder.employee.get().email}</td>
-                        <td>${carportOrder.customer.email}</td>
-                        <td>${carportOrder.width}</td>
-                        <td>${carportOrder.length}</td>
-                        <td>${carportOrder.minHeight}</td>
-                        <td>${carportOrder.toolRoom.get().width} cm</td>
-                        <td>${carportOrder.toolRoom.get().length} cm</td>
-                        <td>${carportOrder.price.get()}</td>
-                        <td>${carportOrder.remarks.get()}</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-
-                <div class="row" style="padding-left: 30%; padding-right: 30%">
-                    <a type="button" class="btn" value="Luk" href="ToSeeAllOrders">Close</a>
-
+            <div class="row" id="popup" style="z-index: 6; position: sticky">
+                <div class="popup-header row">
+                    <div class="col-sm-6" style="border: 1px solid black;border-bottom: 0;border-radius: 4px 4px 0 0;background: white;">
+                        <h3 style="margin-top: 1%; text-align: left">
+                            Ordrenummer: ${requestScope.carportOrder.id} |
+                            Status: ${requestScope.carportOrder.orderStatus.displayName}
+                            <a href="${requestScope.from}" class="btn btn-primary" style="margin-left: 2%;">Luk</a>
+                        </h3>
+                    </div>
                 </div>
+                <div class="row popup">
+                    <div id="Customer" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
+                        <h2>Kundens Information</h2>
+                        <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                             class="card-img-top" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                             alt="SellerProfile">
+                        <div class="customer-info row" id="userInfo">
+                            <p>${sessionScope.user.name}</p>
+                            <p>${sessionScope.user.email}</p>
+                            <p>${sessionScope.user.personalPhoneNumber.get()}</p>
+                            <p>${requestScope.carportOrder.address.address}</p>
+                        </div>
+                        <div class="customer-contact row" style="margin-right: 1%">
+                            <h2>Kontakt kunde</h2>
+                            <textarea id="messageToCustomer" name="SellerMessage" class="form-control" rows="5" cols="33"
+                                      placeholder="En besked til kunden"></textarea>
+                            <button type="button" class="btn btn-primary" style="margin-top: 2%">Send til kunde</button>
+                        </div>
+                    </div>
 
+                    <div id="Seller" class="col-lg-4 col-md-12 text-center">
+                        <div class="seller-info row">
+                            <h2>Din Information</h2>
+                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;" class="card-img-top"
+                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="SellerProfile">
+                        </div>
+                        <div class="seller-employee row">
+                            <c:choose>
+                                <c:when test="${requestScope.carportOrder.employee.present}">
+                                    <p>Medarbejder: ${requestScope.carportOrder.employee.get().name}</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <h1>Medarbejder: Ikke tildelt</h1>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                        <div class="seller-email row">
+                            <c:choose>
+                                <c:when test="${requestScope.carportOrder.employee.present}">
+                                    <p>Email: ${requestScope.carportOrder.employee.get().email}</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <h1>Email: Ikke tildelt</h1>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+
+                    <div id="CarportInfo" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
+
+                        <h2>Carport Information</h2>
+
+                        <p>Bredde: ${requestScope.carportOrder.width}</p>
+                        <p>Længde: ${requestScope.carportOrder.length}</p>
+                        <p>Højde: ${requestScope.carportOrder.minHeight}</p>
+                        <p>Tag-type: ${requestScope.carportOrder.roof.type}</p>
+
+                        <h2>Redskabs skur</h2>
+                        <p>Bredde: ${requestScope.carportOrder.toolRoom.get().width} cm</p>
+                        <p>Længde: ${requestScope.carportOrder.toolRoom.get().length} cm</p>
+                        <p>Pris: ${requestScope.carportOrder.price.get()} kr.</p>
+
+                        <h2>Remarks</h2>
+                        <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
+                                  readonly>${requestScope.carportOrder.remarks.get()}</textarea>
+                    </div>
+                </div>
             </div>
-
-
+            <br>
+            <br>
+            <br>
         </c:if>
 
         <style>
             .popup {
                 opacity: 95%;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 80%;
-                height: 80%;
-                padding: 20px;
                 background-color: white;
-                z-index: 9999; /* set z-index higher than other elements to display the pop-up on top */
+                z-index: 10;
                 border: 1px solid black;
                 border-radius: 10px;
                 visibility: visible;
             }
-
         </style>
-
     </jsp:body>
 
 </t:pagetemplate>
