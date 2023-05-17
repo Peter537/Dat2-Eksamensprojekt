@@ -76,7 +76,7 @@ class PartsListTest {
     @Test
     void testValidCalculateNumberOfPlates() {
         int expected = 3;
-        int actual = PartsList.calculateNumberOfPlates(671, 300);
+        int actual = PartsList.calculateNumberOfPlates(671);
         assertEquals(expected, actual);
     }
 

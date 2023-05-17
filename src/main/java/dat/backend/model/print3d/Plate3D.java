@@ -3,27 +3,30 @@ package dat.backend.model.print3d;
 import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.persistence.ConnectionPool;
 import org.abstractica.javacsg.*;
 
 public class Plate3D {
-    Geometry3D plate;
-
-    PartsList partsList;
-
-    //ConnectionPool connectionPool;
+    private Geometry3D plate;
+    private PartsList partsList;
+    private int numberOfPlates;
 
     public Plate3D(PartsList partsList) throws DatabaseException {
-        this.plate = createPLate(partsList);
         this.partsList = partsList;
+        this.numberOfPlates = partsList.getNumberOfPlates();
+        this.plate = createPlate(partsList);
     }
 
-    private Geometry3D createPLate(PartsList partsList) throws DatabaseException {
+    private Geometry3D createPlate(PartsList partsList) throws DatabaseException {
         JavaCSG csg = JavaCSGFactory.createDefault();
-        LumberType plate = partsList.getPlate().getLumberType();
-        Geometry3D box = csg.box3D(partsList.getLengthOfPlate()*10, plate.getWidth(), plate.getThickness(), false);
-        csg.view(box, 2);
-        return box;
+        LumberType plateType = partsList.getPlate().getLumberType();
+        Geometry3D box = csg.box3D(partsList.getLengthOfPlate()*10, plateType.getWidth(), plateType.getThickness(), false);
+        Geometry3D allPlates = box;
 
+        for(int i = 1; i < numberOfPlates; i++){
+            Geometry3D nextPlate = csg.translate3DY(plateType.getWidth()*1.5 * i).transform(box);
+            allPlates = csg.union3D(allPlates, nextPlate);
+        }
+        csg.view(allPlates, 2);
+        return allPlates;
     }
 }
