@@ -24,7 +24,7 @@ class EmployeeMapper {
                 statement.setString(1, email);
                 statement.setString(2, password);
                 ResultSet resultSet = statement.executeQuery();
-                return createEmployeeFromResultSet(resultSet, connectionPool);
+                return createEmployeeFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not login employee");
@@ -66,7 +66,7 @@ class EmployeeMapper {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, email);
                 ResultSet resultSet = statement.executeQuery();
-                return createEmployeeFromResultSet(resultSet, connectionPool);
+                return createEmployeeFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get employee");
@@ -162,7 +162,7 @@ class EmployeeMapper {
         }
     }
 
-    private static Employee createEmployeeFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, DatabaseException, NotFoundException {
+    private static Employee createEmployeeFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
             throw new NotFoundException("Could not find employee");
         }
