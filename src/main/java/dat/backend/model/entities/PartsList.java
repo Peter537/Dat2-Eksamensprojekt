@@ -45,7 +45,7 @@ public class PartsList {
         this.rafter = calculateRafter(length, width, connectionPool);
         this.roof = RoofFacade.getRoofById(1, connectionPool);
         this.numberOfPoles = calculateNumberOfPoles(length, width);
-        this.numberOfPlates = calculateNumberOfPlates(width, length)*calculateNumber(length, this.plate.getLumberType(), connectionPool);
+        this.numberOfPlates = calculateNumberOfPlates(width)*calculateNumber(length, this.plate.getLumberType(), connectionPool);
         this.numberOfRafters = calculateNumberOfRafters(length, width)*calculateNumber(width, this.rafter.getLumberType(), connectionPool);
         this.roofArea = length/100 *width/100;
         this.totalPrice = calculateTotalPrice();
@@ -142,15 +142,11 @@ public class PartsList {
         return numberOfPoles;
     }
 
-    public static int calculateNumberOfPlates(int width, int length) {
+    public static int calculateNumberOfPlates(int width) {
         int numberOfPlates = 2 + calculateNumberOfPolesWidth(width);
         return numberOfPlates;
     }
 
-    public static int calculateNumberOfPlates1D(int width) { // to calculate span between plates
-        int numberOfPlates = 2 + calculateNumberOfPolesWidth(width);
-        return numberOfPlates;
-    }
 
     public static int calculateNumberOfRafters(int length, int width) {
         int numberOfRafters = (int) (Math.ceil(length / 60));
@@ -159,7 +155,7 @@ public class PartsList {
 
     public static double calculateSpanBetweenPlates(int width) {
         int widthBetweenPoles = width - 70;
-        double span = widthBetweenPoles / (calculateNumberOfPlates1D(width) - 1.0);
+        double span = widthBetweenPoles / (calculateNumberOfPlates(width) - 1.0);
         return span;
     }
 
@@ -309,4 +305,5 @@ public class PartsList {
     public int getWidth() {
         return width;
     }
+
 }

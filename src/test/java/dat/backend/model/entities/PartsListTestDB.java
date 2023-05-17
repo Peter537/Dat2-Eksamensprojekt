@@ -125,7 +125,7 @@ class PartsListTestDB extends TestDatabase {
         float pricePoles = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice();
         double expectedPrice = PartsList.calculateNumberOfPoles(length,width) * PartsList.calculatePole(height,width,super.connectionPool).getPrice() +
                 PartsList.calculateNumberOfRafters(length, width) * PartsList.calculateRafter(length,width,super.connectionPool).getPrice() +
-                PartsList.calculateNumberOfPlates(width, length) * PartsList.calculatePlate(width,super.connectionPool).getPrice() + PartsList.getRoof().getSquareMeterPrice() * PartsList.getRoofArea() ;
+                PartsList.calculateNumberOfPlates(width) * PartsList.calculatePlate(width,super.connectionPool).getPrice() + PartsList.getRoof().getSquareMeterPrice() * PartsList.getRoofArea() ;
         //act
         double totalPrice = partsList.calculateTotalPrice();
         // assert
