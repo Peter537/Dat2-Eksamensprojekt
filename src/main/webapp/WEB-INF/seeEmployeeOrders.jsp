@@ -48,7 +48,14 @@
                         <td>${order.address.address}</td>
                         <td>${order.employee.get().name}</td>
                         <td>${order.orderStatus.displayName}</td>
-                        <td>${order.price.get()} DKK</td>
+                        <c:choose>
+                            <c:when test="${order.price.present}">
+                                <td>${order.price.get()} DKK</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>Ikke beregnet</td>
+                            </c:otherwise>
+                        </c:choose>
                         <td>
                             <form action="DetailedOrderInfo" method="post">
                                 <input type="hidden" name="orderId" value="${order.id}">
