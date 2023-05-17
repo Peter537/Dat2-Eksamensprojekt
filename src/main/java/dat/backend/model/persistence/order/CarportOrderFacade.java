@@ -45,10 +45,6 @@ public class CarportOrderFacade {
         CarportOrderMapper.makeOffer(carportOrder, price, connectionPool);
     }
 
-    public static void rejectOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.rejectOffer(carportOrder, connectionPool);
-    }
-
     public static void acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         CarportOrderMapper.acceptOffer(carportOrder, connectionPool);
     }

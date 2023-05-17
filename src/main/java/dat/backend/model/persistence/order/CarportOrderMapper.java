@@ -169,21 +169,6 @@ class CarportOrderMapper {
         }
     }
 
-    static void rejectOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
-        Validation.validateCarportOrder(carportOrder);
-        String query = "UPDATE carport_order SET price = ?, orderstatus = ? WHERE id = ?";
-        try (Connection connection = connectionPool.getConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setNull(1, Types.FLOAT);
-                statement.setString(2, "ORDER_OFFER_REJECTED");
-                statement.setInt(3, carportOrder.getId());
-                statement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e, "Error while rejecting offer for CarportOrder with id " + carportOrder.getId());
-        }
-    }
-
     static void acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
         Validation.validateCarportOrder(carportOrder);
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
