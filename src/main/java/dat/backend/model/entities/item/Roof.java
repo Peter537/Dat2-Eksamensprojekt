@@ -7,9 +7,9 @@ import java.util.Objects;
 public class Roof {
 
     private final int id;
+    private final String type;
 
     private float squareMeterPrice;
-    private String type;
 
     public Roof(int id, float squareMeterPrice, String type) {
         this.id = id;
@@ -35,11 +35,6 @@ public class Roof {
     @IgnoreCoverage(reason = "Getter or Setter")
     public String getType() {
         return this.type;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setType(String type) {
-        this.type = type;
     }
 
     @IgnoreCoverage(reason = "equals")
