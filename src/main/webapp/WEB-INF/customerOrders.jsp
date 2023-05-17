@@ -156,7 +156,7 @@
                         <h2>Redskabs skur</h2>
                         <p>Bredde: ${requestScope.carportOrder.toolRoom.get().width} cm</p>
                         <p>Længde: ${requestScope.carportOrder.toolRoom.get().length} cm</p>
-                        <p>Højde: ${requestScope.carportOrder.price.get()}</p>
+                        <p>Pris: ${requestScope.carportOrder.price.get()} kr.</p>
 
                         <h2>Remarks</h2>
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
