@@ -88,11 +88,7 @@ public class ChangeCustomerInfo extends HttpServlet {
     }
 
     public void changePersonPhoneNumber(Customer customer, HttpServletRequest request) {
-        String oldCustomerPhoneNumber = "";
-        if (customer.getPersonalPhoneNumber().isPresent()) {
-            oldCustomerPhoneNumber = customer.getPersonalPhoneNumber().get();
-        }
-
+        String oldCustomerPhoneNumber = customer.getPersonalPhoneNumber().orElse("");
         String newPhoneNumber = request.getParameter("newPhoneNumber");
         if (newPhoneNumber != null && !newPhoneNumber.isEmpty() && !oldCustomerPhoneNumber.equals(newPhoneNumber)) {
             try {

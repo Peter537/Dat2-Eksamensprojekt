@@ -64,11 +64,7 @@ public class ChangeEmployeeInfo extends HttpServlet {
     }
 
     public void changePersonPhoneNumber(Employee employee, HttpServletRequest request) {
-        String oldEmployeePhoneNumber = "";
-        if (employee.getPersonalPhoneNumber().isPresent()) {
-            oldEmployeePhoneNumber = employee.getPersonalPhoneNumber().get();
-        }
-
+        String oldEmployeePhoneNumber = employee.getPersonalPhoneNumber().orElse("");
         String newPhoneNumber = request.getParameter("newPhoneNumber");
         if (newPhoneNumber != null && !newPhoneNumber.isEmpty() && !oldEmployeePhoneNumber.equals(newPhoneNumber)) {
             try {
