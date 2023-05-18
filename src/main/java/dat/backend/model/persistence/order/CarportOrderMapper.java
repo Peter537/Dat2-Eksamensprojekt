@@ -332,37 +332,10 @@ class CarportOrderMapper {
         int id = resultSet.getInt("id");
         OrderStatus orderStatus = new OrderStatus(resultSet.getString("orderstatus"), resultSet.getString("displayname"), resultSet.getInt("sortvalue"));
         Address address = new Address(resultSet.getString("address"), new Zip(resultSet.getInt("zipcode"), resultSet.getString("city_name")));
-        String employeeEmail = resultSet.getString("fk_employee_email");
-        Optional<Employee> employee = Optional.empty();
 
-        if (employeeEmail != null) {
-            //Generate employee object
-            int employeeId = resultSet.getInt("employeeid");
-            String employeeName = resultSet.getString("employeename");
-            Optional<String> privatePhonenumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
-            Optional<String> workPhonenumber = Optional.ofNullable(resultSet.getString("work_phonenumber"));
-            Position position = new Position(resultSet.getString("fk_position"));
+        Optional<Employee> employee = createEmployeeFromCarportOrderResulSet(resultSet);
+        Customer customer = createCustomerFromCarportOrderResultSet(resultSet);
 
-            //Generate department object for employee
-            int departmentId = resultSet.getInt("departmentid");
-            String departmentName = resultSet.getString("departmentname");
-            Zip departmentZip = new Zip(resultSet.getInt("departmentzip"), resultSet.getString("departmentcity"));
-            Address departmentAddress = new Address(resultSet.getString("departmentaddress"), departmentZip);
-            Department department = new Department(departmentId, departmentName, departmentAddress);
-
-            employee = Optional.of(new Employee(employeeId, employeeEmail, employeeName, privatePhonenumber, workPhonenumber, position, department));
-        }
-
-        //Generate customer object
-        int customerId = resultSet.getInt("customerid");
-        String customerName = resultSet.getString("name");
-        String customerEmail = resultSet.getString("email");
-        Optional<String> customerPhone = Optional.ofNullable(resultSet.getString("phonenumber"));
-        Optional<Address> address1 = Optional.of(new Address(resultSet.getString("address_1"), new Zip(resultSet.getInt("zipcode_1"), resultSet.getString("city_1"))));
-        Optional<Address> address2 = Optional.of(new Address(resultSet.getString("address_2"), new Zip(resultSet.getInt("zipcode_2"), resultSet.getString("city_2"))));
-        Optional<Address> address3 = Optional.of(new Address(resultSet.getString("address_3"), new Zip(resultSet.getInt("zipcode_3"), resultSet.getString("city_3"))));
-
-        Customer customer = new Customer(customerId, customerEmail, customerName, customerPhone, address1, address2, address3);
         Roof roof = new Roof(resultSet.getInt("fk_roof_id"), resultSet.getFloat("squaremeter_price"), resultSet.getString("type"));
         float width = resultSet.getFloat("width");
         float length = resultSet.getFloat("length");
@@ -382,5 +355,39 @@ class CarportOrderMapper {
         }
 
         return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, price);
+    }
+
+    private static Customer createCustomerFromCarportOrderResultSet(ResultSet resultSet) throws SQLException {
+        int customerId = resultSet.getInt("customerid");
+        String customerName = resultSet.getString("name");
+        String customerEmail = resultSet.getString("email");
+        Optional<String> customerPhone = Optional.ofNullable(resultSet.getString("phonenumber"));
+        Optional<Address> address1 = Optional.of(new Address(resultSet.getString("address_1"), new Zip(resultSet.getInt("zipcode_1"), resultSet.getString("city_1"))));
+        Optional<Address> address2 = Optional.of(new Address(resultSet.getString("address_2"), new Zip(resultSet.getInt("zipcode_2"), resultSet.getString("city_2"))));
+        Optional<Address> address3 = Optional.of(new Address(resultSet.getString("address_3"), new Zip(resultSet.getInt("zipcode_3"), resultSet.getString("city_3"))));
+        return new Customer(customerId, customerEmail, customerName, customerPhone, address1, address2, address3);
+    }
+
+    private static Optional<Employee> createEmployeeFromCarportOrderResulSet(ResultSet resultSet) throws SQLException {
+        String employeeEmail = resultSet.getString("fk_employee_email");
+        if (employeeEmail == null) {
+            return Optional.empty();
+        }
+
+        //Generate employee object
+        int employeeId = resultSet.getInt("employeeid");
+        String employeeName = resultSet.getString("employeename");
+        Optional<String> privatePhonenumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
+        Optional<String> workPhonenumber = Optional.ofNullable(resultSet.getString("work_phonenumber"));
+        Position position = new Position(resultSet.getString("fk_position"));
+
+        //Generate department object for employee
+        int departmentId = resultSet.getInt("departmentid");
+        String departmentName = resultSet.getString("departmentname");
+        Zip departmentZip = new Zip(resultSet.getInt("departmentzip"), resultSet.getString("departmentcity"));
+        Address departmentAddress = new Address(resultSet.getString("departmentaddress"), departmentZip);
+        Department department = new Department(departmentId, departmentName, departmentAddress);
+
+        return Optional.of(new Employee(employeeId, employeeEmail, employeeName, privatePhonenumber, workPhonenumber, position, department));
     }
 }
