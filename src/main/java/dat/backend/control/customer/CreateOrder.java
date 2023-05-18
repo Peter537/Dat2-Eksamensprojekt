@@ -51,7 +51,8 @@ public class CreateOrder extends HttpServlet {
         int width = Integer.parseInt(request.getParameter("carportWidth"));
         int length = Integer.parseInt(request.getParameter("carportLength"));
         try {
-            PartsList partsList = new PartsList(height, length, width, connectionPool);
+            Roof roof = RoofFacade.getRoofById(1, connectionPool); // TODO: Get a Roof from CarportForm?
+            PartsList partsList = new PartsList(height, length, width, roof, connectionPool);
             request.setAttribute("partsList", partsList);
 
             // load in info
@@ -77,7 +78,6 @@ public class CreateOrder extends HttpServlet {
                 address = customer.getAddress(streetId).get();
             }
 
-            Roof roof = RoofFacade.getRoofById(1, connectionPool);
             Optional<ToolRoom> toolRoom = Optional.empty();
             Optional<String> remarks = Optional.ofNullable(request.getParameter("remarks"));
 
@@ -87,8 +87,7 @@ public class CreateOrder extends HttpServlet {
             request.setAttribute("partsListSuccess", successMessage);
             request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
         } catch (DatabaseException | IllegalArgumentException | NotFoundException | ValidationException e) {
-            e.printStackTrace();
-            Logger.getLogger("CreateOrder").warning(e.getMessage());
+            Logger.getLogger("web").warning(e.getMessage());
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
         }

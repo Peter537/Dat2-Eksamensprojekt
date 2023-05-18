@@ -1,9 +1,11 @@
 package dat.backend.model.print3d;
 
 import dat.backend.model.entities.PartsList;
+import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.TestDatabase;
+import dat.backend.model.persistence.item.RoofFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -12,10 +14,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class Model3DTest extends TestDatabase {
+
     @BeforeEach
     public void setUp() {
         try (Connection testConnection = connectionPool.getConnection()) {
@@ -28,7 +32,6 @@ class Model3DTest extends TestDatabase {
                 stmt.execute("ALTER TABLE lumber AUTO_INCREMENT = 1;");
                 stmt.execute("ALTER TABLE lumbertype AUTO_INCREMENT = 1;");
                 stmt.execute("ALTER TABLE roof AUTO_INCREMENT = 1;");
-
 
                 // Insert a few lumbers - insert rows into your own tables here
                 stmt.execute("INSERT INTO type (type, displayname) " +
@@ -49,43 +52,38 @@ class Model3DTest extends TestDatabase {
 
     @Test
     void ValidCreatePole() throws DatabaseException, NotFoundException {
-        PartsList partsList = new PartsList(200,500,300,super.connectionPool);
+        Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
+        PartsList partsList = new PartsList(200, 500, 300, roof, super.connectionPool);
         //partsList.getNumberOfPoles();
         Pole3D pole3D = new Pole3D(partsList);
-
         assertNotNull(pole3D);
-
     }
 
 
     @Test
     void ValidCreatePlate() throws DatabaseException, NotFoundException {
-        PartsList partsList = new PartsList(200,500,300,super.connectionPool);
+        Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
+        PartsList partsList = new PartsList(200, 500, 300, roof, super.connectionPool);
         Plate3D plate3D = new Plate3D(partsList);
-
         assertNotNull(plate3D);
-
     }
 
 
     @Test
     void ValidCreateRafter() throws DatabaseException, NotFoundException {
-        PartsList partsList = new PartsList(200,500,300,super.connectionPool);
-
+        Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
+        PartsList partsList = new PartsList(200, 500, 300, roof, super.connectionPool);
         Rafter3D rafter3D = new Rafter3D(partsList);
-
         assertNotNull(rafter3D);
-
     }
-
 
 
     @Test
     void ValidModel() throws DatabaseException, NotFoundException {
-        PartsList partsList = new PartsList(200,500,300,super.connectionPool);
+        Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
+        PartsList partsList = new PartsList(200, 500, 300, roof, super.connectionPool);
         Model3D model3D = new Model3D();
         model3D.createModel(partsList);
         assertNotNull(model3D);
-
     }
 }

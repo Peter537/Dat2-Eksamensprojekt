@@ -35,7 +35,6 @@ class PartsListTestDB extends TestDatabase {
                 stmt.execute("ALTER TABLE lumbertype AUTO_INCREMENT = 1;");
                 stmt.execute("ALTER TABLE roof AUTO_INCREMENT = 1;");
 
-
                 // Insert a few lumbers - insert rows into your own tables here
                 stmt.execute("INSERT INTO type (type, displayname) " +
                         "VALUES ('RAFTER', 'Spærtræ'), ('POLE', 'Stolpe'), ('PLASTIC_ROOF', 'Plastic tag')");
@@ -45,7 +44,6 @@ class PartsListTestDB extends TestDatabase {
                         " VALUES (300, 1, 1000), (480, 1, 1000), (360, 2, 1000), (360, 2, 1000), (720,2,1000), (800,2,1000), (720, 3, 1000)");
                 stmt.execute("INSERT INTO roof (squaremeter_price, type) " +
                         "VALUES (100, 'PLASTIC_ROOF'), (200, 'TILED_ROOF')");
-
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -53,22 +51,19 @@ class PartsListTestDB extends TestDatabase {
         }
     }
 
-
     @Test
     void testValidCalculateRafterType() throws DatabaseException {
         // arrange
-
         double expectedWidth = 195;
         String expectedType = "RAFTER";
         int width = 672;
 
         //act
         LumberType rafterType = PartsListCalculator.calculateRafterType(width, super.connectionPool);
+
         // assert
         assertEquals(expectedWidth, rafterType.getWidth());
         assertEquals(expectedType, rafterType.getType());
-
-
     }
 
     @Test
@@ -97,12 +92,10 @@ class PartsListTestDB extends TestDatabase {
 
         // assert
         assertEquals(expectedLength, rafter.getLength());
-
     }
 
     @Test
     void testValidCalculatePlate() throws DatabaseException {
-
         // arrange
         int expectedLength = 720; // Plate goes Widthwise in the carport
         int width = 672;
@@ -113,7 +106,6 @@ class PartsListTestDB extends TestDatabase {
 
         // assert
         assertEquals(expectedLength, rafter.getLength());
-
     }
 
     @Test
@@ -122,8 +114,8 @@ class PartsListTestDB extends TestDatabase {
         int height = 200;
         int width = 672;
         int length = 400;
-        PartsList partsList = new PartsList(height, length, width, super.connectionPool);
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
+        PartsList partsList = new PartsList(height, length, width, roof, super.connectionPool);
         float pricePoles = PartsListCalculator.calculateNumberOfPoles(length, width) * PartsListCalculator.calculatePole(height, width, super.connectionPool).getPrice();
         double expectedPrice = PartsListCalculator.calculateNumberOfPoles(length, width) * PartsListCalculator.calculatePole(height, width, super.connectionPool).getPrice() +
                 PartsListCalculator.calculateNumberOfRafters(length) * PartsListCalculator.calculateRafter(length, width, super.connectionPool).getPrice() +
@@ -150,8 +142,7 @@ class PartsListTestDB extends TestDatabase {
     }
 
     @Test
-    void testValidCalculateLengthOfLumber0() throws NotFoundException, DatabaseException {
-
+    void testValidCalculateLengthOfLumber0() throws DatabaseException {
         int width = 672;
         LumberType rafterType = PartsListCalculator.calculateRafterType(width, super.connectionPool);
         int expected = 672;
