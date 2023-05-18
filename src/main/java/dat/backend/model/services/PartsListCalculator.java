@@ -44,9 +44,9 @@ public class PartsListCalculator {
         LumberType rafterType = calculateRafterType(width, connectionPool);
         List<Lumber> listRafter = LumberFacade.getLumberByType(rafterType, connectionPool);
         Collections.sort(listRafter);
-        int minlength = calculateLengthOfLumber(length, rafterType, connectionPool);
+        int minLength = calculateLengthOfLumber(length, rafterType, connectionPool);
         for (Lumber lumber : listRafter) {
-            if (lumber.getLength() >= minlength) {
+            if (lumber.getLength() >= minLength) {
                 return lumber;
             }
         }
@@ -58,9 +58,9 @@ public class PartsListCalculator {
         LumberType rafterType = calculateRafterType(width, connectionPool);
         List<Lumber> listRafter = LumberFacade.getLumberByType(rafterType, connectionPool);
         Collections.sort(listRafter);
-        int minlength = calculateLengthOfLumber(width, rafterType, connectionPool);
+        int minLength = calculateLengthOfLumber(width, rafterType, connectionPool);
         for (Lumber lumber : listRafter) {
-            if (lumber.getLength() >= minlength) {
+            if (lumber.getLength() >= minLength) {
                 return lumber;
             }
         }
@@ -134,7 +134,6 @@ public class PartsListCalculator {
         Collections.reverse(listRafter);
         int maxLumberLength = listRafter.get(0).getLength();
         double number = (double) length / (double) maxLumberLength;
-
         return (int) Math.ceil(number);
     }
 
