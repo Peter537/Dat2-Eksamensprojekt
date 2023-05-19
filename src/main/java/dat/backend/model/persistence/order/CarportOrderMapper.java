@@ -114,7 +114,7 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
-    static OrderStatus getLatestOrderStatus(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
+    static OrderStatus getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
         String query = "SELECT co.orderstatus, o.displayname, o.sortvalue FROM carport_order co JOIN orderstatus o on co.orderstatus = o.status WHERE co.fk_customer_email = ? ORDER BY created_on DESC LIMIT 1";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
