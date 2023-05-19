@@ -42,12 +42,7 @@ public class PartsList {
     }
 
     public PartsList(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
-        this.height = (int) carportOrder.getMinHeight();
-        this.length = (int) carportOrder.getLength();
-        this.width = (int) carportOrder.getWidth();
-        this.roof = carportOrder.getRoof();
-        this.connectionPool = connectionPool;
-        this.calculate();
+        this((int) carportOrder.getMinHeight(), (int) carportOrder.getLength(), (int) carportOrder.getWidth(), carportOrder.getRoof(), connectionPool);
     }
 
     // TODO: Either should be private and called in constructor or should be public and not called in constructor
