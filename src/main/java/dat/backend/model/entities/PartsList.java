@@ -40,6 +40,7 @@ public class PartsList {
         this.calculate();
     }
 
+    // TODO: Either should be private and called in constructor or should be public and not called in constructor
     public void calculate() throws DatabaseException {
         this.pole = PartsListCalculator.calculatePole(height, width, connectionPool);
         this.plate = PartsListCalculator.calculatePlate(width, connectionPool);
@@ -59,6 +60,7 @@ public class PartsList {
         return map;
     }
 
+    // TODO: Should be private/protected
     public float calculateTotalPrice() {
         return ((pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters) + (roof.getSquareMeterPrice() * roofArea));
     }
