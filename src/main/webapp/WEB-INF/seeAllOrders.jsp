@@ -115,15 +115,13 @@
                     </div>
                     <div class="col-4"></div>
 
-
-<div class="col-1">
+                    <div class="col-1">
                         <a href="${requestScope.from}" type="button" class="closebtn" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </a>
+                    </div>
 
-                </div>
-
-                <div class="row popup">
+                    <div class="row popup">
                     <div id="Customer" class="col-lg-4 col-md-12 text-center">
                         <h2>Kundens Information</h2>
                         <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
