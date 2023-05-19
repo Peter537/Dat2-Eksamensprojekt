@@ -37,7 +37,8 @@ public class EmployeeClaimOrder extends HttpServlet {
         try {
             CarportOrder carport = CarportOrderFacade.getCarportOrderById(Integer.parseInt(request.getParameter("orderId")), connectionPool);
             CarportOrderFacade.claim(carport, employee, connectionPool);
-            request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
+            request.setAttribute("carportOrder", carport);
+            request.getRequestDispatcher("DetailedOrderInfo").forward(request, response);
         } catch (DatabaseException | NotFoundException | ValidationException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
