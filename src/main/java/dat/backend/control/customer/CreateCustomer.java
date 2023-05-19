@@ -56,7 +56,7 @@ public class CreateCustomer extends HttpServlet {
             try {
                 Customer customer = CustomerFacade.create(email, password, name, connectionPool);
                 session.setAttribute("user", customer);
-                request.getRequestDispatcher("WEB-INF/ToProfileSite").forward(request, response);
+                request.getRequestDispatcher("ToProfileSite").forward(request, response);
             } catch (ValidationException | AlreadyExistsException e) {
                 request.setAttribute("errormessage", "User could not be created");
                 request.getRequestDispatcher("createCustomer.jsp").forward(request, response);
