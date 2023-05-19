@@ -69,7 +69,7 @@
             </table>
         </div>
 
-        <c:if test="${requestScope.load != null}">
+        <c:if test="${requestScope.load != null}"> <%-- This part is not functional but to avoid unintended errors, do not remove --%>
 
             <div class="row" id="popup" style="z-index: 6; position: sticky">
                 <div class="popup-header row">
