@@ -7,6 +7,7 @@ import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ public class CarportOrder {
     private float minHeight;
     private Optional<ToolRoom> toolRoom;
     private Optional<Float> price;
+    private Date created_on;
 
     public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, OrderStatus orderStatus, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom, Optional<Float> price) {
         this.id = id;
@@ -150,6 +152,16 @@ public class CarportOrder {
     @IgnoreCoverage(reason = "Getter or Setter")
     public void setPrice(Optional<Float> price) {
         this.price = price;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public Date getCreatedOn() {
+        return this.created_on;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setCreatedOn(Date created_on) {
+        this.created_on = created_on;
     }
 
     @IgnoreCoverage(reason = "equals")
