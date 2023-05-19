@@ -93,9 +93,9 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
-    static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+    static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float calcPrice, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);
-        String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, price_from_partlist, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, customer.getEmail());
@@ -113,12 +113,14 @@ class CarportOrderMapper {
                     statement.setNull(9, Types.FLOAT);
                 }
 
+                statement.setFloat(10, calcPrice);
+
                 if (remarks.isPresent()) {
-                    statement.setString(10, remarks.get());
+                    statement.setString(11, remarks.get());
                 } else {
-                    statement.setNull(10, Types.VARCHAR);
+                    statement.setNull(11, Types.VARCHAR);
                 }
-                statement.setString(11, "ORDER_CREATED");
+                statement.setString(12, "ORDER_CREATED");
                 int affectedRows = statement.executeUpdate();
                 if (affectedRows == 0) {
                     throw new SQLException("Creating carport order failed, no rows affected.");

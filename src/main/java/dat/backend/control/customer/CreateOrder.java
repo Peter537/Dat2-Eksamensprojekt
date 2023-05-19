@@ -83,7 +83,7 @@ public class CreateOrder extends HttpServlet {
 
             // info end
             String successMessage = "good job";
-            CarportOrderFacade.create(customer, address, width, length, height, roof, toolRoom, remarks, connectionPool);
+            CarportOrderFacade.create(customer, address, width, length, height, roof, toolRoom, remarks, partsList.getTotalPrice(), connectionPool);
             request.setAttribute("partsListSuccess", successMessage);
             request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
         } catch (DatabaseException | IllegalArgumentException | NotFoundException | ValidationException e) {

@@ -33,8 +33,8 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getAllCarportOrders(connectionPool);
     }
 
-    public static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        return CarportOrderMapper.create(customer, address, width, length, minHeight, roof, toolRoom, remarks, connectionPool);
+    public static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float price_from_partslist, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        return CarportOrderMapper.create(customer, address, width, length, minHeight, roof, toolRoom, remarks, price_from_partslist, connectionPool);
     }
 
     public static void claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
