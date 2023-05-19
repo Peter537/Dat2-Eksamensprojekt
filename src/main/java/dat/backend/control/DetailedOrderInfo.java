@@ -2,6 +2,7 @@ package dat.backend.control;
 
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
+import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
@@ -48,7 +49,7 @@ public class DetailedOrderInfo extends HttpServlet {
                 } else {
                     request.setAttribute("from", "see-all-orders");
                 }
-
+                request.setAttribute("partslist", new PartsList(carportOrder, connectionPool));
                 request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
             }
         } catch (DatabaseException | NotFoundException e) {

@@ -93,9 +93,30 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
-    static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+    static List<CarportOrder> getCarportOrdersAsNews(ConnectionPool connectionPool) throws DatabaseException {
+        String query = "SELECT id, created_on, price_from_partlist FROM carport_order ORDER BY created_on DESC LIMIT 6";
+        List<CarportOrder> carportOrders = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    Date createdOn = resultSet.getDate("created_on");
+                    float price = resultSet.getFloat("price_from_partlist");
+                    CarportOrder carportOrder = new CarportOrder(id, null, null, null, null, null, null, Float.NaN, Float.NaN, Float.NaN, null, Optional.of(price));
+                    carportOrder.setCreatedOn(createdOn);
+                    carportOrders.add(carportOrder);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Error while getting all CarportOrders");
+        }
+        return carportOrders;
+    }
+
+    static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float calcPrice, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);
-        String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, price_from_partlist, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, customer.getEmail());
@@ -113,12 +134,14 @@ class CarportOrderMapper {
                     statement.setNull(9, Types.FLOAT);
                 }
 
+                statement.setFloat(10, calcPrice);
+
                 if (remarks.isPresent()) {
-                    statement.setString(10, remarks.get());
+                    statement.setString(11, remarks.get());
                 } else {
-                    statement.setNull(10, Types.VARCHAR);
+                    statement.setNull(11, Types.VARCHAR);
                 }
-                statement.setString(11, "ORDER_CREATED");
+                statement.setString(12, "ORDER_CREATED");
                 int affectedRows = statement.executeUpdate();
                 if (affectedRows == 0) {
                     throw new SQLException("Creating carport order failed, no rows affected.");
@@ -362,9 +385,9 @@ class CarportOrderMapper {
         String customerName = resultSet.getString("name");
         String customerEmail = resultSet.getString("email");
         Optional<String> customerPhone = Optional.ofNullable(resultSet.getString("phonenumber"));
-        Optional<Address> address1 = Optional.of(new Address(resultSet.getString("address_1"), new Zip(resultSet.getInt("zipcode_1"), resultSet.getString("city_1"))));
-        Optional<Address> address2 = Optional.of(new Address(resultSet.getString("address_2"), new Zip(resultSet.getInt("zipcode_2"), resultSet.getString("city_2"))));
-        Optional<Address> address3 = Optional.of(new Address(resultSet.getString("address_3"), new Zip(resultSet.getInt("zipcode_3"), resultSet.getString("city_3"))));
+        Optional<Address> address1 = createCustomerAddressFromCarportOrderResultSet(1, resultSet);
+        Optional<Address> address2 = createCustomerAddressFromCarportOrderResultSet(2, resultSet);
+        Optional<Address> address3 = createCustomerAddressFromCarportOrderResultSet(3, resultSet);
         return new Customer(customerId, customerEmail, customerName, customerPhone, address1, address2, address3);
     }
 
@@ -389,5 +412,16 @@ class CarportOrderMapper {
         Department department = new Department(departmentId, departmentName, departmentAddress);
 
         return Optional.of(new Employee(employeeId, employeeEmail, employeeName, privatePhonenumber, workPhonenumber, position, department));
+    }
+
+    private static Optional<Address> createCustomerAddressFromCarportOrderResultSet(int addressNumber, ResultSet resultSet) throws SQLException {
+        String address = resultSet.getString("address_" + addressNumber);
+        int zipCode = resultSet.getInt("zipcode_" + addressNumber);
+        if (address == null || zipCode == 0) {
+            return Optional.empty();
+        }
+
+        String city = resultSet.getString("city_" + addressNumber);
+        return Optional.of(new Address(address, new Zip(zipCode, city)));
     }
 }

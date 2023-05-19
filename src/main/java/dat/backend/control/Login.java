@@ -8,6 +8,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.order.CarportOrderFacade;
 import dat.backend.model.persistence.user.CustomerFacade;
 import dat.backend.model.persistence.user.EmployeeFacade;
 import dat.backend.model.services.Validation;
@@ -50,6 +51,7 @@ public class Login extends HttpServlet {
                     Employee employee = EmployeeFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", employee);
                     request.getSession().setAttribute("myhome", "ToEmployeeSite");
+                    request.setAttribute("news", CarportOrderFacade.getCarportOrdersAsNews(connectionPool));
                     request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
                 }
             } catch (NotFoundException e) {
