@@ -142,7 +142,6 @@
                         <br>
                     </div>
 
-                    <div id="Seller" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
                     <div id="Seller" class="col-lg-5 col-md-12 text-center" style="border-left: 1px solid grey;">
                         <div class="seller-info row">
                             <h2>Din Information</h2>
