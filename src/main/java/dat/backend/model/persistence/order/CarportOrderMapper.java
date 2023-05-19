@@ -114,6 +114,29 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
+    static OrderStatus getLatestOrderStatus(String user, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "SELECT co.orderstatus, o.displayname, o.sortvalue FROM carport_order co JOIN orderstatus o on co.orderstatus = o.status  WHERE co.fk_customer_email = '" + user + "' ORDER BY created_on DESC LIMIT 1";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                ResultSet resultSet = statement.executeQuery();
+
+                if (!resultSet.next()) {
+                    throw new NotFoundException("CarportOrder not found");
+                }
+
+                String orderStatus = resultSet.getString("orderstatus");
+                String displayName = resultSet.getString("displayname");
+                int sortValue = resultSet.getInt("sortvalue");
+                return new OrderStatus(orderStatus, displayName, sortValue);
+
+            } catch (NotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Error while getting latest order status");
+        }
+    }
+
     static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float calcPrice, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);
         String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, price_from_partlist, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

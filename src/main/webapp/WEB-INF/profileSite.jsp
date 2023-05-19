@@ -121,16 +121,7 @@
                             <div class="row" style="padding-top: 5%">
                                 <div class="col-12">
                                     <p style="text-decoration: underline black">Status på seneste ordrer</p>
-                                    <c:choose>
-                                        <c:when test="${requestScope.noOrder != null}">
-                                            <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">Status: ${requestScope.noOrder}</p>
-                                        </c:when>
-                                        <c:when test="${requestScope.order != null}">
-                                            <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">Status: ${requestScope.order.orderStatus.displayName}</p>
-                                    </c:when>
-                                    </c:choose>
-
-                                    <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">Status: ${requestScope.order.orderStatus.displayName}</p>
+                                    <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">${requestScope.lateststatus.getDisplayName()}</p>
                                 </div>
                             </div>
                         </div>

@@ -3,6 +3,7 @@ package dat.backend.model.persistence.order;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
+import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
@@ -35,6 +36,10 @@ public class CarportOrderFacade {
 
     public static List<CarportOrder> getCarportOrdersAsNews(ConnectionPool connectionPool) throws DatabaseException {
         return CarportOrderMapper.getCarportOrdersAsNews(connectionPool);
+    }
+
+    public static OrderStatus getLatestOrderStatus(String user, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+        return CarportOrderMapper.getLatestOrderStatus(user, connectionPool);
     }
 
     public static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float price_from_partslist, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
