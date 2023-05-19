@@ -171,9 +171,32 @@
                         <div class="row text-center">
                             <h3>Nyheder</h3>
                         </div>
-                        <div class="row text-center">
-                            <span>En nyhed</span>
-                        </div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Oprettede dato</th>
+                                <th>Pris</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${requestScope.news}" var="news">
+                                <tr>
+                                    <td>${news.getId()}</td>
+                                    <td>${news.getCreatedOn()}</td>
+                                    <td>${news.getPrice().get()}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+<%--                        <div class="row text-center">--%>
+<%--                            <span>ID | Oprettede dato | </span>--%>
+<%--                        </div>--%>
+<%--                        <c:forEach items="${requestScope.news}" var="news">--%>
+<%--                            <div class="card-body row text-center">--%>
+<%--                                <span>${news.getId()} | ${news.getCreatedOn()} | ${news.getPrice().get()}</span>--%>
+<%--                                <hr>--%>
+<%--                            </div>--%>
+<%--                        </c:forEach>--%>
                     </div>
                 </div>
             </div>

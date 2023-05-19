@@ -93,6 +93,27 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
+    static List<CarportOrder> getCarportOrdersAsNews(ConnectionPool connectionPool) throws DatabaseException {
+        String query = "SELECT id, created_on, price_from_partlist FROM carport_order ORDER BY created_on DESC LIMIT 6";
+        List<CarportOrder> carportOrders = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    Date createdOn = resultSet.getDate("created_on");
+                    float price = resultSet.getFloat("price_from_partlist");
+                    CarportOrder carportOrder = new CarportOrder(id, null, null, null, null, null, null, Float.NaN, Float.NaN, Float.NaN, null, Optional.of(price));
+                    carportOrder.setCreatedOn(createdOn);
+                    carportOrders.add(carportOrder);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Error while getting all CarportOrders");
+        }
+        return carportOrders;
+    }
+
     static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float calcPrice, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);
         String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, price_from_partlist, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
