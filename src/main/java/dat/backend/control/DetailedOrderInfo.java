@@ -49,7 +49,7 @@ public class DetailedOrderInfo extends HttpServlet {
                 } else {
                     request.setAttribute("from", "see-all-orders");
                 }
-                request.setAttribute("partslist", new PartsList(carportOrder, connectionPool));
+                request.getSession().setAttribute("partslist", new PartsList(carportOrder, connectionPool));
                 request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
             }
         } catch (DatabaseException | NotFoundException e) {
