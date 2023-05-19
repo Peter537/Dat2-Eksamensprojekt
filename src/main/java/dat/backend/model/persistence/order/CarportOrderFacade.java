@@ -38,7 +38,7 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getCarportOrdersAsNews(connectionPool);
     }
 
-    public static OrderStatus getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+    public static Optional<OrderStatus> getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
         return CarportOrderMapper.getLatestOrderStatusFromCustomer(customer, connectionPool);
     }
 

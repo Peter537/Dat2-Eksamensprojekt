@@ -114,22 +114,20 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
-    static OrderStatus getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<OrderStatus> getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
         String query = "SELECT co.orderstatus, o.displayname, o.sortvalue FROM carport_order co JOIN orderstatus o on co.orderstatus = o.status WHERE co.fk_customer_email = ? ORDER BY created_on DESC LIMIT 1";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, customer.getEmail());
                 ResultSet resultSet = statement.executeQuery();
                 if (!resultSet.next()) {
-                    throw new NotFoundException("CarportOrder not found");
+                    return Optional.empty();
                 }
 
                 String orderStatus = resultSet.getString("orderstatus");
                 String displayName = resultSet.getString("displayname");
                 int sortValue = resultSet.getInt("sortvalue");
-                return new OrderStatus(orderStatus, displayName, sortValue);
-            } catch (NotFoundException e) {
-                throw new RuntimeException(e);
+                return Optional.of(new OrderStatus(orderStatus, displayName, sortValue));
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Error while getting latest order status");
