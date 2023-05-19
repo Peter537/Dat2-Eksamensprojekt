@@ -364,9 +364,9 @@ class CarportOrderMapper {
         String customerName = resultSet.getString("name");
         String customerEmail = resultSet.getString("email");
         Optional<String> customerPhone = Optional.ofNullable(resultSet.getString("phonenumber"));
-        Optional<Address> address1 = Optional.of(new Address(resultSet.getString("address_1"), new Zip(resultSet.getInt("zipcode_1"), resultSet.getString("city_1"))));
-        Optional<Address> address2 = Optional.of(new Address(resultSet.getString("address_2"), new Zip(resultSet.getInt("zipcode_2"), resultSet.getString("city_2"))));
-        Optional<Address> address3 = Optional.of(new Address(resultSet.getString("address_3"), new Zip(resultSet.getInt("zipcode_3"), resultSet.getString("city_3"))));
+        Optional<Address> address1 = createCustomerAddressFromCarportOrderResultSet(1, resultSet);
+        Optional<Address> address2 = createCustomerAddressFromCarportOrderResultSet(2, resultSet);
+        Optional<Address> address3 = createCustomerAddressFromCarportOrderResultSet(3, resultSet);
         return new Customer(customerId, customerEmail, customerName, customerPhone, address1, address2, address3);
     }
 
@@ -391,5 +391,16 @@ class CarportOrderMapper {
         Department department = new Department(departmentId, departmentName, departmentAddress);
 
         return Optional.of(new Employee(employeeId, employeeEmail, employeeName, privatePhonenumber, workPhonenumber, position, department));
+    }
+
+    private static Optional<Address> createCustomerAddressFromCarportOrderResultSet(int addressNumber, ResultSet resultSet) throws SQLException {
+        String address = resultSet.getString("address_" + addressNumber);
+        int zipCode = resultSet.getInt("zipcode_" + addressNumber);
+        if (address == null || zipCode == 0) {
+            return Optional.empty();
+        }
+
+        String city = resultSet.getString("city_" + addressNumber);
+        return Optional.of(new Address(address, new Zip(zipCode, city)));
     }
 }
