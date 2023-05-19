@@ -60,7 +60,7 @@ public class Employee extends Person {
     @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getWorkPhoneNumber(), this.getPersonalPhoneNumber(), this.getPosition(), this.getDepartment());
+        return Objects.hash(super.hashCode(), this.getWorkPhoneNumber(), this.getPosition(), this.getDepartment());
     }
 
     @IgnoreCoverage(reason = "toString")

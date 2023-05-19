@@ -7,8 +7,8 @@ import java.util.Objects;
 public class Department {
 
     private final int id;
-    private String departmentName;
-    private Address address;
+    private final String departmentName;
+    private final Address address;
 
     public Department(int id, String departmentName, Address address) {
         this.id = id;
@@ -27,18 +27,8 @@ public class Department {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public Address getAddress() {
         return this.address;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     @IgnoreCoverage(reason = "equals")
@@ -47,9 +37,7 @@ public class Department {
         if (this == other) return true;
         if (!(other instanceof Department)) return false;
         Department department = (Department) other;
-        return this.getId() == department.getId() &&
-                this.getDepartmentName().equals(department.getDepartmentName()) &&
-                this.getAddress().equals(department.getAddress());
+        return this.getId() == department.getId();
     }
 
     @IgnoreCoverage(reason = "hashCode")

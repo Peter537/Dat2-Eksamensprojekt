@@ -44,7 +44,6 @@ public class Roof {
         if (!(other instanceof Roof)) return false;
         Roof roof = (Roof) other;
         return this.getId() == roof.getId() &&
-                this.getSquareMeterPrice() == roof.getSquareMeterPrice() &&
                 this.getType().equals(roof.getType());
     }
 

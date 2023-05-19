@@ -8,10 +8,9 @@ public class LumberType implements Comparable<LumberType> {
 
     private final int id;
     private final String type;
-
-    private float width;
-    private float thickness;
-    private float meterPrice;
+    private final float width;
+    private final float thickness;
+    private final float meterPrice;
 
     public LumberType(int id, float width, float thickness, float meterPrice, String type) {
         this.id = id;
@@ -37,28 +36,13 @@ public class LumberType implements Comparable<LumberType> {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setWidth(float width) {
-        this.width = width;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public float getThickness() {
         return this.thickness;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setThickness(float thickness) {
-        this.thickness = thickness;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public float getMeterPrice() {
         return this.meterPrice;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setMeterPrice(float meterPrice) {
-        this.meterPrice = meterPrice;
     }
 
     @IgnoreCoverage(reason = "equals")

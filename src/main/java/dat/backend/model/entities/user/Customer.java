@@ -89,7 +89,7 @@ public class Customer extends Person {
     @IgnoreCoverage(reason = "hashCode")
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getEmail(), this.getName(), this.getPersonalPhoneNumber(), this.getAddress1(), this.getAddress2(), this.getAddress3());
+        return Objects.hash(super.hashCode(), this.getAddress1(), this.getAddress2(), this.getAddress3());
     }
 
     @IgnoreCoverage(reason = "toString")

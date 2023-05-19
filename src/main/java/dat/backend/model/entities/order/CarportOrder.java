@@ -27,7 +27,7 @@ public class CarportOrder {
     private float minHeight;
     private Optional<ToolRoom> toolRoom;
     private Optional<Float> price;
-    private Date created_on;
+    private Date createdOn;
 
     public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, OrderStatus orderStatus, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom, Optional<Float> price) {
         this.id = id;
@@ -156,12 +156,12 @@ public class CarportOrder {
 
     @IgnoreCoverage(reason = "Getter or Setter")
     public Date getCreatedOn() {
-        return this.created_on;
+        return this.createdOn;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setCreatedOn(Date created_on) {
-        this.created_on = created_on;
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
     @IgnoreCoverage(reason = "equals")
@@ -171,7 +171,6 @@ public class CarportOrder {
         if (!(other instanceof CarportOrder)) return false;
         CarportOrder carportOrder = (CarportOrder) other;
         return this.getId() == carportOrder.getId() &&
-                this.getAddress().equals(carportOrder.getAddress()) &&
                 this.getCustomer().equals(carportOrder.getCustomer());
     }
 
@@ -197,6 +196,7 @@ public class CarportOrder {
                 ", minHeight=" + this.minHeight +
                 ", toolRoom=" + this.toolRoom +
                 ", price=" + this.price +
-                '}';
+                ", createdOn=" + this.createdOn +
+                "}";
     }
 }

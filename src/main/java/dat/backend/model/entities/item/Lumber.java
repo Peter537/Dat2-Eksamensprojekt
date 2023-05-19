@@ -7,10 +7,9 @@ import java.util.Objects;
 public class Lumber implements Comparable<Lumber> {
 
     private final int id;
-
-    private int length;
-    private LumberType lumberType;
-    private int amount;
+    private final int length;
+    private final LumberType lumberType;
+    private final int amount;
 
     public Lumber(int id, int length, LumberType lumberType, int amount) {
         this.id = id;
@@ -36,28 +35,13 @@ public class Lumber implements Comparable<Lumber> {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public LumberType getLumberType() {
         return this.lumberType;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
-    public void setLumberType(LumberType lumberType) {
-        this.lumberType = lumberType;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
     public int getAmount() {
         return this.amount;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     @IgnoreCoverage(reason = "equals")
