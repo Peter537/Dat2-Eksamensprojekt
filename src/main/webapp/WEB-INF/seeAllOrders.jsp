@@ -87,14 +87,42 @@
 
             <div class="row" id="popup" style="z-index: 6; position: sticky">
                 <div class="popup-header row">
-                    <div class="col-sm-6" style="border: 1px solid black;border-bottom: 0;border-radius: 4px 4px 0 0;background: white;">
-                        <h3 style="margin-top: 1%; text-align: left">
-                            Ordrenummer: ${requestScope.carportOrder.id} |
-                            Status: ${requestScope.carportOrder.orderStatus.displayName}
-                            <a href="${requestScope.from}" class="btn btn-primary" style="margin-left: 2%;">Luk</a>
-                        </h3>
+                    <div class="col-sm-7" style="border: 1px solid black; border-bottom: 0; border-radius: 4px 4px 0 0; background: white;">
+                        <div class="row align-items-center">
+                            <div class="col-sm-8">
+                                <h4 style="margin-top: 1%; text-align: left">
+                                    Ordrenummer: ${requestScope.carportOrder.id} |
+                                    Status: ${requestScope.carportOrder.orderStatus.displayName}
+                                </h4>
+                            </div>
+                            <div class="col-sm-2">
+                                <c:choose>
+                                    <c:when test="${!requestScope.carportOrder.employee.present}">
+                                        <form action="EmployeeClaimOrder" method="post">
+                                            <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+                                            <input type="hidden" name="fromJsp" value="employee">
+                                            <input class="btn btn-primary" type="submit" value="Tag ordre">
+                                        </form>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <form action="EmployeeClaimOrder" method="post">
+                                        <input id="dealMaker" type="number" value="giv pris" placeholder="Giv Tilbud">
+                                        </form>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
                     </div>
+                    <div class="col-4"></div>
+
+
+<div class="col-1">
+                        <a href="${requestScope.from}" type="button" class="closebtn" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+
                 </div>
+
                 <div class="row popup">
                     <div id="Customer" class="col-lg-4 col-md-12 text-center">
                         <h2>Kundens Information</h2>
@@ -163,6 +191,23 @@
                 border-radius: 10px;
                 visibility: visible;
             }
+
+            .closebtn {
+                border: none !important;
+                color: black;
+                font-weight: bold;
+                float: right;
+                font-size: 22px;
+                line-height: 20px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            /* When moving the mouse over the close button */
+            .closebtn:hover {
+                color: white;
+            }
+
         </style>
 
 
