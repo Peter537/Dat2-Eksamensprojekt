@@ -151,9 +151,7 @@
                     <div class="col-sm-6">
                         <div class="card-body">
                             <h5 class="card-title">Lav ny forespørgsel</h5>
-                            <p class="card-text">Hvis intet i vores brede katalog er noget for dig, så indsend dine egne
-                                mål
-                                som en flittig medarbejder vil hjælpe dig hen med</p>
+                            <p class="card-text">Hvis intet i vores brede katalog er noget for dig, så indsend dine egne mål som en flittig medarbejder vil hjælpe dig hen med</p>
                             <a href="to-generate-partlist" class="btn btn-primary">Tag mig til formularen</a>
                         </div>
                     </div>
