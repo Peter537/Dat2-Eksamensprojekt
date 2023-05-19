@@ -121,7 +121,7 @@
                             <div class="row" style="padding-top: 5%">
                                 <div class="col-12">
                                     <p style="text-decoration: underline black">Status på seneste ordrer</p>
-                                    <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">${requestScope.lateststatus.getDisplayName()}</p>
+                                    <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">${not empty requestScope.lateststatus && requestScope.lateststatus.present ? requestScope.lateststatus.get().getDisplayName() : 'Ingen ordre'}</p>
                                 </div>
                             </div>
                         </div>
