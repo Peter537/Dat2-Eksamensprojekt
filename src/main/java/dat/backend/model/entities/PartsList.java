@@ -3,6 +3,7 @@ package dat.backend.model.entities;
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.Roof;
+import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.services.PartsListCalculator;
@@ -37,6 +38,15 @@ public class PartsList {
         this.width = width;
         this.connectionPool = connectionPool;
         this.roof = roof;
+        this.calculate();
+    }
+
+    public PartsList(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
+        this.height = (int) carportOrder.getMinHeight();
+        this.length = (int) carportOrder.getLength();
+        this.width = (int) carportOrder.getWidth();
+        this.roof = carportOrder.getRoof();
+        this.connectionPool = connectionPool;
         this.calculate();
     }
 
