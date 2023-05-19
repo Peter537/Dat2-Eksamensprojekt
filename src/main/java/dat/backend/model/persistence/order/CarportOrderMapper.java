@@ -114,12 +114,12 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
-    static OrderStatus getLatestOrderStatus(String user, ConnectionPool connectionPool) throws DatabaseException {
-        String query = "SELECT co.orderstatus, o.displayname, o.sortvalue FROM carport_order co JOIN orderstatus o on co.orderstatus = o.status  WHERE co.fk_customer_email = '" + user + "' ORDER BY created_on DESC LIMIT 1";
+    static OrderStatus getLatestOrderStatus(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "SELECT co.orderstatus, o.displayname, o.sortvalue FROM carport_order co JOIN orderstatus o on co.orderstatus = o.status WHERE co.fk_customer_email = ? ORDER BY created_on DESC LIMIT 1";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, customer.getEmail());
                 ResultSet resultSet = statement.executeQuery();
-
                 if (!resultSet.next()) {
                     throw new NotFoundException("CarportOrder not found");
                 }
@@ -128,7 +128,6 @@ class CarportOrderMapper {
                 String displayName = resultSet.getString("displayname");
                 int sortValue = resultSet.getInt("sortvalue");
                 return new OrderStatus(orderStatus, displayName, sortValue);
-
             } catch (NotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -137,7 +136,7 @@ class CarportOrderMapper {
         }
     }
 
-    static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float calcPrice, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+    static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float priceFromPartsList, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);
         String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, price_from_partlist, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
@@ -157,13 +156,13 @@ class CarportOrderMapper {
                     statement.setNull(9, Types.FLOAT);
                 }
 
-                statement.setFloat(10, calcPrice);
-
+                statement.setFloat(10, priceFromPartsList);
                 if (remarks.isPresent()) {
                     statement.setString(11, remarks.get());
                 } else {
                     statement.setNull(11, Types.VARCHAR);
                 }
+
                 statement.setString(12, "ORDER_CREATED");
                 int affectedRows = statement.executeUpdate();
                 if (affectedRows == 0) {

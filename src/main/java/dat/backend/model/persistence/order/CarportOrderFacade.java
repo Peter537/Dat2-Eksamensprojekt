@@ -38,12 +38,12 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getCarportOrdersAsNews(connectionPool);
     }
 
-    public static OrderStatus getLatestOrderStatus(String user, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        return CarportOrderMapper.getLatestOrderStatus(user, connectionPool);
+    public static OrderStatus getLatestOrderStatus(Customer customer, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+        return CarportOrderMapper.getLatestOrderStatus(customer, connectionPool);
     }
 
-    public static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float price_from_partslist, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        return CarportOrderMapper.create(customer, address, width, length, minHeight, roof, toolRoom, remarks, price_from_partslist, connectionPool);
+    public static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float priceFromPartsList, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        return CarportOrderMapper.create(customer, address, width, length, minHeight, roof, toolRoom, remarks, priceFromPartsList, connectionPool);
     }
 
     public static void claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {

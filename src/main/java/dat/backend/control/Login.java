@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
                     Customer customer = CustomerFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", customer);
                     request.getSession().setAttribute("myhome", "ToProfileSite");
-                    request.setAttribute("lateststatus", CarportOrderFacade.getLatestOrderStatus(customer.getEmail(), connectionPool));
+                    request.setAttribute("lateststatus", CarportOrderFacade.getLatestOrderStatus(customer, connectionPool));
                     request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
                 } else {
                     Employee employee = EmployeeFacade.login(email, password, connectionPool);
