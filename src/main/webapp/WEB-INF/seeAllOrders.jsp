@@ -87,21 +87,21 @@
 
             <div class="row" id="popup" style="z-index: 6; position: sticky">
                 <div class="popup-header row">
-                    <div class="col-sm-7" style="border: 1px solid black; border-bottom: 0; border-radius: 4px 4px 0 0; background: white;">
+                    <div class="col-sm-8" style="border: 1px solid black; border-bottom: 0; border-radius: 4px 4px 0 0; background: white;">
                         <div class="row align-items-center">
-                            <div class="col-sm-8">
+                            <div class="col-sm-9">
                                 <h4 style="margin-top: 1%; text-align: left">
                                     Ordrenummer: ${requestScope.carportOrder.id} |
                                     Status: ${requestScope.carportOrder.orderStatus.displayName}
                                 </h4>
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-2" style="float: left">
                                 <c:choose>
                                     <c:when test="${!requestScope.carportOrder.employee.present}">
                                         <form action="EmployeeClaimOrder" method="post">
                                             <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
                                             <input type="hidden" name="fromJsp" value="employee">
-                                            <input class="btn btn-primary" type="submit" value="Tag ordre">
+                                            <input class="btn btn-primary" type="submit" value="Tag ordre" style="width: 80%">
                                         </form>
                                     </c:when>
                                     <c:otherwise>
@@ -113,7 +113,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-3"></div>
 
                     <div class="col-1">
                         <a href="${requestScope.from}" type="button" class="closebtn" aria-label="Close">
@@ -143,6 +143,7 @@
                     </div>
 
                     <div id="Seller" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
+                    <div id="Seller" class="col-lg-5 col-md-12 text-center" style="border-left: 1px solid grey;">
                         <div class="seller-info row">
                             <h2>Din Information</h2>
                             <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;" class="card-img-top"
@@ -153,11 +154,13 @@
                         <p>Privat telefonnummer: ${sessionScope.user.personalPhoneNumber.present ? sessionScope.user.personalPhoneNumber.get() : 'intet telefonnummer'}</p>
                         <p>Arbejds telefonnummer: ${sessionScope.user.workPhoneNumber.present ? sessionScope.user.workPhoneNumber.get() : 'intet telefonnummer'}</p>
                         <p>${requestScope.carportOrder.address.address}</p>
+
                         <br>
                         <iframe src="ToPartslistFrame" width="100%" height="500px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
                     </div>
 
-                    <div id="CarportInfo" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
+
+                    <div id="CarportInfo" class="col-lg-3 col-md-12 text-center" style="border-left: 1px solid grey;">
 
                         <h2>Carport Information</h2>
 

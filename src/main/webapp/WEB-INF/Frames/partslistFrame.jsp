@@ -22,34 +22,49 @@
 </head>
 
 <body>
-    <table>
+
+    <table class="table table-striped table-bordered table-hover">
+
         <thead>
         <th>Dimensioner</th>
         <th>Længde</th>
         <th>Antal</th>
         <th>Enhed</th>
         <th>Beskrivelse</th>
-
-        </thead>
-    </table>
-
-    <table class="table table-striped table-bordered table-hover">
-
-        <thead>
-        <th>Tre & Tagplader</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
         </thead>
         <tbody>
+
+        <tr>
+            <td>${requestScope.partslist.rafter.lumberType.thickness}x${requestScope.partslist.rafter.lumberType.width} mm. spær</td>
+            <td>${requestScope.partslist.rafter.length}</td>
+            <td>${requestScope.partslist.rafter.amount}</td>
+            <td>stk.</td>
+            <td>Needs to be implemented</td>
+        </tr>
+
+
         <tr>
             <td>${requestScope.partslist.pole.lumberType.thickness}x${requestScope.partslist.pole.lumberType.width} mm. stolpe</td>
             <td>${requestScope.partslist.pole.length}</td>
             <td>${requestScope.partslist.pole.amount}</td>
             <td>stk.</td>
             <td>Needs to be implemented</td>
+        </tr>
 
+        <tr>
+            <td>${requestScope.partslist.plate.lumberType.thickness}x${sessionScope.partslist.plate.lumberType.width} mm. rem</td>
+            <td>${requestScope.partslist.pole.length}</td>
+            <td>${requestScope.partslist.pole.amount}</td>
+            <td>stk.</td>
+            <td>Needs to be implemented</td>
+        </tr>
+
+        <tr>
+            <td>${requestScope.partslist.roof.type.replaceAll("_"," ").toLowerCase()}</td>
+            <td>${requestScope.partslist.length}</td>
+            <td>${requestScope.partslist.roofArea}</td>
+            <td>m2</td>
+            <td>Needs to be implemented</td>
         </tr>
         </tbody>
     </table>
