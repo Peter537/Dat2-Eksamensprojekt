@@ -102,9 +102,9 @@
                              class="card-img-top" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
                              alt="SellerProfile">
                         <div class="customer-info row" id="userInfo">
-                            <p>${sessionScope.user.name}</p>
-                            <p>${sessionScope.user.email}</p>
-                            <p>${sessionScope.user.personalPhoneNumber.get()}</p>
+                            <p>${requestScope.carportOrder.customer.name}</p>
+                            <p>${requestScope.carportOrder.customer.email}</p>
+                            <p>${requestScope.carportOrder.customer.personalPhoneNumber.present ? requestScope.carportOrder.customer.personalPhoneNumber.get() : 'intet telefonnummer'}</p>
                             <p>${requestScope.carportOrder.address.address}</p>
                         </div>
                         <div class="customer-contact row" style="margin-right: 1%">
@@ -113,6 +113,7 @@
                                       placeholder="En besked til kunden"></textarea>
                             <button type="button" class="btn btn-primary" style="margin-top: 2%">Send til kunde</button>
                         </div>
+                        <br>
                     </div>
 
                     <div id="Seller" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
@@ -121,26 +122,11 @@
                             <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;" class="card-img-top"
                                  src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="SellerProfile">
                         </div>
-                        <div class="seller-employee row">
-                            <c:choose>
-                                <c:when test="${requestScope.carportOrder.employee.present}">
-                                    <p>Medarbejder: ${requestScope.carportOrder.employee.get().name}</p>
-                                </c:when>
-                                <c:otherwise>
-                                    <h1>Medarbejder: Ikke tildelt</h1>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                        <div class="seller-email row">
-                            <c:choose>
-                                <c:when test="${requestScope.carportOrder.employee.present}">
-                                    <p>Email: ${requestScope.carportOrder.employee.get().email}</p>
-                                </c:when>
-                                <c:otherwise>
-                                    <h1>Email: Ikke tildelt</h1>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
+                        <p>${sessionScope.user.name}</p>
+                        <p>${sessionScope.user.email}</p>
+                        <p>Privat telefonnummer: ${sessionScope.user.personalPhoneNumber.present ? sessionScope.user.personalPhoneNumber.get() : 'intet telefonnummer'}</p>
+                        <p>Arbejds telefonnummer: ${sessionScope.user.workPhoneNumber.present ? sessionScope.user.workPhoneNumber.get() : 'intet telefonnummer'}</p>
+                        <p>${requestScope.carportOrder.address.address}</p>
                     </div>
 
                     <div id="CarportInfo" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
@@ -153,13 +139,13 @@
                         <p>Tag-type: ${requestScope.carportOrder.roof.type}</p>
 
                         <h2>Redskabs skur</h2>
-                        <p>Bredde: ${requestScope.carportOrder.toolRoom.get().width} cm</p>
-                        <p>Længde: ${requestScope.carportOrder.toolRoom.get().length} cm</p>
-                        <p>Pris: ${requestScope.carportOrder.price.get()} kr.</p>
+                        <p>Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'Ikke sat'} cm</p>
+                        <p>Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'ikke sat'} cm</p>
+                        <p>Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.price.get() : 'Endnu ikke sat'} kr.</p>
 
                         <h2>Remarks</h2>
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
-                                  readonly>${requestScope.carportOrder.remarks.get()}</textarea>
+                                  readonly>${requestScope.carportOrder.remarks.present ? requestScope.carportOrder.remarks.get() : 'ingen kommentarer'}</textarea>
                     </div>
                 </div>
             </div>
