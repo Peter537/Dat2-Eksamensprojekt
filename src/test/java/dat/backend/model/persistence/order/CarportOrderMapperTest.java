@@ -63,7 +63,7 @@ class CarportOrderMapperTest extends TestDatabase {
                         "VALUES (100, 'PLASTIC_ROOF'), (200, 'TILED_ROOF')");
                 stmt.execute("INSERT INTO position (position) VALUES ('Sales'), ('CEO')");
                 stmt.execute("INSERT INTO orderstatus (status, sortvalue, displayname) " +
-                        "VALUES ('ORDER_CREATED', 1, 'Ordre oprettet'), ('ORDER_ACCEPTED', 2, 'Ordre accepteret'), ('ORDER_COMPLETED', 3, 'Ordre afsluttet'), ('ORDER_CANCELLED', 4, 'Ordre annulleret')");
+                        "VALUES ('ORDER_CREATED', 1, 'Ordre oprettet'), ('ORDER_EMPLOYEE_ASSIGNED', 2, 'Ordre taget af medarbejder'), ('ORDER_OFFER_GIVEN', 3, 'Ordre tilbud givet'), ('ORDER_OFFER_REJECTED', 4, 'Ordre tilbud afvist'), ('ORDER_OFFER_ACCEPTED', 5, 'Ordre tilbud accepteret'), ('ORDER_READY', 6, 'Ordre klar'), ('ORDER_DELIVERED', 7, 'Ordre leveret'), ('ORDER_CANCELLED', 8, 'Ordre annulleret')");
                 stmt.execute("INSERT INTO carport_order (orderstatus, address, zipcode, fk_employee_email, fk_customer_email, fk_roof_id, width, length, min_height) " +
                         "VALUES ('ORDER_CREATED', 'Lyngby Adresse', 2800, 'ben@johannesfog.dk', 'alex@hotmail.com', 1, 380, 720, 180)");
             }
@@ -340,7 +340,7 @@ class CarportOrderMapperTest extends TestDatabase {
         CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
         assertFalse(carportOrder.getEmployee().isPresent());
         Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
-        CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        carportOrder = CarportOrderFacade.claim(carportOrder, employee, connectionPool);
         assertTrue(carportOrder.getEmployee().isPresent());
         CarportOrderFacade.makeOffer(carportOrder, 1000, connectionPool);
         CarportOrderFacade.acceptOffer(carportOrder, connectionPool);
