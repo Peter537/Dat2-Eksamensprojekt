@@ -3,6 +3,7 @@ package dat.backend.model.persistence.order;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
 import dat.backend.model.entities.order.CarportOrder;
+import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
@@ -137,6 +138,44 @@ class CarportOrderMapperTest extends TestDatabase {
     }
 
     @Test
+    void testValidGetAllCarportOrders() throws NotFoundException, DatabaseException, ValidationException {
+        List<CarportOrder> carportOrders = CarportOrderFacade.getAllCarportOrders(connectionPool);
+        assertEquals(1, carportOrders.size());
+        assertEquals(1, carportOrders.get(0).getId());
+        CarportOrder carportOrder = CarportOrderFacade.create(carportOrders.get(0).getCustomer(), carportOrders.get(0).getAddress(), carportOrders.get(0).getWidth(), carportOrders.get(0).getLength(), carportOrders.get(0).getMinHeight(), carportOrders.get(0).getRoof(), Optional.empty(), Optional.empty(), 150, connectionPool);
+        carportOrders = CarportOrderFacade.getAllCarportOrders(connectionPool);
+        assertEquals(2, carportOrders.size());
+        assertEquals(2, carportOrder.getId());
+    }
+
+    @Test
+    void testValidGetCarportOrdersAsNews() throws DatabaseException {
+        List<CarportOrder> carportOrders = CarportOrderFacade.getCarportOrdersAsNews(connectionPool);
+        assertEquals(1, carportOrders.size());
+        assertEquals(1, carportOrders.get(0).getId());
+    }
+
+    @Test
+    void testValidGetLatestOrderStatusFromCustomer() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("alex@hotmail.com", connectionPool);
+        Optional<OrderStatus> orderStatus = CarportOrderFacade.getLatestOrderStatusFromCustomer(customer, connectionPool);
+        assertTrue(orderStatus.isPresent());
+        assertEquals("ORDER_CREATED", orderStatus.get().getStatus());
+    }
+
+    @Test
+    void testInvalidGetLatestOrderStatusFromCustomerNullCustomer() {
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.getLatestOrderStatusFromCustomer(null, connectionPool));
+    }
+
+    @Test
+    void testInvalidGetLatestOrderStatusFromCustomerNoOrderStatus() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        Optional<OrderStatus> orderStatus = CarportOrderFacade.getLatestOrderStatusFromCustomer(customer, connectionPool);
+        assertFalse(orderStatus.isPresent());
+    }
+
+    @Test
     void testValidCreateCarportOrder() throws NotFoundException, DatabaseException, ValidationException {
         Customer customer = CustomerFacade.getCustomerByEmail("ben@gmail.com", connectionPool);
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
@@ -206,6 +245,149 @@ class CarportOrderMapperTest extends TestDatabase {
         Zip zip = ZipFacade.getZipByZipCode(2730, connectionPool);
         Address address = new Address("Herlev Adresse", zip);
         assertThrows(ValidationException.class, () -> CarportOrderFacade.create(customer, address, 360, 720, 300, null, Optional.empty(), Optional.empty(), 0, connectionPool));
+    }
+
+    @Test
+    void testValidClaimCarportOrder() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        assertEquals(2, carportOrder.getId());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        carportOrder = CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertTrue(carportOrder.getEmployee().isPresent());
+        assertEquals("ORDER_EMPLOYEE_ASSIGNED", carportOrder.getOrderStatus().getStatus());
+    }
+
+    @Test
+    void testInvalidClaimCarportOrderEmployeeNull() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.claim(carportOrder, null, connectionPool));
+    }
+
+    @Test
+    void testInvalidClaimCarportOrderNullCarportOrder() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.claim(null, employee, connectionPool));
+    }
+
+    @Test
+    void testValidMakeOffer() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        carportOrder = CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertTrue(carportOrder.getEmployee().isPresent());
+        carportOrder = CarportOrderFacade.makeOffer(carportOrder, 1000, connectionPool);
+        assertEquals("ORDER_OFFER_GIVEN", carportOrder.getOrderStatus().getStatus());
+    }
+
+    @Test
+    void testInvalidMakeOfferNullCarportOrder() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        carportOrder = CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertTrue(carportOrder.getEmployee().isPresent());
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.makeOffer(null, 1000, connectionPool));
+    }
+
+    @Test
+    void testInvalidMakeOfferNegativePrice() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.makeOffer(carportOrder, -1000, connectionPool));
+    }
+
+    @Test
+    void testValidAcceptOffer() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        carportOrder = CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertTrue(carportOrder.getEmployee().isPresent());
+        carportOrder = CarportOrderFacade.makeOffer(carportOrder, 1000, connectionPool);
+        carportOrder = CarportOrderFacade.acceptOffer(carportOrder, connectionPool);
+        assertEquals("ORDER_OFFER_ACCEPTED", carportOrder.getOrderStatus().getStatus());
+    }
+
+    @Test
+    void testInvalidAcceptOfferNullCarportOrder() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        carportOrder = CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertTrue(carportOrder.getEmployee().isPresent());
+        CarportOrderFacade.makeOffer(carportOrder, 1000, connectionPool);
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.acceptOffer(null, connectionPool));
+    }
+
+    @Test
+    void testValidReady() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertTrue(carportOrder.getEmployee().isPresent());
+        CarportOrderFacade.makeOffer(carportOrder, 1000, connectionPool);
+        CarportOrderFacade.acceptOffer(carportOrder, connectionPool);
+        carportOrder = CarportOrderFacade.ready(carportOrder, connectionPool);
+        assertEquals("ORDER_READY", carportOrder.getOrderStatus().getStatus());
+    }
+
+    @Test
+    void testInvalidReadyNullCarportOrder() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        carportOrder = CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertTrue(carportOrder.getEmployee().isPresent());
+        carportOrder = CarportOrderFacade.makeOffer(carportOrder, 1000, connectionPool);
+        CarportOrderFacade.acceptOffer(carportOrder, connectionPool);
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.ready(null, connectionPool));
+    }
+
+    @Test
+    void testValidDeliver() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        carportOrder = CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertTrue(carportOrder.getEmployee().isPresent());
+        carportOrder = CarportOrderFacade.makeOffer(carportOrder, 1000, connectionPool);
+        carportOrder = CarportOrderFacade.acceptOffer(carportOrder, connectionPool);
+        carportOrder = CarportOrderFacade.ready(carportOrder, connectionPool);
+        carportOrder = CarportOrderFacade.deliver(carportOrder, connectionPool);
+        assertEquals("ORDER_DELIVERED", carportOrder.getOrderStatus().getStatus());
+    }
+
+    @Test
+    void testInvalidDeliverNullCarportOrder() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        Employee employee = EmployeeFacade.getEmployeeByEmail("ben@johannesfog.dk", connectionPool);
+        carportOrder = CarportOrderFacade.claim(carportOrder, employee, connectionPool);
+        assertTrue(carportOrder.getEmployee().isPresent());
+        carportOrder = CarportOrderFacade.makeOffer(carportOrder, 1000, connectionPool);
+        carportOrder = CarportOrderFacade.acceptOffer(carportOrder, connectionPool);
+        carportOrder = CarportOrderFacade.ready(carportOrder, connectionPool);
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.deliver(null, connectionPool));
     }
 
     @Test
