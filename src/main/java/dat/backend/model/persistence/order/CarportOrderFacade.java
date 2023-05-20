@@ -38,7 +38,7 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getCarportOrdersAsNews(connectionPool);
     }
 
-    public static Optional<OrderStatus> getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
+    public static Optional<OrderStatus> getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         return CarportOrderMapper.getLatestOrderStatusFromCustomer(customer, connectionPool);
     }
 
@@ -46,24 +46,24 @@ public class CarportOrderFacade {
         return CarportOrderMapper.create(customer, address, width, length, minHeight, roof, toolRoom, remarks, priceFromPartsList, connectionPool);
     }
 
-    public static void claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.claim(carportOrder, employee, connectionPool);
+    public static CarportOrder claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        return CarportOrderMapper.claim(carportOrder, employee, connectionPool);
     }
 
-    public static void makeOffer(CarportOrder carportOrder, float price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.makeOffer(carportOrder, price, connectionPool);
+    public static CarportOrder makeOffer(CarportOrder carportOrder, float price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        return CarportOrderMapper.makeOffer(carportOrder, price, connectionPool);
     }
 
-    public static void acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.acceptOffer(carportOrder, connectionPool);
+    public static CarportOrder acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        return CarportOrderMapper.acceptOffer(carportOrder, connectionPool);
     }
 
-    public static void ready(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.ready(carportOrder, connectionPool);
+    public static CarportOrder ready(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        return CarportOrderMapper.ready(carportOrder, connectionPool);
     }
 
-    public static void deliver(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        CarportOrderMapper.deliver(carportOrder, connectionPool);
+    public static CarportOrder deliver(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        return CarportOrderMapper.deliver(carportOrder, connectionPool);
     }
 
     public static void updateWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException, ValidationException {

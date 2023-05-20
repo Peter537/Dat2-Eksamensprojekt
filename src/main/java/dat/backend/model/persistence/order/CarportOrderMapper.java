@@ -114,7 +114,8 @@ class CarportOrderMapper {
         return carportOrders;
     }
 
-    static Optional<OrderStatus> getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
+    static Optional<OrderStatus> getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCustomer(customer);
         String query = "SELECT co.orderstatus, o.displayname, o.sortvalue FROM carport_order co JOIN orderstatus o on co.orderstatus = o.status WHERE co.fk_customer_email = ? ORDER BY created_on DESC LIMIT 1";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -180,7 +181,7 @@ class CarportOrderMapper {
         }
     }
 
-    static void claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+    static CarportOrder claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCarportOrder(carportOrder);
         Validation.validateEmployee(employee);
         String query = "UPDATE carport_order SET fk_employee_email = ?, orderstatus = ? WHERE id = ?";
@@ -190,13 +191,14 @@ class CarportOrderMapper {
                 statement.setString(2, "ORDER_EMPLOYEE_ASSIGNED");
                 statement.setInt(3, carportOrder.getId());
                 statement.executeUpdate();
+                return getCarportOrderById(carportOrder.getId(), connectionPool);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Error while claiming CarportOrder with id " + carportOrder.getId());
         }
     }
 
-    static void makeOffer(CarportOrder carportOrder, float price, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
+    static CarportOrder makeOffer(CarportOrder carportOrder, float price, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
         Validation.validateCarportOrder(carportOrder);
         Validation.validatePrice(price);
         String query = "UPDATE carport_order SET price = ?, orderstatus = ? WHERE id = ?";
@@ -206,13 +208,14 @@ class CarportOrderMapper {
                 statement.setString(2, "ORDER_OFFER_GIVEN");
                 statement.setInt(3, carportOrder.getId());
                 statement.executeUpdate();
+                return getCarportOrderById(carportOrder.getId(), connectionPool);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Error while making offer for CarportOrder with id " + carportOrder.getId());
         }
     }
 
-    static void acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
+    static CarportOrder acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
         Validation.validateCarportOrder(carportOrder);
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -220,13 +223,14 @@ class CarportOrderMapper {
                 statement.setString(1, "ORDER_OFFER_ACCEPTED");
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                return getCarportOrderById(carportOrder.getId(), connectionPool);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Error while accepting offer for CarportOrder with id " + carportOrder.getId());
         }
     }
 
-    static void ready(CarportOrder carportOrder, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
+    static CarportOrder ready(CarportOrder carportOrder, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
         Validation.validateCarportOrder(carportOrder);
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -234,13 +238,14 @@ class CarportOrderMapper {
                 statement.setString(1, "ORDER_READY");
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                return getCarportOrderById(carportOrder.getId(), connectionPool);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Error while setting CarportOrder with id " + carportOrder.getId() + " to ready");
         }
     }
 
-    static void deliver(CarportOrder carportOrder, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
+    static CarportOrder deliver(CarportOrder carportOrder, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
         Validation.validateCarportOrder(carportOrder);
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -248,8 +253,9 @@ class CarportOrderMapper {
                 statement.setString(1, "ORDER_DELIVERED");
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
+                return getCarportOrderById(carportOrder.getId(), connectionPool);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Error while setting CarportOrder with id " + carportOrder.getId() + " to delivered");
         }
     }
