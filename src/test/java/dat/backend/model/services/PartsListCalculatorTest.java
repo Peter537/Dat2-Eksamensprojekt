@@ -1,11 +1,10 @@
-package dat.backend.model.entities;
+package dat.backend.model.services;
 
-import dat.backend.model.services.PartsListCalculator;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class PartsListTest {
+class PartsListCalculatorTest {
 
     @Test
     void testValidCalculateNumberOfPolesWidth0() {
@@ -59,20 +58,18 @@ class PartsListTest {
     }
 
     @Test
-    void testValidCalculateNumberOfPoles6(){
+    void testValidCalculateNumberOfPoles6() {
         int expected = 6;
         int actual = PartsListCalculator.calculateNumberOfPoles(481, 670);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testValidCalculateNumberOfPoles9(){
+    void testValidCalculateNumberOfPoles9() {
         int expected = 9;
         int actual = PartsListCalculator.calculateNumberOfPoles(481, 671);
         assertEquals(expected, actual);
     }
-
-
 
     @Test
     void testValidCalculateNumberOfPlates() {
@@ -94,6 +91,7 @@ class PartsListTest {
         int actual = PartsListCalculator.calculateNumberOfRafters(601);
         assertEquals(expected, actual);
     }
+
     @Test
     void testValidCalculateSpanBetweenPlates0() {
         double expected = 600;
@@ -121,8 +119,4 @@ class PartsListTest {
         double actual = PartsListCalculator.calculateDimensions(672);
         assertEquals(expected, actual);
     }
-
-
-
-
 }
