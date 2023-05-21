@@ -5,9 +5,11 @@ import org.abstractica.javacsg.JavaCSG;
 import org.abstractica.javacsg.JavaCSGFactory;
 
 public class Screw {
-    int length;
-    int diameter;
-    int numberOfScrews;
+
+    private final int length;
+    private final int diameter;
+
+    private int numberOfScrews;
 
     public Screw(int length, int diameter, int numberOfScrews) {
         this.length = length;

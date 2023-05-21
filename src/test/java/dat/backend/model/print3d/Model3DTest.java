@@ -6,6 +6,8 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.TestDatabase;
 import dat.backend.model.persistence.item.RoofFacade;
+import org.abstractica.javacsg.JavaCSG;
+import org.abstractica.javacsg.JavaCSGFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -42,7 +44,6 @@ class Model3DTest extends TestDatabase {
                         " VALUES (300, 1, 1000), (480, 1, 1000), (360, 2, 1000), (360, 2, 1000), (720,2,1000), (800,2,1000), (720, 3, 1000)");
                 stmt.execute("INSERT INTO roof (squaremeter_price, type) " +
                         "VALUES (100, 'PLASTIC_ROOF'), (200, 'TILED_ROOF')");
-
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -52,38 +53,38 @@ class Model3DTest extends TestDatabase {
 
     @Test
     void ValidCreatePole() throws DatabaseException, NotFoundException {
+        JavaCSG csg = JavaCSGFactory.createDefault();
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
         PartsList partsList = new PartsList(200, 500, 300, roof, super.connectionPool);
         //partsList.getNumberOfPoles();
-        Pole3D pole3D = new Pole3D(partsList);
+        Pole3D pole3D = new Pole3D(csg, partsList);
         assertNotNull(pole3D);
     }
 
-
     @Test
     void ValidCreatePlate() throws DatabaseException, NotFoundException {
+        JavaCSG csg = JavaCSGFactory.createDefault();
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
         PartsList partsList = new PartsList(200, 500, 300, roof, super.connectionPool);
-        Plate3D plate3D = new Plate3D(partsList);
+        Plate3D plate3D = new Plate3D(csg, partsList);
         assertNotNull(plate3D);
     }
 
-
     @Test
     void ValidCreateRafter() throws DatabaseException, NotFoundException {
+        JavaCSG csg = JavaCSGFactory.createDefault();
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
         PartsList partsList = new PartsList(200, 500, 300, roof, super.connectionPool);
-        Rafter3D rafter3D = new Rafter3D(partsList);
+        Rafter3D rafter3D = new Rafter3D(csg, partsList);
         assertNotNull(rafter3D);
     }
-
 
     @Test
     void ValidModel() throws DatabaseException, NotFoundException {
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
         PartsList partsList = new PartsList(200, 500, 300, roof, super.connectionPool);
-        Model3D model3D = new Model3D();
-        model3D.createModel(partsList);
+        Model3D model3D = new Model3D(partsList);
+        model3D.createModel();
         assertNotNull(model3D);
     }
 }
