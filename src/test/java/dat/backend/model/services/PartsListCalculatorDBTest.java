@@ -1,5 +1,6 @@
-package dat.backend.model.entities;
+package dat.backend.model.services;
 
+import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.item.Lumber;
 import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.entities.item.Roof;
@@ -7,7 +8,6 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.TestDatabase;
 import dat.backend.model.persistence.item.RoofFacade;
-import dat.backend.model.services.PartsListCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class PartsListTestDB extends TestDatabase {
+class PartsListCalculatorDBTest extends TestDatabase {
 
     @BeforeEach
     public void setUp() {
@@ -116,12 +116,13 @@ class PartsListTestDB extends TestDatabase {
         int length = 400;
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
         PartsList partsList = new PartsList(height, length, width, roof, super.connectionPool);
-        float pricePoles = PartsListCalculator.calculateNumberOfPoles(length, width) * PartsListCalculator.calculatePole(height, width, super.connectionPool).getPrice();
         double expectedPrice = PartsListCalculator.calculateNumberOfPoles(length, width) * PartsListCalculator.calculatePole(height, width, super.connectionPool).getPrice() +
                 PartsListCalculator.calculateNumberOfRafters(length) * PartsListCalculator.calculateRafter(length, width, super.connectionPool).getPrice() +
                 PartsListCalculator.calculateNumberOfPlates(width) * PartsListCalculator.calculatePlate(width, super.connectionPool).getPrice() + partsList.getRoof().getSquareMeterPrice() * partsList.getRoofArea();
+
         //act
         double totalPrice = partsList.calculateTotalPrice();
+
         // assert
         assertEquals(expectedPrice, totalPrice, 0.1);
     }
@@ -138,7 +139,6 @@ class PartsListTestDB extends TestDatabase {
 
         // assert
         assertEquals(expected, actual);
-
     }
 
     @Test
@@ -146,16 +146,7 @@ class PartsListTestDB extends TestDatabase {
         int width = 672;
         LumberType rafterType = PartsListCalculator.calculateRafterType(width, super.connectionPool);
         int expected = 672;
-
         int actual = PartsListCalculator.calculateLengthOfLumber(width, rafterType, super.connectionPool);
         assertEquals(expected, actual);
     }
-/*
-    @Test
-    void testValidCalculateLengthOfLumber1() {
-        int expected = 400;
-        int actual = PartsList.calculateLengthOfLumber(800);
-        assertEquals(expected, actual);
-    }
-    */
 }
