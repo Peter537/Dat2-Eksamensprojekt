@@ -3,7 +3,6 @@ package dat.backend.model.services;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
 import dat.backend.model.entities.order.CarportOrder;
-import dat.backend.model.entities.order.OrderStatus;
 import dat.backend.model.entities.user.*;
 import dat.backend.model.exceptions.ValidationException;
 
@@ -26,7 +25,13 @@ public class Validation {
     }
 
     public static void validateCustomer(String email, String password) throws ValidationException {
-        validateCustomer("Peter", email, password);
+        if (!isValidCustomerEmail(email)) {
+            throw new ValidationException("Invalid customer email");
+        }
+
+        if (!isValidPassword(password)) {
+            throw new ValidationException("Invalid password");
+        }
     }
 
     public static void validateCustomer(String name, String email, String password) throws ValidationException {
@@ -58,7 +63,13 @@ public class Validation {
     }
 
     public static void validateEmployee(String email, String password) throws ValidationException {
-        validateEmployee("Peter", email, password);
+        if (!isValidEmployeeEmail(email)) {
+            throw new ValidationException("Invalid employee email");
+        }
+
+        if (!isValidPassword(password)) {
+            throw new ValidationException("Invalid password");
+        }
     }
 
     public static void validateEmployee(String name, String email, String password) throws ValidationException {
@@ -127,14 +138,14 @@ public class Validation {
         return phoneNumber.matches("^[0-9]{8}$");
     }
 
-    public static void validatePosition(Position newPosition) throws ValidationException {
-        if (newPosition == null) {
+    public static void validatePosition(Position position) throws ValidationException {
+        if (position == null) {
             throw new ValidationException("Invalid position");
         }
     }
 
-    public static void validateDepartment(Department newDepartment) throws ValidationException {
-        if (newDepartment == null) {
+    public static void validateDepartment(Department department) throws ValidationException {
+        if (department == null) {
             throw new ValidationException("Invalid department");
         }
     }
@@ -187,12 +198,12 @@ public class Validation {
         validateLength(toolRoom.getLength());
     }
 
-    public static void validatePrice(Float aFloat) throws ValidationException {
-        if (aFloat == null) {
+    public static void validatePrice(Float f) throws ValidationException {
+        if (f == null) {
             throw new ValidationException("Invalid price");
         }
 
-        if (aFloat < 0) {
+        if (f < 0) {
             throw new ValidationException("Invalid price");
         }
     }
