@@ -26,7 +26,7 @@
             <jsp:forward page="login"/>
         </c:if>
         <script src="${pageContext.request.contextPath}/scripts/profileSiteScript.js"></script>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profileSiteStyle.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/customerSiteStyle.css">
 
         <c:if test="${not empty requestScope.errormessage}">
             <div class="alertRed">
@@ -99,10 +99,6 @@
                 <a class="link btn" type="button" onclick="openPopup()">Skift konto infomation</a>
             </form>
 
-                <%--
-        TODO: fix the popup somehow... files involved: profileSite, changepassowrd (servlet), testpage.jsp--%>
-
-
                 <%--TODO: replace the image-links with images taken from the image folder.--%>
 
             <div class="card" style="height: 50%">
@@ -116,7 +112,7 @@
                             <h5 class="card-title">Vis mine ordrer</h5>
                             <p class="card-text">Her vil du kunne se dine seneste ordre og se status på igangværende og
                                 gamle bestillinger</p>
-                            <a href="ToCustomerOrders" class="btn btn-primary">Til mine ordrer</a>
+                            <a href="see-customer-orders" class="btn btn-primary">Til mine ordrer</a>
 
                             <div class="row" style="padding-top: 5%">
                                 <div class="col-12">
@@ -142,8 +138,9 @@
                     <div class="col-sm-6">
                         <div class="card-body">
                             <h5 class="card-title">Lav ny forespørgsel</h5>
-                            <p class="card-text">Hvis intet i vores brede katalog er noget for dig, så indsend dine egne mål som en flittig medarbejder vil hjælpe dig hen med</p>
-                            <a href="to-generate-partlist" class="btn btn-primary">Tag mig til formularen</a>
+                            <p class="card-text">Hvis intet i vores brede katalog er noget for dig, så indsend dine egne
+                                mål som en flittig medarbejder vil hjælpe dig hen med</p>
+                            <a href="carport-formula" class="btn btn-primary">Tag mig til formularen</a>
                         </div>
                     </div>
                 </div>
@@ -153,7 +150,8 @@
         <div class="row" style="margin-top: 3%"></div>
 
 
-        <div class="popup" id="popup" style="margin-top: 1%; opacity: 90%; background-color: #083d74; height: 85%; color: white">
+        <div class="popup" id="popup"
+             style="margin-top: 1%; opacity: 90%; background-color: #083d74; height: 85%; color: white">
 
             <div style="height: 100%; width: 100%; opacity: 100% !important;">
 
@@ -161,7 +159,8 @@
                     <div class="row">
                         <div class="col-3">
                             <img style="height: 150px; width: 150px; margin-top: 0.5%"
-                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile Picture">
+                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                 alt="Profile Picture">
                         </div>
 
                         <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
@@ -204,7 +203,7 @@
                     <div class="row" style="padding: 50px"></div>
 
                     <div class="row">
-                        <div class="col-4" style="margin-top: 1%">
+                        <div class="col-4" style="margin-top: 20px">
                             <h3>Skift kontonavn</h3>
                             <div class="form-group">
                                 <label for="name">Name</label>
@@ -215,11 +214,6 @@
 
                         <div class="col-4" style="margin-top: 1%">
                             <h3>Skift kodeord</h3>
-                            <div class="form-group">
-                                <label for="oldPassword">gammelt kodeord</label>
-                                <input class="form-control" type="password" name="oldPassword" id="oldPassword"
-                                       placeholder="skriv dit nuværende kodeord">
-                            </div>
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="newPassword">Nyt kodeord</label>
                                 <input class="form-control" type="password" name="newPassword" id="newPassword"
@@ -234,11 +228,12 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.user.personalPhoneNumber.present}">
-                            <c:set var="personalPhoneNumber" value="${sessionScope.user.personalPhoneNumber.get()}"/>
-                        </c:when>
-                        <c:otherwise>
-                            <c:set var="personalPhoneNumber" value="ikke sat"/>
-                        </c:otherwise>
+                                <c:set var="personalPhoneNumber"
+                                       value="${sessionScope.user.personalPhoneNumber.get()}"/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="personalPhoneNumber" value="ikke sat"/>
+                            </c:otherwise>
                         </c:choose>
 
 
@@ -248,14 +243,13 @@
                                 <div class="form-group">
                                     <label for="newPhoneNumber">Nyt telefonnummer</label>
                                     <input class="form-control" id="newPhoneNumber" type="text" name="newPhoneNumber"
-                                            placeholder="${personalPhoneNumber}">
+                                           placeholder="${personalPhoneNumber}">
                                 </div>
                             </div>
                             <div class="row"></div>
 
                             <div class="row" style="padding-top: 10%">
                                 <h3>Skift adresseinfo</h3>
-
 
 
                                 <c:choose>
@@ -267,14 +261,14 @@
                                     </c:otherwise>
                                 </c:choose>
 
-                               <c:choose>
-                                   <c:when test="${sessionScope.user.address2.present}">
-                                       <c:set var="address2" value="${sessionScope.user.address2.get().getStreet()}"/>
-                                   </c:when>
-                                   <c:otherwise>
-                                         <c:set var="address2" value="ikke sat"/>
-                                   </c:otherwise>
-                               </c:choose>
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.address2.present}">
+                                        <c:set var="address2" value="${sessionScope.user.address2.get().getStreet()}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="address2" value="ikke sat"/>
+                                    </c:otherwise>
+                                </c:choose>
 
                                 <c:choose>
                                     <c:when test="${sessionScope.user.address3.present}">
@@ -288,7 +282,8 @@
 
                                 <c:choose>
                                     <c:when test="${sessionScope.user.getAddress(1).present}">
-                                        <c:set var="zip1" value="${sessionScope.user.getAddress(1).get().zip.getZipCode()}"/>
+                                        <c:set var="zip1"
+                                               value="${sessionScope.user.getAddress(1).get().zip.getZipCode()}"/>
                                     </c:when>
                                     <c:otherwise>
                                         <c:set var="zip1" value="ikke sat"/>
@@ -297,7 +292,8 @@
 
                                 <c:choose>
                                     <c:when test="${sessionScope.user.getAddress(2).present}">
-                                        <c:set var="zip2" value="${sessionScope.user.getAddress(2).get().zip.getZipCode()}"/>
+                                        <c:set var="zip2"
+                                               value="${sessionScope.user.getAddress(2).get().zip.getZipCode()}"/>
                                     </c:when>
                                     <c:otherwise>
                                         <c:set var="zip2" value="ikke sat"/>
@@ -307,7 +303,8 @@
 
                                 <c:choose>
                                     <c:when test="${sessionScope.user.getAddress(3).present}">
-                                        <c:set var="zip3" value="${sessionScope.user.getAddress(3).get().zip.getZipCode()}"/>
+                                        <c:set var="zip3"
+                                               value="${sessionScope.user.getAddress(3).get().zip.getZipCode()}"/>
                                     </c:when>
                                     <c:otherwise>
                                         <c:set var="zip3" value="ikke sat"/>
@@ -319,14 +316,13 @@
                                     <div class="col-6">
                                         <label for="street1">Street</label>
                                         <input class="form-control" type="text" name="street1" id="street1"
-                                                placeholder="${address1}">
+                                               placeholder="${address1}">
                                     </div>
                                     <div class="col-6">
                                         <label for="zipCode1">Zip code</label>
                                         <input class="form-control" type="number" name="zipCode1" id="zipCode1"
                                                placeholder="${zip1}">
                                     </div>
-
 
 
                                 </div>

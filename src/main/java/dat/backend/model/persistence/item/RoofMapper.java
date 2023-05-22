@@ -5,7 +5,6 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.services.Validation;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -87,8 +86,7 @@ class RoofMapper {
         }
     }
 
-    static void updateRoof(int id, float squareMeterPrice, String roofType, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
-        Validation.validatePrice(squareMeterPrice);
+    static void updateRoof(int id, float squareMeterPrice, String roofType, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "UPDATE roof SET squaremeter_price = ?, type = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {

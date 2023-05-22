@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-sm-1">
-                    <a href="ToProfileSite" class="btn btn-primary" style="margin-top: 10%;">Tilbage</a>
+                    <a href="customer-site" class="btn btn-primary" style="margin-top: 10%;">Tilbage</a>
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@
                     <td>${order.orderStatus.displayName}</td>
                     <td>${order.price.present ? order.price.get() : 'endnu ikke bestemt'}</td>
                     <td>
-                        <form action="DetailedOrderInfo" method="post">
+                        <form action="detailed-order-info" method="post">
                             <input type="hidden" name="orderId" value="${order.id}">
                             <input type="hidden" name="fromJsp" value="customer">
                             <input type="submit" value="Se mere om ordren">
@@ -72,13 +72,15 @@
 
         <c:if test="${requestScope.load != null}">
 
-            <div class="row" id="popup" style="z-index: 6; position: sticky">
+            <div class="row" id="popup"
+                 style="position: sticky; opacity: 95%; background-color: white; z-index: 10; border: 1px solid black; border-radius: 10px; visibility: visible">
                 <div class="popup-header row">
-                    <div class="col-sm-6" style="border: 1px solid black;border-bottom: 0;border-radius: 4px 4px 0 0;background: white;">
+                    <div class="col-sm-6"
+                         style="border: 1px solid black;border-bottom: 0;border-radius: 4px 4px 0 0;background: white;">
                         <h3 style="margin-top: 1%; text-align: left">
                             Ordrenummer: ${requestScope.carportOrder.id} |
                             Status: ${requestScope.carportOrder.orderStatus.displayName}
-                            <a href="ToCustomerOrders" class="btn btn-primary" style="margin-left: 2%;">Luk</a>
+                            <a href="see-customer-orders" class="btn btn-primary" style="margin-left: 2%;">Luk</a>
                         </h3>
                     </div>
                 </div>
@@ -86,8 +88,10 @@
                     <div id="Seller" class="col-lg-4 col-md-12 text-center">
                         <div class="seller-info row">
                             <h2>Sælger Information</h2>
-                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;" class="card-img-top"
-                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="SellerProfile">
+                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                 class="card-img-top"
+                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                 alt="SellerProfile">
                         </div>
                         <div class="seller-employee row">
                             <p>${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().name : 'Ikke tildelt'}</p>
@@ -96,13 +100,16 @@
                             <p>${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().email : 'Ikke tildelt'}</p>
                         </div>
                         <div>
-                            <p> Arbejdstelefonnummer: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().workPhoneNumber.get() : 'Ikke tildelt'}</p>
+                            <p>
+                                Arbejdstelefonnummer: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().workPhoneNumber.get() : 'Ikke tildelt'}</p>
                         </div>
                         <div class="seller-contact row" style="margin-right: 1%">
                             <h2>Kontakt sælger</h2>
-                            <textarea id="messageToSeller" name="CustomerMessage" class="form-control" rows="5" cols="33"
+                            <textarea id="messageToSeller" name="CustomerMessage" class="form-control" rows="5"
+                                      cols="33"
                                       placeholder="En besked til sælgeren"></textarea>
-                            <button type="button" class="btn btn-primary" style="margin-top: 2%">Send til sælger</button>
+                            <button type="button" class="btn btn-primary" style="margin-top: 2%">Send til sælger
+                            </button>
                         </div>
                     </div>
 
@@ -129,9 +136,13 @@
                         <p>Tag-type: ${requestScope.carportOrder.roof.type}</p>
 
                         <h2>Redskabs skur</h2>
-                        <p>Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width + " cm" : 'Ikke sat'}</p>
-                        <p>Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length + " cm": 'ikke sat'}</p>
-                        <p>Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.price.get() : 'Endnu ikke sat'} kr.</p>
+                        <p>
+                            Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width + " cm" : 'Ikke sat'}</p>
+                        <p>
+                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length + " cm": 'ikke sat'}</p>
+                        <p>
+                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.price.get() : 'Endnu ikke sat'}
+                            kr.</p>
 
                         <h2>Remarks</h2>
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
@@ -144,17 +155,6 @@
             <br>
         </c:if>
 
-        <style>
-            .popup {
-                opacity: 95%;
-                background-color: white;
-                z-index: 10;
-                border: 1px solid black;
-                border-radius: 10px;
-                visibility: visible;
-            }
-
-        </style>
     </jsp:body>
 
 </t:pagetemplate>

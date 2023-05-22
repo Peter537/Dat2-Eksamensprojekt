@@ -72,7 +72,7 @@
                         </c:otherwise>
                     </c:choose>
                     <td>
-                        <form action="DetailedOrderInfo" method="post">
+                        <form action="detailed-order-info" method="post">
                             <input type="hidden" name="orderId" value="${order.id}">
                             <input type="hidden" name="fromJsp" value="employee">
                             <input type="submit" value="Se mere om ordren">
@@ -86,42 +86,52 @@
         <c:if test="${requestScope.load != null}">
 
             <div class="row" id="popup" style="z-index: 6; position: sticky">
-                <div class="popup-header row">
-                    <div class="col-sm-8" style="border: 1px solid black; border-bottom: 0; border-radius: 4px 4px 0 0; background: white;">
-                        <div class="row align-items-center">
-                            <div class="col-sm-9">
-                                <h4 style="margin-top: 1%; text-align: left">
-                                    Ordrenummer: ${requestScope.carportOrder.id} |
-                                    Status: ${requestScope.carportOrder.orderStatus.displayName}
-                                </h4>
-                            </div>
-                            <div class="col-sm-2" style="float: left">
-                                <c:choose>
-                                    <c:when test="${!requestScope.carportOrder.employee.present}">
-                                        <form action="EmployeeClaimOrder" method="post">
-                                            <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+            <div class="popup-header row">
+                <div class="col-sm-8"
+                     style="border: 1px solid black; border-bottom: 0; border-radius: 4px 4px 0 0; background: white;">
+                    <div class="row align-items-center">
+                        <div class="col-sm-9">
+                            <h4 style="margin-top: 1%; text-align: left">
+                                Ordrenummer: ${requestScope.carportOrder.id} |
+                                Status: ${requestScope.carportOrder.orderStatus.displayName}
+                            </h4>
+                        </div>
+                        <div class="col-sm-2" style="float: left">
+                            <c:choose>
+                                <c:when test="${!requestScope.carportOrder.employee.present}">
+                                    <form action="employee-claim-order" method="post">
+                                        <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+                                        <input type="hidden" name="fromJsp" value="employee">
+                                        <input class="btn btn-primary" type="submit" value="Tag ordre"
+                                               style="width: 80%">
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email}">
+                                        <form action="employee-make-offer" method="post">
+                                            <input id="dealMaker" name="priceOffer" type="number" value="giv pris"
+                                                   placeholder="Giv Tilbud i DKK">
                                             <input type="hidden" name="fromJsp" value="employee">
-                                            <input class="btn btn-primary" type="submit" value="Tag ordre" style="width: 80%">
+                                            <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
                                         </form>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <form action="EmployeeClaimOrder" method="post">
-                                        <input id="dealMaker" type="number" value="giv pris" placeholder="Giv Tilbud">
-                                        </form>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
+                                    </c:if>
+                                    <c:if test="${!sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email}">
+                                        <p>Ordre taget</p>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
-                    <div class="col-3"></div>
+                </div>
+                <div class="col-3"></div>
 
-                    <div class="col-1">
-                        <a href="${requestScope.from}" type="button" class="closebtn" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                    </div>
+                <div class="col-1">
+                    <a href="${requestScope.from}" type="button" class="closebtn" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
 
-                    <div class="row popup">
+                <div class="row popup">
                     <div id="Customer" class="col-lg-4 col-md-12 text-center">
                         <h2>Kundens Information</h2>
                         <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
@@ -135,7 +145,8 @@
                         </div>
                         <div class="customer-contact row" style="margin-right: 1%">
                             <h2>Kontakt kunde</h2>
-                            <textarea id="messageToCustomer" name="SellerMessage" class="form-control" rows="5" cols="33"
+                            <textarea id="messageToCustomer" name="SellerMessage" class="form-control" rows="5"
+                                      cols="33"
                                       placeholder="En besked til kunden"></textarea>
                             <button type="button" class="btn btn-primary" style="margin-top: 2%">Send til kunde</button>
                         </div>
@@ -145,17 +156,22 @@
                     <div id="Seller" class="col-lg-5 col-md-12 text-center" style="border-left: 1px solid grey;">
                         <div class="seller-info row">
                             <h2>Din Information</h2>
-                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;" class="card-img-top"
-                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="SellerProfile">
+                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                 class="card-img-top"
+                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                 alt="SellerProfile">
                         </div>
                         <p>${sessionScope.user.name}</p>
                         <p>${sessionScope.user.email}</p>
-                        <p>Privat telefonnummer: ${sessionScope.user.personalPhoneNumber.present ? sessionScope.user.personalPhoneNumber.get() : 'intet telefonnummer'}</p>
-                        <p>Arbejds telefonnummer: ${sessionScope.user.workPhoneNumber.present ? sessionScope.user.workPhoneNumber.get() : 'intet telefonnummer'}</p>
+                        <p>Privat
+                            telefonnummer: ${sessionScope.user.personalPhoneNumber.present ? sessionScope.user.personalPhoneNumber.get() : 'intet telefonnummer'}</p>
+                        <p>Arbejds
+                            telefonnummer: ${sessionScope.user.workPhoneNumber.present ? sessionScope.user.workPhoneNumber.get() : 'intet telefonnummer'}</p>
                         <p>${requestScope.carportOrder.address.address}</p>
 
                         <br>
-                        <iframe src="ToPartslistFrame" width="100%" height="350px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+                        <iframe src="order-partslist-frame" width="100%" height="350px" sandbox="allow-forms"
+                                onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
                     </div>
 
 
@@ -169,9 +185,15 @@
                         <p>Tag-type: ${requestScope.carportOrder.roof.type}</p>
 
                         <h2>Redskabs skur</h2>
-                        <p>Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'Ikke sat'} cm</p>
-                        <p>Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'ikke sat'} cm</p>
-                        <p>Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.price.get() : 'Endnu ikke sat'} kr.</p>
+                        <p>
+                            Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'Ikke sat'}
+                            cm</p>
+                        <p>
+                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'ikke sat'}
+                            cm</p>
+                        <p>
+                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.price.get() : 'Endnu ikke sat'}
+                            kr.</p>
 
                         <h2>Remarks</h2>
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
@@ -211,7 +233,6 @@
             }
 
         </style>
-
 
     </jsp:body>
 

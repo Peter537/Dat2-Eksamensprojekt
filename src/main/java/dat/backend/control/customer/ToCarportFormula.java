@@ -1,4 +1,4 @@
-package dat.backend.control.employee;
+package dat.backend.control.customer;
 
 import dat.backend.annotation.IgnoreCoverage;
 
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "to-generate-partlist", value = "/to-generate-partlist")
-public class ToGeneratePartlist extends HttpServlet {
+@WebServlet(name = "carport-formula", value = "/carport-formula")
+public class ToCarportFormula extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

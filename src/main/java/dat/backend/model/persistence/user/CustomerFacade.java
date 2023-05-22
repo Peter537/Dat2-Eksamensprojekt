@@ -7,14 +7,24 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.services.Validation;
 
 public class CustomerFacade {
 
     public static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
+        Validation.validateCustomer(email, password);
         return CustomerMapper.login(email, password, connectionPool);
     }
 
     public static Customer create(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
+        Validation.validateCustomer(name, email, password);
+        try {
+            getCustomerByEmail(email, connectionPool);
+            throw new AlreadyExistsException("Email already exists");
+        } catch (NotFoundException e) {
+            // Do nothing
+        }
+
         return CustomerMapper.create(email, password, name, connectionPool);
     }
 
@@ -23,6 +33,7 @@ public class CustomerFacade {
     }
 
     public static void updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCustomer(customer.getName(), customer.getEmail(), newPassword);
         CustomerMapper.updatePassword(customer, newPassword, connectionPool);
     }
 
@@ -31,10 +42,12 @@ public class CustomerFacade {
     }
 
     public static void updateName(Customer customer, String newName, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateName(newName);
         CustomerMapper.updateName(customer, newName, connectionPool);
     }
 
     public static void updatePhoneNumber(Customer customer, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validatePhoneNumber(newPhoneNumber);
         CustomerMapper.updatePhoneNumber(customer, newPhoneNumber, connectionPool);
     }
 }

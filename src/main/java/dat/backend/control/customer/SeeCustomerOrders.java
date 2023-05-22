@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "ToCustomerOrders", value = "/ToCustomerOrders")
-public class ToCustomerOrders extends HttpServlet {
+@WebServlet(name = "see-customer-orders", value = "/see-customer-orders")
+public class SeeCustomerOrders extends HttpServlet {
 
     private ConnectionPool connectionPool;
 
@@ -41,6 +41,6 @@ public class ToCustomerOrders extends HttpServlet {
         }
 
         request.setAttribute("carportOrders", carportOrders);
-        request.getRequestDispatcher("WEB-INF/customerOrders.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/seeCustomerOrders.jsp").forward(request, response);
     }
 }

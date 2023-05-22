@@ -1,8 +1,6 @@
 package dat.backend.control.employee;
 
 import dat.backend.annotation.IgnoreCoverage;
-import dat.backend.model.config.ApplicationStart;
-import dat.backend.model.persistence.ConnectionPool;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "see-catalog", value = "/see-catalog")
-public class SeeCatalog extends HttpServlet {
+public class ToSeeCatalog extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {

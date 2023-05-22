@@ -45,13 +45,13 @@ public class Login extends HttpServlet {
                 if (Validation.isValidCustomerEmail(email)) {
                     Customer customer = CustomerFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", customer);
-                    request.getSession().setAttribute("myhome", "ToProfileSite");
+                    request.getSession().setAttribute("myhome", "customer-site");
                     request.setAttribute("lateststatus", CarportOrderFacade.getLatestOrderStatusFromCustomer(customer, connectionPool));
-                    request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
+                    request.getRequestDispatcher("WEB-INF/customerSite.jsp").forward(request, response);
                 } else {
                     Employee employee = EmployeeFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", employee);
-                    request.getSession().setAttribute("myhome", "ToEmployeeSite");
+                    request.getSession().setAttribute("myhome", "employee-site");
                     request.setAttribute("news", CarportOrderFacade.getCarportOrdersAsNews(connectionPool));
                     request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
                 }

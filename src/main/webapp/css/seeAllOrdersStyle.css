@@ -1,0 +1,24 @@
+.popup {
+    opacity: 95%;
+    background-color: white;
+    z-index: 10;
+    border: 1px solid black;
+    border-radius: 10px;
+    visibility: visible;
+}
+
+.closebtn {
+    border: none !important;
+    color: black;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: white;
+}

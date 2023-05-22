@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "ToEmployeeSite", value = "/ToEmployeeSite")
+@WebServlet(name = "employee-site", value = "/employee-site")
 public class ToEmployeeSite extends HttpServlet {
 
     @Override

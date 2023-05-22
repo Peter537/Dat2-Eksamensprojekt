@@ -1,4 +1,4 @@
-package dat.backend.control.employee;
+package dat.backend.control.customer;
 
 import dat.backend.annotation.IgnoreCoverage;
 
@@ -10,14 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "ChangeOrderInfo", value = "/ChangeOrderInfo")
-public class ChangeOrderInfo extends HttpServlet {
+@WebServlet(name = "customer-site", value = "/customer-site")
+public class ToCustomerSite extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("WEB-INF/customerSite.jsp").forward(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // This servlet is for the employee to open up and change the order information (Employee's version of detailedOrderInfo
+        request.getRequestDispatcher("WEB-INF/customerSite.jsp").forward(request, response);
     }
 }

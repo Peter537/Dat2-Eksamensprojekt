@@ -26,8 +26,8 @@
             <jsp:forward page="login"/>
         </c:if>
         <script src="${pageContext.request.contextPath}/scripts/profileSiteScript.js"></script>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profileSiteStyle.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/employeeOverviewStyle.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/customerSiteStyle.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/employeeSiteStyle.css">
 
         <c:if test="${not empty requestScope.errormessage}">
             <div class="alertRed">
@@ -114,10 +114,6 @@
                 <a class="link btn" type="button" onclick="openPopup()">Skift konto infomation</a>
             </form>
 
-                <%--
-        TODO: fix the popup somehow... files involved: profileSite, changepassowrd (servlet), testpage.jsp--%>
-
-
                 <%--TODO: replace the image-links with images taken from the image folder.--%>
 
             <div class="row">
@@ -127,7 +123,8 @@
                             <div class="col-sm-12">
                                 <div class="card-body">
                                     <h5 class="card-title">Mine nuværende salg</h5>
-                                    <p class="card-text">Her vil du kunne se din nyeste order og se status på den igangværende salg</p>
+                                    <p class="card-text">Her vil du kunne se din nyeste order og se status på den
+                                        igangværende salg</p>
                                     <a href="see-employee-orders" class="btn btn-primary">Til mine salg</a>
 
                                     <div class="row" style="padding-top: 5%">
@@ -159,9 +156,9 @@
                         </div>
                         <div class="col-sm-6 card sm-card">
                             <div class="card-body">
-                                <h5 class="card-title">Generer stykliste</h5>
-                                <p class="card-text">Her kan du generere en stykliste, enten med dine egne mål eller baseret på en brugers ordre.</p>
-                                <a href="to-generate-partlist" class="btn btn-primary">Generer stykliste</a>
+                                <h5 class="card-title">FIND NYT MODUL</h5>
+                                <p class="card-text">FIND NYT MODUL ELLER GØR NOGET ANDET MED DESIGN TING</p>
+                                <a href="INVALID" class="btn btn-primary">Knap</a>
                             </div>
                         </div>
                     </div>
@@ -181,22 +178,22 @@
                             </thead>
                             <tbody>
                             <c:forEach items="${requestScope.news}" var="news">
-                                <tr>
-                                    <td>${news.getId()}</td>
-                                    <td>${news.getCreatedOn()}</td>
-                                    <td>${news.getPrice().get()}</td>
-                                </tr>
+                            <tr>
+                                <td>${news.getId()}</td>
+                                <td>${news.getCreatedOn()}</td>
+                                <td>${news.getPrice().get()}</td>
+                            </tr>
                             </c:forEach>
                         </table>
-<%--                        <div class="row text-center">--%>
-<%--                            <span>ID | Oprettede dato | </span>--%>
-<%--                        </div>--%>
-<%--                        <c:forEach items="${requestScope.news}" var="news">--%>
-<%--                            <div class="card-body row text-center">--%>
-<%--                                <span>${news.getId()} | ${news.getCreatedOn()} | ${news.getPrice().get()}</span>--%>
-<%--                                <hr>--%>
-<%--                            </div>--%>
-<%--                        </c:forEach>--%>
+                            <%--                        <div class="row text-center">--%>
+                            <%--                            <span>ID | Oprettede dato | </span>--%>
+                            <%--                        </div>--%>
+                            <%--                        <c:forEach items="${requestScope.news}" var="news">--%>
+                            <%--                            <div class="card-body row text-center">--%>
+                            <%--                                <span>${news.getId()} | ${news.getCreatedOn()} | ${news.getPrice().get()}</span>--%>
+                            <%--                                <hr>--%>
+                            <%--                            </div>--%>
+                            <%--                        </c:forEach>--%>
                     </div>
                 </div>
             </div>
@@ -205,7 +202,8 @@
         <div class="row" style="margin-top: 3%"></div>
 
 
-        <div class="popup" id="popup" style="margin-top: 1%; opacity: 90%; background-color: #083d74; height: 85%; color: white">
+        <div class="popup" id="popup"
+             style="margin-top: 1%; opacity: 90%; background-color: #083d74; height: 85%; color: white">
 
             <div style="height: 100%; width: 100%; opacity: 100% !important;">
 
@@ -213,7 +211,8 @@
                     <div class="row">
                         <div class="col-3">
                             <img style="height: 150px; width: 150px; margin-top: 0.5%"
-                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile Picture">
+                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                 alt="Profile Picture">
                         </div>
 
                         <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
@@ -244,11 +243,6 @@
 
                         <div class="col-4" style="margin-top: 1%">
                             <h3>Skift kodeord</h3>
-                            <div class="form-group">
-                                <label for="oldPassword">gammelt kodeord</label>
-                                <input class="form-control" type="password" name="oldPassword" id="oldPassword"
-                                       placeholder="skriv dit nuværende kodeord">
-                            </div>
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="newPassword">Nyt kodeord</label>
                                 <input class="form-control" type="password" name="newPassword" id="newPassword"
@@ -263,7 +257,8 @@
 
                         <c:choose>
                             <c:when test="${sessionScope.user.personalPhoneNumber.present}">
-                                <c:set var="personalPhoneNumber" value="${sessionScope.user.personalPhoneNumber.get()}"/>
+                                <c:set var="personalPhoneNumber"
+                                       value="${sessionScope.user.personalPhoneNumber.get()}"/>
                             </c:when>
                             <c:otherwise>
                                 <c:set var="personalPhoneNumber" value="ikke sat"/>
