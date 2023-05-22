@@ -30,25 +30,31 @@
                 </div>
 
                 <div class="col-sm-1">
-                    <a href="ToEmployeeSite" class="btn btn-primary" style="margin-top: 10%;">Tilbage</a>
+                    <a href="employee-site" class="btn btn-primary" style="margin-top: 10%;">Tilbage</a>
                 </div>
             </div>
         </div>
 
         <div class="text-center">
-            <iframe src="ToRoofFrame" style="box-shadow: 1px 0 3px 0 gray;" width="100%" height="500px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+            <iframe src="catalog-roof-frame" style="box-shadow: 1px 0 3px 0 gray;" width="100%" height="500px"
+                    sandbox="allow-forms"
+                    onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
 
             <br>
             <br>
             <br>
 
-            <iframe src="ToPoleFrame" style="box-shadow: 1px 0px 3px 0px gray;" width="100%" height="500px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+            <iframe src="catalog-pole-frame" style="box-shadow: 1px 0px 3px 0px gray;" width="100%" height="500px"
+                    sandbox="allow-forms"
+                    onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
 
             <br>
             <br>
             <br>
 
-            <iframe src="ToRafterFrame" style="box-shadow: 1px 0px 3px 0px gray;" width="100%" height="500px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+            <iframe src="catalog-rafter-frame" style="box-shadow: 1px 0px 3px 0px gray;" width="100%" height="500px"
+                    sandbox="allow-forms"
+                    onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
 
             <br>
             <br>

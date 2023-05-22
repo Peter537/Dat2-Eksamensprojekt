@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "delete-catalog-item", value = "/delete-catalog-item")
-public class DeleteCatalogItem extends HttpServlet {
+public class CatalogDeleteItem extends HttpServlet {
 
     private ConnectionPool connectionPool;
 
@@ -30,7 +30,6 @@ public class DeleteCatalogItem extends HttpServlet {
             String catalogItemType = request.getParameter("catalogItemType");
             String id = request.getParameter("id");
             String returnPage;
-
             switch (catalogItemType) {
                 case "roof":
                     RoofFacade.deleteRoof(Integer.parseInt(id), connectionPool);
@@ -47,6 +46,7 @@ public class DeleteCatalogItem extends HttpServlet {
                 default:
                     throw new IllegalArgumentException("Unknown type: " + catalogItemType);
             }
+
             request.getRequestDispatcher(returnPage).forward(request, response);
         } catch (Exception e) {
             request.setAttribute("errormessage", e.getMessage());

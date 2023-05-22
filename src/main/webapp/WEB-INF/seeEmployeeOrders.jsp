@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="col-sm-1">
-                    <a href="ToEmployeeSite" class="btn btn-primary" style="margin-top: 10%;">Tilbage</a>
+                    <a href="employee-site" class="btn btn-primary" style="margin-top: 10%;">Tilbage</a>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
                             </c:otherwise>
                         </c:choose>
                         <td>
-                            <form action="DetailedOrderInfo" method="post">
+                            <form action="detailed-order-info" method="post">
                                 <input type="hidden" name="orderId" value="${order.id}">
                                 <input type="hidden" name="fromJsp" value="employee">
                                 <input style="color: var(--color-light);" type="submit" value="Se mere om ordren">
@@ -73,7 +73,8 @@
 
             <div class="row" id="popup" style="z-index: 6; position: sticky">
                 <div class="popup-header row">
-                    <div class="col-sm-6" style="border: 1px solid black;border-bottom: 0;border-radius: 4px 4px 0 0;background: white;">
+                    <div class="col-sm-6"
+                         style="border: 1px solid black;border-bottom: 0;border-radius: 4px 4px 0 0;background: white;">
                         <h3 style="margin-top: 1%; text-align: left">
                             Ordrenummer: ${requestScope.carportOrder.id} |
                             Status: ${requestScope.carportOrder.orderStatus.displayName}
@@ -95,7 +96,8 @@
                         </div>
                         <div class="customer-contact row" style="margin-right: 1%">
                             <h2>Kontakt kunde</h2>
-                            <textarea id="messageToCustomer" name="SellerMessage" class="form-control" rows="5" cols="33"
+                            <textarea id="messageToCustomer" name="SellerMessage" class="form-control" rows="5"
+                                      cols="33"
                                       placeholder="En besked til kunden"></textarea>
                             <button type="button" class="btn btn-primary" style="margin-top: 2%">Send til kunde</button>
                         </div>
@@ -104,8 +106,10 @@
                     <div id="Seller" class="col-lg-4 col-md-12 text-center">
                         <div class="seller-info row">
                             <h2>Din Information</h2>
-                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;" class="card-img-top"
-                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="SellerProfile">
+                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                 class="card-img-top"
+                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                 alt="SellerProfile">
                         </div>
                         <div class="seller-employee row">
                             <c:choose>

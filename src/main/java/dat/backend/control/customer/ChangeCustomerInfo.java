@@ -39,7 +39,7 @@ public class ChangeCustomerInfo extends HttpServlet {
         this.changeName(customer, request);
         this.changePassword(customer, request);
         this.changePersonPhoneNumber(customer, request);
-        request.getRequestDispatcher("WEB-INF/profileSite.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/customerSite.jsp").forward(request, response);
     }
 
     private void saveAddresses(Customer customer, HttpServletRequest request) {

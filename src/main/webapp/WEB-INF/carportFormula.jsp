@@ -53,7 +53,7 @@
                 </li>
             </ul>
 
-            <form action="PartList" method="post">
+            <form action="create-order-request" method="post">
                 <div class="tab-content" id="tab-content">
                     <div class="tab-pane fade show active" id="dimensions" role="tabpanel"
                          aria-labelledby="dimensions-tab"
@@ -62,12 +62,12 @@
                         <div class="mb-3 text-center">
                             <label for="length" class="form-label">Carport Længde (cm)</label>
                             <input style="height: 40px" class="form-control" id="length"
-                                   type="length" name="carportLength" placeholder="300 cm" required>
+                                   name="carportLength" placeholder="300 cm" required>
                         </div>
                         <div class="mb-3 text-center">
                             <label for="width" class="form-label">Carport Bredde (cm)</label>
                             <input style="height: 40px" class="form-control" id="width"
-                                   type="width" name="carportWidth" placeholder="500 cm" required></div>
+                                   name="carportWidth" placeholder="500 cm" required></div>
                         <div class="mb-3 text-center">
 
                             <label for="carportTag" class="form-label">Carport Højde (cm)</label>
@@ -78,7 +78,7 @@
                             </div>
 
                             <select class="btn btn-primary dropdown-toggle" aria-expanded="true"
-                                    data-bs-toggle="dropdown" type="button" name="carportRoof" id="carportTag" required>
+                                    data-bs-toggle="dropdown" name="carportRoof" id="carportTag" required>
                                 <option value="0">Vælg tag</option>
                                 <option value="1">Fladt tag</option>
                                 <option disabled value="2">Rejsning tag</option>
@@ -153,11 +153,11 @@
                                                placeholder="Skriv adresse her hvis det ikke står på listen."
                                                class="form-control">
                                     </div>
-                                <div class="col-6">
-                                    <label for="zipcode" class="form-label">Postnummer</label>
-                                    <input class="form-control" type="number" name="customerZip" id="zipcode"
-                                           placeholder="ex. 2400">
-                                </div>
+                                    <div class="col-6">
+                                        <label for="zipcode" class="form-label">Postnummer</label>
+                                        <input class="form-control" type="number" name="customerZip" id="zipcode"
+                                               placeholder="ex. 2400">
+                                    </div>
                                 </div>
                             </div>
 
@@ -197,18 +197,14 @@
                 <div style="color: white">
                     <h2>Tak for bestillingen</h2>
                     <p>Din forespørgsmål er blevet indsendt korrekt. Venligst vent 3-4 dage
-                    på at en medarbejder tager kontakt til dig. Medarbejderen vil manuelt teste på </p>
+                        på at en medarbejder tager kontakt til dig. Medarbejderen vil manuelt teste på </p>
                     din forespørgsel.
                 </div>
-                <a class="btn" type="button" href="ToProfileSite">OK</a>
+                <a class="btn" type="button" href="customer-site">OK</a>
             </div>
 
         </c:if>
 
-
-
     </jsp:body>
 
-
 </t:pagetemplate>
-

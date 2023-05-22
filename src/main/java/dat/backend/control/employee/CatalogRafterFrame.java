@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "ToPoleFrame", value = "/ToPoleFrame")
-public class ToPoleFrame extends HttpServlet {
+@WebServlet(name = "catalog-rafter-frame", value = "/catalog-rafter-frame")
+public class CatalogRafterFrame extends HttpServlet {
 
     private ConnectionPool connectionPool;
 
@@ -32,14 +32,14 @@ public class ToPoleFrame extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<LumberType> lumberTypePoles = LumberTypeFacade.getLumberTypeByType("POLE", connectionPool);
-            List<Lumber> lumberPoles = new ArrayList<>();
-            for (LumberType type : lumberTypePoles) {
-                lumberPoles.addAll(LumberFacade.getLumberByType(type, connectionPool));
+            List<LumberType> lumberTypeRafters = LumberTypeFacade.getLumberTypeByType("RAFTER", connectionPool);
+            List<Lumber> lumberRafters = new ArrayList<>();
+            for (LumberType type : lumberTypeRafters) {
+                lumberRafters.addAll(LumberFacade.getLumberByType(type, connectionPool));
             }
 
-            request.setAttribute("poles", lumberPoles);
-            request.getRequestDispatcher("/WEB-INF/Frames/poleFrame.jsp").forward(request, response);
+            request.setAttribute("rafters", lumberRafters);
+            request.getRequestDispatcher("/WEB-INF/frames/catalogRafterFrame.jsp").forward(request, response);
         } catch (DatabaseException e) {
             request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
             throw new RuntimeException(e);

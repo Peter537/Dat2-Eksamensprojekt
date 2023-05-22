@@ -18,7 +18,7 @@ import java.util.Objects;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "save-catalog-item", value = "/save-catalog-item")
-public class SaveCatalogItem extends HttpServlet {
+public class CatalogSaveItem extends HttpServlet {
 
     private ConnectionPool connectionPool;
 

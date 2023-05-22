@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "DetailedOrderInfo", value = "/DetailedOrderInfo")
+@WebServlet(name = "detailed-order-info", value = "/detailed-order-info")
 public class DetailedOrderInfo extends HttpServlet {
 
     private ConnectionPool connectionPool;
@@ -42,7 +42,7 @@ public class DetailedOrderInfo extends HttpServlet {
             request.setAttribute("carportOrder", carportOrder);
             request.setAttribute("load", "true");
             if (code.equalsIgnoreCase("customer")) {
-                request.getRequestDispatcher("WEB-INF/customerOrders.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/seeCustomerOrders.jsp").forward(request, response);
             } else {
                 if (from.equalsIgnoreCase("see-employee-orders")) {
                     request.setAttribute("from", "see-employee-orders");

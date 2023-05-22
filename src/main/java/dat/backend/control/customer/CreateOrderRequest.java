@@ -26,8 +26,8 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "PartList", value = "/PartList")
-public class CreateOrder extends HttpServlet {
+@WebServlet(name = "create-order-request", value = "/create-order-request")
+public class CreateOrderRequest extends HttpServlet {
 
     private ConnectionPool connectionPool;
 

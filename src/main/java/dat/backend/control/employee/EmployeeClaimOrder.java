@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "EmployeeClaimOrder", value = "/EmployeeClaimOrder")
+@WebServlet(name = "employee-claim-order", value = "/employee-claim-order")
 public class EmployeeClaimOrder extends HttpServlet {
 
     private ConnectionPool connectionPool;
