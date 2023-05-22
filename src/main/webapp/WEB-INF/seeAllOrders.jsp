@@ -172,8 +172,9 @@
                         <p>${requestScope.carportOrder.address.address}</p>
 
                         <br>
-                        <iframe src="order-partslist-frame" width="100%" height="350px" sandbox="allow-forms"
-                                onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+                        <iframe src="ToPartslistFrame" width="100%" height="350px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+                        <br>
+                        <a href="GenerateSCAD" class="btn btn-primary">Generer SCAD-filer</a>
                     </div>
 
 

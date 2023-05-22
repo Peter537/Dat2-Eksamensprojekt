@@ -15,6 +15,7 @@ public class Model3D {
         if (csg == null) {
             csg = JavaCSGFactory.createDefault();
         }
+        createModel();
     }
 
     void createModel() throws DatabaseException {
