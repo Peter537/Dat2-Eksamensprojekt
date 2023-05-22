@@ -94,7 +94,7 @@ class CarportOrderMapper {
     }
 
     static List<CarportOrder> getCarportOrdersAsNews(ConnectionPool connectionPool) throws DatabaseException {
-        String query = "SELECT id, created_on, price_from_partlist FROM carport_order ORDER BY created_on DESC LIMIT 6";
+        String query = "SELECT id, created_on, price_from_partslist FROM carport_order ORDER BY created_on DESC LIMIT 6";
         List<CarportOrder> carportOrders = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -102,7 +102,7 @@ class CarportOrderMapper {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     Date createdOn = resultSet.getDate("created_on");
-                    float price = resultSet.getFloat("price_from_partlist");
+                    float price = resultSet.getFloat("price_from_partslist");
                     CarportOrder carportOrder = new CarportOrder(id, null, null, null, null, null, null, Float.NaN, Float.NaN, Float.NaN, null, Optional.of(price));
                     carportOrder.setCreatedOn(createdOn);
                     carportOrders.add(carportOrder);
@@ -137,7 +137,7 @@ class CarportOrderMapper {
 
     static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float priceFromPartsList, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);
-        String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, price_from_partlist, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, price_from_partslist, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, customer.getEmail());
@@ -408,8 +408,8 @@ class CarportOrderMapper {
 
     private static Customer createCustomerFromCarportOrderResultSet(ResultSet resultSet) throws SQLException {
         int customerId = resultSet.getInt("customerid");
-        String customerName = resultSet.getString("name");
-        String customerEmail = resultSet.getString("email");
+        String customerName = resultSet.getString("customername");
+        String customerEmail = resultSet.getString("fk_customer_email");
         Optional<String> customerPhone = Optional.ofNullable(resultSet.getString("phonenumber"));
         Optional<Address> address1 = createCustomerAddressFromCarportOrderResultSet(1, resultSet);
         Optional<Address> address2 = createCustomerAddressFromCarportOrderResultSet(2, resultSet);
