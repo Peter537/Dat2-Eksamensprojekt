@@ -2,7 +2,12 @@ package dat.backend.control.employee;
 
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
+import dat.backend.model.entities.order.CarportOrder;
+import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.order.CarportOrderFacade;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,8 +28,26 @@ public class EmployeeMakeOffer extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        float priceOffer = Float.parseFloat(request.getParameter("priceOffered"));
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+
+        try {
+            CarportOrder carport = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
+
+            CarportOrderFacade.makeOffer(carport, priceOffer, connectionPool);
+
+            request.setAttribute("orderId", orderId);
+            request.getRequestDispatcher("DetailedOrderInfo").forward(request, response);
+        } catch (DatabaseException | NotFoundException | ValidationException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
