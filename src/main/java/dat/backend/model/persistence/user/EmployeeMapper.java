@@ -1,12 +1,9 @@
 package dat.backend.model.persistence.user;
 
 import dat.backend.model.entities.user.*;
-import dat.backend.model.exceptions.AlreadyExistsException;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
-import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.services.Validation;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,8 +13,7 @@ import java.util.Optional;
 
 class EmployeeMapper {
 
-    static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
-        Validation.validateEmployee(email, password);
+    static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM employeeWithDepartment WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -31,15 +27,7 @@ class EmployeeMapper {
         }
     }
 
-    static Employee create(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
-        Validation.validateEmployee(name, email, password);
-        try {
-            getEmployeeByEmail(email, connectionPool);
-            throw new AlreadyExistsException("Email already exists");
-        } catch (NotFoundException e) {
-            // Do nothing
-        }
-
+    static Employee create(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO employee (email, name, password, fk_position, fk_department_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -73,8 +61,7 @@ class EmployeeMapper {
         }
     }
 
-    static void updatePassword(Employee employee, String newPassword, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateEmployee(employee.getName(), employee.getEmail(), newPassword);
+    static void updatePassword(Employee employee, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET password = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -87,8 +74,7 @@ class EmployeeMapper {
         }
     }
 
-    static void updateName(Employee employee, String newName, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateName(newName);
+    static void updateName(Employee employee, String newName, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET name = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -102,8 +88,7 @@ class EmployeeMapper {
         }
     }
 
-    static void updatePersonalPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validatePhoneNumber(newPhoneNumber);
+    static void updatePersonalPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET private_phonenumber = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -117,8 +102,7 @@ class EmployeeMapper {
         }
     }
 
-    static void updateWorkPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validatePhoneNumber(newPhoneNumber);
+    static void updateWorkPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET work_phonenumber = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -132,8 +116,7 @@ class EmployeeMapper {
         }
     }
 
-    static void updatePosition(Employee employee, Position newPosition, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validatePosition(newPosition);
+    static void updatePosition(Employee employee, Position newPosition, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET fk_position = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -147,8 +130,7 @@ class EmployeeMapper {
         }
     }
 
-    static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateDepartment(newDepartment);
+    static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET fk_department_id = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {

@@ -5,6 +5,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.services.Validation;
 
 import java.util.List;
 
@@ -19,6 +20,15 @@ public class LumberTypeFacade {
     }
 
     public static LumberType createLumberType(float poleThickness, float poleWidth, float poleMeterPrice, String pole, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateWidth(poleWidth);
+        Validation.validateThickness(poleThickness);
+        Validation.validatePrice(poleMeterPrice);
+        try {
+            return LumberTypeMapper.getLumberType(poleThickness, poleWidth, poleMeterPrice, connectionPool);
+        } catch (DatabaseException | NotFoundException e) {
+            // Do nothing
+        }
+
         return LumberTypeMapper.createLumberType(poleThickness, poleWidth, poleMeterPrice, pole, connectionPool);
     }
 }

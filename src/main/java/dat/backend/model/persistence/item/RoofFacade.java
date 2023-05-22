@@ -5,6 +5,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.services.Validation;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class RoofFacade {
     }
 
     public static void updateRoof(int id, float squareMeterPrice, String roofType, ConnectionPool connectionPool) throws DatabaseException, ValidationException, NotFoundException {
+        Validation.validatePrice(squareMeterPrice);
         RoofMapper.updateRoof(id, squareMeterPrice, roofType, connectionPool);
     }
 }

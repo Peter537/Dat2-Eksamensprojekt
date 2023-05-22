@@ -6,7 +6,6 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.services.Validation;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,8 +13,7 @@ import java.util.List;
 
 class LumberMapper {
 
-    static Lumber createLumber(int length, int type, int amount, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateLength(length);
+    static Lumber createLumber(int length, int type, int amount, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO lumber (length, type, amount) VALUES (?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -77,9 +75,7 @@ class LumberMapper {
         }
     }
 
-    static void updateLumber(int id, int poleLength, int lumberTypeId, int amount, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateLength(poleLength);
-        Validation.validateAmount(amount);
+    static void updateLumber(int id, int poleLength, int lumberTypeId, int amount, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE lumber SET length = ?, type = ?, amount = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
