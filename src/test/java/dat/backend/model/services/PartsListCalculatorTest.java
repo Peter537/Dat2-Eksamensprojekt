@@ -79,15 +79,15 @@ class PartsListCalculatorTest {
     }
 
     @Test
-    void testValidCalculateNumberOfRafters10() {
-        int expected = 10;
+    void testValidCalculateNumberOfRafters11() {
+        int expected = 11;
         int actual = PartsListCalculator.calculateNumberOfRafters(600);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testValidCalculateNumberOfRafters11() {
-        int expected = 11;
+    void testValidCalculateNumberOfRafters12() {
+        int expected = 12;
         int actual = PartsListCalculator.calculateNumberOfRafters(601);
         assertEquals(expected, actual);
     }
