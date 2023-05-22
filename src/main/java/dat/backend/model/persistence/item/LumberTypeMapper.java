@@ -5,7 +5,6 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.services.Validation;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,16 +55,7 @@ class LumberTypeMapper {
         return lumberTypelist;
     }
 
-    static LumberType createLumberType(float poleThickness, float poleWidth, float poleMeterPrice, String pole, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateWidth(poleWidth);
-        Validation.validateThickness(poleThickness);
-        Validation.validatePrice(poleMeterPrice);
-        try {
-            return getLumberType(poleThickness, poleWidth, poleMeterPrice, connectionPool);
-        } catch (DatabaseException | NotFoundException e) {
-            // Do nothing
-        }
-
+    static LumberType createLumberType(float poleThickness, float poleWidth, float poleMeterPrice, String pole, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO lumbertype (thickness, width, meter_price, type) VALUES (?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -91,7 +81,7 @@ class LumberTypeMapper {
         }
     }
 
-    private static LumberType getLumberType(float poleThickness, float poleWidth, float poleMeterPrice, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+    static LumberType getLumberType(float poleThickness, float poleWidth, float poleMeterPrice, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM lumbertype WHERE thickness = ? AND width = ? AND meter_price = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {

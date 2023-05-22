@@ -6,12 +6,14 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.services.Validation;
 
 import java.util.List;
 
 public class LumberFacade {
 
     public static Lumber createLumber(int length, int lumberType, int amount, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateLength(length);
         return LumberMapper.createLumber(length, lumberType, amount, connectionPool);
     }
 
@@ -24,6 +26,8 @@ public class LumberFacade {
     }
 
     public static void updateLumber(int id, int poleLength, int lumberTypeId, int amount, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateLength(poleLength);
+        Validation.validateAmount(amount);
         LumberMapper.updateLumber(id, poleLength, lumberTypeId, amount, connectionPool);
     }
 }

@@ -3,20 +3,16 @@ package dat.backend.model.persistence.user;
 import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Zip;
-import dat.backend.model.exceptions.AlreadyExistsException;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
-import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.services.Validation;
 
 import java.sql.*;
 import java.util.Optional;
 
 class CustomerMapper {
 
-    static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
-        Validation.validateCustomer(email, password);
+    static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM customerWithAddress WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -30,15 +26,7 @@ class CustomerMapper {
         }
     }
 
-    static Customer create(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException, ValidationException, AlreadyExistsException {
-        Validation.validateCustomer(name, email, password);
-        try {
-            getCustomerByEmail(email, connectionPool);
-            throw new AlreadyExistsException("Email already exists");
-        } catch (NotFoundException e) {
-            // Do nothing
-        }
-
+    static Customer create(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO customer (email, password, name) VALUES (?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -70,8 +58,7 @@ class CustomerMapper {
         }
     }
 
-    static void updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateCustomer(customer.getName(), customer.getEmail(), newPassword);
+    static void updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE customer SET password = ? WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -107,8 +94,7 @@ class CustomerMapper {
         }
     }
 
-    static void updateName(Customer customer, String newName, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validateName(newName);
+    static void updateName(Customer customer, String newName, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE customer SET name = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -122,8 +108,7 @@ class CustomerMapper {
         }
     }
 
-    static void updatePhoneNumber(Customer customer, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
-        Validation.validatePhoneNumber(newPhoneNumber);
+    static void updatePhoneNumber(Customer customer, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE customer SET phonenumber = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
