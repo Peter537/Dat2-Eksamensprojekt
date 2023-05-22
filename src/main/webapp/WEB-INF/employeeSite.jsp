@@ -244,11 +244,6 @@
 
                         <div class="col-4" style="margin-top: 1%">
                             <h3>Skift kodeord</h3>
-                            <div class="form-group">
-                                <label for="oldPassword">gammelt kodeord</label>
-                                <input class="form-control" type="password" name="oldPassword" id="oldPassword"
-                                       placeholder="skriv dit nuværende kodeord">
-                            </div>
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="newPassword">Nyt kodeord</label>
                                 <input class="form-control" type="password" name="newPassword" id="newPassword"

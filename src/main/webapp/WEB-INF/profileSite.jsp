@@ -204,7 +204,7 @@
                     <div class="row" style="padding: 50px"></div>
 
                     <div class="row">
-                        <div class="col-4" style="margin-top: 1%">
+                        <div class="col-4" style="margin-top: 20px">
                             <h3>Skift kontonavn</h3>
                             <div class="form-group">
                                 <label for="name">Name</label>
@@ -215,11 +215,6 @@
 
                         <div class="col-4" style="margin-top: 1%">
                             <h3>Skift kodeord</h3>
-                            <div class="form-group">
-                                <label for="oldPassword">gammelt kodeord</label>
-                                <input class="form-control" type="password" name="oldPassword" id="oldPassword"
-                                       placeholder="skriv dit nuværende kodeord">
-                            </div>
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="newPassword">Nyt kodeord</label>
                                 <input class="form-control" type="password" name="newPassword" id="newPassword"
