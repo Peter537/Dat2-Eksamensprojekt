@@ -3,6 +3,7 @@ package dat.backend.model.entities.item;
 import dat.backend.annotation.IgnoreCoverage;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class Lumber implements Comparable<Lumber> {
 
@@ -10,6 +11,8 @@ public class Lumber implements Comparable<Lumber> {
     private final int length;
     private final LumberType lumberType;
     private final int amount;
+
+    private Optional<String> description;
 
     public Lumber(int id, int length, LumberType lumberType, int amount) {
         this.id = id;
@@ -42,6 +45,14 @@ public class Lumber implements Comparable<Lumber> {
     @IgnoreCoverage(reason = "Getter or Setter")
     public int getAmount() {
         return this.amount;
+    }
+
+    public Optional<String> getDescription() {
+        return description;
+    }
+
+    public void setDescription(Optional<String> description) {
+        this.description = description;
     }
 
     @IgnoreCoverage(reason = "equals")

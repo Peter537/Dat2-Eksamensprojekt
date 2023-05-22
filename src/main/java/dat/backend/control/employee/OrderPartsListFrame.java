@@ -1,6 +1,7 @@
 package dat.backend.control.employee;
 
 import dat.backend.annotation.IgnoreCoverage;
+import dat.backend.model.entities.PartsList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +16,9 @@ public class OrderPartsListFrame extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("partslist", request.getSession().getAttribute("partslist"));
+        PartsList partsList = (PartsList) request.getSession().getAttribute("partslist");
+        request.setAttribute("partslist", partsList);
+        request.getSession().getAttribute("partsList");
         request.getSession().removeAttribute("partslist");
         request.getRequestDispatcher("WEB-INF/frames/orderPartsListFrame.jsp").forward(request, response);
     }

@@ -86,9 +86,6 @@
                         </div>
 
 
-                        <button class="btn btn-primary">Next</button>
-
-
                     </div>
 
                     <div>
@@ -124,8 +121,8 @@
 
                             <div class="mb-3">
                                 <label for="customerPhone" class="form-label">Telefonnummer</label>
-                                <input type="text" id="customerPhone" name="customerPhone"
-                                       value="${sessionScope.user.personalPhoneNumber.get()}"
+                                <input type="number" id="customerPhone" name="customerPhone"
+                                       value="${sessionScope.user.personalPhoneNumber.get() ? sessionScope.user.personalPhoneNumber.get() : "Telefonnumer ikke sat"}"
                                        class="form-control" readonly>
                             </div>
 
@@ -140,9 +137,19 @@
                                 <label for="customerAddress" class="form-label">Adresse</label>
                                 <select class="form-select" aria-label="Vælg adresse" name="customerAddress"
                                         id="customerAddress">
-                                    <option value="1">${sessionScope.user.getAddress(1).get().getAddress()}</option>
-                                    <option value="2">${sessionScope.user.getAddress(2).get().getAddress()}</option>
-                                    <option value="3">${sessionScope.user.getAddress(3).get().getAddress()}</option>
+                                    <c:forEach var="i" begin="1" end="3">
+                                        <c:if test="${sessionScope.user.getAddress(i).present}">
+                                            <option value="${i}">
+                                                    ${sessionScope.user.getAddress(i).get().getAddress()}
+                                            </option>
+                                        </c:if>
+                                        <c:if test="${!sessionScope.user.getAddress(i).present}">
+                                            <option value="${i}" disabled>
+                                                Ikke sat
+                                            </option>
+                                        </c:if>
+                                    </c:forEach>
+
                                     <option value="0">Anden adresse</option>
                                 </select>
 
