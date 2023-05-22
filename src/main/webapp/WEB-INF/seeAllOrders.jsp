@@ -22,6 +22,8 @@
 
     <jsp:body>
 
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/seeAllOrdersStyle.css">
+
         <div style="margin-bottom: 2%">
             <div class="row">
 
@@ -107,7 +109,7 @@
                                     </form>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:if test="${sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email}">
+                                    <c:if test="${sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email)}">
                                         <form action="employee-make-offer" method="post">
                                             <input id="dealMaker" name="priceOffer" type="number" value="giv pris"
                                                    placeholder="Giv Tilbud i DKK">
@@ -115,7 +117,7 @@
                                             <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
                                         </form>
                                     </c:if>
-                                    <c:if test="${!sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email}">
+                                    <c:if test="${!sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email)}">
                                         <p>Ordre taget</p>
                                     </c:if>
                                 </c:otherwise>
