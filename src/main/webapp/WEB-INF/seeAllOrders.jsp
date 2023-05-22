@@ -155,7 +155,7 @@
                         <p>${requestScope.carportOrder.address.address}</p>
 
                         <br>
-                        <iframe src="ToPartslistFrame" width="100%" height="500px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+                        <iframe src="ToPartslistFrame" width="100%" height="350px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
                     </div>
 
 
