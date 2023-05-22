@@ -156,9 +156,9 @@
                         </div>
                         <div class="col-sm-6 card sm-card">
                             <div class="card-body">
-                                <h5 class="card-title">FIND NYT MODUL</h5>
-                                <p class="card-text">FIND NYT MODUL ELLER GØR NOGET ANDET MED DESIGN TING</p>
-                                <a href="INVALID" class="btn btn-primary">Knap</a>
+                                <h5 class="card-title">Generer stykliste</h5>
+                                <p class="card-text">Her kan du generere en stykliste, enten med dine egne mål eller baseret på en brugers ordre.</p>
+                                <a href="generate-partslist" class="btn btn-primary">Generer stykliste</a>
                             </div>
                         </div>
                     </div>
