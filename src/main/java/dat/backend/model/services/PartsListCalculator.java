@@ -97,7 +97,7 @@ public class PartsListCalculator {
     }
 
     public static int calculateNumberOfRafters(int length) {
-        return (int) (Math.ceil(length / 60.0));
+        return (int) (Math.ceil(length / 60.0)+1);
     }
 
     public static double calculateSpanBetweenPlates(int width) {
