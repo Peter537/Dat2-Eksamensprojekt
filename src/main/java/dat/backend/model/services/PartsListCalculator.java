@@ -9,6 +9,7 @@ import dat.backend.model.persistence.item.LumberTypeFacade;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class PartsListCalculator {
 
@@ -20,6 +21,7 @@ public class PartsListCalculator {
         int minHeight = height + 90 + ((int) rafterType.getWidth() / 10);
         for (Lumber lumber : listPole) {
             if (lumber.getLength() >= minHeight) {
+                lumber.setDescription(Optional.of("Dette er en stolpe"));
                 return lumber;
             }
         }
@@ -47,6 +49,7 @@ public class PartsListCalculator {
         int minLength = calculateLengthOfLumber(length, rafterType, connectionPool);
         for (Lumber lumber : listRafter) {
             if (lumber.getLength() >= minLength) {
+                lumber.setDescription(Optional.of("Dette er en spær"));
                 return lumber;
             }
         }
@@ -61,6 +64,7 @@ public class PartsListCalculator {
         int minLength = calculateLengthOfLumber(width, rafterType, connectionPool);
         for (Lumber lumber : listRafter) {
             if (lumber.getLength() >= minLength) {
+                lumber.setDescription(Optional.of("Dette er en rem"));
                 return lumber;
             }
         }
