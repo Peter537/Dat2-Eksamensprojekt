@@ -37,6 +37,16 @@
             </div>
         </div>
 
+        <div class="row">
+            <form action="detailed-see-all-orders" method="post">
+                <label for="searchId">Søg for ID</label>
+                <input type="number" name="searchId" id="searchId" placeholder="Søg efter Id">
+                <label for="searchCustomerEmail">Søg for ID</label>
+                <input type="email" name="searchCustomerEmail" id="searchCustomerEmail" placeholder="Søg efter kunde email">
+                <input type="submit" value="Søg">
+            </form>
+        </div>
+
         <div style="text-align: center; margin-left: 5%" class="text-center">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
