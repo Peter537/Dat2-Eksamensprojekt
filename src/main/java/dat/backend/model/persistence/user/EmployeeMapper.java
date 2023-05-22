@@ -167,18 +167,18 @@ class EmployeeMapper {
             throw new NotFoundException("Could not find employee");
         }
 
-        int id = resultSet.getInt("employeeid");
+        int id = resultSet.getInt("id");
         String email = resultSet.getString("email");
-        String name = resultSet.getString("employeename");
+        String name = resultSet.getString("name");
         String positionName = resultSet.getString("fk_position");
         Optional<String> privatePhoneNumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
         Optional<String> workPhoneNumber = Optional.ofNullable(resultSet.getString("work_phonenumber"));
 
-        int departmentId = resultSet.getInt("id");
+        int departmentId = resultSet.getInt("departmentid");
         String departmentStreet = resultSet.getString("address");
         Zip departmentZipCode = new Zip(resultSet.getInt("zipcode"), resultSet.getString("city_name"));
         Address departmentAddress = new Address(departmentStreet, departmentZipCode);
-        String departmentName = resultSet.getString("name");
+        String departmentName = resultSet.getString("departmentname");
 
         Position position = new Position(positionName);
         Department department = new Department(departmentId, departmentName, departmentAddress);
