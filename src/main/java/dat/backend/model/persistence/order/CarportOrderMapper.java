@@ -219,6 +219,20 @@ class CarportOrderMapper {
         }
     }
 
+    static CarportOrder cancelOrder(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, "ORDER_CANCELLED");
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+                return getCarportOrderById(carportOrder.getId(), connectionPool);
+            }
+        } catch (SQLException | NotFoundException e) {
+            throw new DatabaseException(e, "Error while attempting to cancel the order with the ID: " + carportOrder.getId());
+        }
+    }
+
     static CarportOrder ready(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
