@@ -34,8 +34,9 @@ public class EmployeeMakeOffer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        float priceOffer = Float.parseFloat(request.getParameter("priceOffered"));
+        float priceOffer = Float.parseFloat(request.getParameter("priceOffer"));
         int orderId = Integer.parseInt(request.getParameter("orderId"));
+        String fromJsp = request.getParameter("fromJsp");
 
         try {
             CarportOrder carport = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
@@ -43,7 +44,8 @@ public class EmployeeMakeOffer extends HttpServlet {
             CarportOrderFacade.makeOffer(carport, priceOffer, connectionPool);
 
             request.setAttribute("orderId", orderId);
-            request.getRequestDispatcher("DetailedOrderInfo").forward(request, response);
+            request.setAttribute("fromJsp", fromJsp);
+            request.getRequestDispatcher("detailed-order-info").forward(request, response);
         } catch (DatabaseException | NotFoundException | ValidationException e) {
             e.printStackTrace();
         }

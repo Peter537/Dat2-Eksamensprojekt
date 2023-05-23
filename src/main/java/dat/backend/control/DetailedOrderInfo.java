@@ -34,7 +34,15 @@ public class DetailedOrderInfo extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         int orderId = Integer.parseInt(request.getParameter("orderId"));
+
+        if (orderId == 0) {
+            orderId = (int) request.getAttribute("orderId");
+        }
+
+        
+
         String code = request.getParameter("fromJsp");
         String from = request.getHeader("referer").split("/")[request.getHeader("referer").split("/").length - 1];
         try {

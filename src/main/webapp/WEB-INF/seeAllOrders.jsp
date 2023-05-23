@@ -112,17 +112,24 @@
                                     </form>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:if test="${sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email)}">
+                                    <c:if test="${sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email)
+                                    && requestScope.carportOrder.price.get() == 0}">
                                         <form action="employee-make-offer" method="post">
-                                            <input id="dealMaker" name="priceOffer" type="number" value="giv pris"
-                                                   placeholder="Giv Tilbud i DKK">
+                                            <input id="dealMaker" name="priceOffer" type="number" placeholder="Giv Tilbud i DKK">
                                             <input type="hidden" name="fromJsp" value="employee">
                                             <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
                                         </form>
                                     </c:if>
-                                    <c:if test="${!sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email)}">
+
+                                    <c:choose>
+                                    <c:when test="${requestScope.carportOrder.price.get() > 0}">
+                                        <h5>Pris: ${requestScope.carportOrder.price.get()} DKK</h5>
+                                    </c:when>
+
+                                    <c:otherwise>
                                         <p>Ordre taget</p>
-                                    </c:if>
+                                    </c:otherwise>
+                            </c:choose>
                                 </c:otherwise>
                             </c:choose>
                         </div>
