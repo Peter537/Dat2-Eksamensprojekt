@@ -77,7 +77,7 @@ public class DetailedSearchSeeAllOrders extends HttpServlet {
             } else {
                 request.getRequestDispatcher("WEB-INF/seeEmployeeOrders.jsp").forward(request, response);
             }
-        } catch (DatabaseException | NotFoundException | ValidationException e) {
+        } catch (DatabaseException | ValidationException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
         }

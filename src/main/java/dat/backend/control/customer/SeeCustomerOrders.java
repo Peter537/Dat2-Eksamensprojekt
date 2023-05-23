@@ -35,7 +35,7 @@ public class SeeCustomerOrders extends HttpServlet {
         List<CarportOrder> carportOrders = new ArrayList<>();
         try {
             carportOrders.addAll(CarportOrderFacade.getCarportOrdersByCustomer(customer, connectionPool));
-        } catch (DatabaseException | NotFoundException | ValidationException e) {
+        } catch (DatabaseException | ValidationException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
         }

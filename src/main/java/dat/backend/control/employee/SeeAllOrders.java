@@ -33,7 +33,7 @@ public class SeeAllOrders extends HttpServlet {
             List<CarportOrder> carportOrders = CarportOrderFacade.getAllCarportOrders(connectionPool);
             request.setAttribute("carportOrders", carportOrders);
             request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
-        } catch (DatabaseException | NotFoundException e) {
+        } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
         }
