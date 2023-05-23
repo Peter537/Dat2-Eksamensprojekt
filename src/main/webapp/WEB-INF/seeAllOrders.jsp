@@ -31,7 +31,7 @@
         </div>
 
         <div class="row text-center">
-            <form action="detailed-see-all-orders" method="post">
+            <form action="detailed-search-see-all-orders" method="post">
                 <label for="searchId">Søg på ID</label>
                 <input type="number" name="searchId" id="searchId" placeholder="Søg på Id">
                 <label for="searchCustomerEmail">Søg på Kunde Email</label>
