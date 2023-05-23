@@ -56,6 +56,7 @@ public class CreateCustomer extends HttpServlet {
             try {
                 Customer customer = CustomerFacade.create(email, password, name, connectionPool);
                 session.setAttribute("user", customer);
+                session.setAttribute("myhome", "customer-site");
                 request.getRequestDispatcher("customer-site").forward(request, response);
             } catch (ValidationException | AlreadyExistsException e) {
                 request.setAttribute("errormessage", "User could not be created");
