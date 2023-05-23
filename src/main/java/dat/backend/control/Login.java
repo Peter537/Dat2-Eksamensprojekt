@@ -46,13 +46,13 @@ public class Login extends HttpServlet {
                     Customer customer = CustomerFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", customer);
                     request.getSession().setAttribute("myhome", "customer-site");
-                    request.setAttribute("lateststatus", CarportOrderFacade.getLatestOrderStatusFromCustomer(customer, connectionPool));
+                    request.getSession().setAttribute("lateststatus", CarportOrderFacade.getLatestOrderStatusFromCustomer(customer, connectionPool));
                     request.getRequestDispatcher("WEB-INF/customerSite.jsp").forward(request, response);
                 } else {
                     Employee employee = EmployeeFacade.login(email, password, connectionPool);
                     request.getSession().setAttribute("user", employee);
                     request.getSession().setAttribute("myhome", "employee-site");
-                    request.setAttribute("news", CarportOrderFacade.getCarportOrdersAsNews(connectionPool));
+                    request.getSession().setAttribute("news", CarportOrderFacade.getCarportOrdersAsNews(connectionPool));
                     request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
                 }
             } catch (NotFoundException e) {

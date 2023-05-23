@@ -96,7 +96,7 @@
 
 
             <form class="popup">
-                <a class="link btn" type="button" onclick="openPopup()">Skift konto infomation</a>
+                <a class="link btn" type="button" onclick="openPopup()">Skift konto information</a>
             </form>
 
                 <%--TODO: replace the image-links with images taken from the image folder.--%>
@@ -117,7 +117,7 @@
                             <div class="row" style="padding-top: 5%">
                                 <div class="col-12">
                                     <p style="text-decoration: underline black">Status på seneste ordrer</p>
-                                    <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">${not empty requestScope.lateststatus && requestScope.lateststatus.present ? requestScope.lateststatus.get().getDisplayName() : 'Ingen ordre'}</p>
+                                    <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">${not empty sessionScope.lateststatus && sessionScope.lateststatus.present ? sessionScope.lateststatus.get().getDisplayName() : 'Ingen ordre'}</p>
                                 </div>
                             </div>
                         </div>
