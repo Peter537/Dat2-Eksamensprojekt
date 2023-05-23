@@ -18,8 +18,6 @@ public class OrderPartsListFrame extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PartsList partsList = (PartsList) request.getSession().getAttribute("partslist");
         request.setAttribute("partslist", partsList);
-        request.getSession().getAttribute("partsList");
-        request.getSession().removeAttribute("partslist");
         request.getRequestDispatcher("WEB-INF/orderPartsListFrame.jsp").forward(request, response);
     }
 
