@@ -36,14 +36,21 @@ public class DetailedOrderInfo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         int orderId = Integer.parseInt(request.getParameter("orderId"));
+        String message = (String) request.getAttribute("cancel");
 
         if (orderId == 0) {
             orderId = (int) request.getAttribute("orderId");
         }
 
-        
+
 
         String code = request.getParameter("fromJsp");
+        if (code == null) {
+            code = (String) request.getAttribute("fromJsp");
+        }
+        request.setAttribute("cancel", message);
+
+
         String from = request.getHeader("referer").split("/")[request.getHeader("referer").split("/").length - 1];
         try {
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
