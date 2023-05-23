@@ -35,7 +35,8 @@
                 <label for="searchId">Søg på ID</label>
                 <input type="number" name="searchId" id="searchId" placeholder="Søg på Id">
                 <label for="searchCustomerEmail">Søg på Kunde Email</label>
-                <input type="email" name="searchCustomerEmail" id="searchCustomerEmail" placeholder="Søg på kunde email">
+                <input type="email" name="searchCustomerEmail" id="searchCustomerEmail"
+                       placeholder="Søg på kunde email">
                 <input type="hidden" name="fromJsp" value="see-all-orders">
                 <input class="btn btn-primary" type="submit" value="Søg">
             </form>
@@ -112,25 +113,29 @@
                                                style="width: 80%">
                                     </form>
                                 </c:when>
+
                                 <c:otherwise>
-                                    <c:if test="${sessionScope.user.email.equals(requestScope.carportOrder.employee.get().email)
-                                    && requestScope.carportOrder.price.get() == 0}">
-                                        <form action="employee-make-offer" method="post">
-                                            <input id="dealMaker" name="priceOffer" type="number" placeholder="Giv Tilbud i DKK">
-                                            <input type="hidden" name="fromJsp" value="employee">
-                                            <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
-                                        </form>
-                                    </c:if>
-
-                                    <c:choose>
-                                    <c:when test="${requestScope.carportOrder.price.get() > 0}">
-                                        <h5>Pris: ${requestScope.carportOrder.price.get()} DKK</h5>
-                                    </c:when>
-
-                                    <c:otherwise>
-                                        <p>Ordre taget</p>
-                                    </c:otherwise>
-                            </c:choose>
+                                        <c:choose>
+                                            <c:when test="${requestScope.carportOrder.price.present}">
+                                                <h5>Pris: ${requestScope.carportOrder.price.get()} DKK</h5>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${requestScope.carportOrder.employee.get().email.equals(sessionScope.user.email)}">
+                                                <form action="employee-make-offer" method="post">
+                                                    <input id="dealMaker" name="priceOffer" type="number"
+                                                           placeholder="Giv Tilbud i DKK">
+                                                    <input type="hidden" name="fromJsp" value="employee">
+                                                    <input type="hidden" name="orderId"
+                                                           value="${requestScope.carportOrder.id}">
+                                                </form>
+                                                </c:when>
+                                                    <c:otherwise>
+                                                        <p>Ordre taget af anden medarbejder</p>
+                                                    </c:otherwise>
+                                        </c:choose>
+                                            </c:otherwise>
+                                        </c:choose>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -183,7 +188,8 @@
                         <p>${requestScope.carportOrder.address.address}</p>
 
                         <br>
-                        <iframe src="order-partslist-frame" width="100%" height="350px" sandbox="allow-forms" onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
+                        <iframe src="order-partslist-frame" width="100%" height="350px" sandbox="allow-forms"
+                                onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
                         <br>
                         <a href="GenerateSCAD" class="btn btn-primary">Generer SCAD-filer</a>
                     </div>
@@ -212,6 +218,14 @@
                         <h2>Remarks</h2>
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
                                   readonly>${requestScope.carportOrder.remarks.present ? requestScope.carportOrder.remarks.get() : 'ingen kommentarer'}</textarea>
+
+                        <form action="to-generate-custom-partlist" method="post">
+                            <br>
+                            <input class="btn" type="submit" value="edit order">
+                            <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+
+                        </form>
+
                     </div>
                 </div>
             </div>
