@@ -17,6 +17,15 @@ import java.util.Optional;
 @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 class CarportOrderMapper {
 
+    /**
+     * Get Carport order from id
+     *
+     * @param id             The id to search for
+     * @param connectionPool Connection pool
+     * @return The CarportOrder object
+     * @throws DatabaseException if an error occurs while communicating with the database
+     * @throws NotFoundException if the id does not exist
+     */
     static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM carportorderWithAll WHERE carportorderWithAll.id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -30,7 +39,15 @@ class CarportOrderMapper {
         }
     }
 
-    static List<CarportOrder> getCarportOrdersByCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+    /**
+     * Get all Carport orders from a customer
+     *
+     * @param customer       The customer to search for
+     * @param connectionPool Connection pool
+     * @return A list of CarportOrder objects
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
+    static List<CarportOrder> getCarportOrdersByCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
         List<CarportOrder> carportOrders = new ArrayList<>();
         String query = "SELECT * FROM carport_order WHERE fk_customer_email = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -43,14 +60,22 @@ class CarportOrderMapper {
                     carportOrders.add(carportOrder);
                 }
             }
-        } catch (SQLException | DatabaseException e) {
+        } catch (SQLException | DatabaseException | NotFoundException e) {
             throw new DatabaseException(e, "Error while getting CarportOrder with customer email " + customer.getEmail());
         }
 
         return carportOrders;
     }
 
-    static List<CarportOrder> getCarportOrdersByEmployee(Employee employee, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+    /**
+     * Get all Carport orders from an employee
+     *
+     * @param employee       The employee to search for
+     * @param connectionPool Connection pool
+     * @return A list of CarportOrder objects
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
+    static List<CarportOrder> getCarportOrdersByEmployee(Employee employee, ConnectionPool connectionPool) throws DatabaseException {
         List<CarportOrder> carportOrders = new ArrayList<>();
         String query = "SELECT * FROM carport_order WHERE fk_employee_email = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -63,14 +88,21 @@ class CarportOrderMapper {
                     carportOrders.add(carportOrder);
                 }
             }
-        } catch (SQLException | DatabaseException e) {
+        } catch (SQLException | DatabaseException | NotFoundException e) {
             throw new DatabaseException(e, "Error while getting CarportOrder with employee email " + employee.getEmail());
         }
 
         return carportOrders;
     }
 
-    static List<CarportOrder> getAllCarportOrders(ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+    /**
+     * Get all Carport orders
+     *
+     * @param connectionPool Connection pool
+     * @return A list of CarportOrder objects
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
+    static List<CarportOrder> getAllCarportOrders(ConnectionPool connectionPool) throws DatabaseException {
         List<CarportOrder> carportOrders = new ArrayList<>();
         String query = "SELECT * FROM carport_order";
         try (Connection connection = connectionPool.getConnection()) {
@@ -82,13 +114,20 @@ class CarportOrderMapper {
                     carportOrders.add(carportOrder);
                 }
             }
-        } catch (SQLException | DatabaseException e) {
+        } catch (SQLException | DatabaseException | NotFoundException e) {
             throw new DatabaseException(e, "Error while getting all CarportOrders");
         }
 
         return carportOrders;
     }
 
+    /**
+     * Get the last newly carport orders as news
+     *
+     * @param connectionPool Connection pool
+     * @return A list of CarportOrder objects
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static List<CarportOrder> getCarportOrdersAsNews(ConnectionPool connectionPool) throws DatabaseException {
         String query = "SELECT id, created_on, price_from_partslist FROM carport_order ORDER BY created_on DESC LIMIT 6";
         List<CarportOrder> carportOrders = new ArrayList<>();
@@ -107,9 +146,18 @@ class CarportOrderMapper {
         } catch (SQLException e) {
             throw new DatabaseException(e, "Error while getting all CarportOrders");
         }
+
         return carportOrders;
     }
 
+    /**
+     * Get the latest order status from a customer
+     *
+     * @param customer       The customer to search for
+     * @param connectionPool Connection pool
+     * @return An optional OrderStatus object, empty if no order status was found
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static Optional<OrderStatus> getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
         String query = "SELECT co.orderstatus, o.displayname, o.sortvalue FROM carport_order co JOIN orderstatus o on co.orderstatus = o.status WHERE co.fk_customer_email = ? ORDER BY created_on DESC LIMIT 1";
         try (Connection connection = connectionPool.getConnection()) {
@@ -130,6 +178,22 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Create a new carport order
+     *
+     * @param customer           The customer who ordered the carport
+     * @param address            The address where the carport should be delivered
+     * @param width              The width of the carport
+     * @param length             The length of the carport
+     * @param minHeight          The minimum height of the carport
+     * @param roof               The roof of the carport
+     * @param toolRoom           The tool room of the carport
+     * @param remarks            Remarks about the carport
+     * @param priceFromPartsList The price of the carport
+     * @param connectionPool     Connection pool
+     * @return The newly created carport order
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional<ToolRoom> toolRoom, Optional<String> remarks, float priceFromPartsList, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, price_from_partslist, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
@@ -175,6 +239,15 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Claim a carport order
+     *
+     * @param carportOrder   The carport order to claim
+     * @param employee       The employee who claims the carport order
+     * @param connectionPool Connection pool
+     * @return The updated carport order
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static CarportOrder claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET fk_employee_email = ?, orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -190,6 +263,15 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Make an offer for a carport order
+     *
+     * @param carportOrder   The carport order to make an offer for
+     * @param price          The price of the offer
+     * @param connectionPool Connection pool
+     * @return The updated carport order
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static CarportOrder makeOffer(CarportOrder carportOrder, float price, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET price = ?, orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -205,6 +287,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Accept an offer for a carport order
+     *
+     * @param carportOrder   The carport order to accept an offer for
+     * @param connectionPool Connection pool
+     * @return The updated carport order
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static CarportOrder acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -219,6 +309,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Cancel an order
+     *
+     * @param carportOrder   The carport order to cancel
+     * @param connectionPool Connection pool
+     * @return The updated carport order
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static CarportOrder cancelOrder(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -233,6 +331,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Ready an order
+     *
+     * @param carportOrder   The carport order to ready
+     * @param connectionPool Connection pool
+     * @return The updated carport order
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static CarportOrder ready(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -247,6 +353,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Deliver an order
+     *
+     * @param carportOrder   The carport order to deliver
+     * @param connectionPool Connection pool
+     * @return The updated carport order
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static CarportOrder deliver(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET orderstatus = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -261,6 +375,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Update the width of a carport order
+     *
+     * @param carportOrder   The carport order to update
+     * @param width          The new width
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET width = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -275,6 +397,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Update the length of a carport order
+     *
+     * @param carportOrder   The carport order to update
+     * @param length         The new length
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateLength(CarportOrder carportOrder, float length, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET length = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -289,6 +419,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Update the minimum height of a carport order
+     *
+     * @param carportOrder   The carport order to update
+     * @param minHeight      The new minimum height
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateMinHeight(CarportOrder carportOrder, float minHeight, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET min_height = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -303,6 +441,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Update the toolroom of a carport order
+     *
+     * @param carportOrder   The carport order to update
+     * @param toolRoom       The new toolroom
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateToolRoom(CarportOrder carportOrder, Optional<ToolRoom> toolRoom, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET toolroom_width = ?, toolroom_length = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -323,6 +469,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Update the price of a carport order
+     *
+     * @param carportOrder   The carport order to update
+     * @param price          The new price
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updatePrice(CarportOrder carportOrder, Optional<Float> price, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET price = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -341,6 +495,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * Update the address of a carport order
+     *
+     * @param carportOrder   The carport order to update
+     * @param address        The new address
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET address = ?, zipcode = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {

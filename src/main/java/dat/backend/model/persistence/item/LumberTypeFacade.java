@@ -19,7 +19,7 @@ public class LumberTypeFacade {
         return LumberTypeMapper.getLumberTypeByType(lumberType, connectionPool);
     }
 
-    public static LumberType createLumberType(float poleThickness, float poleWidth, float poleMeterPrice, String pole, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+    public static LumberType createLumberType(float poleThickness, float poleWidth, float poleMeterPrice, String type, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateWidth(poleWidth);
         Validation.validateThickness(poleThickness);
         Validation.validatePrice(poleMeterPrice);
@@ -29,6 +29,6 @@ public class LumberTypeFacade {
             // Do nothing
         }
 
-        return LumberTypeMapper.createLumberType(poleThickness, poleWidth, poleMeterPrice, pole, connectionPool);
+        return LumberTypeMapper.createLumberType(poleThickness, poleWidth, poleMeterPrice, type, connectionPool);
     }
 }

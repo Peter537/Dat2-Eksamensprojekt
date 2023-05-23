@@ -14,6 +14,15 @@ import java.sql.SQLException;
 
 class DepartmentMapper {
 
+    /**
+     * Get department by id
+     *
+     * @param id             The id to search for
+     * @param connectionPool Connection pool
+     * @return The Department object
+     * @throws DatabaseException if an error occurs while communicating with the database
+     * @throws NotFoundException if the id does not exist
+     */
     static Department getDepartmentById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM department WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {

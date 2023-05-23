@@ -13,6 +13,16 @@ import java.util.Optional;
 
 class EmployeeMapper {
 
+    /**
+     * Login employee
+     *
+     * @param email          The email to search for
+     * @param password       The password to search for
+     * @param connectionPool Connection pool
+     * @return The Employee object
+     * @throws DatabaseException if an error occurs while communicating with the database
+     * @throws NotFoundException if the employee does not exist
+     */
     static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM employeeWithDepartment WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -27,6 +37,18 @@ class EmployeeMapper {
         }
     }
 
+    /**
+     * Create employee
+     *
+     * @param email          The email of the employee
+     * @param name           The name of the employee
+     * @param password       The password of the employee
+     * @param position       The position of the employee
+     * @param department     The department of the employee
+     * @param connectionPool Connection pool
+     * @return The employee object
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static Employee create(String email, String name, String password, Position position, Department department, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO employee (email, name, password, fk_position, fk_department_id) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
@@ -48,6 +70,15 @@ class EmployeeMapper {
         }
     }
 
+    /**
+     * Get employee by email
+     *
+     * @param email          The email to search for
+     * @param connectionPool Connection pool
+     * @return The employee object
+     * @throws DatabaseException if an error occurs while communicating with the database
+     * @throws NotFoundException if the employee does not exist
+     */
     static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM employeeWithDepartment WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -61,6 +92,14 @@ class EmployeeMapper {
         }
     }
 
+    /**
+     * Update password of employee
+     *
+     * @param employee       The employee to update
+     * @param newPassword    The new password
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updatePassword(Employee employee, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET password = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -74,6 +113,14 @@ class EmployeeMapper {
         }
     }
 
+    /**
+     * Update name of employee
+     *
+     * @param employee       The employee to update
+     * @param newName        The new name
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateName(Employee employee, String newName, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET name = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -88,6 +135,14 @@ class EmployeeMapper {
         }
     }
 
+    /**
+     * Update personal phone number of employee
+     *
+     * @param employee       The employee to update
+     * @param newPhoneNumber The new phone number
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updatePersonalPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET private_phonenumber = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -102,6 +157,14 @@ class EmployeeMapper {
         }
     }
 
+    /**
+     * Update work phone number of employee
+     *
+     * @param employee       The employee to update
+     * @param newPhoneNumber The new phone number
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateWorkPhoneNumber(Employee employee, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET work_phonenumber = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -116,6 +179,14 @@ class EmployeeMapper {
         }
     }
 
+    /**
+     * Update position of employee
+     *
+     * @param employee       The employee to update
+     * @param newPosition    The new position
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updatePosition(Employee employee, Position newPosition, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET fk_position = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -130,6 +201,14 @@ class EmployeeMapper {
         }
     }
 
+    /**
+     * Update department of employee
+     *
+     * @param employee       The employee to update
+     * @param newDepartment  The new department
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE employee SET fk_department_id = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {

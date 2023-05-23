@@ -12,6 +12,16 @@ import java.util.Optional;
 
 class CustomerMapper {
 
+    /**
+     * Login customer
+     *
+     * @param email          The email to search for
+     * @param password       The password to search for
+     * @param connectionPool Connection pool
+     * @return The Customer object
+     * @throws DatabaseException if an error occurs while communicating with the database
+     * @throws NotFoundException if the customer does not exist
+     */
     static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM customerWithAddress WHERE email = ? AND password = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -26,6 +36,16 @@ class CustomerMapper {
         }
     }
 
+    /**
+     * Create customer
+     *
+     * @param email          The email of the customer
+     * @param password       The password of the customer
+     * @param name           The name of the customer
+     * @param connectionPool Connection pool
+     * @return The Customer object
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static Customer create(String email, String password, String name, ConnectionPool connectionPool) throws DatabaseException {
         String query = "INSERT INTO customer (email, password, name) VALUES (?, ?, ?)";
         try (Connection connection = connectionPool.getConnection()) {
@@ -45,6 +65,15 @@ class CustomerMapper {
         }
     }
 
+    /**
+     * Get customer by email
+     *
+     * @param email          The email to search for
+     * @param connectionPool Connection pool
+     * @return The Customer object
+     * @throws DatabaseException if an error occurs while communicating with the database
+     * @throws NotFoundException if the customer does not exist
+     */
     static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM customerWithAddress WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -58,6 +87,14 @@ class CustomerMapper {
         }
     }
 
+    /**
+     * Update password of customer
+     *
+     * @param customer       The customer to update
+     * @param newPassword    The new password
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE customer SET password = ? WHERE email = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -71,6 +108,16 @@ class CustomerMapper {
         }
     }
 
+    /**
+     * Update an address of customer
+     *
+     * @param customer       The customer to update
+     * @param addressNumber  The address number to update
+     * @param newStreetName  The new street name
+     * @param zip            The new zip
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateAddress(Customer customer, int addressNumber, String newStreetName, Zip zip, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE customer SET address_" + addressNumber + " = ?, zipcode_" + addressNumber + " = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -94,6 +141,14 @@ class CustomerMapper {
         }
     }
 
+    /**
+     * Update name of customer
+     *
+     * @param customer       The customer to update
+     * @param newName        The new name
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updateName(Customer customer, String newName, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE customer SET name = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
@@ -108,6 +163,14 @@ class CustomerMapper {
         }
     }
 
+    /**
+     * Update phone number of customer
+     *
+     * @param customer       The customer to update
+     * @param newPhoneNumber The new phone number
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updatePhoneNumber(Customer customer, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE customer SET phonenumber = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {

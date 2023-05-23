@@ -23,17 +23,17 @@ public class CarportOrderFacade {
         return CarportOrderMapper.getCarportOrderById(id, connectionPool);
     }
 
-    public static List<CarportOrder> getCarportOrdersByCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
+    public static List<CarportOrder> getCarportOrdersByCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCustomer(customer);
         return CarportOrderMapper.getCarportOrdersByCustomer(customer, connectionPool);
     }
 
-    public static List<CarportOrder> getCarportOrdersByEmployee(Employee employee, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
+    public static List<CarportOrder> getCarportOrdersByEmployee(Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateEmployee(employee);
         return CarportOrderMapper.getCarportOrdersByEmployee(employee, connectionPool);
     }
 
-    public static List<CarportOrder> getAllCarportOrders(ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+    public static List<CarportOrder> getAllCarportOrders(ConnectionPool connectionPool) throws DatabaseException {
         return CarportOrderMapper.getAllCarportOrders(connectionPool);
     }
 

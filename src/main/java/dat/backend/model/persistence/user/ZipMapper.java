@@ -12,6 +12,15 @@ import java.sql.SQLException;
 
 class ZipMapper {
 
+    /**
+     * Get zip by zip code
+     *
+     * @param zipCode        The zip code to search for
+     * @param connectionPool Connection pool
+     * @return The Zip object
+     * @throws DatabaseException if an error occurs while communicating with the database
+     * @throws NotFoundException if the zip code does not exist
+     */
     static Zip getZipByZipCode(int zipCode, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         String query = "SELECT * FROM zip WHERE zipcode = ?";
         try (Connection connection = connectionPool.getConnection()) {
