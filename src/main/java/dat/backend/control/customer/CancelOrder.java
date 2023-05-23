@@ -1,16 +1,19 @@
 package dat.backend.control.customer;
 
+import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.order.CarportOrder;
-import dat.backend.model.entities.user.Customer;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.order.CarportOrderFacade;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "cancel-order", value = "/cancel-order")
 public class CancelOrder extends HttpServlet {
 
@@ -23,22 +26,14 @@ public class CancelOrder extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
-
             int orderId = Integer.parseInt(request.getParameter("orderId"));
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
-
-            Customer customer = (Customer) request.getSession().getAttribute("user");
-
-
-           CarportOrderFacade.cancelOrder(carportOrder, connectionPool);
-
+            CarportOrderFacade.cancelOrder(carportOrder, connectionPool);
             request.setAttribute("cancel", "Ordren er nu annulleret");
             request.setAttribute("orderId", orderId);
             request.setAttribute("fromJsp", "customer");
@@ -47,6 +42,5 @@ public class CancelOrder extends HttpServlet {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
         }
-
     }
 }
