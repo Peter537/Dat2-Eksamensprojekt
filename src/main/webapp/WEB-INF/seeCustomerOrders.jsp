@@ -75,13 +75,21 @@
             <div class="row" id="popup"
                  style="position: sticky; opacity: 95%; background-color: white; z-index: 10; border: 1px solid black; border-radius: 10px; visibility: visible">
                 <div class="popup-header row">
-                    <div class="col-sm-6"
-                         style="border: 1px solid black;border-bottom: 0;border-radius: 4px 4px 0 0;background: white;">
-                        <h3 style="margin-top: 1%; text-align: left">
-                            Ordrenummer: ${requestScope.carportOrder.id} |
-                            Status: ${requestScope.carportOrder.orderStatus.displayName}
-                            <a href="see-customer-orders" class="btn btn-primary" style="margin-left: 2%;">Luk</a>
-                        </h3>
+                    <div class="col-sm-8"
+                         style="border: 1px solid black; border-bottom: 0; border-radius: 4px 4px 0 0; background: white; transform: translateY(-95%)">
+                        <div class="row align-items-center">
+                            <div class="col-sm-9">
+                                <h4 style="margin-top: 1%; text-align: left">
+                                    Ordrenummer: ${requestScope.carportOrder.id} |
+                                    Status: ${requestScope.carportOrder.orderStatus.displayName}
+                                </h4>
+                            </div>
+                            <div class="col-sm-3">
+                                <form action="cancel-order" method="post">
+                                <input type="submit"  class="btn btn-danger" style="margin-top: 1%; float: right" value="Aflys Ordre">
+                                    <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+                                </form>
+                        </div>
                     </div>
                 </div>
                 <div class="row popup">
@@ -154,6 +162,43 @@
             <br>
             <br>
         </c:if>
+
+        <c:if test="${requestScope.cancel != null}">
+
+        <div class="cancelPopup">
+            <div>
+                <img style="width: 100px; border-radius: 50%"
+                     src="${pageContext.request.getContextPath()}/images/greenTickMark.jpg">
+            </div>
+            <div style="color: white">
+                <h2>Bestilng Aflyst</h2>
+                <p>Din bestilling er hermed aflyst.
+            </div>
+            <a class="btn" type="button" href="customer-site">OK</a>
+        </div>
+    </c:if>
+
+
+        <style>
+
+
+        .cancelPopup {
+        width: 35%;
+        height: 40%;
+        position: absolute;
+        background-color: #75b273;
+        border: limegreen 4px solid;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #333;
+        transition: transform 0.35s ease-in-out;
+        box-shadow: black 0px 0px 10px 0px;
+        visibility: visible; !important;
+        z-index: 20;
+        }
+        </style>
 
     </jsp:body>
 
