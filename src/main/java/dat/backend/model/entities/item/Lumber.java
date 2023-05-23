@@ -5,6 +5,7 @@ import dat.backend.annotation.IgnoreCoverage;
 import java.util.Objects;
 import java.util.Optional;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class Lumber implements Comparable<Lumber> {
 
     private final int id;
@@ -47,10 +48,12 @@ public class Lumber implements Comparable<Lumber> {
         return this.amount;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public Optional<String> getDescription() {
-        return description;
+        return this.description;
     }
 
+    @IgnoreCoverage(reason = "Getter or Setter")
     public void setDescription(Optional<String> description) {
         this.description = description;
     }
