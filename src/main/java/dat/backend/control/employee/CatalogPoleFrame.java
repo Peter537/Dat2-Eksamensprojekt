@@ -39,7 +39,7 @@ public class CatalogPoleFrame extends HttpServlet {
             }
 
             request.setAttribute("poles", lumberPoles);
-            request.getRequestDispatcher("/WEB-INF/frames/catalogPoleFrame.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/catalogPoleFrame.jsp").forward(request, response);
         } catch (DatabaseException e) {
             request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
             throw new RuntimeException(e);

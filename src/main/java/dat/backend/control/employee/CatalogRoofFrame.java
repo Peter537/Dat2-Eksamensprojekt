@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "catalog-roof-frame", value = "/catalog-roof-frame")
+@WebServlet(name = "CatalogRoofFrame", value = "/catalog-roof-frame")
 public class CatalogRoofFrame extends HttpServlet {
 
     private ConnectionPool connectionPool;
@@ -31,7 +31,7 @@ public class CatalogRoofFrame extends HttpServlet {
         try {
             List<Roof> roofs = RoofFacade.getAllRoofs(connectionPool);
             request.setAttribute("roofs", roofs);
-            request.getRequestDispatcher("/WEB-INF/frames/catalogRoofFrame.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/catalogRoofFrame.jsp").forward(request, response);
         } catch (DatabaseException e) {
             request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
             throw new RuntimeException(e);

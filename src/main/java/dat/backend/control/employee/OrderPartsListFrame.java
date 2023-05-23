@@ -20,6 +20,7 @@ public class OrderPartsListFrame extends HttpServlet {
         request.setAttribute("partslist", partsList);
         request.getSession().getAttribute("partsList");
         request.getSession().removeAttribute("partslist");
-        request.getRequestDispatcher("WEB-INF/frames/orderPartsListFrame.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/orderPartsListFrame.jsp").forward(request, response);
     }
+
 }
