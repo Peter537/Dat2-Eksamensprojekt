@@ -41,12 +41,12 @@
 
     <tr>
         <td>${requestScope.partslist.rafter.lumberType.thickness}x${requestScope.partslist.rafter.lumberType.width} mm.
-            spær
+            spærtre
         </td>
         <td>${requestScope.partslist.rafter.length}</td>
         <td>${requestScope.partslist.rafter.amount}</td>
         <td>stk.</td>
-        <td>Needs to be implemented</td>
+        <td>spærtre</td>
     </tr>
 
 
@@ -76,6 +76,16 @@
         <td>${requestScope.partslist.roofArea}</td>
         <td>m2</td>
         <td>Needs to be implemented</td>
+    </tr>
+    </tbody>
+</table>
+    <table class="table table-striped table-bordered table-hover text-center">
+    <thead>
+    <th>Pris</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>${requestScope.partslist.calculateTotalPrice()} DKK.</td>
     </tr>
     </tbody>
 </table>
