@@ -39,14 +39,33 @@
     </thead>
     <tbody>
 
+<%--    <c:forEach var="i" begin="1" end="3">--%>
+<%--        <c:set var="lumber" value="${requestScope.partslist.partsList.get(i)}"/>--%>
+<%--        <td>--%>
+<%--            ${lumber.lumberType.thickness}x${lumber.lumberType.width} mm.--%>
+<%--        </td>--%>
+<%--        <td>--%>
+<%--            ${lumber.length}--%>
+<%--        </td>--%>
+<%--        <td>--%>
+<%--            ${lumber.amount}--%>
+<%--        </td>--%>
+<%--        <td>--%>
+<%--            stk.--%>
+<%--        </td>--%>
+<%--        <td>--%>
+<%--            ${lumber.description}--%>
+<%--        </td>--%>
+<%--    </c:forEach>--%>
+
     <tr>
         <td>${requestScope.partslist.rafter.lumberType.thickness}x${requestScope.partslist.rafter.lumberType.width} mm.
             spærtre
         </td>
         <td>${requestScope.partslist.rafter.length}</td>
-        <td>${requestScope.partslist.rafter.amount}</td>
+        <td>${requestScope.partslist.numberOfRafters}</td>
         <td>stk.</td>
-        <td>spærtre</td>
+        <td>${requestScope.partslist.rafter.description.get()}</td>
     </tr>
 
 
@@ -55,19 +74,19 @@
             stolpe
         </td>
         <td>${requestScope.partslist.pole.length}</td>
-        <td>${requestScope.partslist.pole.amount}</td>
+        <td>${requestScope.partslist.numberOfPoles}</td>
         <td>stk.</td>
-        <td>Needs to be implemented</td>
+        <td>${requestScope.partslist.pole.description.get()}</td>
     </tr>
 
     <tr>
         <td>${requestScope.partslist.plate.lumberType.thickness}x${sessionScope.partslist.plate.lumberType.width} mm.
             rem
         </td>
-        <td>${requestScope.partslist.pole.length}</td>
-        <td>${requestScope.partslist.pole.amount}</td>
+        <td>${requestScope.partslist.plate.length}</td>
+        <td>${requestScope.partslist.numberOfPlates}</td>
         <td>stk.</td>
-        <td>Needs to be implemented</td>
+        <td>${requestScope.partslist.plate.description.get()}</td>
     </tr>
 
     <tr>
@@ -75,7 +94,7 @@
         <td>${requestScope.partslist.length}</td>
         <td>${requestScope.partslist.roofArea}</td>
         <td>m2</td>
-        <td>Needs to be implemented</td>
+        <td>Dette er taget</td>
     </tr>
     </tbody>
 </table>
