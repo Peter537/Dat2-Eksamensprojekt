@@ -10,21 +10,15 @@ public abstract class Person {
 
     private final int id;
     private final String email;
-    private final boolean isEmployee;
 
     private String name;
     private Optional<String> personalPhoneNumber;
 
-    public Person(int id, String email, String name, Optional<String> personalPhoneNumber, boolean isEmployee) {
+    public Person(int id, String email, String name, Optional<String> personalPhoneNumber) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.personalPhoneNumber = personalPhoneNumber;
-        this.isEmployee = isEmployee;
-    }
-
-    public Person(int id, String email, String name, Optional<String> personalPhoneNumber) {
-        this(id, email, name, personalPhoneNumber, false);
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -35,11 +29,6 @@ public abstract class Person {
     @IgnoreCoverage(reason = "Getter or Setter")
     public String getEmail() {
         return this.email;
-    }
-
-    @IgnoreCoverage(reason = "Getter or Setter")
-    public boolean isEmployee() {
-        return this.isEmployee;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
