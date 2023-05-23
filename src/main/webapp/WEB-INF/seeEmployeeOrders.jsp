@@ -28,6 +28,17 @@
             </div>
         </div>
 
+        <div class="row text-center">
+            <form action="detailed-search-see-all-orders" method="post">
+                <label for="searchId">Søg på ID</label>
+                <input type="number" name="searchId" id="searchId" placeholder="Søg på Id">
+                <label for="searchCustomerEmail">Søg på Kunde Email</label>
+                <input type="email" name="searchCustomerEmail" id="searchCustomerEmail" placeholder="Søg på kunde email">
+                <input type="hidden" name="fromJsp" value="see-employee-orders">
+                <input class="btn btn-primary" type="submit" value="Søg">
+            </form>
+        </div>
+
         <div style="width: 80%; text-align: center; margin-left: 5%" class="text-center">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
