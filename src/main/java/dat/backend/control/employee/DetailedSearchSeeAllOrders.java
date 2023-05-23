@@ -14,13 +14,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "detailed-see-all-orders", value = "/detailed-see-all-orders")
-public class DetailedSeeAllOrders extends HttpServlet {
+@WebServlet(name = "detailed-search-see-all-orders", value = "/detailed-search-see-all-orders")
+public class DetailedSearchSeeAllOrders extends HttpServlet {
 
     private ConnectionPool connectionPool;
 
@@ -37,6 +38,7 @@ public class DetailedSeeAllOrders extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             List<CarportOrder> carportOrders = CarportOrderFacade.getAllCarportOrders(connectionPool);
+            AtomicBoolean isEmptySearchFields = new AtomicBoolean(false);
             List<CarportOrder> orders = carportOrders.stream()
                     .filter(carportOrder -> {
                         if (request.getParameter("searchId") != null && !request.getParameter("searchId").isEmpty()) {
@@ -50,9 +52,15 @@ public class DetailedSeeAllOrders extends HttpServlet {
                             return carportOrder.getCustomer().getEmail().equals(request.getParameter("searchCustomerEmail"));
                         }
 
+                        isEmptySearchFields.set(true);
                         return false;
                     })
                     .collect(Collectors.toList());
+
+            if (orders.isEmpty() && isEmptySearchFields.get()) {
+                orders.addAll(carportOrders);
+            }
+
             request.setAttribute("carportOrders", orders);
             request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
         } catch (DatabaseException | NotFoundException e) {
