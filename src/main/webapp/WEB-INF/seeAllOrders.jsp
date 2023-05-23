@@ -36,6 +36,7 @@
                 <input type="number" name="searchId" id="searchId" placeholder="Søg på Id">
                 <label for="searchCustomerEmail">Søg på Kunde Email</label>
                 <input type="email" name="searchCustomerEmail" id="searchCustomerEmail" placeholder="Søg på kunde email">
+                <input type="hidden" name="fromJsp" value="see-all-orders">
                 <input class="btn btn-primary" type="submit" value="Søg">
             </form>
         </div>
