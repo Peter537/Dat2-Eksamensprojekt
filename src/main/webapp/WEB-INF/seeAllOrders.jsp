@@ -30,13 +30,13 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row text-center">
             <form action="detailed-see-all-orders" method="post">
-                <label for="searchId">Søg for ID</label>
-                <input type="number" name="searchId" id="searchId" placeholder="Søg efter Id">
-                <label for="searchCustomerEmail">Søg for ID</label>
-                <input type="email" name="searchCustomerEmail" id="searchCustomerEmail" placeholder="Søg efter kunde email">
-                <input type="submit" value="Søg">
+                <label for="searchId">Søg på ID</label>
+                <input type="number" name="searchId" id="searchId" placeholder="Søg på Id">
+                <label for="searchCustomerEmail">Søg på Kunde Email</label>
+                <input type="email" name="searchCustomerEmail" id="searchCustomerEmail" placeholder="Søg på kunde email">
+                <input class="btn btn-primary" type="submit" value="Søg">
             </form>
         </div>
 
