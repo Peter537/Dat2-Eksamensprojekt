@@ -158,7 +158,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Generer stykliste</h5>
                                 <p class="card-text">Her kan du generere en stykliste, enten med dine egne mål eller baseret på en brugers ordre.</p>
-                                <a href="generate-partslist" class="btn btn-primary">Generer stykliste</a>
+                                <a href="to-generate-custom-partlist" class="btn btn-primary">Generer stykliste</a>
                             </div>
                         </div>
                     </div>
