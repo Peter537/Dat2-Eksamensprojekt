@@ -3,8 +3,10 @@ package dat.backend.control.employee;
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.order.CarportOrder;
+import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.order.CarportOrderFacade;
 
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -31,13 +34,20 @@ public class DetailedSearchSeeAllOrders extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<CarportOrder> carportOrders = CarportOrderFacade.getAllCarportOrders(connectionPool);
+            String fromJsp = request.getParameter("fromJsp");
+            List<CarportOrder> carportOrders = new ArrayList<>();
+            if (fromJsp.equals("see-all-orders")) {
+                carportOrders.addAll(CarportOrderFacade.getAllCarportOrders(connectionPool));
+            } else {
+                Employee employee = (Employee) request.getSession().getAttribute("user");
+                carportOrders.addAll(CarportOrderFacade.getCarportOrdersByEmployee(employee, connectionPool));
+            }
+
             AtomicBoolean isEmptySearchFields = new AtomicBoolean(false);
             List<CarportOrder> orders = carportOrders.stream()
                     .filter(carportOrder -> {
@@ -62,8 +72,12 @@ public class DetailedSearchSeeAllOrders extends HttpServlet {
             }
 
             request.setAttribute("carportOrders", orders);
-            request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
-        } catch (DatabaseException | NotFoundException e) {
+            if (fromJsp.equals("see-all-orders")) {
+                request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("WEB-INF/seeEmployeeOrders.jsp").forward(request, response);
+            }
+        } catch (DatabaseException | NotFoundException | ValidationException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
         }
