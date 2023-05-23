@@ -68,6 +68,11 @@ public class CarportOrderFacade {
         return CarportOrderMapper.acceptOffer(carportOrder, connectionPool);
     }
 
+    public static CarportOrder cancelOrder(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+        Validation.validateCarportOrder(carportOrder);
+        return CarportOrderMapper.cancelOrder(carportOrder, connectionPool);
+    }
+
     public static CarportOrder ready(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCarportOrder(carportOrder);
         return CarportOrderMapper.ready(carportOrder, connectionPool);
