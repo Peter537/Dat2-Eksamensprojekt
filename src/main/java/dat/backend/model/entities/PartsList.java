@@ -14,9 +14,9 @@ import java.util.Map;
 public class PartsList {
 
     private final ConnectionPool connectionPool;
-    private final int height;
-    private final int length;
-    private final int width;
+    private int height;
+    private int length;
+    private int width;
 
     private final Roof roof;
     private int roofArea;
@@ -45,6 +45,11 @@ public class PartsList {
         this((int) carportOrder.getMinHeight(), (int) carportOrder.getLength(), (int) carportOrder.getWidth(), carportOrder.getRoof(), connectionPool);
     }
 
+    /**
+     * This method will calculate everything needed for the parts list
+     *
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     public void calculate() throws DatabaseException {
         this.pole = PartsListCalculator.calculatePole(height, width, connectionPool);
         this.plate = PartsListCalculator.calculatePlate(width, connectionPool);
@@ -56,26 +61,40 @@ public class PartsList {
         this.totalPrice = this.calculateTotalPrice();
     }
 
-    public Map<Lumber, Integer> getPartsList() {
-        Map<Lumber, Integer> map = new LinkedHashMap<>();
-        map.put(plate, numberOfPlates);
-        map.put(rafter, numberOfRafters);
-        map.put(pole, numberOfPoles);
-        return map;
-    }
-
+    /**
+     * This method will calculate the total price of the parts list
+     *
+     * @return The total price
+     */
     public float calculateTotalPrice() {
         return ((pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters) + (roof.getSquareMeterPrice() * roofArea));
     }
 
+    /**
+     * This method will get the length of a Pole
+     *
+     * @return The length of the pole
+     */
     public int getLengthOfPole() {
         return height + 90 + ((int) getRafter().getLumberType().getWidth() / 10);
     }
 
+    /**
+     * This method will get the length of a Plate
+     *
+     * @return The length of the plate
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     public int getLengthOfPlate() throws DatabaseException {
         return PartsListCalculator.calculateLengthOfLumber(length, getPlate().getLumberType(), connectionPool);
     }
 
+    /**
+     * This method will get the length of a Rafter
+     *
+     * @return The length of the rafter
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     public int getLengthOfRafter() throws DatabaseException {
         return PartsListCalculator.calculateLengthOfLumber(width, getRafter().getLumberType(), connectionPool);
     }
@@ -126,13 +145,28 @@ public class PartsList {
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getLength() {
         return this.length;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
     public int getWidth() {
         return this.width;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
