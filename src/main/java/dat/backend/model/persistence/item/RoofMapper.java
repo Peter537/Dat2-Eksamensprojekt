@@ -3,7 +3,6 @@ package dat.backend.model.persistence.item;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
-import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 
 import java.sql.*;
@@ -13,7 +12,7 @@ import java.util.List;
 class RoofMapper {
 
     /**
-     * Get roof by id
+     * This method will retrieve a Roof by an id
      *
      * @param id             The id to search for
      * @param connectionPool The connection pool to use
@@ -41,7 +40,7 @@ class RoofMapper {
     }
 
     /**
-     * Create a roof
+     * This method will create a new Roof by the arguments given
      *
      * @param squareMeterPrice The price per square meter
      * @param type             The type of roof
@@ -70,7 +69,7 @@ class RoofMapper {
     }
 
     /**
-     * Get all roofs
+     * This method will retrieve all Roof objects
      *
      * @param connectionPool The connection pool to use
      * @return A list of Roof objects
@@ -97,7 +96,7 @@ class RoofMapper {
     }
 
     /**
-     * Delete a roof
+     * This method will delete a roof by an id
      *
      * @param id             The id of the roof to delete
      * @param connectionPool The connection pool to use
@@ -120,7 +119,7 @@ class RoofMapper {
     }
 
     /**
-     * Update a roof
+     * This method will update a roof by an id
      *
      * @param id               The id of the roof to update
      * @param squareMeterPrice The new price per square meter

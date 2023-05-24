@@ -14,7 +14,7 @@ import java.util.Optional;
 class EmployeeMapper {
 
     /**
-     * Login employee
+     * This method will login an employee by email and password
      *
      * @param email          The email to search for
      * @param password       The password to search for
@@ -38,7 +38,7 @@ class EmployeeMapper {
     }
 
     /**
-     * Create employee
+     * This method will create an Employee by the arguments
      *
      * @param email          The email of the employee
      * @param name           The name of the employee
@@ -71,7 +71,7 @@ class EmployeeMapper {
     }
 
     /**
-     * Get employee by email
+     * This method will retrieve an employee by email
      *
      * @param email          The email to search for
      * @param connectionPool Connection pool
@@ -93,7 +93,7 @@ class EmployeeMapper {
     }
 
     /**
-     * Update password of employee
+     * This method will update the password of an employee
      *
      * @param employee       The employee to update
      * @param newPassword    The new password
@@ -114,7 +114,7 @@ class EmployeeMapper {
     }
 
     /**
-     * Update name of employee
+     * This method will update the name of an employee
      *
      * @param employee       The employee to update
      * @param newName        The new name
@@ -136,7 +136,7 @@ class EmployeeMapper {
     }
 
     /**
-     * Update personal phone number of employee
+     * This method will update the personal phone number of an employee
      *
      * @param employee       The employee to update
      * @param newPhoneNumber The new phone number
@@ -158,7 +158,7 @@ class EmployeeMapper {
     }
 
     /**
-     * Update work phone number of employee
+     * This method will update the work phone number of an employee
      *
      * @param employee       The employee to update
      * @param newPhoneNumber The new phone number
@@ -180,7 +180,7 @@ class EmployeeMapper {
     }
 
     /**
-     * Update position of employee
+     * This method will update the position of an employee
      *
      * @param employee       The employee to update
      * @param newPosition    The new position
@@ -202,7 +202,7 @@ class EmployeeMapper {
     }
 
     /**
-     * Update department of employee
+     * This method will update the department of an employee
      *
      * @param employee       The employee to update
      * @param newDepartment  The new department
@@ -223,6 +223,14 @@ class EmployeeMapper {
         }
     }
 
+    /**
+     * This method will create an Employee object from a ResultSet
+     *
+     * @param resultSet The ResultSet to create an Employee object from
+     * @return An Employee object
+     * @throws SQLException      If an error occurs while communicating with the database
+     * @throws NotFoundException If the ResultSet is empty
+     */
     private static Employee createEmployeeFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
             throw new NotFoundException("Could not find employee");

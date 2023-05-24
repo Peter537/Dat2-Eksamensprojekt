@@ -13,7 +13,7 @@ import java.util.Optional;
 class CustomerMapper {
 
     /**
-     * Login customer
+     * This method will log in a customer by email and password
      *
      * @param email          The email to search for
      * @param password       The password to search for
@@ -37,7 +37,7 @@ class CustomerMapper {
     }
 
     /**
-     * Create customer
+     * This method will create a Customer from the arguments
      *
      * @param email          The email of the customer
      * @param password       The password of the customer
@@ -66,7 +66,7 @@ class CustomerMapper {
     }
 
     /**
-     * Get customer by email
+     * This method will retrieve a Customer by email
      *
      * @param email          The email to search for
      * @param connectionPool Connection pool
@@ -88,7 +88,7 @@ class CustomerMapper {
     }
 
     /**
-     * Update password of customer
+     * This method will update the password of a customer
      *
      * @param customer       The customer to update
      * @param newPassword    The new password
@@ -109,7 +109,7 @@ class CustomerMapper {
     }
 
     /**
-     * Update an address of customer
+     * This method will update the address of a customer
      *
      * @param customer       The customer to update
      * @param addressNumber  The address number to update
@@ -142,7 +142,7 @@ class CustomerMapper {
     }
 
     /**
-     * Update name of customer
+     * This method will update the name of a customer
      *
      * @param customer       The customer to update
      * @param newName        The new name
@@ -164,7 +164,7 @@ class CustomerMapper {
     }
 
     /**
-     * Update phone number of customer
+     * This method will update the personal phone number of a customer
      *
      * @param customer       The customer to update
      * @param newPhoneNumber The new phone number
@@ -185,6 +185,14 @@ class CustomerMapper {
         }
     }
 
+    /**
+     * This method will create a customer from a result set
+     *
+     * @param resultSet The result set
+     * @return The customer
+     * @throws SQLException      if an error occurs while communicating with the database
+     * @throws NotFoundException if the customer does not exist
+     */
     private static Customer createCustomerFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
             throw new NotFoundException("Could not create customer from result set");
@@ -200,6 +208,14 @@ class CustomerMapper {
         return new Customer(id, email, name, personalPhoneNumber, address1, address2, address3);
     }
 
+    /**
+     * This method will create a customer address from a result set
+     *
+     * @param addressNumber The address number
+     * @param resultSet     The result set
+     * @return The customer address
+     * @throws SQLException if an error occurs while communicating with the database
+     */
     private static Optional<Address> createCustomerAddressFromResultSet(int addressNumber, ResultSet resultSet) throws SQLException {
         String address = resultSet.getString("address_" + addressNumber);
         int zipCode = resultSet.getInt("zipcode_" + addressNumber);

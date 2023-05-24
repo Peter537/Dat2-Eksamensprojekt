@@ -18,7 +18,7 @@ import java.util.Optional;
 class CarportOrderMapper {
 
     /**
-     * Get Carport order from id
+     * This method will retrieve a CarportOrder from an id
      *
      * @param id             The id to search for
      * @param connectionPool Connection pool
@@ -40,7 +40,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Get all Carport orders from a customer
+     * This method will retrieve all Carport orders from a customer
      *
      * @param customer       The customer to search for
      * @param connectionPool Connection pool
@@ -68,7 +68,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Get all Carport orders from an employee
+     * This method will retrieve all Carport orders from an employee
      *
      * @param employee       The employee to search for
      * @param connectionPool Connection pool
@@ -96,7 +96,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Get all Carport orders
+     * This method will retrieve all Carport orders
      *
      * @param connectionPool Connection pool
      * @return A list of CarportOrder objects
@@ -122,7 +122,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Get the last newly carport orders as news
+     * This method will get the last newly carport orders to show on the employee front page
      *
      * @param connectionPool Connection pool
      * @return A list of CarportOrder objects
@@ -151,7 +151,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Get the latest order status from a customer
+     * This method will retrieve the last OrderStatus from a Customer
      *
      * @param customer       The customer to search for
      * @param connectionPool Connection pool
@@ -179,7 +179,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Create a new carport order
+     * This method will create a new carport order from the arguments
      *
      * @param customer           The customer who ordered the carport
      * @param address            The address where the carport should be delivered
@@ -240,7 +240,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Claim a carport order
+     * This method is for employees to claim a carport order
      *
      * @param carportOrder   The carport order to claim
      * @param employee       The employee who claims the carport order
@@ -264,7 +264,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Make an offer for a carport order
+     * This method is for employees to make an offer for a carport order
      *
      * @param carportOrder   The carport order to make an offer for
      * @param price          The price of the offer
@@ -288,7 +288,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Accept an offer for a carport order
+     * This method is for customers to accept an offer for a carport order
      *
      * @param carportOrder   The carport order to accept an offer for
      * @param connectionPool Connection pool
@@ -310,7 +310,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Cancel an order
+     * This method is for customers for cancelling an order
      *
      * @param carportOrder   The carport order to cancel
      * @param connectionPool Connection pool
@@ -332,7 +332,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Ready an order
+     * This method is for employees to set a carport order to ready for delivery
      *
      * @param carportOrder   The carport order to ready
      * @param connectionPool Connection pool
@@ -354,7 +354,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Deliver an order
+     * This method is for employees to set a carport order to delivered
      *
      * @param carportOrder   The carport order to deliver
      * @param connectionPool Connection pool
@@ -376,7 +376,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Update the width of a carport order
+     * This method will update the width of a carport order
      *
      * @param carportOrder   The carport order to update
      * @param width          The new width
@@ -398,7 +398,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Update the length of a carport order
+     * This method will update the length of a carport order
      *
      * @param carportOrder   The carport order to update
      * @param length         The new length
@@ -420,7 +420,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Update the minimum height of a carport order
+     * This method will update the minimum height of a carport order
      *
      * @param carportOrder   The carport order to update
      * @param minHeight      The new minimum height
@@ -442,7 +442,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Update the toolroom of a carport order
+     * This method will update the toolroom of a carport order
      *
      * @param carportOrder   The carport order to update
      * @param toolRoom       The new toolroom
@@ -470,7 +470,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Update the price of a carport order
+     * This method will update the price of a carport order
      *
      * @param carportOrder   The carport order to update
      * @param price          The new price
@@ -496,7 +496,7 @@ class CarportOrderMapper {
     }
 
     /**
-     * Update the address of a carport order
+     * This method will update the address of a carport order
      *
      * @param carportOrder   The carport order to update
      * @param address        The new address
@@ -518,6 +518,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * This method will create a carport order from a result set
+     *
+     * @param resultSet The result set to create the carport order from
+     * @return The created carport order
+     * @throws SQLException      If an error occurs while communicating with the database
+     * @throws NotFoundException If the carport order was not found
+     */
     private static CarportOrder createCarportOrderFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
             throw new NotFoundException("CarportOrder not found");
@@ -551,6 +559,13 @@ class CarportOrderMapper {
         return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, price);
     }
 
+    /**
+     * This method will create a customer from a result set
+     *
+     * @param resultSet The result set to create the customer from
+     * @return The created customer
+     * @throws SQLException If an error occurs while communicating with the database
+     */
     private static Customer createCustomerFromCarportOrderResultSet(ResultSet resultSet) throws SQLException {
         int customerId = resultSet.getInt("customerid");
         String customerName = resultSet.getString("customername");
@@ -562,6 +577,13 @@ class CarportOrderMapper {
         return new Customer(customerId, customerEmail, customerName, customerPhone, address1, address2, address3);
     }
 
+    /**
+     * This method will create an employee from a result set
+     *
+     * @param resultSet The result set to create the employee from
+     * @return The created employee
+     * @throws SQLException If an error occurs while communicating with the database
+     */
     private static Optional<Employee> createEmployeeFromCarportOrderResulSet(ResultSet resultSet) throws SQLException {
         String employeeEmail = resultSet.getString("fk_employee_email");
         if (employeeEmail == null) {
@@ -585,6 +607,14 @@ class CarportOrderMapper {
         return Optional.of(new Employee(employeeId, employeeEmail, employeeName, privatePhonenumber, workPhonenumber, position, department));
     }
 
+    /**
+     * This method will create a customers address from a result set
+     *
+     * @param addressNumber The address number to create
+     * @param resultSet     The result set to create the address from
+     * @return The created address
+     * @throws SQLException If an error occurs while communicating with the database
+     */
     private static Optional<Address> createCustomerAddressFromCarportOrderResultSet(int addressNumber, ResultSet resultSet) throws SQLException {
         String address = resultSet.getString("address_" + addressNumber);
         int zipCode = resultSet.getInt("zipcode_" + addressNumber);

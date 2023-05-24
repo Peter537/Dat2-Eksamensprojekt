@@ -13,7 +13,7 @@ import java.util.List;
 class LumberMapper {
 
     /**
-     * Create lumber
+     * This method will create a lumber in the database
      *
      * @param length         Length of lumber
      * @param type           Type of lumber
@@ -49,7 +49,7 @@ class LumberMapper {
     }
 
     /**
-     * Get list of lumber by lumber type
+     * This method will retrieve all Lumber by a LumberType
      *
      * @param lumberType     Lumber type
      * @param connectionPool Connection pool to use
@@ -78,7 +78,7 @@ class LumberMapper {
     }
 
     /**
-     * Delete lumber
+     * This method will delete a lumber
      *
      * @param id             Lumber id
      * @param connectionPool Connection pool to use
@@ -101,7 +101,7 @@ class LumberMapper {
     }
 
     /**
-     * Update lumber
+     * This method will update a Lumber by id
      *
      * @param id             Lumber id
      * @param poleLength     Pole length

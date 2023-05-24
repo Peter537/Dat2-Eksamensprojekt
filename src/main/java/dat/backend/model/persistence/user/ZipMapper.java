@@ -13,7 +13,7 @@ import java.sql.SQLException;
 class ZipMapper {
 
     /**
-     * Get zip by zip code
+     * Retrieve a Zip object by a zip code
      *
      * @param zipCode        The zip code to search for
      * @param connectionPool Connection pool
@@ -34,6 +34,14 @@ class ZipMapper {
         }
     }
 
+    /**
+     * This method creates a Zip object from a ResultSet
+     *
+     * @param resultSet ResultSet to create Zip object from
+     * @return Zip object
+     * @throws SQLException      if an error occurs while communicating with the database
+     * @throws NotFoundException if the zip code does not exist
+     */
     private static Zip createZipFromResultSet(ResultSet resultSet) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
             throw new NotFoundException("Zip not found");

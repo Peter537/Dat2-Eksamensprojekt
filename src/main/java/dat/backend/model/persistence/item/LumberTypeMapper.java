@@ -3,7 +3,6 @@ package dat.backend.model.persistence.item;
 import dat.backend.model.entities.item.LumberType;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
-import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 
 import java.sql.*;
@@ -13,7 +12,7 @@ import java.util.List;
 class LumberTypeMapper {
 
     /**
-     * Get lumber type by id
+     * Retrieve a LumberType by id
      *
      * @param id             The id to search for
      * @param connectionPool Connection pool to use
@@ -43,7 +42,7 @@ class LumberTypeMapper {
     }
 
     /**
-     * Get all lumber types by type
+     * Retrieve all LumberTypes by a type, fx if a type is different thickness * width, it is still the same type
      *
      * @param lumberType     The type to search for
      * @param connectionPool Connection pool to use
@@ -73,12 +72,12 @@ class LumberTypeMapper {
     }
 
     /**
-     * Create lumber type
+     * This method will create a new lumber type in the database
      *
-     * @param poleThickness The thickness of the lumber type
-     * @param poleWidth    The width of the lumber type
+     * @param poleThickness  The thickness of the lumber type
+     * @param poleWidth      The width of the lumber type
      * @param poleMeterPrice The meter price of the lumber type
-     * @param type         The type of the lumber type
+     * @param type           The type of the lumber type
      * @param connectionPool Connection pool to use
      * @return The lumber type
      * @throws DatabaseException if an error occurs while communicating with the database
@@ -110,10 +109,10 @@ class LumberTypeMapper {
     }
 
     /**
-     * Get lumber type by thickness, width and meter price
+     * This method will get lumber type by thickness, width and meter price
      *
-     * @param poleThickness The thickness of the lumber type
-     * @param poleWidth   The width of the lumber type
+     * @param poleThickness  The thickness of the lumber type
+     * @param poleWidth      The width of the lumber type
      * @param poleMeterPrice The meter price of the lumber type
      * @param connectionPool Connection pool to use
      * @return The lumber type

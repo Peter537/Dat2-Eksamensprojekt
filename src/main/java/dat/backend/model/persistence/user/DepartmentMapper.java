@@ -15,7 +15,7 @@ import java.sql.SQLException;
 class DepartmentMapper {
 
     /**
-     * Get department by id
+     * This method will retrieve a Department object by an id
      *
      * @param id             The id to search for
      * @param connectionPool Connection pool
@@ -36,7 +36,16 @@ class DepartmentMapper {
         }
     }
 
-    private static Department createDepartmentFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, DatabaseException, NotFoundException {
+    /**
+     * This method will create a Department object from a ResultSet
+     *
+     * @param resultSet      ResultSet to create Department object from
+     * @param connectionPool Connection pool
+     * @return Department object
+     * @throws SQLException      if an error occurs while communicating with the database
+     * @throws NotFoundException if the id does not exist
+     */
+    private static Department createDepartmentFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, NotFoundException {
         if (!resultSet.next()) {
             throw new NotFoundException("Department not found");
         }
@@ -49,8 +58,8 @@ class DepartmentMapper {
             Zip zip = ZipFacade.getZipByZipCode(zipCode, connectionPool);
             Address addressObject = new Address(address, zip);
             return new Department(id, departmentName, addressObject);
-        } catch (NotFoundException e) {
-            throw new DatabaseException("Could not get zip");
+        } catch (NotFoundException | DatabaseException e) {
+            throw new SQLException("Could not get zip");
         }
     }
 }
