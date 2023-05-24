@@ -29,19 +29,19 @@
             <div class="row">
                 <div class="form-group">
                     <label for="carportLength">Carport Længde: </label>
-                    <input type="text" name="carportLength" id="carportLength" class="form-control" placeholder="carport længde" value="${carportOrder != null ? carportOrder.length : null}" required>
+                    <input type="text" name="carportLength" id="carportLength" class="form-control" placeholder="carport længde" value="${carportOrder != null ? carportOrder.length : null}" required min="1">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="carportWidth">Carport Bredde: </label>
-                    <input type="text" name="carportWidth" id="carportWidth" class="form-control" placeholder="carport bredde" value="${carportOrder != null ? carportOrder.width : null}" required>
+                    <input type="text" name="carportWidth" id="carportWidth" class="form-control" placeholder="carport bredde" value="${carportOrder != null ? carportOrder.width : null}" required min="1">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="carportHeight">Carport Højde: </label>
-                    <input type="text" name="carportHeight" id="carportHeight" class="form-control" placeholder="carport højde" value="${carportOrder != null ? carportOrder.minHeight : null}" required>
+                    <input type="text" name="carportHeight" id="carportHeight" class="form-control" placeholder="carport højde" value="${carportOrder != null ? carportOrder.minHeight : null}" required min="1">
                 </div>
             </div>
             <div class="form-row">
