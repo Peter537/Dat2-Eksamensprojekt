@@ -14,6 +14,10 @@ import java.util.Optional;
 public class PartsListCalculator {
 
     /**
+     *
+     */
+
+    /**
      * Calculate pole
      *
      * @param height         The height of the carport
@@ -185,7 +189,7 @@ public class PartsListCalculator {
     }
 
     /**
-     * The dimensions
+     * This is a standard table for the dimentions of the rafter depending on the span between the plates, it is assumed that the span between the rafters is max. 60 cm. The table is taken from https://www.palsgaardspaer.dk/teknik/dimensionering/spaendviddetabeller-plankespaer/.
      */
     private static final double[][] spanTable = {
             {120, 145, 170, 195, 220, 245, 295},// dimensions in mm
@@ -193,10 +197,10 @@ public class PartsListCalculator {
     };
 
     /**
-     * Calculate the dimensions
+     * Calculate the width of the rafters
      *
      * @param width The width of the carport
-     * @return The dimensions
+     * @return The width of the rafter in mm
      */
     static double calculateDimensions(int width) {
         double span = calculateSpanBetweenPlates(width);
@@ -212,14 +216,14 @@ public class PartsListCalculator {
     }
 
     /**
-     * max length of rafter and plate lumber is 720 cm. If the length is longer than this, we will need two pieces of lumber.
+     * max length of rafter and plate lumber is found in the database. If the length is longer than this, we will need two pieces of lumber.
      * The length of the rafter is width of carport. The length of the plate is length of carport.
      * Assume that the lumber is divided into two(or more) pieces of equal length.
      *
      * @param length         The length of the carport
      * @param lumberType     The type of lumber
      * @param connectionPool The connection pool to use
-     * @return The number of lumber needed
+     * @return The number of pieces of lumber needed to cover the length
      * @throws DatabaseException        if an error occurs while communicating with the database
      * @throws IllegalArgumentException if no lumber is found with the required length
      */
