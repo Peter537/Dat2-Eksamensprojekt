@@ -164,11 +164,12 @@
                     </div>
                 </div>
                 <div class="col-sm-4" id="news">
-                    <div class="card">
+                    <div class="card" style="height: 100%">
                         <div class="row text-center">
                             <h3>Nyheder</h3>
                         </div>
-                        <table>
+
+                        <table style="margin-left: 5%;height: 100%;">
                             <thead>
                             <tr>
                                 <th>ID</th>
