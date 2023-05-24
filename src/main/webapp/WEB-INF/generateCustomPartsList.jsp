@@ -40,7 +40,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="carportHeight">Carport Højde: </label>
+                    <label for="carportHeight">Carport Minimum højde: </label>
                     <input type="text" name="carportHeight" id="carportHeight" class="form-control" placeholder="carport højde" value="${carportOrder != null ? carportOrder.minHeight : null}" required min="1">
                 </div>
             </div>
