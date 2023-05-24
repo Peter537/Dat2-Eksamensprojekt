@@ -74,6 +74,12 @@ public abstract class TestDatabase {
         this.connectionPool.close();
     }
 
+    /**
+     * This method will drop all tables in the database
+     *
+     * @param stmt Statement
+     * @throws SQLException if an error occurs
+     */
     private void clearDB(Statement stmt) throws SQLException {
         ResultSet rs = stmt.executeQuery("SELECT CONCAT('DROP TABLE ',table_schema,'.',TABLE_NAME, ';') \n" +
                 "    FROM INFORMATION_SCHEMA.TABLES WHERE table_schema IN ('fogcarport_test');");
