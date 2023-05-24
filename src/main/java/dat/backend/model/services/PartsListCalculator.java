@@ -21,7 +21,7 @@ public class PartsListCalculator {
      * @param connectionPool The connection pool to use
      * @return The pole
      * @throws DatabaseException        if an error occurs while communicating with the database
-     * @throws IllegalArgumentException if no pole is found with the required length
+     * @throws IllegalArgumentException if no pole is found with the required length(if your carport is too tall)
      */
     public static Lumber calculatePole(int height, int width, ConnectionPool connectionPool) throws DatabaseException {
         LumberType pole = LumberTypeFacade.getLumberTypeByType("POLE", connectionPool).get(0);

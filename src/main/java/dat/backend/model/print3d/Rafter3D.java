@@ -23,8 +23,8 @@ public class Rafter3D {
         LumberType rafterType = partsList.getRafter().getLumberType();
         int numberOfRafters = partsList.getNumberOfRafters();
         int length = partsList.getLengthOfRafter() * 10;
-        int width = (int)rafterType.getWidth();
-        int thickness = (int)rafterType.getThickness();
+        int width = (int)rafterType.getThickness();  // Changed from getWidth() to getThickness()
+        int thickness = (int)rafterType.getWidth();  // Changed from getThickness() to getWidth()
 
         Geometry3D box = csg.box3D(length, width, thickness, false);
 
@@ -53,3 +53,4 @@ public class Rafter3D {
         return this.rafter;
     }
 }
+
