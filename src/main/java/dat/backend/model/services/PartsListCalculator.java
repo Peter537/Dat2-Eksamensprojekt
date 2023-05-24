@@ -14,6 +14,10 @@ import java.util.Optional;
 public class PartsListCalculator {
 
     /**
+     *This class is used to calculate the parts list for a carport. It startes by calculating the amount of poles needed for the carport both length-wise and width-wise.
+     * It is assumed that the overhang length-wise is 70 cm in each end, and that the overhang width-wise is 35 cm in each end. For the width, the poles is placed a maximum of 600 cm apart (since that is the maximum span the rafters can have with a flat roof, see @link #calculateDimentions()).
+     * For the length, the poles is place a maximum of 340 cm apart, this value was given by the teacher when we started the project.
+     * When we know the number of poles, we can calculate the span between the plates laying lengthwise in the carport. We use this span to calculate the size of the rafters needed, and from that the lumberType. For simplicity, the plates are assumed to be the same lumberType as the rafters.
      *
      */
 
