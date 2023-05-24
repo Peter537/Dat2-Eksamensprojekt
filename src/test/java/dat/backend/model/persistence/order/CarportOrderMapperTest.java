@@ -335,6 +335,23 @@ class CarportOrderMapperTest extends TestDatabase {
     }
 
     @Test
+    void testValidCancelOrder() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        carportOrder = CarportOrderFacade.cancelOrder(carportOrder, connectionPool);
+        assertEquals("ORDER_CANCELLED", carportOrder.getOrderStatus().getStatus());
+    }
+
+    @Test
+    void testInvalidCancelOrderNullCarportOrder() throws NotFoundException, DatabaseException, ValidationException {
+        Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
+        CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
+        assertFalse(carportOrder.getEmployee().isPresent());
+        assertThrows(ValidationException.class, () -> CarportOrderFacade.cancelOrder(null, connectionPool));
+    }
+
+    @Test
     void testValidReady() throws NotFoundException, DatabaseException, ValidationException {
         Customer customer = CustomerFacade.getCustomerByEmail("allan@outlook.dk", connectionPool);
         CarportOrder carportOrder = CarportOrderFacade.create(customer, new Address("Herlev Adresse", ZipFacade.getZipByZipCode(2730, connectionPool)), 360, 720, 300, RoofFacade.getRoofById(1, connectionPool), Optional.empty(), Optional.empty(), 0, connectionPool);
