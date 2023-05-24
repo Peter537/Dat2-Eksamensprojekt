@@ -17,6 +17,11 @@
 
         <c:set var="carportOrder" value="${requestScope.carportOrder}"/>
 
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Stykliste generator</h1>
+            </div>
+
         <div class="row" style="padding-top: 3%">
 
             <form action="calculateCustomPartlist" method="post" target="iframe">
@@ -24,19 +29,19 @@
             <div class="row">
                 <div class="form-group">
                     <label for="carportLength">Carport Længde: </label>
-                    <input type="text" name="carportLength" id="carportLength" class="form-control" placeholder="carport længde" value="${carportOrder != null ? carportOrder.length : null}">
+                    <input type="text" name="carportLength" id="carportLength" class="form-control" placeholder="carport længde" value="${carportOrder != null ? carportOrder.length : null}" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="carportWidth">Carport Bredde: </label>
-                    <input type="text" name="carportWidth" id="carportWidth" class="form-control" placeholder="carport bredde" value="${carportOrder != null ? carportOrder.width : null}">
+                    <input type="text" name="carportWidth" id="carportWidth" class="form-control" placeholder="carport bredde" value="${carportOrder != null ? carportOrder.width : null}" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="carportHeight">Carport Højde: </label>
-                    <input type="text" name="carportHeight" id="carportHeight" class="form-control" placeholder="carport højde" value="${carportOrder != null ? carportOrder.minHeight : null}">
+                    <input type="text" name="carportHeight" id="carportHeight" class="form-control" placeholder="carport højde" value="${carportOrder != null ? carportOrder.minHeight : null}" required>
                 </div>
             </div>
             <div class="form-row">
@@ -51,26 +56,29 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="shedWidth">Redskabskur bredde: </label>
-                    <input type="text" name="shedWidth" id="shedWidth" class="form-control" placeholder="redskabskur bredde" value="${carportOrder.toolRoom.present ? carportOrder.toolRoom.get().width : null}">
+                    <input readonly type="text" name="shedWidth" id="shedWidth" class="form-control" placeholder="redskabskur bredde" value="${carportOrder.toolRoom.present ? carportOrder.toolRoom.get().width : null}">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="shedLength">Redskabskur længde: </label>
-                    <input type="text" name="shedLength" id="shedLength" class="form-control" placeholder="redskabskur længde" value="${carportOrder.toolRoom.present ? carportOrder.toolRoom.get().length : null}">
+                    <input readonly type="text" name="shedLength" id="shedLength" class="form-control" placeholder="redskabskur længde" value="${carportOrder.toolRoom.present ? carportOrder.toolRoom.get().length : null}">
                 </div>
             </div>
                 <div class="text-center" style="padding-top: 2%">
-                <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+                <input type="hidden" name="orderId" value="${carportOrder.length > 0 ? carportOrder.id : 0}">
                 <input type="hidden" name="valid" value="valid">
-                <input class="btn" formtarget="iframe" type="submit" value="Beregn">
+                <input class="btn btn-primary" formtarget="iframe" type="submit" value="Beregn">
                 </div>
             </form>
         </div>
 
-<div style="padding-bottom: 5%; margin-top: 1%>
-            <iframe name="iframe" id="iframe" src="calculateCustomPartlist" width="100%" height="400px" sandbox="allow-forms"></iframe>
+<div style="padding-bottom: 5%; margin-top: 1%">
+            <iframe  name="iframe" id="iframe" src="calculateCustomPartlist" width="100%" height="400px" sandbox="allow-forms allow-top-navigation"></iframe>
         </div>
+
+
+
 
     </jsp:body>
 

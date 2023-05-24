@@ -29,41 +29,14 @@ public class calculateCustomPartlist extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String validCheck = request.getParameter("valid");
 
-        int orderId = 0;
-        int length = 0;
-        int width = 0;
-        int height = 0;
-
-        if (validCheck != null) {
-            orderId = Integer.parseInt(request.getParameter("orderId"));
-            if (orderId == 0) {
-                orderId = 0;
-            }
-            length = Integer.parseInt(request.getParameter("carportLength"));
-            width = Integer.parseInt(request.getParameter("carportWidth"));
-            height = Integer.parseInt(request.getParameter("carportHeight"));
-        }
-
-        if (orderId != 0) {
-            try {
-                Roof roof = RoofFacade.getRoofById(1, connectionPool);
-
-                PartsList partsList = new PartsList(height, length, width, roof, connectionPool);
-                request.setAttribute("partlist", partsList);
-                request.getRequestDispatcher("WEB-INF/calculatedCustompartlistFRAME.jsp").forward(request, response);
-
-            } catch (DatabaseException | NotFoundException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String validCheck = request.getParameter("valid");
+        String orderIdString = request.getParameter("orderId");
 
         float orderId = 0;
         float length = 0;
@@ -71,26 +44,33 @@ public class calculateCustomPartlist extends HttpServlet {
         float height = 0;
 
         if (validCheck != null) {
-            orderId = Integer.parseInt(request.getParameter("orderId"));
-            if (orderId == 0) {
-                orderId = 0;
-            }
+            orderId = Float.parseFloat(orderIdString);
+
             length = Float.parseFloat(request.getParameter("carportLength"));
             width = Float.parseFloat(request.getParameter("carportWidth"));
             height = Float.parseFloat(request.getParameter("carportHeight"));
         }
 
-        if (orderId != 0) {
-            try {
-                Roof roof = RoofFacade.getRoofById(1, connectionPool);
+        try {
+            Roof roof = RoofFacade.getRoofById(1, connectionPool);
 
-                PartsList partsList = new PartsList((int)height, (int)length, (int)width, roof, connectionPool);
-                request.setAttribute("partslist", partsList);
-                request.getRequestDispatcher("WEB-INF/calculatedCustompartlistFRAME.jsp").forward(request, response);
+            PartsList partsList = new PartsList((int) height, (int) length, (int) width, roof, connectionPool);
+            request.setAttribute("partslist", partsList);
+            request.setAttribute("orderId", orderId);
+            request.setAttribute("edit", "edit");
+            // for override
+            request.setAttribute("id", orderId);
+            request.setAttribute("length", length);
+            request.setAttribute("width", width);
+            request.setAttribute("height", height);
+            request.setAttribute("price", partsList.getTotalPrice());
 
-            } catch (DatabaseException | NotFoundException e) {
-                e.printStackTrace();
-            }
+            //
+            request.getRequestDispatcher("WEB-INF/calculatedCustompartlistFRAME.jsp").forward(request, response);
+
+        } catch (DatabaseException | NotFoundException e) {
+            e.printStackTrace();
         }
+
     }
 }

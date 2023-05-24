@@ -35,7 +35,7 @@ public class DetailedOrderInfo extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        int orderId = (int) Float.parseFloat(request.getParameter("orderId"));
         String message = (String) request.getAttribute("cancel");
 
         if (orderId == 0) {
@@ -50,8 +50,14 @@ public class DetailedOrderInfo extends HttpServlet {
         }
         request.setAttribute("cancel", message);
 
+        String referer = request.getHeader("referer");
+        String from;
+        if (referer != null) {
+            from = referer.split("/")[referer.split("/").length - 1];
+        } else {
+            from = "default_value"; // Provide a default value or specify your desired alternative logic
+        }
 
-        String from = request.getHeader("referer").split("/")[request.getHeader("referer").split("/").length - 1];
         try {
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
             request.setAttribute("carportOrder", carportOrder);

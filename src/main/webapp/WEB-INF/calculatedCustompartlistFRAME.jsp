@@ -1,11 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: yusef
-  Date: 23/05/2023
-  Time: 13.58
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page errorPage="error.jsp" isErrorPage="false" %>
+
 <html>
 <head>
     <title>Title</title>
@@ -19,16 +16,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous"></script>
+    <link href="${pageContext.request.contextPath}/css/pagetemplateStyle.css" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #f5f5f3">
 
-<table class="table table-striped table-bordered table-hover">
+<table class="table table-striped table-bordered table-hover" style="background-color: white; border: 1px black solid">
 
     <thead>
     <th>Dimensioner</th>
     <th>Længde</th>
     <th>Antal</th>
     <th>Enhed</th>
+    <th>Pris</th>
     <th>Beskrivelse</th>
     </thead>
     <tbody>
@@ -40,6 +39,7 @@
         <td>${requestScope.partslist.rafter.length}</td>
         <td>${requestScope.partslist.numberOfRafters}</td>
         <td>stk.</td>
+        <td>${requestScope.partslist.rafter.price} pr. stk</td>
         <td>${requestScope.partslist.rafter.description.get()}</td>
     </tr>
 
@@ -51,6 +51,7 @@
         <td>${requestScope.partslist.pole.length}</td>
         <td>${requestScope.partslist.numberOfPoles}</td>
         <td>stk.</td>
+        <td>${requestScope.partslist.pole.price} pr. stk</td>
         <td>${requestScope.partslist.pole.description.get()}</td>
     </tr>
 
@@ -61,6 +62,7 @@
         <td>${requestScope.partslist.plate.length}</td>
         <td>${requestScope.partslist.numberOfPlates}</td>
         <td>stk.</td>
+        <td>${requestScope.partslist.plate.price} pr. stk</td>
         <td>${requestScope.partslist.plate.description.get()}</td>
     </tr>
 
@@ -69,12 +71,25 @@
         <td>${requestScope.partslist.length}</td>
         <td>${requestScope.partslist.roofArea}</td>
         <td>m2</td>
+        <td>${requestScope.partslist.roof.squareMeterPrice} pr. stk</td>
         <td>Dette er taget</td>
     </tr>
     </tbody>
 </table>
 
 <h3 style="height: 20%" class="text-center">Pris: ${requestScope.partslist.calculateTotalPrice()}</h3>
+
+<c:if test="${requestScope.id != 0}">
+    <form action="OverrideCarportOrder" method="post" target="_parent" class="text-center">
+        <input type="hidden" name="orderId" value="${requestScope.id}">
+        <input type="hidden" name="length" value="${requestScope.length}">
+        <input type="hidden" name="width" value="${requestScope.width}">
+        <input type="hidden" name="minHeight" value="${requestScope.height}">
+        <input type="hidden" name="price" value="${requestScope.price}">
+        <input type="hidden" name="fromJsp" value="employee">
+        <input class="btn btn-primary" type="submit" value="indsend ændring">
+    </form>
+</c:if>
 
 </body>
 </html>
