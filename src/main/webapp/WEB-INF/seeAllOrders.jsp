@@ -115,27 +115,27 @@
                                 </c:when>
 
                                 <c:otherwise>
-                                        <c:choose>
-                                            <c:when test="${requestScope.carportOrder.price.present}">
-                                                <h5>Pris: ${requestScope.carportOrder.price.get()} DKK</h5>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:choose>
-                                                    <c:when test="${requestScope.carportOrder.employee.get().email.equals(sessionScope.user.email)}">
-                                                <form action="employee-make-offer" method="post">
-                                                    <input id="dealMaker" name="priceOffer" type="number"
-                                                           placeholder="Giv Tilbud i DKK">
-                                                    <input type="hidden" name="fromJsp" value="employee">
-                                                    <input type="hidden" name="orderId"
-                                                           value="${requestScope.carportOrder.id}">
-                                                </form>
+                                    <c:choose>
+                                        <c:when test="${requestScope.carportOrder.price.present}">
+                                            <h5>Pris: ${requestScope.carportOrder.price.get()} DKK</h5>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:choose>
+                                                <c:when test="${requestScope.carportOrder.employee.get().email.equals(sessionScope.user.email)}">
+                                                    <form action="employee-make-offer" method="post">
+                                                        <input id="dealMaker" name="priceOffer" type="number"
+                                                               placeholder="Giv Tilbud i DKK">
+                                                        <input type="hidden" name="fromJsp" value="employee">
+                                                        <input type="hidden" name="orderId"
+                                                               value="${requestScope.carportOrder.id}">
+                                                    </form>
                                                 </c:when>
-                                                    <c:otherwise>
-                                                        <p>Ordre taget af anden medarbejder</p>
-                                                    </c:otherwise>
-                                        </c:choose>
-                                            </c:otherwise>
-                                        </c:choose>
+                                                <c:otherwise>
+                                                    <p>Ordre taget af anden medarbejder</p>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -219,11 +219,10 @@
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
                                   readonly>${requestScope.carportOrder.remarks.present ? requestScope.carportOrder.remarks.get() : 'ingen kommentarer'}</textarea>
 
-                        <form action="to-generate-custom-partlist" method="post">
+                        <form action="generate-custom-partslist" method="post">
                             <br>
-                            <input class="btn" type="submit" value="edit order">
+                            <input class="btn btn-primary" type="submit" value="edit order">
                             <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
-
                         </form>
 
                     </div>
