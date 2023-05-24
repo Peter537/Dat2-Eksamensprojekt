@@ -19,6 +19,13 @@ public class Customer extends Person {
         this.address3 = address3;
     }
 
+    /**
+     * This method will return an Address object if the address number is between 1 and 3
+     *
+     * @param number The address number
+     * @return An Address object if the address number is between 1 and 3
+     * @throws IllegalArgumentException if the address number is not between 1 and 3
+     */
     public Optional<Address> getAddress(int number) {
         switch (number) {
             case 1:
@@ -32,6 +39,13 @@ public class Customer extends Person {
         }
     }
 
+    /**
+     * This method will set an address to the address number if the address number is between 1 and 3
+     *
+     * @param addressNumber The address number
+     * @param address       The address to set
+     * @throws IllegalArgumentException if the address number is not between 1 and 3
+     */
     public void setAddress(int addressNumber, Optional<Address> address) {
         switch (addressNumber) {
             case 1:

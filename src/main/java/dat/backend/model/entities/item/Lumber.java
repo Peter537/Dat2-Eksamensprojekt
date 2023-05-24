@@ -22,6 +22,11 @@ public class Lumber implements Comparable<Lumber> {
         this.amount = amount;
     }
 
+    /**
+     * This method will get the price of the lumber
+     *
+     * @return The price of the lumber
+     */
     public float getPrice() {
         // Length is in CM, so we divide by 100 to get meters
         float lengthInMeters = this.length / 100.0f;
