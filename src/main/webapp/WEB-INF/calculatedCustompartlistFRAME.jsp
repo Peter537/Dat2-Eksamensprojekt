@@ -20,6 +20,8 @@
 </head>
 <body style="background-color: #f5f5f3">
 
+<c:if test="${requestScope.valid != null}">
+
 <table class="table table-striped table-bordered table-hover" style="background-color: white; border: 1px black solid">
 
     <thead>
@@ -89,7 +91,16 @@
         <input type="hidden" name="fromJsp" value="employee">
         <input class="btn btn-primary" type="submit" value="indsend ændring">
     </form>
+
 </c:if>
+
+</c:if>
+    <c:if test="${requestScope.valid == null}">
+
+        <h2 class="text-center" style="color: red">Noget gik galt: ${requestScope.msg}</h2>
+
+    </c:if>
+
 
 </body>
 </html>

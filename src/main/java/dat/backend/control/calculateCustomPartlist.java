@@ -58,6 +58,11 @@ public class calculateCustomPartlist extends HttpServlet {
             request.setAttribute("partslist", partsList);
             request.setAttribute("orderId", orderId);
             request.setAttribute("edit", "edit");
+            request.setAttribute("valid", "valid");
+
+
+
+
             // for override
             request.setAttribute("id", orderId);
             request.setAttribute("length", length);
@@ -68,8 +73,9 @@ public class calculateCustomPartlist extends HttpServlet {
             //
             request.getRequestDispatcher("WEB-INF/calculatedCustompartlistFRAME.jsp").forward(request, response);
 
-        } catch (DatabaseException | NotFoundException e) {
-            e.printStackTrace();
+        } catch (DatabaseException | NotFoundException | IllegalArgumentException e) {
+            request.setAttribute("msg", e.getMessage());
+            request.getRequestDispatcher("WEB-INF/calculatedCustompartlistFRAME.jsp").forward(request, response);
         }
 
     }
