@@ -84,7 +84,6 @@ class Model3DTest extends TestDatabase {
         Roof roof = RoofFacade.getRoofById(1, super.connectionPool);
         PartsList partsList = new PartsList(200, 500, 300, roof, super.connectionPool);
         Model3D model3D = new Model3D(partsList);
-        model3D.createModel();
         assertNotNull(model3D);
     }
 }

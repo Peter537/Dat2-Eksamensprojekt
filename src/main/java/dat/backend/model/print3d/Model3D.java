@@ -15,10 +15,11 @@ public class Model3D {
         if (csg == null) {
             csg = JavaCSGFactory.createDefault();
         }
-        createModel();
+
+        this.createModel();
     }
 
-    void createModel() throws DatabaseException {
+    public void createModel() throws DatabaseException {
         JavaCSG csg = JavaCSGFactory.createDefault();
         Pole3D pole3D = new Pole3D(csg, partsList);
         Plate3D plate3D = new Plate3D(csg, partsList);
