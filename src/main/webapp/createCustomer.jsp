@@ -28,7 +28,7 @@
                     <div class="col-md-8 col-xl-6 text-center mx-auto">
                         <h2>Opret en bruger</h2>
                         eller
-                        <a class="link" href="login.jsp">Log ind</a>
+                        <a class="link" href="login.jsp">log ind</a>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center">
@@ -67,7 +67,6 @@
                                         <input style="scale: 1.2; text-align: center" type="checkbox" id="remember"
                                                name="remember" value="remember"/>
                                         <label class="form-check-label" for="remember">Husk mig</label>
-                                        <p class="text-muted" style="float: right">Glemt password?</p>
                                     </div>
                                     <div class="mb-3 text-center">
                                         <button class="btn btn-primary d-block w-100" type="submit">Opret mig</button>
