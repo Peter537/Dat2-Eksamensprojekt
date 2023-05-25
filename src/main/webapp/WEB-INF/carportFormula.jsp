@@ -7,11 +7,11 @@
 <t:pagetemplate>
 
     <jsp:attribute name="title">
-        You can log in here
+        Byg-selv carport
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-            Login
+            Byg-selv carport
     </jsp:attribute>
 
     <jsp:body>
@@ -40,15 +40,15 @@
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="contact-tab" data-bs-toggle="pill" data-bs-target="#contact"
+                    <button class="nav-link" id="disabled-tab" data-bs-toggle="pill" data-bs-target="#disabled"
                             type="button"
-                            role="tab" aria-controls="contact" aria-selected="false">Kontakt Information
+                            role="tab" aria-controls="disabled" aria-selected="false" disabled>Tagtype
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="disabled-tab" data-bs-toggle="pill" data-bs-target="#disabled"
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="pill" data-bs-target="#contact"
                             type="button"
-                            role="tab" aria-controls="disabled" aria-selected="false" disabled>tag-type
+                            role="tab" aria-controls="contact" aria-selected="false">Kontakt Information
                     </button>
                 </li>
             </ul>
@@ -60,29 +60,22 @@
                          tabindex="0">
 
                         <div class="mb-3 text-center">
-                            <label for="length" class="form-label">Carport Længde (cm)</label>
+                            <label for="length" class="form-label">Carport længde (cm)</label>
                             <input style="height: 40px" class="form-control" id="length"
                                    name="carportLength" placeholder="300 cm" required>
                         </div>
                         <div class="mb-3 text-center">
-                            <label for="width" class="form-label">Carport Bredde (cm)</label>
+                            <label for="width" class="form-label">Carport bredde (cm)</label>
                             <input style="height: 40px" class="form-control" id="width"
                                    name="carportWidth" placeholder="500 cm" required></div>
                         <div class="mb-3 text-center">
 
-                            <label for="carportTag" class="form-label">Carport Højde (cm)</label>
                             <div class="row" style="margin-bottom: 3%">
-                                <label for="carportMinHeight" class="form-label">Min</label>
+                                <label for="carportMinHeight" class="form-label">Carport minimumshøjde (cm)</label>
                                 <input class="form-control" id="carportMinHeight" type="number"
                                        name="carportMinHeight" placeholder="300 cm" required>
                             </div>
 
-                            <select class="btn btn-primary dropdown-toggle" aria-expanded="true"
-                                    data-bs-toggle="dropdown" name="carportRoof" id="carportTag" required>
-                                <option value="0">Vælg tag</option>
-                                <option value="1">Fladt tag</option>
-                                <option disabled value="2">Rejsning tag</option>
-                            </select>
                         </div>
 
 
