@@ -21,7 +21,7 @@ class RoofMapper {
      * @throws NotFoundException if the id does not exist
      */
     static Roof getRoofById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
-        String query = "SELECT * FROM roof WHERE id = ?";
+        String query = "SELECT * FROM roofWithType WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, id);
@@ -32,7 +32,8 @@ class RoofMapper {
 
                 float squareMeterPrice = resultSet.getFloat("squaremeter_price");
                 String type = resultSet.getString("type");
-                return new Roof(id, squareMeterPrice, type);
+                String displayName = resultSet.getString("displayname");
+                return new Roof(id, squareMeterPrice, type, displayName);
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get roof by id");
@@ -61,9 +62,9 @@ class RoofMapper {
                 }
 
                 int id = rs.getInt(1);
-                return new Roof(id, squareMeterPrice, type);
+                return getRoofById(id, connectionPool);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NotFoundException e) {
             throw new DatabaseException(e, "Could not create roof");
         }
     }
@@ -77,7 +78,7 @@ class RoofMapper {
      */
     static List<Roof> getAllRoofs(ConnectionPool connectionPool) throws DatabaseException {
         List<Roof> rooflist = new ArrayList<>();
-        String query = "SELECT * FROM roof";
+        String query = "SELECT * FROM roofWithType";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 ResultSet resultSet = statement.executeQuery();
@@ -85,7 +86,8 @@ class RoofMapper {
                     int id = resultSet.getInt("id");
                     float squareMeterPrice = resultSet.getFloat("squaremeter_price");
                     String type = resultSet.getString("type");
-                    rooflist.add(new Roof(id, squareMeterPrice, type));
+                    String displayName = resultSet.getString("displayname");
+                    rooflist.add(new Roof(id, squareMeterPrice, type, displayName));
                 }
             }
         } catch (SQLException e) {

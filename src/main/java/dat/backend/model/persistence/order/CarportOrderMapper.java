@@ -538,7 +538,7 @@ class CarportOrderMapper {
         Optional<Employee> employee = createEmployeeFromCarportOrderResulSet(resultSet);
         Customer customer = createCustomerFromCarportOrderResultSet(resultSet);
 
-        Roof roof = new Roof(resultSet.getInt("fk_roof_id"), resultSet.getFloat("squaremeter_price"), resultSet.getString("type"));
+        Roof roof = new Roof(resultSet.getInt("fk_roof_id"), resultSet.getFloat("squaremeter_price"), resultSet.getString("type"), resultSet.getString("roofdisplayname"));
         float width = resultSet.getFloat("width");
         float length = resultSet.getFloat("length");
         float minHeight = resultSet.getFloat("min_height");

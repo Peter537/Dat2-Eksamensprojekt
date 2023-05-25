@@ -8,13 +8,15 @@ public class Roof {
 
     private final int id;
     private final String type;
+    private final String displayName;
 
     private float squareMeterPrice;
 
-    public Roof(int id, float squareMeterPrice, String type) {
+    public Roof(int id, float squareMeterPrice, String type, String displayName) {
         this.id = id;
         this.squareMeterPrice = squareMeterPrice;
         this.type = type;
+        this.displayName = displayName;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
@@ -25,6 +27,11 @@ public class Roof {
     @IgnoreCoverage(reason = "Getter or Setter")
     public String getType() {
         return this.type;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public String getDisplayName() {
+        return this.displayName;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
