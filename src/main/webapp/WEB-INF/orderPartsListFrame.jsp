@@ -104,7 +104,7 @@
     </thead>
     <tbody>
     <tr>
-        <td>${requestScope.partslist.calculateTotalPrice()} DKK.</td>
+        <td>${requestScope.partslist.getFormattedPrice()} DKK.</td>
     </tr>
     </tbody>
 </table>

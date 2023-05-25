@@ -41,7 +41,7 @@
                         <td><input type="number" name="poleThickness" value="${pole.lumberType.thickness}"></td>
                         <td><input type="number" name="poleWidth" value="${pole.lumberType.width}"></td>
                         <td><input type="number" name="poleLength" value="${pole.length}"></td>
-                        <td><input type="number" name="poleMeterPrice" value="${pole.lumberType.meterPrice}"></td>
+                        <td><input type="number" name="poleMeterPrice" value="${pole.lumberType.formattedPrice}"></td>
                         <td><input type="number" name="amount" value="${pole.amount}"></td>
                         <td>
                             <input type="hidden" name="id" value="${pole.id}">

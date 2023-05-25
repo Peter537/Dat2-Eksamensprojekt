@@ -2,6 +2,8 @@ package dat.backend.model.entities.item;
 
 import dat.backend.annotation.IgnoreCoverage;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Roof {
@@ -17,6 +19,11 @@ public class Roof {
         this.squareMeterPrice = squareMeterPrice;
         this.type = type;
         this.displayName = displayName;
+    }
+
+    public String getFormattedPrice() {
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.GERMAN);
+        return formatter.format(this.squareMeterPrice);
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")

@@ -57,7 +57,7 @@
                     <td>${order.address.address}</td>
                     <td>${order.employee.present ? order.employee.get().name : 'Ikke tildelt'}</td>
                     <td>${order.orderStatus.displayName}</td>
-                    <td>${order.price.present ? order.price.get() : 'endnu ikke bestemt'}</td>
+                    <td>${order.price.present ? order.getFormattedPrice() : 'endnu ikke bestemt'}</td>
                     <td>
                         <form action="detailed-order-info" method="post">
                             <input type="hidden" name="orderId" value="${order.id}">
@@ -149,7 +149,7 @@
                         <p>
                             Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length + " cm": 'ikke sat'}</p>
                         <p>
-                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.price.get() : 'Endnu ikke sat'}
+                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.getFormattedPrice() : 'Endnu ikke sat'}
                             kr.</p>
 
                         <h2>Remarks</h2>

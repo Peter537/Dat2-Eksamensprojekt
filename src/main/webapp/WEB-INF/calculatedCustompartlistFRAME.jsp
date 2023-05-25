@@ -22,84 +22,87 @@
 
 <c:if test="${requestScope.valid != null}">
 
-<table class="table table-striped table-bordered table-hover" style="background-color: white; border: 1px black solid">
+    <table class="table table-striped table-bordered table-hover"
+           style="background-color: white; border: 1px black solid">
 
-    <thead>
-    <th>Dimensioner</th>
-    <th>Længde</th>
-    <th>Antal</th>
-    <th>Enhed</th>
-    <th>Pris</th>
-    <th>Beskrivelse</th>
-    </thead>
-    <tbody>
+        <thead>
+        <th>Dimensioner</th>
+        <th>Længde</th>
+        <th>Antal</th>
+        <th>Enhed</th>
+        <th>Pris</th>
+        <th>Beskrivelse</th>
+        </thead>
+        <tbody>
 
-    <tr>
-        <td>${requestScope.partslist.rafter.lumberType.thickness}x${requestScope.partslist.rafter.lumberType.width} mm.
-            spærtre
-        </td>
-        <td>${requestScope.partslist.rafter.length}</td>
-        <td>${requestScope.partslist.numberOfRafters}</td>
-        <td>stk.</td>
-        <td>${requestScope.partslist.rafter.price} pr. stk</td>
-        <td>${requestScope.partslist.rafter.description.get()}</td>
-    </tr>
+        <tr>
+            <td>${requestScope.partslist.rafter.lumberType.thickness}x${requestScope.partslist.rafter.lumberType.width}
+                mm.
+                spærtræ
+            </td>
+            <td>${requestScope.partslist.rafter.length}</td>
+            <td>${requestScope.partslist.numberOfRafters}</td>
+            <td>stk.</td>
+            <td>${requestScope.partslist.rafter.formattedPrice} pr. stk</td>
+            <td>${requestScope.partslist.rafter.description.get()}</td>
+        </tr>
 
 
-    <tr>
-        <td>${requestScope.partslist.pole.lumberType.thickness}x${requestScope.partslist.pole.lumberType.width} mm.
-            stolpe
-        </td>
-        <td>${requestScope.partslist.pole.length}</td>
-        <td>${requestScope.partslist.numberOfPoles}</td>
-        <td>stk.</td>
-        <td>${requestScope.partslist.pole.price} pr. stk</td>
-        <td>${requestScope.partslist.pole.description.get()}</td>
-    </tr>
+        <tr>
+            <td>${requestScope.partslist.pole.lumberType.thickness}x${requestScope.partslist.pole.lumberType.width} mm.
+                stolpe
+            </td>
+            <td>${requestScope.partslist.pole.length}</td>
+            <td>${requestScope.partslist.numberOfPoles}</td>
+            <td>stk.</td>
+            <td>${requestScope.partslist.pole.formattedPrice} pr. stk</td>
+            <td>${requestScope.partslist.pole.description.get()}</td>
+        </tr>
 
-    <tr>
-        <td>${requestScope.partslist.plate.lumberType.thickness}x${sessionScope.partslist.plate.lumberType.width} mm.
-            rem
-        </td>
-        <td>${requestScope.partslist.plate.length}</td>
-        <td>${requestScope.partslist.numberOfPlates}</td>
-        <td>stk.</td>
-        <td>${requestScope.partslist.plate.price} pr. stk</td>
-        <td>${requestScope.partslist.plate.description.get()}</td>
-    </tr>
+        <tr>
+            <td>${requestScope.partslist.plate.lumberType.thickness}x${sessionScope.partslist.plate.lumberType.width}
+                mm.
+                rem
+            </td>
+            <td>${requestScope.partslist.plate.length}</td>
+            <td>${requestScope.partslist.numberOfPlates}</td>
+            <td>stk.</td>
+            <td>${requestScope.partslist.plate.formattedPrice} pr. stk</td>
+            <td>${requestScope.partslist.plate.description.get()}</td>
+        </tr>
 
-    <tr>
-        <td>${requestScope.partslist.roof.displayName}</td>
-        <td>${requestScope.partslist.length}</td>
-        <td>${requestScope.partslist.roofArea}</td>
-        <td>m2</td>
-        <td>${requestScope.partslist.roof.squareMeterPrice} pr. stk</td>
-        <td>Dette er taget</td>
-    </tr>
-    </tbody>
-</table>
+        <tr>
+            <td>${requestScope.partslist.roof.displayName}</td>
+            <td>${requestScope.partslist.length}</td>
+            <td>${requestScope.partslist.roofArea}</td>
+            <td>m2</td>
+            <td>${requestScope.partslist.roof.formattedPrice} pr. stk</td>
+            <td>Dette er taget</td>
+        </tr>
+        </tbody>
+    </table>
 
-<h3 style="height: 20%" class="text-center">Pris: ${requestScope.partslist.calculateTotalPrice()}</h3>
+    <h3 style="height: 20%" class="text-center">Pris: ${requestScope.partslist.formattedPrice}</h3>
 
-<c:if test="${requestScope.id != 0}">
-    <form action="OverrideCarportOrder" method="post" target="_parent" class="text-center">
-        <input type="hidden" name="orderId" value="${requestScope.id}">
-        <input type="hidden" name="length" value="${requestScope.length}">
-        <input type="hidden" name="width" value="${requestScope.width}">
-        <input type="hidden" name="minHeight" value="${requestScope.height}">
-        <input type="hidden" name="price" value="${requestScope.price}">
-        <input type="hidden" name="fromJsp" value="employee">
-        <input class="btn btn-primary" type="submit" value="indsend ændring">
-    </form>
-
-</c:if>
-
-</c:if>
-    <c:if test="${requestScope.valid == null}">
-
-        <h2 class="text-center" style="color: red">Noget gik galt: ${requestScope.msg}</h2>
+    <c:if test="${requestScope.id != 0}">
+        <form action="OverrideCarportOrder" method="post" target="_parent" class="text-center">
+            <input type="hidden" name="orderId" value="${requestScope.id}">
+            <input type="hidden" name="length" value="${requestScope.length}">
+            <input type="hidden" name="width" value="${requestScope.width}">
+            <input type="hidden" name="minHeight" value="${requestScope.height}">
+            <input type="hidden" name="price" value="${requestScope.price}">
+            <input type="hidden" name="fromJsp" value="employee">
+            <input class="btn btn-primary" type="submit" value="indsend ændring">
+        </form>
 
     </c:if>
+
+</c:if>
+<c:if test="${requestScope.valid == null}">
+
+    <h2 class="text-center" style="color: red">Noget gik galt: ${requestScope.msg}</h2>
+
+</c:if>
 
 
 </body>

@@ -182,7 +182,7 @@
                             <tr>
                                 <td>${news.getId()}</td>
                                 <td>${news.getCreatedOn()}</td>
-                                <td>${news.getPrice().get()}</td>
+                                <td>${news.getFormattedPrice()}</td>
                             </tr>
                             </c:forEach>
                         </table>

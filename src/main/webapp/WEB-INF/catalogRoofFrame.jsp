@@ -35,7 +35,7 @@
                 <tr>
                     <form action="save-catalog-item" method="post">
                         <td>${roof.id}</td>
-                        <td><input type="number" name="squareMeterPrice" value="${roof.squareMeterPrice}">
+                        <td><input type="number" name="squareMeterPrice" value="${roof.getFormattedPrice()}">
                         </td>
                         <td>${roof.displayName}</td>
                         <td>

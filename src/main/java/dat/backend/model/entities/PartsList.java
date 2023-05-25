@@ -8,7 +8,9 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.services.PartsListCalculator;
 
+import java.text.NumberFormat;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class PartsList {
@@ -59,6 +61,11 @@ public class PartsList {
         this.numberOfPlates = PartsListCalculator.calculateNumberOfPlates(width) * PartsListCalculator.calculateNumber(length, this.plate.getLumberType(), connectionPool);
         this.numberOfRafters = PartsListCalculator.calculateNumberOfRafters(length) * PartsListCalculator.calculateNumber(width, this.rafter.getLumberType(), connectionPool);
         this.totalPrice = this.calculateTotalPrice();
+    }
+
+    public String getFormattedPrice() {
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.GERMAN);
+        return formatter.format(this.calculateTotalPrice());
     }
 
     /**

@@ -7,7 +7,9 @@ import dat.backend.model.entities.user.Address;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
 
+import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -42,6 +44,11 @@ public class CarportOrder {
         this.minHeight = minHeight;
         this.toolRoom = toolRoom;
         this.price = price;
+    }
+
+    public String getFormattedPrice() {
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.GERMAN);
+        return formatter.format(this.price.orElse(0.0f));
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")

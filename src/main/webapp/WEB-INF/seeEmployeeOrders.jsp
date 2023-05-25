@@ -61,7 +61,7 @@
                         <td>${order.orderStatus.displayName}</td>
                         <c:choose>
                             <c:when test="${order.price.present}">
-                                <td>${order.price.get()} DKK</td>
+                                <td>${order.getFormattedPrice()} DKK</td>
                             </c:when>
                             <c:otherwise>
                                 <td>Ikke beregnet</td>
@@ -156,7 +156,7 @@
                         <h2>Redskabs skur</h2>
                         <p>Bredde: ${requestScope.carportOrder.toolRoom.get().width} cm</p>
                         <p>Længde: ${requestScope.carportOrder.toolRoom.get().length} cm</p>
-                        <p>Pris: ${requestScope.carportOrder.price.get()} kr.</p>
+                        <h1>Pris: ${requestScope.carportOrder.price.get()} kr.</h1>
 
                         <h2>Remarks</h2>
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"

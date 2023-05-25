@@ -2,6 +2,8 @@ package dat.backend.model.entities.item;
 
 import dat.backend.annotation.IgnoreCoverage;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 public class LumberType implements Comparable<LumberType> {
@@ -18,6 +20,11 @@ public class LumberType implements Comparable<LumberType> {
         this.thickness = thickness;
         this.meterPrice = meterPrice;
         this.type = type;
+    }
+
+    public String getFormattedPrice() {
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.GERMAN);
+        return formatter.format(this.meterPrice);
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")

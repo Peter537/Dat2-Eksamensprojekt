@@ -72,7 +72,7 @@
                     <td>${order.orderStatus.displayName}</td>
                     <c:choose>
                         <c:when test="${order.price.present}">
-                            <td>${order.price.get()}</td>
+                            <td>${order.getFormattedPrice()}</td>
                         </c:when>
                         <c:otherwise>
                             <td>Ikke beregnet</td>
@@ -117,7 +117,7 @@
                                 <c:otherwise>
                                     <c:choose>
                                         <c:when test="${requestScope.carportOrder.price.present}">
-                                            <h5>Pris: ${requestScope.carportOrder.price.get()} DKK</h5>
+                                            <h5>Pris: ${requestScope.carportOrder.getFormattedPrice()} DKK</h5>
                                         </c:when>
                                         <c:otherwise>
                                             <c:choose>
@@ -212,7 +212,7 @@
                             Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'ikke sat'}
                             cm</p>
                         <p>
-                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.price.get() : 'Endnu ikke sat'}
+                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.getFormattedPrice() : 'Endnu ikke sat'}
                             kr.</p>
 
                         <h2>Remarks</h2>
