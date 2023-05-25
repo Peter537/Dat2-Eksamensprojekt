@@ -3,21 +3,20 @@ package dat.backend.control;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.item.Roof;
-import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.item.RoofFacade;
-import dat.backend.model.persistence.order.CarportOrderFacade;
-import dat.backend.model.services.PartsListCalculator;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "calculateCustomPartlist", value = "/calculateCustomPartlist")
-public class calculateCustomPartlist extends HttpServlet {
+@WebServlet(name = "calculate-custom-partslist", value = "/calculate-custom-partslist")
+public class CalculateCustomPartsList extends HttpServlet {
 
     private ConnectionPool connectionPool;
 
@@ -27,25 +26,18 @@ public class calculateCustomPartlist extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String validCheck = request.getParameter("valid");
         String orderIdString = request.getParameter("orderId");
-
         float orderId = 0;
         float length = 0;
         float width = 0;
         float height = 0;
-
         if (validCheck != null) {
             orderId = Float.parseFloat(orderIdString);
-
             length = Float.parseFloat(request.getParameter("carportLength"));
             width = Float.parseFloat(request.getParameter("carportWidth"));
             height = Float.parseFloat(request.getParameter("carportHeight"));
@@ -60,9 +52,6 @@ public class calculateCustomPartlist extends HttpServlet {
             request.setAttribute("edit", "edit");
             request.setAttribute("valid", "valid");
 
-
-
-
             // for override
             request.setAttribute("id", orderId);
             request.setAttribute("length", length);
@@ -72,7 +61,6 @@ public class calculateCustomPartlist extends HttpServlet {
 
             //
             request.getRequestDispatcher("WEB-INF/calculatedCustompartlistFRAME.jsp").forward(request, response);
-
         } catch (DatabaseException | NotFoundException | IllegalArgumentException e) {
             request.setAttribute("msg", e.getMessage());
             request.getRequestDispatcher("WEB-INF/calculatedCustompartlistFRAME.jsp").forward(request, response);
