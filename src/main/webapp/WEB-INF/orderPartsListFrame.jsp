@@ -104,7 +104,7 @@
     </thead>
     <tbody>
     <tr>
-        <td>${requestScope.partslist.getFormattedPrice()} DKK.</td>
+        <td>${requestScope.partslist.getFormattedPrice()} kr.</td>
     </tr>
     </tbody>
 </table>
