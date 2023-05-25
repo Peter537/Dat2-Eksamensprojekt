@@ -37,7 +37,7 @@
                         <td>${roof.id}</td>
                         <td><input type="number" name="squareMeterPrice" value="${roof.squareMeterPrice}">
                         </td>
-                        <td>${roof.type}</td>
+                        <td>${roof.displayName}</td>
                         <td>
                             <input type="hidden" name="id" value="${roof.id}">
                             <input type="hidden" name="catalogItemType" value="roof">
@@ -56,7 +56,7 @@
                 <form action="save-catalog-item" method="post">
                     <td></td>
                     <td><input type="number" name="squareMeterPrice" placeholder="Kvadratmeterpris"></td>
-                    <td>PLASTIC_ROOF</td>
+                    <td>Plastik tag</td>
                     <input type="hidden" name="catalogItemType" value="roof">
                     <input type="hidden" name="roofType" value="PLASTIC_ROOF">
                     <td>

@@ -202,7 +202,7 @@
                         <p>Bredde: ${requestScope.carportOrder.width}</p>
                         <p>Længde: ${requestScope.carportOrder.length}</p>
                         <p>Højde: ${requestScope.carportOrder.minHeight}</p>
-                        <p>Tag-type: ${requestScope.carportOrder.roof.type}</p>
+                        <p>Tag-type: ${requestScope.carportOrder.roof.displayName}</p>
 
                         <h2>Redskabs skur</h2>
                         <p>

@@ -69,7 +69,7 @@
     </tr>
 
     <tr>
-        <td>${requestScope.partslist.roof.type.replaceAll("_"," ").toLowerCase()}</td>
+        <td>${requestScope.partslist.roof.displayName}</td>
         <td>${requestScope.partslist.length}</td>
         <td>${requestScope.partslist.roofArea}</td>
         <td>m2</td>
