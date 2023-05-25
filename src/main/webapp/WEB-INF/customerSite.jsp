@@ -17,7 +17,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        My profile
+        Min side
     </jsp:attribute>
 
     <jsp:body>
@@ -73,17 +73,17 @@
 
                 <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
 
-                    <p>Name: ${sessionScope.user.getName()}</p>
-                    <p>Email: ${sessionScope.user.getEmail()}</p>
+                    <p>Navn: ${sessionScope.user.getName()}</p>
+                    <p>E-mail: ${sessionScope.user.getEmail()}</p>
                     <c:choose>
                         <c:when test="${sessionScope.user.personalPhoneNumber.present}">
-                            <p>personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
+                            <p>Telefonnummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
                         </c:when>
                         <c:otherwise>
-                            <p>personligt nummer: ikke sat</p>
+                            <p>Telefonnummer: Ikke sat</p>
                         </c:otherwise>
                     </c:choose>
-                    <a class="link" type="button" onclick="openPopup()">Konto Redigering</a>
+                    <a class="link" type="button" onclick="openPopup()">Konto redigering</a>
 
                 </div>
                 <div class="col-4 text-center">
@@ -110,13 +110,13 @@
                     <div class="col-sm-6">
                         <div class="card-body">
                             <h5 class="card-title">Vis mine ordrer</h5>
-                            <p class="card-text">Her vil du kunne se dine seneste ordre og se status på igangværende og
+                            <p class="card-text">Her vil du kunne se dine seneste ordrer og se status på igangværende og
                                 gamle bestillinger</p>
                             <a href="see-customer-orders" class="btn btn-primary">Til mine ordrer</a>
 
                             <div class="row" style="padding-top: 5%">
                                 <div class="col-12">
-                                    <p style="text-decoration: underline black">Status på seneste ordrer</p>
+                                    <p style="text-decoration: underline black">Status på seneste ordre</p>
                                     <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">${not empty sessionScope.lateststatus && sessionScope.lateststatus.present ? sessionScope.lateststatus.get().getDisplayName() : 'Ingen ordre'}</p>
                                 </div>
                             </div>
@@ -164,27 +164,32 @@
                         </div>
 
                         <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
-                            <p>Name: ${sessionScope.user.getName()}</p>
-                            <p>Email: ${sessionScope.user.getEmail()}</p>
+                            <p>Navn: ${sessionScope.user.getName()}</p>
+                            <p>E-mail: ${sessionScope.user.getEmail()}</p>
                             <c:choose>
                                 <c:when test="${sessionScope.user.personalPhoneNumber.present}">
-                                    <p>personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
+                                    <p>Telefonnummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
                                 </c:when>
                                 <c:otherwise>
-                                    <p>personligt nummer: ikke sat</p>
+                                    <p>Telefonnummer: Ikke sat</p>
                                 </c:otherwise>
                             </c:choose>
                             <div class="row adresses">
-                                <c:if test="${sessionScope.user.getAddress(1).present}">
-                                    <p>Adresse 1: ${sessionScope.user.getAddress(1).get().getAddress()}</p>
-                                </c:if>
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getAddress(1).present}">
+                                        <p>Adresse 1: ${sessionScope.user.getAddress(1).get().getAddress()}</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p>Adresse 1: Ikke sat</p>
+                                    </c:otherwise>
+                                </c:choose>
 
                                 <c:choose>
                                     <c:when test="${sessionScope.user.getAddress(2).present}">
                                         <p>Adresse 2: ${sessionScope.user.getAddress(2).get().getAddress()}</p>
                                     </c:when>
                                     <c:otherwise>
-                                        <p>Adresse 2 ikke sat</p>
+                                        <p>Adresse 2: Ikke sat</p>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -206,9 +211,9 @@
                         <div class="col-4" style="margin-top: 20px">
                             <h3>Skift kontonavn</h3>
                             <div class="form-group">
-                                <label for="name">Name</label>
+                                <label for="name">Navn</label>
                                 <input class="form-control" type="text" name="name" id="name"
-                                       placeholder="ex: Mads Kildeberg">
+                                       placeholder="Ex: Mads Kildeberg">
                             </div>
                         </div>
 
@@ -217,12 +222,12 @@
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="newPassword">Nyt kodeord</label>
                                 <input class="form-control" type="password" name="newPassword" id="newPassword"
-                                       placeholder="skriv dit nye ønskede kodeord">
+                                       placeholder="Skriv dit nye ønskede kodeord">
                             </div>
                             <div class="form-group">
                                 <label for="confirmpassword" style="margin-top: 5%">Gentag kodeord</label>
                                 <input class="form-control" type="password" name="confirmPassword" id="confirmpassword"
-                                       placeholder="gentag dit nye ønskede kodeord">
+                                       placeholder="Gentag dit nye ønskede kodeord">
                             </div>
                         </div>
 
@@ -232,7 +237,7 @@
                                        value="${sessionScope.user.personalPhoneNumber.get()}"/>
                             </c:when>
                             <c:otherwise>
-                                <c:set var="personalPhoneNumber" value="ikke sat"/>
+                                <c:set var="personalPhoneNumber" value="Ikke sat"/>
                             </c:otherwise>
                         </c:choose>
 
@@ -257,7 +262,7 @@
                                         <c:set var="address1" value="${sessionScope.user.address1.get().getStreet()}"/>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:set var="address1" value="ikke sat"/>
+                                        <c:set var="address1" value="Ikke sat"/>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -266,7 +271,7 @@
                                         <c:set var="address2" value="${sessionScope.user.address2.get().getStreet()}"/>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:set var="address2" value="ikke sat"/>
+                                        <c:set var="address2" value="Ikke sat"/>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -275,7 +280,7 @@
                                         <c:set var="address3" value="${sessionScope.user.address3.get().getStreet()}"/>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:set var="address3" value="ikke sat"/>
+                                        <c:set var="address3" value="Ikke sat"/>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -286,7 +291,7 @@
                                                value="${sessionScope.user.getAddress(1).get().zip.getZipCode()}"/>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:set var="zip1" value="ikke sat"/>
+                                        <c:set var="zip1" value="Ikke sat"/>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -296,7 +301,7 @@
                                                value="${sessionScope.user.getAddress(2).get().zip.getZipCode()}"/>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:set var="zip2" value="ikke sat"/>
+                                        <c:set var="zip2" value="Ikke sat"/>
                                     </c:otherwise>
                                 </c:choose>
 
@@ -307,19 +312,19 @@
                                                value="${sessionScope.user.getAddress(3).get().zip.getZipCode()}"/>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:set var="zip3" value="ikke sat"/>
+                                        <c:set var="zip3" value="Ikke sat"/>
                                     </c:otherwise>
                                 </c:choose>
 
                                 <div class="row">
 
                                     <div class="col-6">
-                                        <label for="street1">Street</label>
+                                        <label for="street1">Adresse 1</label>
                                         <input class="form-control" type="text" name="street1" id="street1"
                                                placeholder="${address1}">
                                     </div>
                                     <div class="col-6">
-                                        <label for="zipCode1">Zip code</label>
+                                        <label for="zipCode1">Postnummer 1</label>
                                         <input class="form-control" type="number" name="zipCode1" id="zipCode1"
                                                placeholder="${zip1}">
                                     </div>
@@ -328,24 +333,24 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        <label for="street2">Street 2</label>
+                                        <label for="street2">Adresse 2</label>
                                         <input class="form-control" type="text" name="street2" id="street2"
                                                placeholder="${address2}">
                                     </div>
                                     <div class="col-6">
-                                        <label for="zipCode2">Zip code 2</label>
+                                        <label for="zipCode2">Postnummer 2</label>
                                         <input class="form-control" type="number" name="zipCode2" id="zipCode2"
                                                placeholder="${zip2}">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        <label for="street3">Street 3</label>
+                                        <label for="street3">Adresse 3</label>
                                         <input class="form-control" type="text" name="street3" id="street3"
                                                placeholder="${address2}">
                                     </div>
                                     <div class="col-6">
-                                        <label for="zipCode3">Zip code 3</label>
+                                        <label for="zipCode3">Postnummer 3</label>
                                         <input class="form-control" type="number" name="zipCode3" id="zipCode3"
                                                placeholder="${zip3}">
                                     </div>
@@ -360,11 +365,11 @@
 
                     <div style="margin-left: 35%; margin-right: 35%; margin-top: 5%">
                         <div class="row">
-                            <input class="btn btn-secondary" type="submit" value="Save changes">
+                            <input class="btn btn-secondary" type="submit" value="Gem ændringer">
                         </div>
                         <div class="row" style="margin-top: 3%">
                             <a class="btn btn-secondary" style="background-color: #a93f60 !important;" type="button"
-                               onclick="closePopup()">Cancel</a>
+                               onclick="closePopup()">Annuller</a>
                         </div>
                     </div>
 
