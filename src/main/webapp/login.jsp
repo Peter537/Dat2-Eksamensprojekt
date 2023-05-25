@@ -42,12 +42,11 @@
                                     <label for="email" style="padding: 10px">Email Adresse</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          id="email" type="email" name="email"
-                                                                         value="magnus@johannesfog.dk"
                                                                          placeholder="Email"></div>
                                     <label for="password" style="padding: 10px">Password</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          type="password" id="password" name="password"
-                                                                         value="4321" placeholder="Password"></div>
+                                                                         placeholder="Password"></div>
                                     <p class="text-center" style="color: red">${requestScope.errormessage}</p> <br>
 
                                     <div class="mb-3">
