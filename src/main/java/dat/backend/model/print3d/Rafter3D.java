@@ -53,4 +53,3 @@ public class Rafter3D {
         return this.rafter;
     }
 }
-
