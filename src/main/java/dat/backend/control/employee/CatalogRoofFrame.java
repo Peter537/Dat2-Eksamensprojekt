@@ -31,10 +31,10 @@ public class CatalogRoofFrame extends HttpServlet {
         try {
             List<Roof> roofs = RoofFacade.getAllRoofs(connectionPool);
             request.setAttribute("roofs", roofs);
-            request.getRequestDispatcher("/WEB-INF/catalogRoofFrame.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/catalogRoofFrame.jsp").forward(request, response);
         } catch (DatabaseException e) {
-            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
-            throw new RuntimeException(e);
+            request.setAttribute("errormessage", e.getMessage());
+            request.getRequestDispatcher("WEB-INF/error.jsp").forward(request, response);
         }
     }
 
