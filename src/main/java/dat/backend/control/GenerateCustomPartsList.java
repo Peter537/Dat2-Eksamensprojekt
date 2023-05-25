@@ -1,5 +1,6 @@
 package dat.backend.control;
 
+import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.exceptions.DatabaseException;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "generate-custom-partslist", value = "/generate-custom-partslist")
 public class GenerateCustomPartsList extends HttpServlet {
 

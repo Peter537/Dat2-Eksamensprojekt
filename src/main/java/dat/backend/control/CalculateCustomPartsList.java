@@ -1,5 +1,6 @@
 package dat.backend.control;
 
+import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.item.Roof;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "calculate-custom-partslist", value = "/calculate-custom-partslist")
 public class CalculateCustomPartsList extends HttpServlet {
 
@@ -65,6 +67,5 @@ public class CalculateCustomPartsList extends HttpServlet {
             request.setAttribute("msg", e.getMessage());
             request.getRequestDispatcher("WEB-INF/calculatedCustompartlistFRAME.jsp").forward(request, response);
         }
-
     }
 }
