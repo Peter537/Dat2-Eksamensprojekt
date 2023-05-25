@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "CatalogRoofFrame", value = "/catalog-roof-frame")
+@WebServlet(name = "catalog-roof-frame", value = "/catalog-roof-frame")
 public class CatalogRoofFrame extends HttpServlet {
 
     private ConnectionPool connectionPool;

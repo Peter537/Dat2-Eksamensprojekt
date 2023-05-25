@@ -42,7 +42,7 @@ public class CatalogSaveItem extends HttpServlet {
                     } else {
                         RoofFacade.createRoof(squareMeterPrice, roofType, connectionPool);
                     }
-                    returnPage = "ToRoofFrame";
+                    returnPage = "catalog-roof-frame";
                     break;
                 case "pole":
                 case "rafter":
@@ -59,9 +59,9 @@ public class CatalogSaveItem extends HttpServlet {
                         LumberFacade.createLumber(poleLength, lumberTypeObj.getId(), amount, connectionPool);
                     }
                     if (Objects.equals(lumberType, "POLE")) {
-                        returnPage = "ToPoleFrame";
+                        returnPage = "catalog-pole-frame";
                     } else {
-                        returnPage = "ToRafterFrame";
+                        returnPage = "catalog-rafter-frame";
                     }
                     break;
                 default:

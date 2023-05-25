@@ -33,15 +33,15 @@ public class CatalogDeleteItem extends HttpServlet {
             switch (catalogItemType) {
                 case "roof":
                     RoofFacade.deleteRoof(Integer.parseInt(id), connectionPool);
-                    returnPage = "ToRoofFrame";
+                    returnPage = "catalog-roof-frame";
                     break;
                 case "pole":
                     LumberFacade.deleteLumber(Integer.parseInt(id), connectionPool);
-                    returnPage = "ToPoleFrame";
+                    returnPage = "catalog-pole-frame";
                     break;
                 case "rafter":
                     LumberFacade.deleteLumber(Integer.parseInt(id), connectionPool);
-                    returnPage = "ToRafterFrame";
+                    returnPage = "catalog-rafter-frame";
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown type: " + catalogItemType);
