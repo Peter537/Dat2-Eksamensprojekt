@@ -137,9 +137,9 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="card-body">
-                            <h5 class="card-title">Lav ny forespørgsel</h5>
-                            <p class="card-text">Hvis intet i vores brede katalog er noget for dig, så indsend dine egne
-                                mål som en flittig medarbejder vil hjælpe dig hen med</p>
+                            <h5 class="card-title">Lav en ny forespørgsel</h5>
+                            <p class="card-text">
+                                Hvis intet i vores omfattende katalog opfylder dine behov, har du muligheden for at indsende dine egne mål. En af vores medarbejdere vil herefter beregne en skræddersyet carport specifikt til dig.</p>
                             <a href="carport-formula" class="btn btn-primary">Tag mig til formularen</a>
                         </div>
                     </div>
