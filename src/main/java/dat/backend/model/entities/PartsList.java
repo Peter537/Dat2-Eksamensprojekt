@@ -9,9 +9,7 @@ import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.services.PartsListCalculator;
 
 import java.text.NumberFormat;
-import java.util.LinkedHashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class PartsList {
 
