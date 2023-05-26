@@ -16,7 +16,7 @@
 
     <jsp:body>
         <c:if test="${sessionScope.user != null}">
-            <jsp:forward page="customer-site"/>
+            <jsp:forward page="${sessionScope.myhome}"/>
         </c:if>
 
         <section class="py-4 py-xl-5">
