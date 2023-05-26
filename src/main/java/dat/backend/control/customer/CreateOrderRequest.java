@@ -62,7 +62,8 @@ public class CreateOrderRequest extends HttpServlet {
             if (streetId == 0) {
                 int zipCode = Integer.parseInt(request.getParameter("customerZip"));
                 Zip zip = ZipFacade.getZipByZipCode(zipCode, connectionPool);
-                address = new Address(request.getParameter("customerAddressOther"), zip);
+                String customerAddressOther = request.getParameter("customerAddressOther");
+                address = new Address(customerAddressOther, zip);
                 if (address.getStreet() == null || address.getStreet().isEmpty()) {
                     request.setAttribute("errormessage", "Please enter an address");
                     request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);

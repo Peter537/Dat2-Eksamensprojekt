@@ -150,7 +150,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <label for="customerAddressOther" class="form-label">Adresse</label>
-                                        <input type="text" id="customerAddressOther" name="customerAddress"
+                                        <input type="text" id="customerAddressOther" name="customerAddressOther"
                                                placeholder="Skriv adresse her hvis det ikke står på listen."
                                                class="form-control">
                                     </div>
