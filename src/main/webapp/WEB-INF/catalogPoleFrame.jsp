@@ -26,10 +26,10 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Tykkelse</th>
-                <th>Bredde</th>
-                <th>Længde</th>
-                <th>Meter Price</th>
+                <th>Tykkelse (cm)</th>
+                <th>Bredde (cm)</th>
+                <th>Længde (cm)</th>
+                <th>Meter Price (kr)</th>
                 <th>Antal</th>
             </tr>
             </thead>

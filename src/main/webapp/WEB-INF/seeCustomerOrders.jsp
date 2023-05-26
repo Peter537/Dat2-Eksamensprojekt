@@ -189,9 +189,9 @@
 
                         <h2>Redskabs skur</h2>
                         <p>
-                            Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'ikke sat'} ${requestScope.carportOrder.toolRoom.present ? 'cm.' : ''}</p>
+                            Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'Ikke sat'} ${requestScope.carportOrder.toolRoom.present ? 'cm.' : ''}</p>
                         <p>
-                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'ikke sat'} ${requestScope.carportOrder.toolRoom.present ? 'cm.' : ''}</p>
+                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'Ikke sat'} ${requestScope.carportOrder.toolRoom.present ? 'cm.' : ''}</p>
                         <p>
                             Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.formattedPrice.concat(" kr.") : 'Endnu ikke sat'}</p>
 
