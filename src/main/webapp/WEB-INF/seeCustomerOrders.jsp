@@ -50,23 +50,33 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="order" items="${requestScope.carportOrders}">
-                <tr>
-                    <td>${order.id}</td>
-                    <td>${order.customer.name}</td>
-                    <td>${order.address.address}</td>
-                    <td>${order.employee.present ? order.employee.get().name : 'Ikke tildelt'}</td>
-                    <td>${order.orderStatus.displayName}</td>
-                    <td>${order.price.present ? order.getFormattedPrice() : 'Endnu ikke bestemt'}</td>
-                    <td>
-                        <form action="detailed-order-info" method="post">
-                            <input type="hidden" name="orderId" value="${order.id}">
-                            <input type="hidden" name="fromJsp" value="customer">
-                            <input type="submit" value="Se mere om ordren">
-                        </form>
-                    </td>
-                </tr>
-                </c:forEach>
+                <c:choose>
+                    <c:when test="${requestScope.carportOrders.size() == 0}">
+                        <tr>
+                            <td colspan="7" style="text-align: center">Du har ingen ordrer</td>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="order" items="${requestScope.carportOrders}">
+                            <tr>
+                                <td>${order.id}</td>
+                                <td>${order.customer.name}</td>
+                                <td>${order.address.address}</td>
+                                <td>${order.employee.present ? order.employee.get().name : 'Ikke tildelt'}</td>
+                                <td>${order.orderStatus.displayName}</td>
+                                <td>${order.price.present ? order.getFormattedPrice() : 'Endnu ikke bestemt'}</td>
+                                <td>
+                                    <form action="detailed-order-info" method="post">
+                                        <input type="hidden" name="orderId" value="${order.id}">
+                                        <input type="hidden" name="fromJsp" value="customer">
+                                        <input type="submit" value="Se mere om ordren">
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+
             </table>
         </div>
 
@@ -85,11 +95,13 @@
                             </h4>
                         </div>
                         <div class="col-sm-3">
-                            <form action="cancel-order" method="post">
-                                <input type="submit" class="btn btn-danger" style="margin-top: 1%; float: right"
-                                       value="Aflys ordre">
-                                <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
-                            </form>
+                            <c:if test="${!requestScope.carportOrder.orderStatus.getStatus().equals('ORDER_CANCELLED')}">
+                                <form action="cancel-order" method="post">
+                                    <input type="submit" class="btn btn-danger" style="margin-top: 1%; float: right"
+                                           value="Aflys ordre">
+                                    <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+                                </form>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -139,7 +151,7 @@
                         <div class="customer-info row" id="userInfo">
                             <p>${sessionScope.user.name}</p>
                             <p>${sessionScope.user.email}</p>
-                            <p>${sessionScope.user.personalPhoneNumber.get()}</p>
+                            <p>${sessionScope.user.personalPhoneNumber.present ? sessionScope.user.personalPhoneNumber.get() : 'Intet tlf. nummer sat'}</p>
                             <p>${requestScope.carportOrder.address.address}</p>
                         </div>
                             <%--black horizontal line--%>
