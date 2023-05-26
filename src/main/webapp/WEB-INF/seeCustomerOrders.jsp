@@ -50,6 +50,8 @@
                 </tr>
                 </thead>
                 <tbody>
+
+
                 <c:choose>
                     <c:when test="${requestScope.carportOrders.size() == 0}">
                         <tr>
@@ -64,7 +66,7 @@
                                 <td>${order.address.address}</td>
                                 <td>${order.employee.present ? order.employee.get().name : 'Ikke tildelt'}</td>
                                 <td>${order.orderStatus.displayName}</td>
-                                <td>${order.price.present ? order.getFormattedPrice() : 'Endnu ikke bestemt'}</td>
+                                <td>${order.price.present ? order.getFormattedPrice() : 'Endnu ikke bestemt'} ${order.price.present ? ' kr.' : ''}</td>
                                 <td>
                                     <form action="detailed-order-info" method="post">
                                         <input type="hidden" name="orderId" value="${order.id}">
@@ -77,6 +79,23 @@
                     </c:otherwise>
                 </c:choose>
 
+                <c:forEach var="order" items="${requestScope.carportOrders}">
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.customer.name}</td>
+                    <td>${order.address.address}</td>
+                    <td>${order.employee.present ? order.employee.get().name : 'Ikke tildelt'}</td>
+                    <td>${order.orderStatus.displayName}</td>
+                    <td>${order.price.present ? order.getFormattedPrice() : 'Endnu ikke bestemt'} ${order.price.present ? ' kr.' : ''}</td>
+                    <td>
+                        <form action="detailed-order-info" method="post">
+                            <input type="hidden" name="orderId" value="${order.id}">
+                            <input type="hidden" name="fromJsp" value="customer">
+                            <input type="submit" value="Se mere om ordren">
+                        </form>
+                    </td>
+                </tr>
+                </c:forEach>
             </table>
         </div>
 
@@ -170,18 +189,16 @@
 
                         <h2>Redskabs skur</h2>
                         <p>
-                            Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'Ikke sat'}
-                            cm</p>
+                            Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'ikke sat'} ${requestScope.carportOrder.toolRoom.present ? 'cm.' : ''}</p>
                         <p>
-                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'Ikke sat'}
-                            cm</p>
+                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'ikke sat'} ${requestScope.carportOrder.toolRoom.present ? 'cm.' : ''}</p>
                         <p>
                             Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.formattedPrice.concat(" kr.") : 'Endnu ikke sat'}</p>
 
                         <h2>Bemærkninger</h2>
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkninger"
 
-                                  readonly>${requestScope.carportOrder.remarks.present ? requestScope.carportOrder.remarks.get() : 'Ingen kommentarer'}</textarea>
+                                  readonly>${requestScope.carportOrder.remarks.present ? requestScope.carportOrder.remarks.get() : 'Ingen bemærkninger'}</textarea>
                     </div>
                 </div>
             </div>
