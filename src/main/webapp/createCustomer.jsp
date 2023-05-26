@@ -47,16 +47,16 @@
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          id="name" type="text" name="name"
                                                                          placeholder="Fornavn og efternavn"></div>
-                                    <label for="email" style="padding: 10px">Email Adresse</label>
+                                    <label for="email" style="padding: 10px">E-mail</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          id="email" type="email" name="email"
                                                                          placeholder="Email"></div>
-                                    <label for="password" style="padding: 10px">Password</label>
+                                    <label for="password" style="padding: 10px">Kodeord</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          type="password" id="password" name="password"
                                                                          placeholder="Password"></div>
 
-                                    <label for="confirmPassword" style="padding: 10px">Bekræft password</label>
+                                    <label for="confirmPassword" style="padding: 10px">Bekræft kodeord</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          type="password" id="confirmPassword"
                                                                          name="confirmPassword"
