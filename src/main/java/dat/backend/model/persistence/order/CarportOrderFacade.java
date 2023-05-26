@@ -119,6 +119,14 @@ public class CarportOrderFacade {
         CarportOrderMapper.updatePrice(carportOrder, price, connectionPool);
     }
 
+    public static void updatePriceFromPartsList(CarportOrder carportOrder, Optional<Float> priceFromPartsList, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
+        Validation.validateCarportOrder(carportOrder);
+        if (priceFromPartsList.isPresent()) {
+            Validation.validatePrice(priceFromPartsList.get());
+        }
+        CarportOrderMapper.updatePriceFromPartslist(carportOrder, priceFromPartsList, connectionPool);
+    }
+
     public static void updateAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCarportOrder(carportOrder);
         Validation.validateAddress(address);

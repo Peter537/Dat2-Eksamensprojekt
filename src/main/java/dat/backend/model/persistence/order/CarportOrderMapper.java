@@ -495,6 +495,24 @@ class CarportOrderMapper {
         }
     }
 
+    static void updatePriceFromPartslist(CarportOrder carportOrder, Optional<Float> price, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET price_from_partslist = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                if (price.isPresent()) {
+                    statement.setFloat(1, price.get());
+                } else {
+                    statement.setNull(1, Types.FLOAT);
+                }
+                statement.setInt(2, carportOrder.getId());
+                statement.executeUpdate();
+                price.ifPresent(carportOrder::setPriceFromPartsList);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order price");
+        }
+    }
+
     /**
      * This method will update the address of a carport order
      *
