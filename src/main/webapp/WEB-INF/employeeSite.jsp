@@ -78,13 +78,13 @@
                     <p>Email: ${sessionScope.user.getEmail()}</p>
                     <c:choose>
                         <c:when test="${sessionScope.user.personalPhoneNumber.present}">
-                            <p>Personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
+                            <p>Personligt telefonnummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
                         </c:when>
                         <c:otherwise>
-                            <p>Personligt nummer: ikke sat</p>
+                            <p>Personligt telefonnummer: Ikke sat</p>
                         </c:otherwise>
                     </c:choose>
-                    <a class="link" type="button" onclick="openPopup()">Konto Redigering</a>
+                    <a class="link" type="button" onclick="openPopup()">Konto redigering</a>
 
                 </div>
                 <div class="col-3">
@@ -93,10 +93,10 @@
                     <p>Stilling: ${sessionScope.user.getPosition().getPositionName()}</p>
                     <c:choose>
                         <c:when test="${sessionScope.user.workPhoneNumber.present}">
-                            <p>Arbejdsnummer: ${sessionScope.user.getWorkPhoneNumber().get()}</p>
+                            <p>Arbejdstelefon: ${sessionScope.user.getWorkPhoneNumber().get()}</p>
                         </c:when>
                         <c:otherwise>
-                            <p>Arbejdsnummer: ikke sat</p>
+                            <p>Arbejdstelefon: ikke sat</p>
                         </c:otherwise>
                     </c:choose>
 
@@ -111,7 +111,7 @@
 
 
             <form class="popup">
-                <a class="link btn" type="button" onclick="openPopup()">Skift konto infomation</a>
+                <a class="link btn" type="button" onclick="openPopup()">Skift konto information</a>
             </form>
 
                 <%--TODO: replace the image-links with images taken from the image folder.--%>
@@ -123,8 +123,8 @@
                             <div class="col-sm-12">
                                 <div class="card-body">
                                     <h5 class="card-title">Mine nuværende salg</h5>
-                                    <p class="card-text">Her vil du kunne se din nyeste order og se status på den
-                                        igangværende salg</p>
+                                    <p class="card-text">Her vil du kunne se dine nyeste ordrer og se status på de
+                                        igangværende salg.</p>
                                     <a href="see-employee-orders" class="btn btn-primary">Til mine salg</a>
                                 </div>
                             </div>
@@ -132,24 +132,24 @@
                         <div class="col-sm-6 card sm-card">
                             <div class="col-sm-12">
                                 <div class="card-body">
-                                    <h5 class="card-title">Alle ordre i systemet</h5>
-                                    <p class="card-text">Her kan du se alle ordre som er i systemet.</p>
-                                    <a href="see-all-orders" class="btn btn-primary">Til alle ordre</a>
+                                    <h5 class="card-title">Alle ordrer i systemet</h5>
+                                    <p class="card-text">Her kan du se alle ordrer som er i systemet.</p>
+                                    <a href="see-all-orders" class="btn btn-primary">Til alle ordrer</a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm-6 card sm-card">
                             <div class="card-body">
-                                <h5 class="card-title">Materiale-kataloget</h5>
-                                <p class="card-text">Se og ret i materiale kataloget.</p>
-                                <a href="see-catalog" class="btn btn-primary">Materiale-kataloget</a>
+                                <h5 class="card-title">Materialekataloget</h5>
+                                <p class="card-text">Se og ret i materialekataloget.</p>
+                                <a href="see-catalog" class="btn btn-primary">Til materialekataloget</a>
                             </div>
                         </div>
                         <div class="col-sm-6 card sm-card">
                             <div class="card-body">
                                 <h5 class="card-title">Generer stykliste</h5>
-                                <p class="card-text">Her kan du generere en stykliste, enten med dine egne mål eller baseret på en brugers ordre.</p>
+                                <p class="card-text">Her kan du generere en stykliste med dine egne mål.</p>
                                 <a href="generate-custom-partslist" class="btn btn-primary">Generer stykliste</a>
                             </div>
                         </div>
@@ -165,8 +165,8 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Oprettede dato</th>
-                                <th>Pris</th>
+                                <th>Oprettelsesdato</th>
+                                <th>Styklistepris</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -200,14 +200,14 @@
                         </div>
 
                         <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
-                            <p>Name: ${sessionScope.user.getName()}</p>
-                            <p>Email: ${sessionScope.user.getEmail()}</p>
+                            <p>Navn: ${sessionScope.user.getName()}</p>
+                            <p>E-mail: ${sessionScope.user.getEmail()}</p>
                             <c:choose>
                                 <c:when test="${sessionScope.user.personalPhoneNumber.present}">
-                                    <p>personligt nummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
+                                    <p>Personligt telefonnummer: ${sessionScope.user.personalPhoneNumber.get()}</p>
                                 </c:when>
                                 <c:otherwise>
-                                    <p>personligt nummer: ikke sat</p>
+                                    <p>Personligt telefonnummer: Ikke sat</p>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -219,9 +219,9 @@
                         <div class="col-4" style="margin-top: 1%">
                             <h3>Skift kontonavn</h3>
                             <div class="form-group">
-                                <label for="name">Name</label>
+                                <label for="name">Navn</label>
                                 <input class="form-control" type="text" name="name" id="name"
-                                       placeholder="ex: Mads Kildeberg">
+                                       placeholder="Ex: Mads Kildeberg">
                             </div>
                         </div>
 
@@ -230,12 +230,12 @@
                             <div class="form-group" style="margin-top: 5%">
                                 <label for="newPassword">Nyt kodeord</label>
                                 <input class="form-control" type="password" name="newPassword" id="newPassword"
-                                       placeholder="skriv dit nye ønskede kodeord">
+                                       placeholder="Skriv dit nye ønskede kodeord">
                             </div>
                             <div class="form-group">
-                                <label for="confirmpassword" style="margin-top: 5%">Gentag kodeord</label>
-                                <input class="form-control" type="password" name="confirmPassword" id="confirmpassword"
-                                       placeholder="gentag dit nye ønskede kodeord">
+                                <label for="confirmPassword" style="margin-top: 5%">Gentag kodeord</label>
+                                <input class="form-control" type="password" name="confirmPassword" id="confirmPassword"
+                                       placeholder="Gentag dit nye ønskede kodeord">
                             </div>
                         </div>
 
@@ -245,7 +245,7 @@
                                        value="${sessionScope.user.personalPhoneNumber.get()}"/>
                             </c:when>
                             <c:otherwise>
-                                <c:set var="personalPhoneNumber" value="ikke sat"/>
+                                <c:set var="personalPhoneNumber" value="Ikke sat"/>
                             </c:otherwise>
                         </c:choose>
 
