@@ -115,7 +115,7 @@
                             <div class="mb-3">
                                 <label for="customerPhone" class="form-label">Telefonnummer</label>
                                 <input type="number" id="customerPhone" name="customerPhone"
-                                       value="${sessionScope.user.personalPhoneNumber.get() ? sessionScope.user.personalPhoneNumber.get() : "Telefonnumer ikke sat"}"
+                                       value="${sessionScope.user.personalPhoneNumber.present ? sessionScope.user.personalPhoneNumber.get() : "Telefonnumer ikke sat"}"
                                        class="form-control" readonly>
                             </div>
 
