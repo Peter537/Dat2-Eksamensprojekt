@@ -1,0 +1,239 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CarportOrderFacade</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.persistence.order</a>
+</div>
+
+<h1>Coverage Summary for Class: CarportOrderFacade (dat.backend.model.persistence.order)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CarportOrderFacade</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.5%
+  </span>
+  <span class="absValue">
+    (19/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (45/50)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.persistence.order;
+&nbsp;
+&nbsp;import dat.backend.model.entities.order.CarportOrder;
+&nbsp;import dat.backend.model.entities.item.Roof;
+&nbsp;import dat.backend.model.entities.item.ToolRoom;
+&nbsp;import dat.backend.model.entities.order.OrderStatus;
+&nbsp;import dat.backend.model.entities.user.Address;
+&nbsp;import dat.backend.model.entities.user.Customer;
+&nbsp;import dat.backend.model.entities.user.Employee;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.exceptions.ValidationException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.services.Validation;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@SuppressWarnings(&quot;OptionalUsedAsFieldOrParameterType&quot;)
+<b class="nc">&nbsp;public class CarportOrderFacade {</b>
+&nbsp;
+&nbsp;    public static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+<b class="fc">&nbsp;        return CarportOrderMapper.getCarportOrderById(id, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static List&lt;CarportOrder&gt; getCarportOrdersByCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCustomer(customer);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.getCarportOrdersByCustomer(customer, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static List&lt;CarportOrder&gt; getCarportOrdersByEmployee(Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateEmployee(employee);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.getCarportOrdersByEmployee(employee, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static List&lt;CarportOrder&gt; getAllCarportOrders(ConnectionPool connectionPool) throws DatabaseException {
+<b class="fc">&nbsp;        return CarportOrderMapper.getAllCarportOrders(connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static List&lt;CarportOrder&gt; getCarportOrdersAsNews(ConnectionPool connectionPool) throws DatabaseException {
+<b class="fc">&nbsp;        return CarportOrderMapper.getCarportOrdersAsNews(connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static Optional&lt;OrderStatus&gt; getLatestOrderStatusFromCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCustomer(customer);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.getLatestOrderStatusFromCustomer(customer, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static CarportOrder create(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional&lt;ToolRoom&gt; toolRoom, Optional&lt;String&gt; remarks, float priceFromPartsList, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.create(customer, address, width, length, minHeight, roof, toolRoom, remarks, priceFromPartsList, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static CarportOrder claim(CarportOrder carportOrder, Employee employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateEmployee(employee);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.claim(carportOrder, employee, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static CarportOrder makeOffer(CarportOrder carportOrder, float price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validatePrice(price);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.makeOffer(carportOrder, price, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static CarportOrder acceptOffer(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.acceptOffer(carportOrder, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static CarportOrder cancelOrder(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.cancelOrder(carportOrder, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static CarportOrder ready(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.ready(carportOrder, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static CarportOrder deliver(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        return CarportOrderMapper.deliver(carportOrder, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateWidth(width);</b>
+<b class="fc">&nbsp;        CarportOrderMapper.updateWidth(carportOrder, width, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateLength(CarportOrder carportOrder, float length, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateLength(length);</b>
+<b class="fc">&nbsp;        CarportOrderMapper.updateLength(carportOrder, length, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateMinHeight(CarportOrder carportOrder, float minHeight, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateMinHeight(minHeight);</b>
+<b class="fc">&nbsp;        CarportOrderMapper.updateMinHeight(carportOrder, minHeight, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateToolRoom(CarportOrder carportOrder, Optional&lt;ToolRoom&gt; toolRoom, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        if (toolRoom.isPresent()) {</b>
+<b class="fc">&nbsp;            Validation.validateToolRoom(toolRoom.get());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        CarportOrderMapper.updateToolRoom(carportOrder, toolRoom, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updatePrice(CarportOrder carportOrder, Optional&lt;Float&gt; price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        if (price.isPresent()) {</b>
+<b class="fc">&nbsp;            Validation.validatePrice(price.get());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        CarportOrderMapper.updatePrice(carportOrder, price, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updatePriceFromPartsList(CarportOrder carportOrder, Optional&lt;Float&gt; priceFromPartsList, ConnectionPool connectionPool) throws ValidationException, DatabaseException {
+<b class="nc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="nc">&nbsp;        if (priceFromPartsList.isPresent()) {</b>
+<b class="nc">&nbsp;            Validation.validatePrice(priceFromPartsList.get());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        CarportOrderMapper.updatePriceFromPartslist(carportOrder, priceFromPartsList, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateAddress(address);</b>
+<b class="fc">&nbsp;        CarportOrderMapper.updateAddress(carportOrder, address, connectionPool);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-26 16:01</div>
+</div>
+</body>
+</html>

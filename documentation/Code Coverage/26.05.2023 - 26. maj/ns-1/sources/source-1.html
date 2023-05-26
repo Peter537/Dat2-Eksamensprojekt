@@ -1,0 +1,289 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PartsList</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.entities</a>
+</div>
+
+<h1>Coverage Summary for Class: PartsList (dat.backend.model.entities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PartsList</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.4%
+  </span>
+  <span class="absValue">
+    (19/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.entities;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.entities.item.Lumber;
+&nbsp;import dat.backend.model.entities.item.Roof;
+&nbsp;import dat.backend.model.entities.order.CarportOrder;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.services.PartsListCalculator;
+&nbsp;
+&nbsp;import java.text.NumberFormat;
+&nbsp;import java.util.Locale;
+&nbsp;
+&nbsp;public class PartsList {
+&nbsp;
+&nbsp;    private final ConnectionPool connectionPool;
+&nbsp;    private int height;
+&nbsp;    private int length;
+&nbsp;    private int width;
+&nbsp;
+&nbsp;    private final Roof roof;
+&nbsp;    private int roofArea;
+&nbsp;
+&nbsp;    private Lumber pole; // stolpe
+&nbsp;    private int numberOfPoles;
+&nbsp;
+&nbsp;    private Lumber plate; // rem
+&nbsp;    private int numberOfPlates;
+&nbsp;
+&nbsp;    private Lumber rafter; // spær
+&nbsp;    private int numberOfRafters;
+&nbsp;
+&nbsp;    private float totalPrice;
+&nbsp;
+<b class="fc">&nbsp;    public PartsList(int height, int length, int width, Roof roof, ConnectionPool connectionPool) throws DatabaseException {</b>
+<b class="fc">&nbsp;        this.height = height;</b>
+<b class="fc">&nbsp;        this.length = length;</b>
+<b class="fc">&nbsp;        this.width = width;</b>
+<b class="fc">&nbsp;        this.connectionPool = connectionPool;</b>
+<b class="fc">&nbsp;        this.roof = roof;</b>
+<b class="fc">&nbsp;        this.calculate();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public PartsList(CarportOrder carportOrder, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        this((int) carportOrder.getMinHeight(), (int) carportOrder.getLength(), (int) carportOrder.getWidth(), carportOrder.getRoof(), connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will calculate everything needed for the parts list
+&nbsp;     *
+&nbsp;     * @throws DatabaseException if an error occurs while communicating with the database
+&nbsp;     */
+&nbsp;    public void calculate() throws DatabaseException {
+<b class="fc">&nbsp;        this.pole = PartsListCalculator.calculatePole(height, width, connectionPool);</b>
+<b class="fc">&nbsp;        this.plate = PartsListCalculator.calculatePlate(width, connectionPool);</b>
+<b class="fc">&nbsp;        this.rafter = PartsListCalculator.calculateRafter(length, width, connectionPool);</b>
+<b class="fc">&nbsp;        this.roofArea = length / 100 * width / 100;</b>
+<b class="fc">&nbsp;        this.numberOfPoles = PartsListCalculator.calculateNumberOfPoles(length, width);</b>
+<b class="fc">&nbsp;        this.numberOfPlates = PartsListCalculator.calculateNumberOfPlates(width) * PartsListCalculator.calculateNumber(length, this.plate.getLumberType(), connectionPool);</b>
+<b class="fc">&nbsp;        this.numberOfRafters = PartsListCalculator.calculateNumberOfRafters(length) * PartsListCalculator.calculateNumber(width, this.rafter.getLumberType(), connectionPool);</b>
+<b class="fc">&nbsp;        this.totalPrice = this.calculateTotalPrice();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getFormattedPrice() {
+<b class="nc">&nbsp;        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.GERMAN);</b>
+<b class="nc">&nbsp;        return formatter.format(this.calculateTotalPrice());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will calculate the total price of the parts list
+&nbsp;     *
+&nbsp;     * @return The total price
+&nbsp;     */
+&nbsp;    public float calculateTotalPrice() {
+<b class="fc">&nbsp;        return ((pole.getPrice() * numberOfPoles) + (plate.getPrice() * numberOfPlates) + (rafter.getPrice() * numberOfRafters) + (roof.getSquareMeterPrice() * roofArea));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will get the length of a Pole
+&nbsp;     *
+&nbsp;     * @return The length of the pole
+&nbsp;     */
+&nbsp;    public int getLengthOfPole() {
+<b class="fc">&nbsp;        return height + 90 + ((int) getRafter().getLumberType().getWidth() / 10);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will get the length of a Plate
+&nbsp;     *
+&nbsp;     * @return The length of the plate
+&nbsp;     * @throws DatabaseException if an error occurs while communicating with the database
+&nbsp;     */
+&nbsp;    public int getLengthOfPlate() throws DatabaseException {
+<b class="fc">&nbsp;        return PartsListCalculator.calculateLengthOfLumber(length, getPlate().getLumberType(), connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will get the length of a Rafter
+&nbsp;     *
+&nbsp;     * @return The length of the rafter
+&nbsp;     * @throws DatabaseException if an error occurs while communicating with the database
+&nbsp;     */
+&nbsp;    public int getLengthOfRafter() throws DatabaseException {
+<b class="fc">&nbsp;        return PartsListCalculator.calculateLengthOfLumber(width, getRafter().getLumberType(), connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Lumber getPole() {
+&nbsp;        return this.pole;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Lumber getPlate() {
+&nbsp;        return this.plate;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Lumber getRafter() {
+&nbsp;        return this.rafter;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public int getNumberOfPoles() {
+&nbsp;        return this.numberOfPoles;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public int getNumberOfPlates() {
+&nbsp;        return this.numberOfPlates;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public int getNumberOfRafters() {
+&nbsp;        return this.numberOfRafters;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Roof getRoof() {
+&nbsp;        return this.roof;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public int getRoofArea() {
+&nbsp;        return this.roofArea;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public int getHeight() {
+&nbsp;        return this.height;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setHeight(int height) {
+&nbsp;        this.height = height;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public int getLength() {
+&nbsp;        return this.length;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setLength(int length) {
+&nbsp;        this.length = length;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public int getWidth() {
+&nbsp;        return this.width;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setWidth(int width) {
+&nbsp;        this.width = width;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public float getTotalPrice() {
+&nbsp;        return this.totalPrice;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setTotalPrice(int totalPrice) {
+&nbsp;        this.totalPrice = totalPrice;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-26 16:01</div>
+</div>
+</body>
+</html>
