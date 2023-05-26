@@ -126,14 +126,6 @@
                                     <p class="card-text">Her vil du kunne se din nyeste order og se status på den
                                         igangværende salg</p>
                                     <a href="see-employee-orders" class="btn btn-primary">Til mine salg</a>
-
-                                    <div class="row" style="padding-top: 5%">
-                                        <div class="col-12">
-                                            <p style="text-decoration: underline black">Status på igangværende salg</p>
-                                            <p style="color: red">placeholder for status-method</p>
-                                                <%-- TODO: add necessary methods to do the above line--%>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
