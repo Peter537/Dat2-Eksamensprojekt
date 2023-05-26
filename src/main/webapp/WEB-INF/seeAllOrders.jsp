@@ -91,13 +91,6 @@
         </div>
 
         <c:if test="${requestScope.load != null}">
-            <c:set var="hasEmployee" value="true"/>
-            <c:if test="${!requestScope.carportOrder.employee.present}">
-                <c:set var="hasEmployee" value="false"/>
-            </c:if>
-            <c:if test="${requestScope.carportOrder.employee.get().equals(sessionScope.user)}">
-                <c:set var="hasEmployee" value="false"/>
-            </c:if>
             <div class="row" id="popup" style="z-index: 6; position: sticky">
             <div class="popup-header row">
                 <div class="col-sm-8"
@@ -114,8 +107,7 @@
                                 <c:when test="${requestScope.carportOrder.orderStatus.getStatus().equals('ORDER_CANCELLED')}">
                                     <h5>Ordre annulleret</h5>
                                 </c:when>
-<%--                                <c:when test="${!requestScope.carportOrder.employee.present}">--%>
-                                <c:when test="${hasEmployee.equals('false')}">
+                                <c:when test="${!requestScope.carportOrder.employee.present}">
                                     <form action="employee-claim-order" method="post">
                                         <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
                                         <input type="hidden" name="fromJsp" value="employee">
@@ -228,7 +220,7 @@
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
                                   readonly>${requestScope.carportOrder.remarks.present ? requestScope.carportOrder.remarks.get() : 'ingen kommentarer'}</textarea>
 
-                        <c:if test="${hasEmployee.equals('false')}">
+                        <c:if test="${requestScope.carportOrder.employee.get().equals(sessionScope.user)}">
                             <form action="generate-custom-partslist" method="post">
                                 <br>
                                 <input class="btn btn-primary" type="submit" value="edit order">

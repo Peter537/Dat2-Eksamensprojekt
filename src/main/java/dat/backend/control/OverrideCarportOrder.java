@@ -41,7 +41,7 @@ public class OverrideCarportOrder extends HttpServlet {
             CarportOrderFacade.updateLength(order, length, connectionPool);
             CarportOrderFacade.updateWidth(order, width, connectionPool);
             CarportOrderFacade.updateMinHeight(order, height, connectionPool);
-            CarportOrderFacade.updatePrice(order, price, connectionPool);
+            CarportOrderFacade.updatePriceFromPartsList(order, price, connectionPool);
 
             request.setAttribute("carportOrder", order);
             request.setAttribute("orderId", orderId);
