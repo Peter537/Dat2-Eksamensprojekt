@@ -347,7 +347,7 @@
                                     <div class="col-6">
                                         <label for="street3">Adresse 3</label>
                                         <input class="form-control" type="text" name="street3" id="street3"
-                                               placeholder="${address2}">
+                                               placeholder="${address3}">
                                     </div>
                                     <div class="col-6">
                                         <label for="zipCode3">Postnummer 3</label>
