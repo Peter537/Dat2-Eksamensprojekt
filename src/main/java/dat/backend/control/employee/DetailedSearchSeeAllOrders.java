@@ -48,10 +48,11 @@ public class DetailedSearchSeeAllOrders extends HttpServlet {
                 carportOrders.addAll(CarportOrderFacade.getCarportOrdersByEmployee(employee, connectionPool));
             }
 
-            AtomicBoolean isEmptySearchFields = new AtomicBoolean(false);
+            AtomicBoolean isEmptySearchFields = new AtomicBoolean(true);
             List<CarportOrder> orders = carportOrders.stream()
                     .filter(carportOrder -> {
                         if (request.getParameter("searchId") != null && !request.getParameter("searchId").isEmpty()) {
+                            isEmptySearchFields.set(false);
                             int id = Integer.parseInt(request.getParameter("searchId"));
                             if (carportOrder.getId() == id) {
                                 return true;
@@ -59,10 +60,10 @@ public class DetailedSearchSeeAllOrders extends HttpServlet {
                         }
 
                         if (request.getParameter("searchCustomerEmail") != null && !request.getParameter("searchCustomerEmail").isEmpty()) {
+                            isEmptySearchFields.set(false);
                             return carportOrder.getCustomer().getEmail().equals(request.getParameter("searchCustomerEmail"));
                         }
 
-                        isEmptySearchFields.set(true);
                         return false;
                     })
                     .collect(Collectors.toList());
