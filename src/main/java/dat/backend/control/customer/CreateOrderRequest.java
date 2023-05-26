@@ -85,6 +85,7 @@ public class CreateOrderRequest extends HttpServlet {
             String successMessage = "good job";
             CarportOrderFacade.create(customer, address, width, length, height, roof, toolRoom, remarks, partsList.getTotalPrice(), connectionPool);
             request.setAttribute("partsListSuccess", successMessage);
+            request.getSession().setAttribute("lateststatus", CarportOrderFacade.getLatestOrderStatusFromCustomer(customer, connectionPool));
             request.getRequestDispatcher("WEB-INF/carportFormula.jsp").forward(request, response);
         } catch (DatabaseException | IllegalArgumentException | NotFoundException | ValidationException e) {
             Logger.getLogger("web").warning(e.getMessage());
