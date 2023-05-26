@@ -55,11 +55,11 @@ public class Login extends HttpServlet {
                     request.getSession().setAttribute("news", CarportOrderFacade.getCarportOrdersAsNews(connectionPool));
                     request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
                 }
-            } catch (NotFoundException e) {
+            } catch (NotFoundException | ValidationException e) {
                 request.setAttribute("errormessage", "Wrong username or password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
-        } catch (DatabaseException | ValidationException e) {
+        } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
