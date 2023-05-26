@@ -49,18 +49,21 @@ class CarportOrderMapper {
      */
     static List<CarportOrder> getCarportOrdersByCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException {
         List<CarportOrder> carportOrders = new ArrayList<>();
-        String query = "SELECT * FROM carport_order WHERE fk_customer_email = ?";
+        String query = "SELECT * FROM carportorderWithAll WHERE fk_customer_email = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, customer.getEmail());
                 ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    CarportOrder carportOrder = getCarportOrderById(id, connectionPool);
-                    carportOrders.add(carportOrder);
+                while (true) {
+                    try {
+                        CarportOrder carportOrderFromResultSet = createCarportOrderFromResultSet(resultSet);
+                        carportOrders.add(carportOrderFromResultSet);
+                    } catch (NotFoundException e) {
+                        break;
+                    }
                 }
             }
-        } catch (SQLException | DatabaseException | NotFoundException e) {
+        } catch (SQLException e) {
             throw new DatabaseException(e, "Error while getting CarportOrder with customer email " + customer.getEmail());
         }
 
@@ -77,18 +80,21 @@ class CarportOrderMapper {
      */
     static List<CarportOrder> getCarportOrdersByEmployee(Employee employee, ConnectionPool connectionPool) throws DatabaseException {
         List<CarportOrder> carportOrders = new ArrayList<>();
-        String query = "SELECT * FROM carport_order WHERE fk_employee_email = ?";
+        String query = "SELECT * FROM carportorderWithAll WHERE fk_employee_email = ?";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, employee.getEmail());
                 ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    CarportOrder carportOrder = getCarportOrderById(id, connectionPool);
-                    carportOrders.add(carportOrder);
+                while (true) {
+                    try {
+                        CarportOrder carportOrderFromResultSet = createCarportOrderFromResultSet(resultSet);
+                        carportOrders.add(carportOrderFromResultSet);
+                    } catch (NotFoundException e) {
+                        break;
+                    }
                 }
             }
-        } catch (SQLException | DatabaseException | NotFoundException e) {
+        } catch (SQLException e) {
             throw new DatabaseException(e, "Error while getting CarportOrder with employee email " + employee.getEmail());
         }
 
@@ -104,17 +110,20 @@ class CarportOrderMapper {
      */
     static List<CarportOrder> getAllCarportOrders(ConnectionPool connectionPool) throws DatabaseException {
         List<CarportOrder> carportOrders = new ArrayList<>();
-        String query = "SELECT * FROM carport_order";
+        String query = "SELECT * FROM carportorderWithAll";
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    CarportOrder carportOrder = getCarportOrderById(id, connectionPool);
-                    carportOrders.add(carportOrder);
+                while (true) {
+                    try {
+                        CarportOrder carportOrderFromResultSet = createCarportOrderFromResultSet(resultSet);
+                        carportOrders.add(carportOrderFromResultSet);
+                    } catch (NotFoundException e) {
+                        break;
+                    }
                 }
             }
-        } catch (SQLException | DatabaseException | NotFoundException e) {
+        } catch (SQLException e) {
             throw new DatabaseException(e, "Error while getting all CarportOrders");
         }
 
