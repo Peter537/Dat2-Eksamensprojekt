@@ -58,8 +58,11 @@ public class Login extends HttpServlet {
             } catch (NotFoundException e) {
                 request.setAttribute("errormessage", "Wrong username or password");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
+            } catch (ValidationException e) {
+                request.setAttribute("errormessage", e.getMessage());
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
-        } catch (DatabaseException | ValidationException e) {
+        } catch (DatabaseException e) {
             request.setAttribute("errormessage", e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
