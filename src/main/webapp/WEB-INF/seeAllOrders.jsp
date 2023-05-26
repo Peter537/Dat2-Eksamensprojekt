@@ -220,12 +220,14 @@
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
                                   readonly>${requestScope.carportOrder.remarks.present ? requestScope.carportOrder.remarks.get() : 'ingen kommentarer'}</textarea>
 
-                        <c:if test="${requestScope.carportOrder.employee.get().equals(sessionScope.user)}">
-                            <form action="generate-custom-partslist" method="post">
-                                <br>
-                                <input class="btn btn-primary" type="submit" value="edit order">
-                                <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
-                            </form>
+                        <c:if test="${requestScope.carportOrder.employee.present}">
+                            <c:if test="${requestScope.carportOrder.employee.get().equals(sessionScope.user)}">
+                                <form action="generate-custom-partslist" method="post">
+                                    <br>
+                                    <input class="btn btn-primary" type="submit" value="edit order">
+                                    <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+                                </form>
+                            </c:if>
                         </c:if>
                     </div>
                 </div>
