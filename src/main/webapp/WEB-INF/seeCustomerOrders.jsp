@@ -51,7 +51,6 @@
                 </thead>
                 <tbody>
 
-
                 <c:choose>
                     <c:when test="${requestScope.carportOrders.size() == 0}">
                         <tr>
@@ -78,24 +77,6 @@
                         </c:forEach>
                     </c:otherwise>
                 </c:choose>
-
-                <c:forEach var="order" items="${requestScope.carportOrders}">
-                <tr>
-                    <td>${order.id}</td>
-                    <td>${order.customer.name}</td>
-                    <td>${order.address.address}</td>
-                    <td>${order.employee.present ? order.employee.get().name : 'Ikke tildelt'}</td>
-                    <td>${order.orderStatus.displayName}</td>
-                    <td>${order.price.present ? order.getFormattedPrice() : 'Endnu ikke bestemt'} ${order.price.present ? ' kr.' : ''}</td>
-                    <td>
-                        <form action="detailed-order-info" method="post">
-                            <input type="hidden" name="orderId" value="${order.id}">
-                            <input type="hidden" name="fromJsp" value="customer">
-                            <input type="submit" value="Se mere om ordren">
-                        </form>
-                    </td>
-                </tr>
-                </c:forEach>
             </table>
         </div>
 
