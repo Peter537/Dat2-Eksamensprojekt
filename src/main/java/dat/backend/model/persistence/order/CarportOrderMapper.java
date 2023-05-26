@@ -138,7 +138,7 @@ class CarportOrderMapper {
                     int id = resultSet.getInt("id");
                     Date createdOn = resultSet.getDate("created_on");
                     float price = resultSet.getFloat("price_from_partslist");
-                    CarportOrder carportOrder = new CarportOrder(id, null, null, null, null, null, null, Float.NaN, Float.NaN, Float.NaN, null, Optional.of(price));
+                    CarportOrder carportOrder = new CarportOrder(id, null, null, null, null, null, null, Float.NaN, Float.NaN, Float.NaN, null, Optional.of(price), Float.NaN);
                     carportOrder.setCreatedOn(createdOn);
                     carportOrders.add(carportOrder);
                 }
@@ -549,6 +549,7 @@ class CarportOrderMapper {
             toolRoom = Optional.of(new ToolRoom(toolRoomWidth, toolRoomLength));
         }
 
+        float priceFromPartsList = resultSet.getFloat("price_from_partslist");
         Optional<String> remarks = Optional.ofNullable(resultSet.getString("remarks"));
         float priceDb = resultSet.getFloat("price");
         Optional<Float> price = Optional.empty();
@@ -556,7 +557,7 @@ class CarportOrderMapper {
             price = Optional.of(priceDb);
         }
 
-        return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, price);
+        return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, price, priceFromPartsList);
     }
 
     /**

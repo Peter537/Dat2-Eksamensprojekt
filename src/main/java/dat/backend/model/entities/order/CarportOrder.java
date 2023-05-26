@@ -29,9 +29,10 @@ public class CarportOrder {
     private float minHeight;
     private Optional<ToolRoom> toolRoom;
     private Optional<Float> price;
+    private float priceFromPartsList;
     private Date createdOn;
 
-    public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, OrderStatus orderStatus, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom, Optional<Float> price) {
+    public CarportOrder(int id, Address address, Optional<Employee> employee, Customer customer, OrderStatus orderStatus, Roof roof, Optional<String> remarks, float length, float width, float minHeight, Optional<ToolRoom> toolRoom, Optional<Float> price, float priceFromPartsList) {
         this.id = id;
         this.address = address;
         this.employee = employee;
@@ -44,6 +45,7 @@ public class CarportOrder {
         this.minHeight = minHeight;
         this.toolRoom = toolRoom;
         this.price = price;
+        this.priceFromPartsList = priceFromPartsList;
     }
 
     public String getFormattedPrice() {
@@ -159,6 +161,16 @@ public class CarportOrder {
     @IgnoreCoverage(reason = "Getter or Setter")
     public void setPrice(Optional<Float> price) {
         this.price = price;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public float getPriceFromPartsList() {
+        return this.priceFromPartsList;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setPriceFromPartsList(float priceFromPartsList) {
+        this.priceFromPartsList = priceFromPartsList;
     }
 
     @IgnoreCoverage(reason = "Getter or Setter")
