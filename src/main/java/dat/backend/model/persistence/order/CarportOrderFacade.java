@@ -124,6 +124,7 @@ public class CarportOrderFacade {
         if (priceFromPartsList.isPresent()) {
             Validation.validatePrice(priceFromPartsList.get());
         }
+
         CarportOrderMapper.updatePriceFromPartslist(carportOrder, priceFromPartsList, connectionPool);
     }
 
