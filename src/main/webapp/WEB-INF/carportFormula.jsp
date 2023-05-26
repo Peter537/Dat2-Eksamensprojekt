@@ -48,7 +48,7 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="contact-tab" data-bs-toggle="pill" data-bs-target="#contact"
                             type="button"
-                            role="tab" aria-controls="contact" aria-selected="false">Kontakt Information
+                            role="tab" aria-controls="contact" aria-selected="false">Kontaktinformation
                     </button>
                 </li>
             </ul>
@@ -84,13 +84,14 @@
                     <div>
                         <div class="tab-pane fade" id="toolshed" role="tabpanel" aria-labelledby="toolshed-tab"
                              tabindex="0">
+                            <p>Lad denne formular være tom hvis du ikke ønsker et redskabsskur.</p>
                             <div class="row">
-                                <label for="toolshedWidth" class="form-label">Redskabsskur bredde (mm)</label>
+                                <label for="toolshedWidth" class="form-label">Redskabsskur bredde (cm)</label>
                                 <input class="form-control" id="toolshedWidth" type="number" name="toolshedWidth"
                                        placeholder="300 cm">
                             </div>
                             <div class="row">
-                                <label for="toolshedLength" class="form-label">Redskabsskur længde (mm)</label>
+                                <label for="toolshedLength" class="form-label">Redskabsskur længde (cm)</label>
                                 <input class="form-control" id="toolshedLength" type="number" name="toolshedLength"
                                        placeholder="300 cm">
                             </div>
