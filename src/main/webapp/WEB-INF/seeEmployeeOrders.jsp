@@ -10,7 +10,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        See all orders
+        Se mine ordrer
     </jsp:attribute>
 
     <jsp:body>
@@ -19,7 +19,7 @@
             <div class="row">
 
                 <div class="col-sm-11">
-                    <h1>Se alle ordrer</h1>
+                    <h1>Se mine ordrer</h1>
                 </div>
 
                 <div class="col-sm-1">
