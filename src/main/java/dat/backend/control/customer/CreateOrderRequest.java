@@ -51,7 +51,7 @@ public class CreateOrderRequest extends HttpServlet {
         int width = Integer.parseInt(request.getParameter("carportWidth"));
         int length = Integer.parseInt(request.getParameter("carportLength"));
         try {
-            Roof roof = RoofFacade.getRoofById(1, connectionPool); // TODO: Get a Roof from CarportForm?
+            Roof roof = RoofFacade.getRoofById(1, connectionPool);
             PartsList partsList = new PartsList(height, length, width, roof, connectionPool);
             request.setAttribute("partsList", partsList);
 
