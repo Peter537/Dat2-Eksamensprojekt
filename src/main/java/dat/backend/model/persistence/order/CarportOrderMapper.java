@@ -495,6 +495,14 @@ class CarportOrderMapper {
         }
     }
 
+    /**
+     * This method will update the price from a partslist of a carport order
+     *
+     * @param carportOrder   The carport order to update
+     * @param price          The new price
+     * @param connectionPool Connection pool
+     * @throws DatabaseException if an error occurs while communicating with the database
+     */
     static void updatePriceFromPartslist(CarportOrder carportOrder, Optional<Float> price, ConnectionPool connectionPool) throws DatabaseException {
         String query = "UPDATE carport_order SET price_from_partslist = ? WHERE id = ?";
         try (Connection connection = connectionPool.getConnection()) {
