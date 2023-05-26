@@ -117,7 +117,7 @@
                             <div class="row" style="padding-top: 5%">
                                 <div class="col-12">
                                     <p style="text-decoration: underline black">Status på seneste ordre</p>
-                                    <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">${not empty sessionScope.lateststatus && sessionScope.lateststatus.present ? sessionScope.lateststatus.get().getDisplayName() : 'Ingen ordre'}</p>
+                                    <p style="color: cornflowerblue; scale: 1.2; transform: translateX(8.3%)">${not empty sessionScope.lateststatus && sessionScope.lateststatus.present ? sessionScope.lateststatus.get().getDisplayName() : 'Ingen ordrer'}</p>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +163,7 @@
                                  alt="Profile Picture">
                         </div>
 
-                        <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
+                        <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 10%">
                             <p>Navn: ${sessionScope.user.getName()}</p>
                             <p>E-mail: ${sessionScope.user.getEmail()}</p>
                             <c:choose>
@@ -205,10 +205,10 @@
                         </div>
                     </div>
 
-                    <div class="row" style="padding: 50px"></div>
+                    <div class="row" style="padding: 1.5%"></div>
 
                     <div class="row">
-                        <div class="col-4" style="margin-top: 20px">
+                        <div class="col-4" >
                             <h3>Skift kontonavn</h3>
                             <div class="form-group">
                                 <label for="name">Navn</label>
@@ -217,9 +217,9 @@
                             </div>
                         </div>
 
-                        <div class="col-4" style="margin-top: 1%">
+                        <div class="col-4" >
                             <h3>Skift kodeord</h3>
-                            <div class="form-group" style="margin-top: 5%">
+                            <div class="form-group" >
                                 <label for="newPassword">Nyt kodeord</label>
                                 <input class="form-control" type="password" name="newPassword" id="newPassword"
                                        placeholder="Skriv dit nye ønskede kodeord">
@@ -242,7 +242,7 @@
                         </c:choose>
 
 
-                        <div class="col-3" style="margin-top: 20px;">
+                        <div class="col-3">
                             <div class="row">
                                 <h3>Skift telefonnummer</h3>
                                 <div class="form-group">

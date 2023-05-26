@@ -198,7 +198,7 @@
                         på at en medarbejder tager kontakt til dig. Medarbejderen vil manuelt teste på </p>
                     din forespørgsel.
                 </div>
-                <a class="btn" type="button" href="customer-site">OK</a>
+                <a class="btn btn-primary" type="button" href="customer-site">OK</a>
             </div>
 
         </c:if>

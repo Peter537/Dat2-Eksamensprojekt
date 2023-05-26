@@ -39,11 +39,11 @@
                                     </svg>
                                 </div>
                                 <form action="login" method="post" style="padding-left: 20px; padding-right: 20px">
-                                    <label for="email" style="padding: 10px">Email Adresse</label>
+                                    <label for="email" style="padding: 10px">E-mail</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          id="email" type="email" name="email"
                                                                          placeholder="Email"></div>
-                                    <label for="password" style="padding: 10px">Password</label>
+                                    <label for="password" style="padding: 10px">Kodeord</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          type="password" id="password" name="password"
                                                                          placeholder="Password"></div>

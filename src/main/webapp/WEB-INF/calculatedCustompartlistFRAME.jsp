@@ -82,7 +82,7 @@
         </tbody>
     </table>
 
-    <h3 style="height: 20%" class="text-center">Pris: ${requestScope.partslist.formattedPrice}</h3>
+    <h3 style="height: 20%" class="text-center">Pris: ${requestScope.partslist.formattedPrice.concat(" kr.")}</h3>
 
     <c:if test="${requestScope.id != 0}">
         <form action="OverrideCarportOrder" method="post" target="_parent" class="text-center">
