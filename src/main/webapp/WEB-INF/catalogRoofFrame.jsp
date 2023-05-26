@@ -26,7 +26,7 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Kvadratmeterpris</th>
+                <th>Kvadratmeterpris (kr)</th>
                 <th>Type</th>
             </tr>
             </thead>
