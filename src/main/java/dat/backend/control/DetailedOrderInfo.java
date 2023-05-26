@@ -35,6 +35,11 @@ public class DetailedOrderInfo extends HttpServlet {
         int orderId = (int) Float.parseFloat(request.getParameter("orderId"));
         String message = request.getParameter("cancel");
         String fromJsp = request.getParameter("fromJsp");
+        if (fromJsp == null) { //This variable is occasionally null, so we need to check for it
+            String home = request.getSession().getAttribute("myhome").toString();
+            request.getRequestDispatcher(home).forward(request, response);
+        }
+
         request.setAttribute("cancel", message);
         try {
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
@@ -48,7 +53,6 @@ public class DetailedOrderInfo extends HttpServlet {
                 } else {
                     request.setAttribute("from", "see-all-orders");
                 }
-
                 request.getSession().setAttribute("partslist", new PartsList(carportOrder, connectionPool));
                 request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
             }
