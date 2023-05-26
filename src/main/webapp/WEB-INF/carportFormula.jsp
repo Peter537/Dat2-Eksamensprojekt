@@ -70,12 +70,9 @@
                                    name="carportWidth" placeholder="500 cm" required></div>
                         <div class="mb-3 text-center">
 
-                            <div class="row" style="margin-bottom: 3%">
-                                <label for="carportMinHeight" class="form-label">Carport minimumshøjde (cm)</label>
-                                <input class="form-control" id="carportMinHeight" type="number"
-                                       name="carportMinHeight" placeholder="300 cm" required>
-                            </div>
-
+                            <label for="carportMinHeight" class="form-label">Carport minimumshøjde (cm)</label>
+                            <input class="form-control" id="carportMinHeight" type="number"
+                                   name="carportMinHeight" placeholder="300 cm" required>
                         </div>
 
 
