@@ -105,6 +105,9 @@
                         </div>
                         <div class="col-sm-2" style="float: left">
                             <c:choose>
+                                <c:when test="${requestScope.carportOrder.orderStatus.getStatus().equals('ORDER_CANCELLED')}">
+                                    <h5>Ordre annulleret</h5>
+                                </c:when>
                                 <c:when test="${!requestScope.carportOrder.employee.present}">
                                     <form action="employee-claim-order" method="post">
                                         <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
