@@ -1,4 +1,4 @@
-<%--
+<%@ page import="dat.backend.model.entities.order.CarportOrder" %><%--
   Created by IntelliJ IDEA.
   User: yusef
   Date: 03/05/2023
@@ -46,7 +46,7 @@
                     <th>Medarbejderens navn</th>
                     <th>Status</th>
                     <th>Pris</th>
-                    <th>Mere info</th>
+                    <th>Detaljer</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,7 +57,7 @@
                     <td>${order.address.address}</td>
                     <td>${order.employee.present ? order.employee.get().name : 'Ikke tildelt'}</td>
                     <td>${order.orderStatus.displayName}</td>
-                    <td>${order.price.present ? order.getFormattedPrice() : 'endnu ikke bestemt'}</td>
+                    <td>${order.price.present ? order.getFormattedPrice() : 'Endnu ikke bestemt'}</td>
                     <td>
                         <form action="detailed-order-info" method="post">
                             <input type="hidden" name="orderId" value="${order.id}">
@@ -73,27 +73,28 @@
         <c:if test="${requestScope.load != null}">
 
             <div class="row" id="popup"
-                 style="position: sticky; opacity: 95%; background-color: white; z-index: 10; border: 1px solid black; border-radius: 10px; visibility: visible">
-                <div class="popup-header row">
-                    <div class="col-sm-8"
-                         style="border: 1px solid black; border-bottom: 0; border-radius: 4px 4px 0 0; background: white; transform: translateY(-95%)">
-                        <div class="row align-items-center">
-                            <div class="col-sm-9">
-                                <h4 style="margin-top: 1%; text-align: left">
-                                    Ordrenummer: ${requestScope.carportOrder.id} |
-                                    Status: ${requestScope.carportOrder.orderStatus.displayName}
-                                </h4>
-                            </div>
-                            <div class="col-sm-3">
-                                <form action="cancel-order" method="post">
-                                <input type="submit"  class="btn btn-danger" style="margin-top: 1%; float: right" value="Aflys ordre">
-                                    <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
-                                </form>
+            style="position: sticky; opacity: 95%; background-color: white; z-index: 10; border: 1px solid black; border-radius: 10px; visibility: visible">
+            <div class="popup-header row">
+                <div class="col-sm-8"
+                     style="border: 1px solid black; border-bottom: 0; border-radius: 4px 4px 0 0; background: white; transform: translateY(-95%)">
+                    <div class="row align-items-center">
+                        <div class="col-sm-9">
+                            <h4 style="margin-top: 1%; text-align: left">
+                                Ordrenummer: ${requestScope.carportOrder.id} |
+                                Status: ${requestScope.carportOrder.orderStatus.displayName}
+                            </h4>
+                        </div>
+                        <div class="col-sm-3">
+                            <form action="cancel-order" method="post">
+                                <input type="submit" class="btn btn-danger" style="margin-top: 1%; float: right"
+                                       value="Aflys ordre">
+                                <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="row popup">
-                    <div id="Seller" class="col-lg-4 col-md-12 text-center">
+                    <div id="Seller" class="col-lg-4 col-md-12 text-center" style="padding-left: 2%">
                         <div class="seller-info row">
                             <h2>Sælger information</h2>
                             <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
@@ -110,7 +111,8 @@
                                     <p>${requestScope.carportOrder.employee.get().email}</p>
                                 </div>
                                 <div>
-                                    <p>Telefonnummer: ${requestScope.carportOrder.employee.get().workPhoneNumber.get()}</p>
+                                    <p>
+                                        Telefonnummer: ${requestScope.carportOrder.employee.get().workPhoneNumber.get()}</p>
                                 </div>
                             </c:when>
                             <c:otherwise>
@@ -140,6 +142,9 @@
                             <p>${sessionScope.user.personalPhoneNumber.get()}</p>
                             <p>${requestScope.carportOrder.address.address}</p>
                         </div>
+                            <%--black horizontal line--%>
+                        <div style="border-bottom: 1px black solid"></div>
+
                     </div>
 
                     <div id="CarportInfo" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
@@ -159,11 +164,11 @@
                             Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'Ikke sat'}
                             cm</p>
                         <p>
-                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.getFormattedPrice() : 'Endnu ikke sat'}
-                            kr.</p>
+                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.formattedPrice.concat(" kr.") : 'Endnu ikke sat'}</p>
 
                         <h2>Bemærkninger</h2>
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkninger"
+
                                   readonly>${requestScope.carportOrder.remarks.present ? requestScope.carportOrder.remarks.get() : 'Ingen kommentarer'}</textarea>
                     </div>
                 </div>
@@ -175,39 +180,40 @@
 
         <c:if test="${requestScope.cancel != null}">
 
-        <div class="cancelPopup">
-            <div>
-                <img style="width: 100px; border-radius: 50%"
-                     src="${pageContext.request.getContextPath()}/images/greenTickMark.jpg">
+            <div class="cancelPopup">
+                <div>
+                    <img style="width: 100px; border-radius: 50%"
+                         src="${pageContext.request.getContextPath()}/images/greenTickMark.jpg">
+                </div>
+                <div style="color: white">
+                    <h2>Bestilling Aflyst</h2>
+                    <p>Din bestilling er hermed aflyst.
+                </div>
+                <a class="btn" type="button" href="customer-site">OK</a>
             </div>
-            <div style="color: white">
-                <h2>Bestilling Aflyst</h2>
-                <p>Din bestilling er hermed aflyst.
-            </div>
-            <a class="btn" type="button" href="customer-site">OK</a>
-        </div>
-    </c:if>
+        </c:if>
 
 
         <style>
 
 
-        .cancelPopup {
-        width: 35%;
-        height: 40%;
-        position: absolute;
-        background-color: #75b273;
-        border: limegreen 4px solid;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: #333;
-        transition: transform 0.35s ease-in-out;
-        box-shadow: black 0px 0px 10px 0px;
-        visibility: visible; !important;
-        z-index: 20;
-        }
+            .cancelPopup {
+                width: 35%;
+                height: 40%;
+                position: absolute;
+                background-color: #75b273;
+                border: limegreen 4px solid;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                color: #333;
+                transition: transform 0.35s ease-in-out;
+                box-shadow: black 0px 0px 10px 0px;
+                visibility: visible;
+            !important;
+                z-index: 20;
+            }
         </style>
 
     </jsp:body>
