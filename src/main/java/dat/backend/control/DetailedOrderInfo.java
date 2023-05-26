@@ -28,48 +28,27 @@ public class DetailedOrderInfo extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int orderId = (int) Float.parseFloat(request.getParameter("orderId"));
-        String message = (String) request.getAttribute("cancel");
-
-        if (orderId == 0) {
-            orderId = (int) request.getAttribute("orderId");
-        }
-
-
-
-        String code = request.getParameter("fromJsp");
-        if (code == null) {
-            code = (String) request.getAttribute("fromJsp");
-        }
+        String message = request.getParameter("cancel");
+        String fromJsp = request.getParameter("fromJsp");
         request.setAttribute("cancel", message);
-
-        String referer = request.getHeader("referer");
-        String from;
-        if (referer != null) {
-            from = referer.split("/")[referer.split("/").length - 1];
-        } else {
-            from = "default_value"; // Provide a default value or specify your desired alternative logic
-        }
-
         try {
             CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
             request.setAttribute("carportOrder", carportOrder);
             request.setAttribute("load", "true");
-            if (code.equalsIgnoreCase("customer")) {
+            if (fromJsp.equalsIgnoreCase("customer")) {
                 request.getRequestDispatcher("WEB-INF/seeCustomerOrders.jsp").forward(request, response);
             } else {
-                if (from.equalsIgnoreCase("see-employee-orders")) {
+                if (fromJsp.equalsIgnoreCase("see-employee-orders")) {
                     request.setAttribute("from", "see-employee-orders");
                 } else {
                     request.setAttribute("from", "see-all-orders");
                 }
+
                 request.getSession().setAttribute("partslist", new PartsList(carportOrder, connectionPool));
                 request.getRequestDispatcher("WEB-INF/seeAllOrders.jsp").forward(request, response);
             }
