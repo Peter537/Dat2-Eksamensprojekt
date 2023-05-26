@@ -42,7 +42,7 @@
                 <tr>
                     <th>Ordrenummer</th>
                     <th>Kundens navn</th>
-                    <th>Kundens adresse</th>
+                    <th>Adresse</th>
                     <th>Medarbejderens navn</th>
                     <th>Status</th>
                     <th>Pris</th>
@@ -95,7 +95,7 @@
                 <div class="row popup">
                     <div id="Seller" class="col-lg-4 col-md-12 text-center">
                         <div class="seller-info row">
-                            <h2>Sælger Information</h2>
+                            <h2>Sælger information</h2>
                             <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
                                  class="card-img-top"
                                  src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
@@ -122,7 +122,7 @@
                     </div>
 
                     <div id="Customer" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
-                        <h2>Din Information</h2>
+                        <h2>Din information</h2>
                         <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
                              class="card-img-top" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
                              alt="SellerProfile">
@@ -136,9 +136,9 @@
 
                     <div id="CarportInfo" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
 
-                        <h2>Carport Information</h2>
+                        <h2>Carport information</h2>
 
-                        <p>Bredde: ${requestScope.carportOrder.width}</p>
+                        <p>Bredde: ${requestScope.carportOrder.width+ " cm" }</p>
                         <p>Længde: ${requestScope.carportOrder.length}</p>
                         <p>Højde: ${requestScope.carportOrder.minHeight}</p>
                         <p>Tag-type: ${requestScope.carportOrder.roof.displayName}</p>
@@ -154,8 +154,8 @@
                             Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.getFormattedPrice() : 'Endnu ikke sat'}
                             kr.</p>
 
-                        <h2>Remarks</h2>
-                        <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
+                        <h2>Bemærkninger</h2>
+                        <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkninger"
                                   readonly>${requestScope.carportOrder.remarks.present ? requestScope.carportOrder.remarks.get() : 'Ingen kommentarer'}</textarea>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                      src="${pageContext.request.getContextPath()}/images/greenTickMark.jpg">
             </div>
             <div style="color: white">
-                <h2>Bestilng Aflyst</h2>
+                <h2>Bestilling Aflyst</h2>
                 <p>Din bestilling er hermed aflyst.
             </div>
             <a class="btn" type="button" href="customer-site">OK</a>
