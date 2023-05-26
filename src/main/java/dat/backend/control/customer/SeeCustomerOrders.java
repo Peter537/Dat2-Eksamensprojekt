@@ -5,7 +5,6 @@ import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.entities.user.Customer;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.order.CarportOrderFacade;
