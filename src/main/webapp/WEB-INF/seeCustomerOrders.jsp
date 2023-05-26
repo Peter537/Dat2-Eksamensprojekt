@@ -86,7 +86,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <form action="cancel-order" method="post">
-                                <input type="submit"  class="btn btn-danger" style="margin-top: 1%; float: right" value="Aflys Ordre">
+                                <input type="submit"  class="btn btn-danger" style="margin-top: 1%; float: right" value="Aflys ordre">
                                     <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
                                 </form>
                         </div>
@@ -101,16 +101,24 @@
                                  src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
                                  alt="SellerProfile">
                         </div>
-                        <div class="seller-employee row">
-                            <p>${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().name : 'Ikke tildelt'}</p>
-                        </div>
-                        <div class="seller-email row">
-                            <p>${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().email : 'Ikke tildelt'}</p>
-                        </div>
-                        <div>
-                            <p>
-                                Arbejdstelefonnummer: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().workPhoneNumber.get() : 'Ikke tildelt'}</p>
-                        </div>
+                        <c:choose>
+                            <c:when test="${requestScope.carportOrder.employee.present}">
+                                <div class="seller-employee row">
+                                    <p>${requestScope.carportOrder.employee.get().name}</p>
+                                </div>
+                                <div class="seller-email row">
+                                    <p>${requestScope.carportOrder.employee.get().email}</p>
+                                </div>
+                                <div>
+                                    <p>Telefonnummer: ${requestScope.carportOrder.employee.get().workPhoneNumber.get()}</p>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div>
+                                    <h3>Din ordre er ikke blevet tildelt en sælger endnu.</h3>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                         <div class="seller-contact row" style="margin-right: 1%">
                             <h2>Kontakt sælger</h2>
                             <textarea id="messageToSeller" name="CustomerMessage" class="form-control" rows="5"
@@ -138,17 +146,17 @@
 
                         <h2>Carport information</h2>
 
-                        <p>Bredde: ${requestScope.carportOrder.width+ " cm" }</p>
-                        <p>Længde: ${requestScope.carportOrder.length}</p>
-                        <p>Højde: ${requestScope.carportOrder.minHeight}</p>
-                        <p>Tag-type: ${requestScope.carportOrder.roof.displayName}</p>
+                        <p>Bredde: ${requestScope.carportOrder.width} cm</p>
+                        <p>Længde: ${requestScope.carportOrder.length} cm</p>
+                        <p>Højde: ${requestScope.carportOrder.minHeight} cm</p>
+                        <p>Tagtype: ${requestScope.carportOrder.roof.displayName}</p>
 
                         <h2>Redskabs skur</h2>
                         <p>
                             Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'Ikke sat'}
                             cm</p>
                         <p>
-                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'ikke sat'}
+                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'Ikke sat'}
                             cm</p>
                         <p>
                             Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.getFormattedPrice() : 'Endnu ikke sat'}
