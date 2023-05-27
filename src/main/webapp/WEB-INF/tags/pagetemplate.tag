@@ -49,10 +49,6 @@
                             <img src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" width="25" height="25" style="scale: 1.5;" alt="profile icon">
                         </a>
                     </c:if>
-
-<%--                    <c:if test="${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount() > 0}">--%>
-<%--                        <a class="nav-item nav-link navtext link" style="border: 0;" href="${pageContext.request.contextPath}/ToCart">(${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount()})</a>--%>
-<%--                    </c:if> &lt;%&ndash;TODO: Fix this so it has a valid target&ndash;%&gt;--%>
                 </div>
             </div>
 
