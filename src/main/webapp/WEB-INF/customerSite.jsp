@@ -60,8 +60,14 @@
 
             <div class="row" style="padding-bottom: 5%; padding-top: 5%">
                 <div class="col-3">
-                    <img style="height: 150px; width: 150px"
-                         src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile picture">
+                    <c:choose>
+                        <c:when test="${sessionScope.user.getProfilePicture() != null}">
+                            <img style="height: 150px; width: 150px" src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>" alt="Profile Picture">
+                        </c:when>
+                        <c:otherwise>
+                            <img style="height: 150px; width: 150px" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile Picture">
+                        </c:otherwise>
+                    </c:choose>
                 </div>
 
                 <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 130px">
@@ -142,15 +148,21 @@
              style="margin-top: 1%; opacity: 90%; background-color: #083d74; height: 85%; color: white">
 
             <div style="height: 100%; width: 100%; opacity: 100% !important;">
-
-                <form method="post" action="change-customer-info" style="margin-bottom: 5%">
+                <form method="post" action="change-customer-info" enctype="multipart/form-data" style="margin-bottom: 5%">
                     <div class="row">
                         <div class="col-3">
-                            <img style="height: 150px; width: 150px; margin-top: 0.5%"
-                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
-                                 alt="Profile Picture">
+                            <label for="upload-image">
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getProfilePicture() != null}">
+                                        <img style="height: 150px; width: 150px; margin-top: 0.5%" src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>" alt="Profile Picture">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img style="height: 150px; width: 150px; margin-top: 0.5%" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile Picture">
+                                    </c:otherwise>
+                                </c:choose>
+                            </label>
+                            <input class="form-control" id="upload-image" name="imageFile" type="file">
                         </div>
-
                         <div class="col-5 user-info" style="float: left; border-left: 2px solid green; height: 10%">
                             <p>Navn: ${sessionScope.user.getName()}</p>
                             <p>E-mail: ${sessionScope.user.getEmail()}</p>
