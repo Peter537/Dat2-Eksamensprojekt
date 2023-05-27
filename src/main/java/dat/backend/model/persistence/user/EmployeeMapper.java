@@ -5,10 +5,8 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.FileInputStream;
+import java.sql.*;
 import java.util.Optional;
 
 class EmployeeMapper {
@@ -89,6 +87,28 @@ class EmployeeMapper {
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get employee");
+        }
+    }
+
+    public static byte[] getEmployeePicture(String email, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "SELECT profilepicture FROM employee WHERE email = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, email);
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    Blob blob = resultSet.getBlob("profilepicture");
+                    if (blob != null) {
+                        return blob.getBytes(1, (int) blob.length());
+                    } else {
+                        return null;
+                    }
+                } else {
+                    throw new DatabaseException("Could not get customer picture");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not get customer by email");
         }
     }
 
@@ -220,6 +240,20 @@ class EmployeeMapper {
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not update department");
+        }
+    }
+
+    static void updateProfilePicture(Employee employee, FileInputStream fileInputStream, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE employee SET profilepicture = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setBlob(1, fileInputStream);
+                statement.setInt(2, employee.getId());
+                statement.executeUpdate();
+                employee.setProfilePicture(getEmployeePicture(employee.getEmail(), connectionPool));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update customer profile picture");
         }
     }
 

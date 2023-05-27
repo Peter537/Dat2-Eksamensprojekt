@@ -2,19 +2,25 @@ package dat.backend.control.employee;
 
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
+import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.user.CustomerFacade;
 import dat.backend.model.persistence.user.EmployeeFacade;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.FileInputStream;
 import java.io.IOException;
 
+@MultipartConfig
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "change-employee-info", value = "/change-employee-info")
 public class ChangeEmployeeInfo extends HttpServlet {
@@ -35,6 +41,7 @@ public class ChangeEmployeeInfo extends HttpServlet {
         this.changeName(employee, request);
         this.changePassword(employee, request);
         this.changePersonPhoneNumber(employee, request);
+        this.changeProfilePicture(employee, request);
         request.getRequestDispatcher("WEB-INF/employeeSite.jsp").forward(request, response);
     }
 
@@ -73,6 +80,22 @@ public class ChangeEmployeeInfo extends HttpServlet {
             } catch (DatabaseException | ValidationException e) {
                 request.setAttribute("errormessage", "Telefonnummer kunne ikke opdateres. Telefonnummeret skal være 8 cifre.");
             }
+        }
+    }
+
+    public void changeProfilePicture(Employee employee, HttpServletRequest request) throws ServletException, IOException {
+        //Get the file uploaded by the user
+        Part filePart = request.getPart("imageFile");
+        if (filePart.getSize() == 0) {
+            return;
+        }
+        FileInputStream fileContent = (FileInputStream) filePart.getInputStream();
+
+        //Update the profile picture
+        try {
+            EmployeeFacade.updateProfilePicture(employee, fileContent, ApplicationStart.getConnectionPool());
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
         }
     }
 }
