@@ -106,19 +106,20 @@ public class ChangeCustomerInfo extends HttpServlet {
             }
         }
     }
+
     public void changeProfilePicture(Customer customer, HttpServletRequest request) throws ServletException, IOException {
         //Get the file uploaded by the user
         Part filePart = request.getPart("imageFile");
         if (filePart.getSize() == 0) {
             return;
         }
-        FileInputStream fileContent = (FileInputStream) filePart.getInputStream();
 
+        FileInputStream fileContent = (FileInputStream) filePart.getInputStream();
         //Update the profile picture
         try {
-            CustomerFacade.updateProfilePicture(customer, fileContent, ApplicationStart.getConnectionPool());
+            CustomerFacade.updateProfilePicture(customer, fileContent, connectionPool);
         } catch (DatabaseException e) {
-            throw new RuntimeException(e);
+            request.setAttribute("errormessage", "Profilbilledet kunne ikke opdateres.");
         }
     }
 }
