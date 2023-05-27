@@ -495,6 +495,7 @@ class CarportOrderMapper {
                 } else {
                     statement.setNull(1, Types.FLOAT);
                 }
+
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
                 carportOrder.setPrice(price);
@@ -521,6 +522,7 @@ class CarportOrderMapper {
                 } else {
                     statement.setNull(1, Types.FLOAT);
                 }
+
                 statement.setInt(2, carportOrder.getId());
                 statement.executeUpdate();
                 price.ifPresent(carportOrder::setPriceFromPartsList);
