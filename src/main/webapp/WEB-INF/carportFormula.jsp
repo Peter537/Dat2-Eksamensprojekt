@@ -5,15 +5,12 @@
 <%@page errorPage="error.jsp" isErrorPage="false" %>
 
 <t:pagetemplate>
-
     <jsp:attribute name="footer">
         Byg-selv carport
     </jsp:attribute>
 
     <jsp:body>
-
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/carportFormulaStyle.css">
-
         <c:if test="${not empty requestScope.errormessage}">
             <div class="alertRed">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -54,7 +51,6 @@
                     <div class="tab-pane fade show active" id="dimensions" role="tabpanel"
                          aria-labelledby="dimensions-tab"
                          tabindex="0">
-
                         <div class="mb-3 text-center">
                             <label for="length" class="form-label">Carport længde (cm)</label>
                             <input style="height: 40px" class="form-control" id="length"
@@ -65,13 +61,10 @@
                             <input style="height: 40px" class="form-control" id="width"
                                    name="carportWidth" placeholder="500 cm" required></div>
                         <div class="mb-3 text-center">
-
                             <label for="carportMinHeight" class="form-label">Carport minimumshøjde (cm)</label>
                             <input class="form-control" id="carportMinHeight" type="number"
                                    name="carportMinHeight" placeholder="300 cm" required>
                         </div>
-
-
                     </div>
 
                     <div>
@@ -88,9 +81,9 @@
                                 <input class="form-control" id="toolshedLength" type="number" name="toolshedLength"
                                        placeholder="300 cm">
                             </div>
-
                         </div>
                     </div>
+
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="pills-contact-tab"
                          tabindex="0">
                         <div>
@@ -115,10 +108,8 @@
 
                             <div class="mb-3">
                                 <div style="border: dotted black 3px; margin-left: 30%; margin-right: 30%">
-
                                     <p class="text-center">Hvis ikke ønskede adresse står på nedenstående liste, så
-                                        unlad at vælge denne og skriv i stedet i feltet under</p>
-
+                                        undlad at vælge denne og skriv i stedet i feltet under</p>
                                 </div>
 
                                 <label for="customerAddress" class="form-label">Adresse</label>
@@ -154,25 +145,18 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div class="row" style="margin-bottom: 3%">
                             <label for="story">Evt. bemærkninger</label>
-
                             <textarea id="story" name="remarks" class="form-control"
                                       rows="5" cols="33" placeholder="Skriv bemærkninger her"></textarea>
-
                         </div>
-
 
                         <div class="container">
                             <input type="submit" class="btn btn-primary" value="Bestil"/>
                         </div>
                         <br>
-
-
                     </div>
                     <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab"
                          tabindex="0">...
@@ -181,9 +165,7 @@
             </form>
         </section>
 
-
         <c:if test="${requestScope.partsListSuccess != null}">
-
             <div class="popup">
                 <div>
                     <img style="width: 100px; border-radius: 50%"
@@ -191,15 +173,12 @@
                 </div>
                 <div style="color: white">
                     <h2>Tak for bestillingen</h2>
-                    <p>Din forespørgsmål er blevet indsendt korrekt. Venligst vent 3-4 dage
+                    <p>Din forespørgsel er blevet indsendt korrekt. Venligst vent 3-4 dage
                         på at en medarbejder tager kontakt til dig. Medarbejderen vil manuelt teste på </p>
                     din forespørgsel.
                 </div>
                 <a class="btn btn-primary" type="button" href="customer-site">OK</a>
             </div>
-
         </c:if>
-
     </jsp:body>
-
 </t:pagetemplate>

@@ -86,7 +86,7 @@
             </table>
         </div>
 
-        <c:if test="${requestScope.load != null}">
+        <c:if test="${requestScope.load != null}"> <%-- This is important, this should only be shown if an order is selected for detailed view --%>
             <div class="row" id="popup" style="z-index: 6; position: sticky">
             <div class="popup-header row">
                 <div class="col-sm-8"

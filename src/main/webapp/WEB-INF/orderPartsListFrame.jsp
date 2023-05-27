@@ -32,25 +32,6 @@
     </thead>
     <tbody>
 
-<%--    <c:forEach var="i" begin="1" end="3">--%>
-<%--        <c:set var="lumber" value="${requestScope.partslist.partsList.get(i)}"/>--%>
-<%--        <td>--%>
-<%--            ${lumber.lumberType.thickness}x${lumber.lumberType.width} mm.--%>
-<%--        </td>--%>
-<%--        <td>--%>
-<%--            ${lumber.length}--%>
-<%--        </td>--%>
-<%--        <td>--%>
-<%--            ${lumber.amount}--%>
-<%--        </td>--%>
-<%--        <td>--%>
-<%--            stk.--%>
-<%--        </td>--%>
-<%--        <td>--%>
-<%--            ${lumber.description}--%>
-<%--        </td>--%>
-<%--    </c:forEach>--%>
-
     <tr>
         <td>${requestScope.partslist.rafter.lumberType.thickness}x${requestScope.partslist.rafter.lumberType.width} mm.
             spærtre
@@ -60,7 +41,6 @@
         <td>stk.</td>
         <td>${requestScope.partslist.rafter.description.get()}</td>
     </tr>
-
 
     <tr>
         <td>${requestScope.partslist.pole.lumberType.thickness}x${requestScope.partslist.pole.lumberType.width} mm.
@@ -91,7 +71,7 @@
     </tr>
     </tbody>
 </table>
-    <table class="table table-striped table-bordered table-hover text-center">
+<table class="table table-striped table-bordered table-hover text-center">
     <thead>
     <th>Pris</th>
     </thead>

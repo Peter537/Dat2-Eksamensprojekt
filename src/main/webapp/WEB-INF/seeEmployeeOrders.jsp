@@ -28,7 +28,8 @@
                 <label for="searchId">Søg på ID</label>
                 <input type="number" name="searchId" id="searchId" placeholder="Søg på Id">
                 <label for="searchCustomerEmail">Søg på Kunde Email</label>
-                <input type="email" name="searchCustomerEmail" id="searchCustomerEmail" placeholder="Søg på kunde email">
+                <input type="email" name="searchCustomerEmail" id="searchCustomerEmail"
+                       placeholder="Søg på kunde email">
                 <input type="hidden" name="fromJsp" value="see-employee-orders">
                 <input class="btn btn-primary" type="submit" value="Søg">
             </form>
@@ -75,7 +76,7 @@
             </table>
         </div>
 
-        <c:if test="${requestScope.load != null}"> <%-- This part is not functional but to avoid unintended errors, do not remove --%>
+        <c:if test="${requestScope.load != null}"> <%-- This is important, this should only be shown if an order is selected for detailed view --%>
 
             <div class="row" id="popup" style="z-index: 6; position: sticky">
                 <div class="popup-header row">
@@ -140,7 +141,6 @@
                     </div>
 
                     <div id="CarportInfo" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
-
                         <h2>Carport Information</h2>
 
                         <p>Bredde: ${requestScope.carportOrder.width}</p>
@@ -175,5 +175,4 @@
             }
         </style>
     </jsp:body>
-
 </t:pagetemplate>

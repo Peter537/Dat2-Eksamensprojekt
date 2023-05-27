@@ -4,7 +4,6 @@
 <%@page errorPage="error.jsp" isErrorPage="false" %>
 
 <t:pagetemplate>
-
     <jsp:attribute name="footer">
         Mine ordrer
     </jsp:attribute>
@@ -68,8 +67,7 @@
             </table>
         </div>
 
-        <c:if test="${requestScope.load != null}">
-
+        <c:if test="${requestScope.load != null}"> <%-- This is important, this should only be shown if an order is selected for detailed view --%>
             <div class="row" id="popup"
             style="position: sticky; opacity: 95%; background-color: white; z-index: 10; border: 1px solid black; border-radius: 10px; visibility: visible">
             <div class="popup-header row">

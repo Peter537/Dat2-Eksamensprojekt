@@ -4,20 +4,18 @@
 <%@page errorPage="error.jsp" isErrorPage="false" %>
 
 <t:pagetemplate>
-
     <jsp:attribute name="footer">
         Medarbejderside
     </jsp:attribute>
 
     <jsp:body>
-
         <c:if test="${sessionScope.user == null}">
             <jsp:forward page="login"/>
         </c:if>
+
         <script src="${pageContext.request.contextPath}/scripts/profileSiteScript.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/customerSiteStyle.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/employeeSiteStyle.css">
-
         <c:if test="${not empty requestScope.errormessage}">
             <div class="alertRed">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
@@ -54,15 +52,12 @@
         </c:if>
 
         <div class="baseBody" id="baseBody">
-
             <div class="row" style="padding-bottom: 5%; padding-top: 5%">
                 <div class="col-3">
                     <img style="height: 150px; width: 150px"
                          src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile picture">
                 </div>
-
                 <div class="col-3 user-info" style="float: left; border-left: 2px solid green; height: 130px">
-
                     <p>Navn: ${sessionScope.user.getName()}</p>
                     <p>Email: ${sessionScope.user.getEmail()}</p>
                     <c:choose>
@@ -74,10 +69,8 @@
                         </c:otherwise>
                     </c:choose>
                     <a class="link" type="button" onclick="openPopup()">Konto redigering</a>
-
                 </div>
                 <div class="col-3">
-
                     <p>Afdeling: ${sessionScope.user.getDepartment().getDepartmentName()}</p>
                     <p>Stilling: ${sessionScope.user.getPosition().getPositionName()}</p>
                     <c:choose>
@@ -88,17 +81,12 @@
                             <p>Arbejdstelefon: ikke sat</p>
                         </c:otherwise>
                     </c:choose>
-
                 </div>
                 <div class="col-3 text-center">
                     <h1>Velkommen </h1>
                     <h1>${sessionScope.user.getName()}</h1>
                 </div>
-
-
             </div>
-
-                <%--TODO: replace the image-links with images taken from the image folder.--%>
 
             <div class="row">
                 <div class="col-sm-8" id="modules">
@@ -144,7 +132,6 @@
                         <div class="row text-center">
                             <h3>Nyheder</h3>
                         </div>
-
                         <table style="margin-left: 5%;height: 100%;">
                             <thead>
                             <tr>
@@ -165,16 +152,12 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="row" style="margin-top: 3%"></div>
 
-
         <div class="popup" id="popup"
              style="margin-top: 1%; opacity: 90%; background-color: #083d74; height: 85%; color: white">
-
             <div style="height: 100%; width: 100%; opacity: 100% !important;">
-
                 <form method="post" action="change-employee-info" style="margin-bottom: 5%">
                     <div class="row">
                         <div class="col-3">
@@ -233,7 +216,6 @@
                             </c:otherwise>
                         </c:choose>
 
-
                         <div class="col-3" style="margin-top: 20px;">
                             <div class="row">
                                 <h3>Skift telefonnummer</h3>
@@ -245,10 +227,7 @@
                             </div>
                             <div class="row"></div>
                         </div>
-
-
                     </div>
-
                     <div style="margin-left: 35%; margin-right: 35%; margin-top: 5%">
                         <div class="row">
                             <input class="btn btn-secondary" type="submit" value="Save changes">
@@ -258,11 +237,8 @@
                                onclick="closePopup()">Cancel</a>
                         </div>
                     </div>
-
-
                 </form>
             </div>
         </div>
     </jsp:body>
-
 </t:pagetemplate>
