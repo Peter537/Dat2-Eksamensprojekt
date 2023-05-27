@@ -5,9 +5,6 @@
 <%@page errorPage="error.jsp" isErrorPage="true" %>
 
 <t:pagetemplate>
-   <jsp:attribute name="title">
-        Stykliste generator
-    </jsp:attribute>
 
     <jsp:attribute name="footer">
         Generer stykliste

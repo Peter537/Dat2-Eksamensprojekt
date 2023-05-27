@@ -6,10 +6,6 @@
 
 <t:pagetemplate>
 
-    <jsp:attribute name="title">
-        Byg-selv carport
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
         Byg-selv carport
     </jsp:attribute>

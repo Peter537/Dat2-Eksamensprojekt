@@ -4,11 +4,6 @@
 <%@page errorPage="error.jsp" isErrorPage="false" %>
 
 <t:pagetemplate>
-
-
-    <jsp:attribute name="title">
-        Opret bruger
-    </jsp:attribute>
     <jsp:attribute name="footer">
         Opret bruger
     </jsp:attribute>
