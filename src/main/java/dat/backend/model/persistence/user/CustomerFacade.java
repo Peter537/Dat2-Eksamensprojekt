@@ -9,6 +9,8 @@ import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.services.Validation;
 
+import java.io.FileInputStream;
+
 public class CustomerFacade {
 
     public static Customer login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
@@ -31,6 +33,9 @@ public class CustomerFacade {
     public static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         return CustomerMapper.getCustomerByEmail(email, connectionPool);
     }
+    public static byte[] getCustomerPicture(String email, ConnectionPool connectionPool) throws DatabaseException {
+        return CustomerMapper.getCustomerPicture(email, connectionPool);
+    }
 
     public static void updatePassword(Customer customer, String newPassword, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateCustomer(customer.getName(), customer.getEmail(), newPassword);
@@ -49,5 +54,9 @@ public class CustomerFacade {
     public static void updatePhoneNumber(Customer customer, String newPhoneNumber, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validatePhoneNumber(newPhoneNumber);
         CustomerMapper.updatePhoneNumber(customer, newPhoneNumber, connectionPool);
+    }
+
+    public static void updateProfilePicture(Customer customer, FileInputStream fileInputStream, ConnectionPool connectionPool) throws DatabaseException {
+        CustomerMapper.updateProfilePicture(customer, fileInputStream, connectionPool);
     }
 }
