@@ -5,11 +5,6 @@
 
 <t:pagetemplate>
 
-    <jsp:attribute name="title">
-
-      My Orders
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
         Mine ordrer
     </jsp:attribute>

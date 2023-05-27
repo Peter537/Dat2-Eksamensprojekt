@@ -6,10 +6,6 @@
 
 <t:pagetemplate>
 
-    <jsp:attribute name="title">
-        You can log in here
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
         Log ind
     </jsp:attribute>

@@ -5,10 +5,6 @@
 
 <t:pagetemplate>
 
-    <jsp:attribute name="title">
-        Min side
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
         Min side
     </jsp:attribute>

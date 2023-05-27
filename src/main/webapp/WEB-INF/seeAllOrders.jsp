@@ -5,10 +5,6 @@
 
 <t:pagetemplate>
 
-    <jsp:attribute name="title">
-        Customer orders overview
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
         Se alle ordrer
     </jsp:attribute>

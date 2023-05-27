@@ -5,10 +5,6 @@
 
 <t:pagetemplate>
 
-    <jsp:attribute name="title">
-        Here is the catalog
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
         Se kataloget
     </jsp:attribute>

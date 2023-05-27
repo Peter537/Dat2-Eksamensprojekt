@@ -2,7 +2,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<%@attribute name="title" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
 
 <!DOCTYPE html>

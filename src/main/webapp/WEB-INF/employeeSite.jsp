@@ -5,10 +5,6 @@
 
 <t:pagetemplate>
 
-    <jsp:attribute name="title">
-        Medarbejder side
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
         Medarbejderside
     </jsp:attribute>

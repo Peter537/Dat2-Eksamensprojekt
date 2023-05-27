@@ -4,9 +4,6 @@
 <%@page errorPage="error.jsp" isErrorPage="false" %>
 
 <t:pagetemplate>
-    <jsp:attribute name="title">
-       This is the frontpage
-    </jsp:attribute>
 
     <jsp:attribute name="footer">
         Forside
