@@ -7,6 +7,7 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 
+import java.io.FileInputStream;
 import java.sql.*;
 import java.util.Optional;
 
@@ -81,6 +82,28 @@ class CustomerMapper {
                 statement.setString(1, email);
                 ResultSet resultSet = statement.executeQuery();
                 return createCustomerFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not get customer by email");
+        }
+    }
+
+    static byte[] getCustomerPicture(String email, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "SELECT profilepicture FROM customer WHERE email = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, email);
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    Blob blob = resultSet.getBlob("profilepicture");
+                    if (blob != null) {
+                        return blob.getBytes(1, (int) blob.length());
+                    } else {
+                        return null;
+                    }
+                } else {
+                    throw new DatabaseException("Could not get customer picture");
+                }
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get customer by email");
@@ -185,6 +208,20 @@ class CustomerMapper {
         }
     }
 
+    static void updateProfilePicture(Customer customer, FileInputStream fileInputStream, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE customer SET profilepicture = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setBlob(1, fileInputStream);
+                statement.setInt(2, customer.getId());
+                statement.executeUpdate();
+                customer.setProfilePicture(getCustomerPicture(customer.getEmail(), connectionPool));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update customer profile picture");
+        }
+    }
+
     /**
      * This method will create a customer from a result set
      *
@@ -205,7 +242,22 @@ class CustomerMapper {
         Optional<Address> address1 = createCustomerAddressFromResultSet(1, resultSet);
         Optional<Address> address2 = createCustomerAddressFromResultSet(2, resultSet);
         Optional<Address> address3 = createCustomerAddressFromResultSet(3, resultSet);
-        return new Customer(id, email, name, personalPhoneNumber, address1, address2, address3);
+
+        //Get profile picture
+        Blob profilePicture = resultSet.getBlob("profilepicture");
+        byte[] profilePictureBytes = null;
+
+        if (profilePicture != null) {
+            profilePictureBytes = profilePicture.getBytes(1, (int) profilePicture.length());
+        }
+
+        //Create customer
+        Customer customer = new Customer(id, email, name, personalPhoneNumber, address1, address2, address3);
+
+        //Set profile picture
+        customer.setProfilePicture(profilePictureBytes);
+
+        return customer;
     }
 
     /**
