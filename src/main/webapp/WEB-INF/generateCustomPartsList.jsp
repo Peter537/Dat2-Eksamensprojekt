@@ -10,7 +10,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-            Generer stykliste
+        Generer stykliste
     </jsp:attribute>
 
     <jsp:body>

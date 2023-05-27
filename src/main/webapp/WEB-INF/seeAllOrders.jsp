@@ -10,7 +10,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        See all orders
+        Se alle ordrer
     </jsp:attribute>
 
     <jsp:body>

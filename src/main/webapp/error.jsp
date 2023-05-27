@@ -10,7 +10,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-            Error page
+        Fejlside
     </jsp:attribute>
 
     <jsp:body>
