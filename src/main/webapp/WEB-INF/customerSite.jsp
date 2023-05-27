@@ -87,11 +87,6 @@
 
             </div>
 
-
-            <form class="popup">
-                <a class="link btn" type="button" onclick="openPopup()">Skift konto information</a>
-            </form>
-
                 <%--TODO: replace the image-links with images taken from the image folder.--%>
 
             <div class="card" style="height: 50%">
