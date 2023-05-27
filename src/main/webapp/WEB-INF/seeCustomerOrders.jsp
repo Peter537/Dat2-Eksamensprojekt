@@ -11,7 +11,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        My Orders
+        Mine ordrer
     </jsp:attribute>
 
     <jsp:body>

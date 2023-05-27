@@ -10,7 +10,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        See catalog
+        Se kataloget
     </jsp:attribute>
 
     <jsp:body>

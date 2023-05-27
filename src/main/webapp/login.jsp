@@ -11,7 +11,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        Login
+        Log ind
     </jsp:attribute>
 
     <jsp:body>

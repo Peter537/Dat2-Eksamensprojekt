@@ -10,7 +10,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="footer">
-        Medarbejder side
+        Medarbejderside
     </jsp:attribute>
 
     <jsp:body>
