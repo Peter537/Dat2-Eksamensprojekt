@@ -270,6 +270,7 @@ class EmployeeMapper {
             throw new NotFoundException("Could not find employee");
         }
 
+        //Get the employee data
         int id = resultSet.getInt("id");
         String email = resultSet.getString("email");
         String name = resultSet.getString("name");
@@ -277,14 +278,27 @@ class EmployeeMapper {
         Optional<String> privatePhoneNumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
         Optional<String> workPhoneNumber = Optional.ofNullable(resultSet.getString("work_phonenumber"));
 
+        //Get the department data for the employee
         int departmentId = resultSet.getInt("departmentid");
         String departmentStreet = resultSet.getString("address");
         Zip departmentZipCode = new Zip(resultSet.getInt("zipcode"), resultSet.getString("city_name"));
         Address departmentAddress = new Address(departmentStreet, departmentZipCode);
         String departmentName = resultSet.getString("departmentname");
 
+        //Create the objects
         Position position = new Position(positionName);
         Department department = new Department(departmentId, departmentName, departmentAddress);
-        return new Employee(id, email, name, privatePhoneNumber, workPhoneNumber, position, department);
+        Employee employee = new Employee(id, email, name, privatePhoneNumber, workPhoneNumber, position, department);
+
+        //Get profile picture
+        Blob profilePicture = resultSet.getBlob("profilepicture");
+        byte[] profilePictureBytes = null;
+
+        if (profilePicture != null) {
+            profilePictureBytes = profilePicture.getBytes(1, (int) profilePicture.length());
+        }
+        employee.setProfilePicture(profilePictureBytes);
+
+        return employee;
     }
 }
