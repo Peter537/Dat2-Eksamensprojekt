@@ -91,6 +91,16 @@
             <!--suppress MavenModelInspection -->
             <version>v0.1.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.xhtmlrenderer</groupId>
+            <artifactId>flying-saucer-pdf</artifactId>
+            <version>9.1.22</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-svg-dom</artifactId>
+            <version>1.12</version>
+        </dependency>
     </dependencies>
 
     <build>
