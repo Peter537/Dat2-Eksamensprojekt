@@ -149,9 +149,20 @@
                 <div class="row popup">
                     <div id="Customer" class="col-lg-4 col-md-12 text-center">
                         <h2>Kundens Information</h2>
-                        <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
-                             class="card-img-top" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
-                             alt="SellerProfile">
+                        <c:choose>
+                            <c:when test="${requestScope.carportOrder.customer.getProfilePicture() != null}">
+                                <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                     class="card-img-top"
+                                     src="<c:url value='data:image/jpeg;base64,${requestScope.carportOrder.customer.getProfilePicture()}'/>"
+                                     alt="CustomerProfile">
+                            </c:when>
+                            <c:otherwise>
+                                <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                     class="card-img-top"
+                                     src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                     alt="CustomerProfile">
+                            </c:otherwise>
+                        </c:choose>
                         <div class="customer-info row" id="userInfo">
                             <p>${requestScope.carportOrder.customer.name}</p>
                             <p>${requestScope.carportOrder.customer.email}</p>
@@ -171,10 +182,20 @@
                     <div id="Seller" class="col-lg-5 col-md-12 text-center" style="border-left: 1px solid grey;">
                         <div class="seller-info row">
                             <h2>Din Information</h2>
-                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
-                                 class="card-img-top"
-                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
-                                 alt="SellerProfile">
+                            <c:choose>
+                                <c:when test="${sessionScope.user.getProfilePicture() != null}">
+                                    <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                         class="card-img-top"
+                                         src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>"
+                                         alt="SellerProfile">
+                                </c:when>
+                                <c:otherwise>
+                                    <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                         class="card-img-top"
+                                         src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                         alt="SellerProfile">
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <p>${sessionScope.user.name}</p>
                         <p>${sessionScope.user.email}</p>
