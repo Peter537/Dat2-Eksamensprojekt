@@ -714,6 +714,4 @@ class CarportOrderMapper {
         String city = resultSet.getString("city_" + addressNumber);
         return Optional.of(new Address(address, new Zip(zipCode, city)));
     }
-
-
 }
