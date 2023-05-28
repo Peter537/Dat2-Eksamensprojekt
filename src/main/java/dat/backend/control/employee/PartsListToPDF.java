@@ -16,6 +16,7 @@ import java.io.IOException;
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "partslist-to-pdf", value = "/partslist-to-pdf")
 public class PartsListToPDF extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Set content type to application/pdf
@@ -25,8 +26,8 @@ public class PartsListToPDF extends HttpServlet {
         // Get the parts-list from the request
         PartsList partsList = (PartsList) request.getSession().getAttribute("partslist");
 
+        // Write the pdf to the response
         response.getOutputStream().write(generatePDFBytes(partsList));
-
     }
 
     public static byte[] generatePDFBytes(PartsList partsList) {
@@ -37,7 +38,6 @@ public class PartsListToPDF extends HttpServlet {
         Lumber pole = partsList.getPole();
         Lumber plate = partsList.getPlate();
         Roof roof = partsList.getRoof();
-
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             String html = "<body>" +
                     "<table class=\"table table-striped table-bordered table-hover\">\n" +
@@ -67,7 +67,7 @@ public class PartsListToPDF extends HttpServlet {
                     "           <td>" + pole.getLength() + "</td>\n" +
                     "           <td>" + partsList.getNumberOfPoles() + "</td>\n" +
                     "           <td>stk.</td>\n" +
-                    "           <td>" + (pole.getDescription().isPresent() ? pole.getDescription().get() : "Dette er en stolpe") +"</td>\n" +
+                    "           <td>" + (pole.getDescription().isPresent() ? pole.getDescription().get() : "Dette er en stolpe") + "</td>\n" +
                     "       </tr>\n" +
                     "       <tr>\n" +
                     "           <td>" + plate.getLumberType().getThickness() + "x" + plate.getLumberType().getWidth() + "mm.\n" +
@@ -108,11 +108,10 @@ public class PartsListToPDF extends HttpServlet {
 
             // Get the pdf bytes from the output stream
             pdfBytes = outputStream.toByteArray();
-
-            // Write the pdf to the response
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return pdfBytes;
     }
 }
