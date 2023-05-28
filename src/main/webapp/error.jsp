@@ -5,17 +5,14 @@
 <%@page errorPage="error.jsp" isErrorPage="true" %>
 
 <t:pagetemplate>
-   <jsp:attribute name="title">
-        Error page
-    </jsp:attribute>
 
     <jsp:attribute name="footer">
-            Error page
+        Fejlside
     </jsp:attribute>
 
     <jsp:body>
 
-        <p>An error has occured. This is the best message we can come up
+        <p>An error has occurred. This is the best message we can come up
             with right now: </p>
 
         <c:if test="${pageContext.errorData.statusCode == 404 }">
@@ -26,7 +23,6 @@
             <p><b>Error code:</b> ${pageContext.errorData.statusCode}</p>
             <p>A serious error happened at the server.</p>
         </c:if>
-
 
         <c:if test="${requestScope.errormessage != null}">
             <p>${requestScope.errormessage}</p>

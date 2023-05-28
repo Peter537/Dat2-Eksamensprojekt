@@ -2,7 +2,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<%@attribute name="title" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
 
 <!DOCTYPE html>
@@ -47,13 +46,16 @@
                             <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"><path d="M19.167 14.706H8.944L7.167 7.647H20.5l-1.333 7.059Zm-8.445 3.97c0 .732-.596 1.324-1.333 1.324a1.328 1.328 0 0 1-1.333-1.324c0-.731.596-1.323 1.333-1.323s1.333.592 1.333 1.323Zm8.89 0c0 .732-.597 1.324-1.334 1.324a1.328 1.328 0 0 1-1.334-1.324c0-.731.597-1.323 1.334-1.323.737 0 1.333.592 1.333 1.323ZM7.166 7.647 6.277 5H4.5" stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Min side</span>
                         </a>
                         <a class="nav-item nav-link" href="${page}">
-                            <img src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" width="25" height="25" style="scale: 1.5;" alt="profile icon">
+                            <c:choose>
+                                <c:when test="${sessionScope.user.getProfilePicture() != null}">
+                                    <img src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>" width="25" height="25" style="scale: 1.5;" alt="profile icon">
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" width="25" height="25" style="scale: 1.5;" alt="profile icon">
+                                </c:otherwise>
+                            </c:choose>
                         </a>
                     </c:if>
-
-<%--                    <c:if test="${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount() > 0}">--%>
-<%--                        <a class="nav-item nav-link navtext link" style="border: 0;" href="${pageContext.request.contextPath}/ToCart">(${sessionScope.user.getCurrentOrder().getShoppingCart().getTotalAmount()})</a>--%>
-<%--                    </c:if> &lt;%&ndash;TODO: Fix this so it has a valid target&ndash;%&gt;--%>
                 </div>
             </div>
 

@@ -4,14 +4,8 @@
 <%@page errorPage="error.jsp" isErrorPage="false" %>
 
 <t:pagetemplate>
-
-    <jsp:attribute name="title">
-
-      My Orders
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
-        My Orders
+        Mine ordrer
     </jsp:attribute>
 
     <jsp:body>
@@ -73,8 +67,7 @@
             </table>
         </div>
 
-        <c:if test="${requestScope.load != null}">
-
+        <c:if test="${requestScope.load != null}"> <%-- This is important, this should only be shown if an order is selected for detailed view --%>
             <div class="row" id="popup"
             style="position: sticky; opacity: 95%; background-color: white; z-index: 10; border: 1px solid black; border-radius: 10px; visibility: visible">
             <div class="popup-header row">
@@ -102,10 +95,20 @@
                     <div id="Seller" class="col-lg-4 col-md-12 text-center" style="padding-left: 2%">
                         <div class="seller-info row">
                             <h2>Sælger information</h2>
-                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
-                                 class="card-img-top"
-                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
-                                 alt="SellerProfile">
+                            <c:choose>
+                                <c:when test="${requestScope.carportOrder.employee.present && requestScope.carportOrder.employee.get().getProfilePicture() != null}">
+                                    <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                         class="card-img-top"
+                                         src="<c:url value='data:image/jpeg;base64,${requestScope.carportOrder.employee.get().getProfilePicture()}'/>"
+                                         alt="SellerProfile">
+                                </c:when>
+                                <c:otherwise>
+                                    <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                         class="card-img-top"
+                                         src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                         alt="SellerProfile">
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <c:choose>
                             <c:when test="${requestScope.carportOrder.employee.present}">
@@ -117,7 +120,7 @@
                                 </div>
                                 <div>
                                     <p>
-                                        Telefonnummer: ${requestScope.carportOrder.employee.get().workPhoneNumber.get()}</p>
+                                        Telefonnummer: ${(requestScope.carportOrder.employee.get().workPhoneNumber.present ? requestScope.carportOrder.employee.get().workPhoneNumber.get() : "Intet tlf nummer")}</p>
                                 </div>
                             </c:when>
                             <c:otherwise>
@@ -138,9 +141,23 @@
 
                     <div id="Customer" class="col-lg-4 col-md-12 text-center" style="border-left: 1px solid grey;">
                         <h2>Din information</h2>
-                        <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
-                             class="card-img-top" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
-                             alt="SellerProfile">
+<%--                        <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"--%>
+<%--                             class="card-img-top" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"--%>
+<%--                             alt="SellerProfile">--%>
+                        <c:choose>
+                            <c:when test="${sessionScope.user.getProfilePicture() != null}">
+                                <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                     class="card-img-top"
+                                     src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>"
+                                     alt="CustomerProfile">
+                            </c:when>
+                            <c:otherwise>
+                                <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                     class="card-img-top"
+                                     src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                     alt="CustomerProfile">
+                            </c:otherwise>
+                        </c:choose>
                         <div class="customer-info row" id="userInfo">
                             <p>${sessionScope.user.name}</p>
                             <p>${sessionScope.user.email}</p>

@@ -5,12 +5,8 @@
 
 <t:pagetemplate>
 
-    <jsp:attribute name="title">
-        Customer orders overview
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
-        See all orders
+        Se alle ordrer
     </jsp:attribute>
 
     <jsp:body>
@@ -90,7 +86,7 @@
             </table>
         </div>
 
-        <c:if test="${requestScope.load != null}">
+        <c:if test="${requestScope.load != null}"> <%-- This is important, this should only be shown if an order is selected for detailed view --%>
             <div class="row" id="popup" style="z-index: 6; position: sticky">
             <div class="popup-header row">
                 <div class="col-sm-8"
@@ -153,9 +149,20 @@
                 <div class="row popup">
                     <div id="Customer" class="col-lg-4 col-md-12 text-center">
                         <h2>Kundens Information</h2>
-                        <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
-                             class="card-img-top" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
-                             alt="SellerProfile">
+                        <c:choose>
+                            <c:when test="${requestScope.carportOrder.customer.getProfilePicture() != null}">
+                                <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                     class="card-img-top"
+                                     src="<c:url value='data:image/jpeg;base64,${requestScope.carportOrder.customer.getProfilePicture()}'/>"
+                                     alt="CustomerProfile">
+                            </c:when>
+                            <c:otherwise>
+                                <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                     class="card-img-top"
+                                     src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                     alt="CustomerProfile">
+                            </c:otherwise>
+                        </c:choose>
                         <div class="customer-info row" id="userInfo">
                             <p>${requestScope.carportOrder.customer.name}</p>
                             <p>${requestScope.carportOrder.customer.email}</p>
@@ -175,10 +182,20 @@
                     <div id="Seller" class="col-lg-5 col-md-12 text-center" style="border-left: 1px solid grey;">
                         <div class="seller-info row">
                             <h2>Din Information</h2>
-                            <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
-                                 class="card-img-top"
-                                 src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
-                                 alt="SellerProfile">
+                            <c:choose>
+                                <c:when test="${sessionScope.user.getProfilePicture() != null}">
+                                    <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                         class="card-img-top"
+                                         src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>"
+                                         alt="SellerProfile">
+                                </c:when>
+                                <c:otherwise>
+                                    <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
+                                         class="card-img-top"
+                                         src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
+                                         alt="SellerProfile">
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <p>${sessionScope.user.name}</p>
                         <p>${sessionScope.user.email}</p>
@@ -192,7 +209,10 @@
                         <iframe src="order-partslist-frame" width="100%" height="350px" sandbox="allow-forms"
                                 onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
                         <br>
+                        <a href="partslist-to-pdf" methods="post" class="btn btn-primary">Generer PDF</a>
+                        <br>
                         <a href="GenerateSCAD" class="btn btn-primary">Generer SCAD-filer</a>
+                        <br>
                     </div>
 
 

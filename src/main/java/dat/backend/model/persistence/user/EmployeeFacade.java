@@ -10,6 +10,8 @@ import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.services.Validation;
 
+import java.io.FileInputStream;
+
 public class EmployeeFacade {
 
     public static Employee login(String email, String password, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
@@ -31,6 +33,10 @@ public class EmployeeFacade {
 
     public static Employee getEmployeeByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         return EmployeeMapper.getEmployeeByEmail(email, connectionPool);
+    }
+
+    public static byte[] getEmployeePicture(String email, ConnectionPool connectionPool) throws DatabaseException {
+        return EmployeeMapper.getEmployeePicture(email, connectionPool);
     }
 
     public static void updatePassword(Employee employee, String newPassword, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
@@ -61,5 +67,9 @@ public class EmployeeFacade {
     public static void updateDepartment(Employee employee, Department newDepartment, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
         Validation.validateDepartment(newDepartment);
         EmployeeMapper.updateDepartment(employee, newDepartment, connectionPool);
+    }
+
+    public static void updateProfilePicture(Employee employee, FileInputStream fileInputStream, ConnectionPool connectionPool) throws DatabaseException {
+        EmployeeMapper.updateProfilePicture(employee, fileInputStream, connectionPool);
     }
 }

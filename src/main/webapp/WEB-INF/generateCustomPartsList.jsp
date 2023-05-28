@@ -5,27 +5,19 @@
 <%@page errorPage="error.jsp" isErrorPage="true" %>
 
 <t:pagetemplate>
-   <jsp:attribute name="title">
-        Stykliste generator
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
-            Generer stykliste
+        Generer stykliste
     </jsp:attribute>
 
     <jsp:body>
-
         <c:set var="carportOrder" value="${requestScope.carportOrder}"/>
-
         <div class="row">
         <div class="col-12">
             <h1 class="text-center">Stykliste generator</h1>
         </div>
 
         <div class="row" style="padding-top: 3%">
-
             <form action="calculate-custom-partslist" method="post" target="iframe">
-
                 <div class="row">
                     <div class="form-group">
                         <label for="carportLength">Carport Længde: </label>
@@ -87,8 +79,5 @@
             <iframe name="iframe" id="iframe" src="calculate-custom-partslist" width="100%" height="400px"
                     sandbox="allow-forms allow-top-navigation"></iframe>
         </div>
-
-
     </jsp:body>
-
 </t:pagetemplate>

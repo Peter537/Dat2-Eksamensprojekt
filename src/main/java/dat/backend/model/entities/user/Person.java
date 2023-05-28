@@ -2,6 +2,9 @@ package dat.backend.model.entities.user;
 
 import dat.backend.annotation.IgnoreCoverage;
 
+import java.io.File;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -10,9 +13,9 @@ public abstract class Person {
 
     private final int id;
     private final String email;
-
     private String name;
     private Optional<String> personalPhoneNumber;
+    private byte[] profilePicture;
 
     public Person(int id, String email, String name, Optional<String> personalPhoneNumber) {
         this.id = id;
@@ -59,6 +62,24 @@ public abstract class Person {
         Person person = (Person) other;
         return this.getId() == person.getId() &&
                 this.getEmail().equals(person.getEmail());
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public String getProfilePicture() {
+        if (profilePicture == null) {
+            return null;
+        }
+        return Base64.getEncoder().encodeToString(profilePicture);
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public byte[] getProfilePictureRaw() {
+        return profilePicture;
+    }
+
+    @IgnoreCoverage(reason = "Getter or Setter")
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     @IgnoreCoverage(reason = "hashCode")

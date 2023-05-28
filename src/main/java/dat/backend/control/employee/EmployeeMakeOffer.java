@@ -2,6 +2,7 @@ package dat.backend.control.employee;
 
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
+import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
@@ -37,11 +38,13 @@ public class EmployeeMakeOffer extends HttpServlet {
         float priceOffer = Float.parseFloat(request.getParameter("priceOffer"));
         int orderId = Integer.parseInt(request.getParameter("orderId"));
         String fromJsp = request.getParameter("fromJsp");
+        PartsList partsList = (PartsList) request.getSession().getAttribute("partslist");
 
         try {
             CarportOrder carport = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
 
             CarportOrderFacade.makeOffer(carport, priceOffer, connectionPool);
+            CarportOrderFacade.updatePartsListPDF(orderId, partsList, connectionPool);
 
             request.setAttribute("orderId", orderId);
             request.setAttribute("fromJsp", fromJsp);

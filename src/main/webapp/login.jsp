@@ -6,12 +6,8 @@
 
 <t:pagetemplate>
 
-    <jsp:attribute name="title">
-        You can log in here
-    </jsp:attribute>
-
     <jsp:attribute name="footer">
-        Login
+        Log ind
     </jsp:attribute>
 
     <jsp:body>
@@ -48,7 +44,6 @@
                                                                          type="password" id="password" name="password"
                                                                          placeholder="Password"></div>
                                     <p class="text-center" style="color: red">${requestScope.errormessage}</p> <br>
-
                                     <div class="mb-3">
                                         <input style="scale: 1.2; text-align: center" type="checkbox" id="remember"
                                                name="remember" value="remember"/>
@@ -69,5 +64,4 @@
         <br>
         <br>
     </jsp:body>
-
 </t:pagetemplate>

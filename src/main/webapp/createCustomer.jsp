@@ -4,17 +4,11 @@
 <%@page errorPage="error.jsp" isErrorPage="false" %>
 
 <t:pagetemplate>
-
-
-    <jsp:attribute name="title">
-        Opret bruger
-    </jsp:attribute>
     <jsp:attribute name="footer">
         Opret bruger
     </jsp:attribute>
 
     <jsp:body>
-
         <section class="py-4 py-xl-5">
             <div class="container">
                 <div class="row mb-5">
@@ -48,13 +42,11 @@
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          type="password" id="password" name="password"
                                                                          placeholder="Password"></div>
-
                                     <label for="confirmPassword" style="padding: 10px">Bekræft kodeord</label>
                                     <div class="mb-3 text-center"><input style="height: 40px" class="form-control"
                                                                          type="password" id="confirmPassword"
                                                                          name="confirmPassword"
                                                                          placeholder="Bekræft Password"></div>
-
                                     <p style="color: red; text-align: center">${requestScope.errormessage}</p>
                                     <div class="mb-3">
                                         <input style="scale: 1.2; text-align: center" type="checkbox" id="remember"
@@ -72,7 +64,5 @@
                 </div>
             </div>
         </section>
-
     </jsp:body>
-
 </t:pagetemplate>

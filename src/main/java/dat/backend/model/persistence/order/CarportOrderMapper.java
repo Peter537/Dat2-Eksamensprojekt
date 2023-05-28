@@ -1,5 +1,7 @@
 package dat.backend.model.persistence.order;
 
+import dat.backend.control.employee.PartsListToPDF;
+import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
 import dat.backend.model.entities.order.CarportOrder;
@@ -555,6 +557,19 @@ class CarportOrderMapper {
         }
     }
 
+    public static void updatePartsListPDF(int carportId, PartsList partsList, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET partslist = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setBytes(1, PartsListToPDF.generatePDFBytes(partsList));
+                statement.setInt(2, carportId);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order partslist pdf");
+        }
+    }
+
     /**
      * This method will create a carport order from a result set
      *
@@ -568,13 +583,21 @@ class CarportOrderMapper {
             throw new NotFoundException("CarportOrder not found");
         }
 
+        // Get the ID
         int id = resultSet.getInt("id");
+
+        // Get the order status
         OrderStatus orderStatus = new OrderStatus(resultSet.getString("orderstatus"), resultSet.getString("displayname"), resultSet.getInt("sortvalue"));
+
+        // Get the address
         Address address = new Address(resultSet.getString("address"), new Zip(resultSet.getInt("zipcode"), resultSet.getString("city_name")));
 
+        // Get the employee
         Optional<Employee> employee = createEmployeeFromCarportOrderResulSet(resultSet);
+        // Get the customer
         Customer customer = createCustomerFromCarportOrderResultSet(resultSet);
 
+        // Get the carport details
         Roof roof = new Roof(resultSet.getInt("fk_roof_id"), resultSet.getFloat("squaremeter_price"), resultSet.getString("type"), resultSet.getString("roofdisplayname"));
         float width = resultSet.getFloat("width");
         float length = resultSet.getFloat("length");
@@ -586,6 +609,7 @@ class CarportOrderMapper {
             toolRoom = Optional.of(new ToolRoom(toolRoomWidth, toolRoomLength));
         }
 
+        // Get the prices and remarks
         float priceFromPartsList = resultSet.getFloat("price_from_partslist");
         Optional<String> remarks = Optional.ofNullable(resultSet.getString("remarks"));
         float priceDb = resultSet.getFloat("price");
@@ -594,6 +618,7 @@ class CarportOrderMapper {
             price = Optional.of(priceDb);
         }
 
+        // Create the carport order
         return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, price, priceFromPartsList);
     }
 
@@ -605,14 +630,29 @@ class CarportOrderMapper {
      * @throws SQLException If an error occurs while communicating with the database
      */
     private static Customer createCustomerFromCarportOrderResultSet(ResultSet resultSet) throws SQLException {
+        // Get the customer
         int customerId = resultSet.getInt("customerid");
         String customerName = resultSet.getString("customername");
         String customerEmail = resultSet.getString("fk_customer_email");
         Optional<String> customerPhone = Optional.ofNullable(resultSet.getString("phonenumber"));
+
+        // Get the addresses of the customer
         Optional<Address> address1 = createCustomerAddressFromCarportOrderResultSet(1, resultSet);
         Optional<Address> address2 = createCustomerAddressFromCarportOrderResultSet(2, resultSet);
         Optional<Address> address3 = createCustomerAddressFromCarportOrderResultSet(3, resultSet);
-        return new Customer(customerId, customerEmail, customerName, customerPhone, address1, address2, address3);
+
+        // Create the customer
+        Customer customer = new Customer(customerId, customerEmail, customerName, customerPhone, address1, address2, address3);
+
+        //Get profile picture
+        Blob profilePicture = resultSet.getBlob("customerprofilepicture");
+        byte[] profilePictureBytes = null;
+        if (profilePicture != null) {
+            profilePictureBytes = profilePicture.getBytes(1, (int) profilePicture.length());
+        }
+        customer.setProfilePicture(profilePictureBytes);
+
+        return customer;
     }
 
     /**
@@ -642,7 +682,18 @@ class CarportOrderMapper {
         Address departmentAddress = new Address(resultSet.getString("departmentaddress"), departmentZip);
         Department department = new Department(departmentId, departmentName, departmentAddress);
 
-        return Optional.of(new Employee(employeeId, employeeEmail, employeeName, privatePhonenumber, workPhonenumber, position, department));
+        // Create the employee
+        Employee employee = new Employee(employeeId, employeeEmail, employeeName, privatePhonenumber, workPhonenumber, position, department);
+
+        //Get profile picture
+        Blob profilePicture = resultSet.getBlob("employeeprofilepicture");
+        byte[] profilePictureBytes = null;
+        if (profilePicture != null) {
+            profilePictureBytes = profilePicture.getBytes(1, (int) profilePicture.length());
+        }
+        employee.setProfilePicture(profilePictureBytes);
+
+        return Optional.of(employee);
     }
 
     /**
@@ -663,4 +714,6 @@ class CarportOrderMapper {
         String city = resultSet.getString("city_" + addressNumber);
         return Optional.of(new Address(address, new Zip(zipCode, city)));
     }
+
+
 }

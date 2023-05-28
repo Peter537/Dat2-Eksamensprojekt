@@ -5,10 +5,8 @@ import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.FileInputStream;
+import java.sql.*;
 import java.util.Optional;
 
 class EmployeeMapper {
@@ -89,6 +87,28 @@ class EmployeeMapper {
             }
         } catch (SQLException e) {
             throw new DatabaseException(e, "Could not get employee");
+        }
+    }
+
+    public static byte[] getEmployeePicture(String email, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "SELECT profilepicture FROM employee WHERE email = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, email);
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    Blob blob = resultSet.getBlob("profilepicture");
+                    if (blob != null) {
+                        return blob.getBytes(1, (int) blob.length());
+                    } else {
+                        return null;
+                    }
+                } else {
+                    throw new DatabaseException("Could not get customer picture");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not get customer by email");
         }
     }
 
@@ -223,6 +243,20 @@ class EmployeeMapper {
         }
     }
 
+    static void updateProfilePicture(Employee employee, FileInputStream fileInputStream, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE employee SET profilepicture = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setBlob(1, fileInputStream);
+                statement.setInt(2, employee.getId());
+                statement.executeUpdate();
+                employee.setProfilePicture(getEmployeePicture(employee.getEmail(), connectionPool));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update customer profile picture");
+        }
+    }
+
     /**
      * This method will create an Employee object from a ResultSet
      *
@@ -236,6 +270,7 @@ class EmployeeMapper {
             throw new NotFoundException("Could not find employee");
         }
 
+        //Get the employee data
         int id = resultSet.getInt("id");
         String email = resultSet.getString("email");
         String name = resultSet.getString("name");
@@ -243,14 +278,27 @@ class EmployeeMapper {
         Optional<String> privatePhoneNumber = Optional.ofNullable(resultSet.getString("private_phonenumber"));
         Optional<String> workPhoneNumber = Optional.ofNullable(resultSet.getString("work_phonenumber"));
 
+        //Get the department data for the employee
         int departmentId = resultSet.getInt("departmentid");
         String departmentStreet = resultSet.getString("address");
         Zip departmentZipCode = new Zip(resultSet.getInt("zipcode"), resultSet.getString("city_name"));
         Address departmentAddress = new Address(departmentStreet, departmentZipCode);
         String departmentName = resultSet.getString("departmentname");
 
+        //Create the objects
         Position position = new Position(positionName);
         Department department = new Department(departmentId, departmentName, departmentAddress);
-        return new Employee(id, email, name, privatePhoneNumber, workPhoneNumber, position, department);
+        Employee employee = new Employee(id, email, name, privatePhoneNumber, workPhoneNumber, position, department);
+
+        //Get profile picture
+        Blob profilePicture = resultSet.getBlob("profilepicture");
+        byte[] profilePictureBytes = null;
+
+        if (profilePicture != null) {
+            profilePictureBytes = profilePicture.getBytes(1, (int) profilePicture.length());
+        }
+        employee.setProfilePicture(profilePictureBytes);
+
+        return employee;
     }
 }
