@@ -1,5 +1,6 @@
 package dat.backend.model.persistence.order;
 
+import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
@@ -132,5 +133,9 @@ public class CarportOrderFacade {
         Validation.validateCarportOrder(carportOrder);
         Validation.validateAddress(address);
         CarportOrderMapper.updateAddress(carportOrder, address, connectionPool);
+    }
+
+    public static void updatePartsListPDF(int carportId, PartsList partsList, ConnectionPool connectionPool) throws DatabaseException {
+        CarportOrderMapper.updatePartsListPDF(carportId, partsList, connectionPool);
     }
 }

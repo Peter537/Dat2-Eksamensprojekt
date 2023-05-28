@@ -1,5 +1,7 @@
 package dat.backend.model.persistence.order;
 
+import dat.backend.control.employee.PartsListToPDF;
+import dat.backend.model.entities.PartsList;
 import dat.backend.model.entities.item.Roof;
 import dat.backend.model.entities.item.ToolRoom;
 import dat.backend.model.entities.order.CarportOrder;
@@ -555,6 +557,19 @@ class CarportOrderMapper {
         }
     }
 
+    public static void updatePartsListPDF(int carportId, PartsList partsList, ConnectionPool connectionPool) throws DatabaseException {
+        String query = "UPDATE carport_order SET partslist = ? WHERE id = ?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setBytes(1, PartsListToPDF.generatePDFBytes(partsList));
+                statement.setInt(2, carportId);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e, "Could not update carport order partslist pdf");
+        }
+    }
+
     /**
      * This method will create a carport order from a result set
      *
@@ -663,4 +678,6 @@ class CarportOrderMapper {
         String city = resultSet.getString("city_" + addressNumber);
         return Optional.of(new Address(address, new Zip(zipCode, city)));
     }
+
+
 }
