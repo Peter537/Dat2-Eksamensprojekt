@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @IgnoreCoverage(reason = "Servlet class should not be tested")
-@WebServlet(name = "OverrideCarportOrder", value = "/OverrideCarportOrder")
+@WebServlet(name = "override-carport-order", value = "/override-carport-order")
 public class OverrideCarportOrder extends HttpServlet {
 
     private ConnectionPool connectionPool;
