@@ -48,7 +48,7 @@
                         <a class="nav-item nav-link" href="${page}">
                             <c:choose>
                                 <c:when test="${sessionScope.user.getProfilePicture() != null}">
-                                    <img src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>" width="25" height="25" style="scale: 1.5;" alt="profile icon">
+                                    <img src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>" width="25" height="25" style="scale: 1.5; border-radius: 50%" alt="profile icon">
                                 </c:when>
                                 <c:otherwise>
                                     <img src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" width="25" height="25" style="scale: 1.5;" alt="profile icon">

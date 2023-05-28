@@ -56,7 +56,7 @@
                 <div class="col-3">
                     <c:choose>
                         <c:when test="${sessionScope.user.getProfilePicture() != null}">
-                            <img style="height: 150px; width: 150px" src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>" alt="Profile Picture">
+                            <img style="height: 150px; width: 150px; border-radius: 50%" src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>" alt="Profile Picture">
                         </c:when>
                         <c:otherwise>
                             <img style="height: 150px; width: 150px" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile Picture">
@@ -170,7 +170,7 @@
                             <label for="upload-image">
                                 <c:choose>
                                     <c:when test="${sessionScope.user.getProfilePicture() != null}">
-                                        <img style="height: 150px; width: 150px; margin-top: 0.5%" src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>" alt="Profile Picture">
+                                        <img style="height: 150px; width: 150px; margin-top: 0.5%; border-radius: 50%" src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>" alt="Profile Picture">
                                     </c:when>
                                     <c:otherwise>
                                         <img style="height: 150px; width: 150px; margin-top: 0.5%" src="${pageContext.request.contextPath}/images/DefaultProfilePic.png" alt="Profile Picture">
@@ -254,5 +254,13 @@
                 </form>
             </div>
         </div>
+
+
+        <style>
+            img {
+                border-radius: 50%;
+            }
+        </style>
+
     </jsp:body>
 </t:pagetemplate>

@@ -193,6 +193,7 @@
                     </div>
                 </div>
             </div>
+            </div>
             <br>
             <br>
             <br>
@@ -234,8 +235,11 @@
             !important;
                 z-index: 20;
             }
-        </style>
 
+            img {
+                border-radius: 50%;
+            }
+        </style>
     </jsp:body>
 
 </t:pagetemplate>
