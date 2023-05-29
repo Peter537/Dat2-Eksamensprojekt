@@ -43,7 +43,7 @@
             <td>${requestScope.partslist.rafter.length}</td>
             <td>${requestScope.partslist.numberOfRafters}</td>
             <td>stk.</td>
-            <td>${requestScope.partslist.rafter.formattedPrice} pr. stk</td>
+            <td>${requestScope.partslist.rafter.formattedPrice} pr. enhed</td>
             <td>${requestScope.partslist.rafter.description.get()}</td>
         </tr>
 
@@ -55,7 +55,7 @@
             <td>${requestScope.partslist.pole.length}</td>
             <td>${requestScope.partslist.numberOfPoles}</td>
             <td>stk.</td>
-            <td>${requestScope.partslist.pole.formattedPrice} pr. stk</td>
+            <td>${requestScope.partslist.pole.formattedPrice} pr. enhed</td>
             <td>${requestScope.partslist.pole.description.get()}</td>
         </tr>
 
@@ -67,7 +67,7 @@
             <td>${requestScope.partslist.plate.length}</td>
             <td>${requestScope.partslist.numberOfPlates}</td>
             <td>stk.</td>
-            <td>${requestScope.partslist.plate.formattedPrice} pr. stk</td>
+            <td>${requestScope.partslist.plate.formattedPrice} pr. enhed</td>
             <td>${requestScope.partslist.plate.description.get()}</td>
         </tr>
 
@@ -76,7 +76,7 @@
             <td>${requestScope.partslist.length}</td>
             <td>${requestScope.partslist.roofArea}</td>
             <td>m2</td>
-            <td>${requestScope.partslist.roof.formattedPrice} pr. stk</td>
+            <td>${requestScope.partslist.roof.formattedPrice} pr. enhed</td>
             <td>Dette er taget</td>
         </tr>
         </tbody>
