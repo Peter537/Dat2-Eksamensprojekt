@@ -87,7 +87,7 @@ public class PartsListCalculator {
         int minLength = calculateLengthOfLumber(length, rafterType, connectionPool);
         for (Lumber lumber : listRafter) {
             if (lumber.getLength() >= minLength) {
-                lumber.setDescription(Optional.of("Dette er en spær"));
+                lumber.setDescription(Optional.of("Dette er et spær"));
                 return lumber;
             }
         }
