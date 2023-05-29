@@ -48,7 +48,7 @@
                     <th>Medarbejderens navn</th>
                     <th>Status</th>
                     <th>Pris</th>
-                    <th>Mere info</th>
+                    <th>Detaljer</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,7 +68,7 @@
                     <td>${order.orderStatus.displayName}</td>
                     <c:choose>
                         <c:when test="${order.price.present}">
-                            <td>${order.getFormattedPrice()}</td>
+                            <td>${order.getFormattedPrice()} kr.</td>
                         </c:when>
                         <c:otherwise>
                             <td>Ikke beregnet</td>
@@ -114,7 +114,7 @@
                                 <c:otherwise>
                                     <c:choose>
                                         <c:when test="${requestScope.carportOrder.price.present}">
-                                            <h5>Pris: ${requestScope.carportOrder.getFormattedPrice()} DKK</h5>
+                                            <h5>Pris: ${requestScope.carportOrder.getFormattedPrice()} kr.</h5>
                                         </c:when>
                                         <c:otherwise>
                                             <c:choose>
