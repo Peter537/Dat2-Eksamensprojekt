@@ -183,7 +183,7 @@
                         <div class="seller-info row">
                             <h2>Sælgerens information</h2>
                             <c:choose>
-                                <c:when test="${requestScope.carportOrder.employee.get().profilePicture != null}">
+                                <c:when test="${requestScope.carportOrder.employee.present}">
 
                                     <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
                                          class="card-img-top"
@@ -200,7 +200,7 @@
                         </div>
                         <p>Navn: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().name : "medarbejder ikke tildelt"}</p>
                         <p>E-mail: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().email : "medarbejder ikke tildelt"}</p>
-                        <p>Arbejdstelefonnummer: ${requestScope.carportOrder.employee.get().workPhoneNumber.present ? requestScope.carportOrder.employee.get().workPhoneNumber.get() : 'intet telefonnummer'}</p>
+                        <p>Arbejdstelefonnummer: ${requestScope.carportOrder.employee.present && requestScope.carportOrder.employee.get().workPhoneNumber.present ? requestScope.carportOrder.employee.get().workPhoneNumber.get() : 'intet telefonnummer'}</p>
 
                         <br>
                         <iframe src="order-partslist-frame" width="100%" height="350px" sandbox="allow-forms"
