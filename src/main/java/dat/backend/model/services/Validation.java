@@ -114,6 +114,15 @@ public class Validation {
         return name != null;
     }
 
+    /**
+     * We are using a Regex to check if the email is valid employee email.
+     * The Regex is: ^[A-Za-z0-9+_.-]+@johannesfog.dk$
+     * The first part before the @ means that the email can contain letters, numbers, +, _, . and -.
+     * The second part after the @ means that the email must end with @johannesfog.dk
+     *
+     * @param email The email to check
+     * @return True if the email is valid, false otherwise
+     */
     public static boolean isValidEmployeeEmail(String email) {
         if (email == null) {
             return false;
@@ -122,6 +131,16 @@ public class Validation {
         return email.matches("^[A-Za-z0-9+_.-]+@johannesfog.dk$");
     }
 
+    /**
+     * We are using a Regex to check if the email is valid customer email.
+     * The Regex is: ^[A-Za-z0-9+_.-]+@([A-Za-z0-9+_.-]+\\.)+[A-Za-z]+$
+     * The first part before the @ means that the email can contain letters, numbers, +, _, . and -.
+     * The second part after the @ means that the email must contain letters, numbers, +, _, . and -.
+     * The third part after the . means that the email must end with letters.
+     *
+     * @param email The email to check
+     * @return True if the email is valid, false otherwise
+     */
     public static boolean isValidCustomerEmail(String email) {
         if (email == null) {
             return false;
@@ -131,7 +150,7 @@ public class Validation {
             return false;
         }
 
-        return email.matches("^[A-Za-z0-9+_.-]+@([A-Za-z0-9+_.-]+\\.)+[A-Za-z0-9+_.-]+$");
+        return email.matches("^[A-Za-z0-9+_.-]+@([A-Za-z0-9+_.-]+\\.)+[A-Za-z]+$");
     }
 
     private static boolean isValidPhoneNumber(String phoneNumber) {
