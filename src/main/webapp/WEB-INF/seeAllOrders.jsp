@@ -196,8 +196,7 @@
                         <div class="seller-info row">
                             <h2>Sælgerens information</h2>
                             <c:choose>
-                                <c:when test="${requestScope.carportOrder.employee.present}">
-
+                            <c:when test="${requestScope.carportOrder.employee.present && requestScope.carportOrder.employee.get().getProfilePicture() != null}">
                                     <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
                                          class="card-img-top"
                                          src="<c:url value='data:image/jpeg;base64,${requestScope.carportOrder.employee.get().getProfilePicture()}'/>"
