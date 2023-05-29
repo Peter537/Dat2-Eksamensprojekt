@@ -29,10 +29,10 @@
         <div class="row text-center">
             <form action="detailed-search-see-all-orders" method="post">
                 <label for="searchId">Søg på ID</label>
-                <input type="number" name="searchId" id="searchId" placeholder="Søg på Id">
-                <label for="searchCustomerEmail">Søg på Kunde Email</label>
+                <input type="number" name="searchId" id="searchId" placeholder="Søg på ID">
+                <label for="searchCustomerEmail">Søg på Kunde E-mail</label>
                 <input type="email" name="searchCustomerEmail" id="searchCustomerEmail"
-                       placeholder="Søg på kunde email">
+                       placeholder="Søg på kunde e-mail">
                 <input type="hidden" name="fromJsp" value="see-all-orders">
                 <input class="btn btn-primary" type="submit" value="Søg">
             </form>
@@ -161,7 +161,7 @@
 
                 <div class="row popup">
                     <div id="Customer" class="col-lg-4 col-md-12 text-center">
-                        <h2>Kundens Information</h2>
+                        <h2 style="text-decoration: underline  2px">Kundens Information</h2>
                         <c:choose>
                             <c:when test="${requestScope.carportOrder.customer.getProfilePicture() != null}">
                                 <img style="padding-bottom: 1%; display: block; margin: 0 auto; max-width: 35%; height: auto;"
@@ -177,10 +177,10 @@
                             </c:otherwise>
                         </c:choose>
                         <div class="customer-info row" id="userInfo">
-                            <p>${requestScope.carportOrder.customer.name}</p>
-                            <p>${requestScope.carportOrder.customer.email}</p>
-                            <p>${requestScope.carportOrder.customer.personalPhoneNumber.present ? requestScope.carportOrder.customer.personalPhoneNumber.get() : 'intet telefonnummer'}</p>
-                            <p>${requestScope.carportOrder.address.address}</p>
+                            <p>Navn: ${requestScope.carportOrder.customer.name}</p>
+                            <p>E-mail: ${requestScope.carportOrder.customer.email}</p>
+                            <p>Telefonnummer: ${requestScope.carportOrder.customer.personalPhoneNumber.present ? requestScope.carportOrder.customer.personalPhoneNumber.get() : 'intet telefonnummer'}</p>
+                            <p>Adresse: ${requestScope.carportOrder.address.address}</p>
                         </div>
                         <div class="customer-contact row" style="margin-right: 1%">
                             <h2>Kontakt kunde</h2>
@@ -194,7 +194,7 @@
 
                     <div id="Seller" class="col-lg-5 col-md-12 text-center" style="border-left: 1px solid grey;">
                         <div class="seller-info row">
-                            <h2>Sælgerens information</h2>
+                            <h2 style="text-decoration: underline  2px">Sælgerens information</h2>
                             <c:choose>
                             <c:when test="${requestScope.carportOrder.employee.present && requestScope.carportOrder.employee.get().getProfilePicture() != null}">
                                     <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
@@ -230,23 +230,18 @@
 
                     <div id="CarportInfo" class="col-lg-3 col-md-12 text-center" style="border-left: 1px solid grey;">
 
-                        <h2>Carport Information</h2>
+                        <h2 style="text-decoration: underline  2px">Carport Information</h2>
 
                         <p>Bredde: ${requestScope.carportOrder.width}</p>
                         <p>Længde: ${requestScope.carportOrder.length}</p>
                         <p>Højde: ${requestScope.carportOrder.minHeight}</p>
                         <p>Tag-type: ${requestScope.carportOrder.roof.displayName}</p>
 
-                        <h2>Redskabs skur</h2>
+                        <h3>Redskabs skur</h3>
                         <p>
-                            Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'Ikke sat'}
-                            cm</p>
+                            Bredde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().width : 'Ikke sat'} ${requestScope.carportOrder.toolRoom.present ? 'cm' : ''}</p>
                         <p>
-                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'ikke sat'}
-                            cm</p>
-                        <p>
-                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.getFormattedPrice() : 'Endnu ikke sat'}
-                            kr.</p>
+                            Længde: ${requestScope.carportOrder.toolRoom.present ? requestScope.carportOrder.toolRoom.get().length : 'ikke sat'} ${requestScope.carportOrder.toolRoom.present ? 'cm' : ''}</p>
 
                         <h2>Remarks</h2>
                         <textarea name="CustomerMessage" class="form-control" rows="5" placeholder="Ingen bemærkelser"
@@ -256,11 +251,16 @@
                             <c:if test="${requestScope.carportOrder.employee.get().equals(sessionScope.user)}">
                                 <form action="generate-custom-partslist" method="post">
                                     <br>
-                                    <input class="btn btn-primary" type="submit" value="edit order">
+                                    <input class="btn btn-primary" type="submit" value="Rediger ordre">
                                     <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
                                 </form>
                             </c:if>
                         </c:if>
+
+<br>
+                        <h2>
+                            Pris: ${requestScope.carportOrder.price.present ? requestScope.carportOrder.getFormattedPrice() : 'Endnu ikke sat'}
+                            kr.</h2>
                     </div>
                 </div>
             </div>
