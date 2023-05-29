@@ -181,38 +181,41 @@
 
                     <div id="Seller" class="col-lg-5 col-md-12 text-center" style="border-left: 1px solid grey;">
                         <div class="seller-info row">
-                            <h2>Din Information</h2>
+                            <h2>Sælgerens information</h2>
                             <c:choose>
-                                <c:when test="${sessionScope.user.getProfilePicture() != null}">
+                                <c:when test="${requestScope.carportOrder.employee.get().profilePicture != null}">
+
                                     <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
                                          class="card-img-top"
-                                         src="<c:url value='data:image/jpeg;base64,${sessionScope.user.getProfilePicture()}'/>"
+                                         src="<c:url value='data:image/jpeg;base64,${requestScope.carportOrder.employee.get().getProfilePicture()}'/>"
                                          alt="SellerProfile">
                                 </c:when>
                                 <c:otherwise>
                                     <img style="display: block; margin: 0 auto; max-width: 35%; height: auto;"
                                          class="card-img-top"
                                          src="${pageContext.request.contextPath}/images/DefaultProfilePic.png"
-                                         alt="SellerProfile">
+                                         alt="DefaultSellerProfile">
                                 </c:otherwise>
                             </c:choose>
                         </div>
-                        <p>${sessionScope.user.name}</p>
-                        <p>${sessionScope.user.email}</p>
+                        <p>Navn: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().name : "medarbejder ikke tildelt"}</p>
+                        <p>E-mail: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().email : "medarbejder ikke tildelt"}</p>
                         <p>Privat
-                            telefonnummer: ${sessionScope.user.personalPhoneNumber.present ? sessionScope.user.personalPhoneNumber.get() : 'intet telefonnummer'}</p>
+                            telefonnummer: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().personalPhoneNumber : 'intet telefonnummer'}</p>
                         <p>Arbejds
-                            telefonnummer: ${sessionScope.user.workPhoneNumber.present ? sessionScope.user.workPhoneNumber.get() : 'intet telefonnummer'}</p>
-                        <p>${requestScope.carportOrder.address.address}</p>
+                            telefonnummer: ${requestScope.carportOrder.employee.get().workPhoneNumber.present ? requestScope.carportOrder.employee.get().workPhoneNumber.get() : 'intet telefonnummer'}</p>
 
                         <br>
                         <iframe src="order-partslist-frame" width="100%" height="350px" sandbox="allow-forms"
                                 onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
                         <br>
+
+                        <div style="padding-bottom: 4%">
                         <a href="partslist-to-pdf" methods="post" class="btn btn-primary">Generer PDF</a>
                         <br>
                         <a href="GenerateSCAD" class="btn btn-primary">Generer SCAD-filer</a>
                         <br>
+                    </div>
                     </div>
 
 
