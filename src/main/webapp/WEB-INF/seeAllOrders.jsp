@@ -92,50 +92,63 @@
                 <div class="col-sm-8"
                      style="border: 1px solid black; border-bottom: 0; border-radius: 4px 4px 0 0; background: white;">
                     <div class="row align-items-center">
-                        <div class="col-sm-9">
-                            <h4 style="margin-top: 1%; text-align: left">
-                                Ordrenummer: ${requestScope.carportOrder.id} |
-                                Status: ${requestScope.carportOrder.orderStatus.displayName}
-                            </h4>
-                        </div>
-                        <div class="col-sm-2" style="float: left">
-                            <c:choose>
-                                <c:when test="${requestScope.carportOrder.orderStatus.getStatus().equals('ORDER_CANCELLED')}">
-                                    <h5>Ordre annulleret</h5>
-                                </c:when>
-                                <c:when test="${!requestScope.carportOrder.employee.present}">
-                                    <form action="employee-claim-order" method="post">
-                                        <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
-                                        <input type="hidden" name="fromJsp" value="employee">
-                                        <input class="btn btn-primary" type="submit" value="Tag ordre"
-                                               style="width: 80%">
-                                    </form>
-                                </c:when>
-                                <c:otherwise>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h4 style="margin-top: 1%; text-align: left">
+                                        Ordrenummer: ${requestScope.carportOrder.id} |
+                                        Status: ${requestScope.carportOrder.orderStatus.displayName}
+                                    </h4>
+                                </div>
+                                <div class="col-sm-4" style="float: left">
                                     <c:choose>
-                                        <c:when test="${requestScope.carportOrder.price.present}">
-                                            <h5>Pris: ${requestScope.carportOrder.getFormattedPrice()} kr.</h5>
+                                        <c:when test="${requestScope.carportOrder.orderStatus.getStatus().equals('ORDER_CANCELLED')}">
+                                            <h5>Ordre annulleret</h5>
+                                        </c:when>
+                                        <c:when test="${!requestScope.carportOrder.employee.present}">
+                                            <form action="employee-claim-order" method="post">
+                                                <input type="hidden" name="orderId" value="${requestScope.carportOrder.id}">
+                                                <input type="hidden" name="fromJsp" value="employee">
+                                                <input class="btn btn-primary" type="submit" value="Tag ordre"
+                                                       style="width: 80%">
+                                            </form>
                                         </c:when>
                                         <c:otherwise>
                                             <c:choose>
-                                                <c:when test="${requestScope.carportOrder.employee.get().email.equals(sessionScope.user.email)}">
-                                                    <form action="employee-make-offer" method="post">
-                                                        <input id="dealMaker" name="priceOffer" type="number"
-                                                               placeholder="Giv Tilbud i DKK">
-                                                        <input type="hidden" name="fromJsp" value="employee">
-                                                        <input type="hidden" name="orderId"
-                                                               value="${requestScope.carportOrder.id}">
-                                                    </form>
+                                                <c:when test="${requestScope.carportOrder.price.present}">
+                                                    <h5>Pris: ${requestScope.carportOrder.getFormattedPrice()} kr.</h5>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <p>Ordre taget af anden medarbejder</p>
+                                                    <c:choose>
+                                                        <c:when test="${requestScope.carportOrder.employee.get().email.equals(sessionScope.user.email)}">
+                                                            <form action="employee-make-offer" method="post">
+                                                                <div class="row">
+                                                                    <div class="col-sm-7">
+                                                                        <input id="dealMaker" class="form-control" style="margin-top: 1%;" name="priceOffer" type="number"
+                                                                               placeholder="10.000" required>
+                                                                        <input type="hidden" name="fromJsp" value="employee">
+                                                                        <input type="hidden" name="orderId"
+                                                                               value="${requestScope.carportOrder.id}">
+                                                                    </div>
+                                                                    <div class="col-sm-5">
+                                                                        <input class="btn btn-primary btn-sm" style="margin-top: 4%;" type="submit"
+                                                                               value="Giv tilbud">
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <p>Ordre taget af anden medarbejder</p>
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:otherwise>
                                     </c:choose>
-                                </c:otherwise>
-                            </c:choose>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="col-3"></div>
