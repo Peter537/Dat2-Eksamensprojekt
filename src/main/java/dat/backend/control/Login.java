@@ -20,6 +20,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * This servlet handles the login of a user.
+ * It checks whether the user is a customer or an employee.
+ * If the user is a customer, the user is redirected to the customer site.
+ * If the user is an employee, the user is redirected to the employee site.
+ */
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
