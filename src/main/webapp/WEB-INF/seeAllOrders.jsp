@@ -200,17 +200,14 @@
                         </div>
                         <p>Navn: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().name : "medarbejder ikke tildelt"}</p>
                         <p>E-mail: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().email : "medarbejder ikke tildelt"}</p>
-                        <p>Privat
-                            telefonnummer: ${requestScope.carportOrder.employee.present ? requestScope.carportOrder.employee.get().personalPhoneNumber : 'intet telefonnummer'}</p>
-                        <p>Arbejds
-                            telefonnummer: ${requestScope.carportOrder.employee.get().workPhoneNumber.present ? requestScope.carportOrder.employee.get().workPhoneNumber.get() : 'intet telefonnummer'}</p>
+                        <p>Arbejdstelefonnummer: ${requestScope.carportOrder.employee.get().workPhoneNumber.present ? requestScope.carportOrder.employee.get().workPhoneNumber.get() : 'intet telefonnummer'}</p>
 
                         <br>
                         <iframe src="order-partslist-frame" width="100%" height="350px" sandbox="allow-forms"
                                 onload="this.style.height=(this.contentWindow.document.body.scrollHeight+20)+'px';"></iframe>
                         <br>
 
-                        <div style="padding-bottom: 4%">
+                        <div style="padding-bottom: 3%">
                         <a href="partslist-to-pdf" methods="post" class="btn btn-primary">Generer PDF</a>
                         <br>
                         <a href="GenerateSCAD" class="btn btn-primary">Generer SCAD-filer</a>
