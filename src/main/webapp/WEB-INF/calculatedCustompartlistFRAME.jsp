@@ -43,7 +43,7 @@
             <td>${requestScope.partslist.rafter.length}</td>
             <td>${requestScope.partslist.numberOfRafters}</td>
             <td>stk.</td>
-            <td>${requestScope.partslist.rafter.formattedPrice} pr. enhed</td>
+            <td>${requestScope.partslist.rafter.formattedPrice} kr. pr. enhed</td>
             <td>${requestScope.partslist.rafter.description.get()}</td>
         </tr>
 
@@ -55,7 +55,7 @@
             <td>${requestScope.partslist.pole.length}</td>
             <td>${requestScope.partslist.numberOfPoles}</td>
             <td>stk.</td>
-            <td>${requestScope.partslist.pole.formattedPrice} pr. enhed</td>
+            <td>${requestScope.partslist.pole.formattedPrice} kr. pr. enhed</td>
             <td>${requestScope.partslist.pole.description.get()}</td>
         </tr>
 
@@ -67,7 +67,7 @@
             <td>${requestScope.partslist.plate.length}</td>
             <td>${requestScope.partslist.numberOfPlates}</td>
             <td>stk.</td>
-            <td>${requestScope.partslist.plate.formattedPrice} pr. enhed</td>
+            <td>${requestScope.partslist.plate.formattedPrice} kr. pr. enhed</td>
             <td>${requestScope.partslist.plate.description.get()}</td>
         </tr>
 
@@ -92,7 +92,7 @@
             <input type="hidden" name="minHeight" value="${requestScope.height}">
             <input type="hidden" name="price" value="${requestScope.price}">
             <input type="hidden" name="fromJsp" value="employee">
-            <input class="btn btn-primary" type="submit" value="indsend ændring">
+            <input class="btn btn-primary" type="submit" value="Indsend ændring">
         </form>
 
     </c:if>
