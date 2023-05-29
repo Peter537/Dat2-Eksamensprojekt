@@ -19,6 +19,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This servlet's purpose is to load in all the orders that the employee is assigned to.
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "see-employee-orders", urlPatterns = {"/see-employee-orders"})
 public class SeeEmployeeOrders extends HttpServlet {

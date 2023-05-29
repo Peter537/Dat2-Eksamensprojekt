@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * This servlet's purpose is to redirect the employee to the employee site.
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "employee-site", value = "/employee-site")
 public class ToEmployeeSite extends HttpServlet {

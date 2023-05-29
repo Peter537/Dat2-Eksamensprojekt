@@ -22,6 +22,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+
+/**
+ * This servlet's purpose is to let employees query the website for specific orders. The employee can query all their own orders
+ * or all orders in the syste using this very same servlet.
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "detailed-search-see-all-orders", value = "/detailed-search-see-all-orders")
 public class DetailedSearchSeeAllOrders extends HttpServlet {

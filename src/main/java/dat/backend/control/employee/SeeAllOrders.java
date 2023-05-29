@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This servlet's purpose is to load in all the orders that are present in the database into an arraylist
+ * and then redirects the employee to the seeAllOrders.jsp page.
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "see-all-orders", value = "/see-all-orders")
 public class SeeAllOrders extends HttpServlet {

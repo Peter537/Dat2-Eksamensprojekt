@@ -25,6 +25,10 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+/**
+ * This servlet's purpose is to create an order request using the values from the carportFormula.jsp page.
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "create-order-request", value = "/create-order-request")
 public class CreateOrderRequest extends HttpServlet {

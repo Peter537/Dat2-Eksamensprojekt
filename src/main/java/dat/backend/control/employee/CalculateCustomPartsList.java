@@ -16,6 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * This servlet's purpose is to load in values from partlist generator page and calculate the partslist-price
+ * based on what is most optimal for the customer's specifications.
+ */
+
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "calculate-custom-partslist", value = "/calculate-custom-partslist")
 public class CalculateCustomPartsList extends HttpServlet {

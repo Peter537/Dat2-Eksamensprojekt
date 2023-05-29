@@ -18,6 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * This servlet's purpose is to create a customer and forward the customer
+ * to the customerSite.jsp page if the account was created successfully
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "create-customer", value = "/create-customer")
 public class CreateCustomer extends HttpServlet {

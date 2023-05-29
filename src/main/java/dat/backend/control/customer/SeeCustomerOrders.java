@@ -18,6 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This servlet's purpose is to forward the customer to the seeCustomerOrders.jsp page and show all the orders the user has previously made.
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "see-customer-orders", value = "/see-customer-orders")
 public class SeeCustomerOrders extends HttpServlet {

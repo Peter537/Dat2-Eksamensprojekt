@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This servlet's purpose is to populate an iframe with data from the roof catalog in the databse.
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "catalog-roof-frame", value = "/catalog-roof-frame")
 public class CatalogRoofFrame extends HttpServlet {

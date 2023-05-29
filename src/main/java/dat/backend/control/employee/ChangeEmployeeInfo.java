@@ -20,6 +20,10 @@ import javax.servlet.http.Part;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * This servlet's purpose is to let the employee change their infoformation from their profilesite.
+ */
+
 @MultipartConfig
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "change-employee-info", value = "/change-employee-info")

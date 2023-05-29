@@ -17,6 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * This servlet's purpose is to take in the parameters from the "edit order" form inside the partlist generator
+ * and update the order with the new values, which are then displayed on the detailed order info page.
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "override-carport-order", value = "/override-carport-order")
 public class OverrideCarportOrder extends HttpServlet {

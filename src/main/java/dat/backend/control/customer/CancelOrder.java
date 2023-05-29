@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * This servlet's purpose is to cancel an order and change it's status so it is not handled by employees unnecessarily
+ */
+
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "cancel-order", value = "/cancel-order")
 public class CancelOrder extends HttpServlet {

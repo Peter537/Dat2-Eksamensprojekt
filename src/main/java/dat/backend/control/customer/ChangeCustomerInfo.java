@@ -23,6 +23,11 @@ import javax.servlet.http.Part;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * This servlet's purpose is to validate and change the customer's information and then show them back to the userpage wiith the changes made.
+ * It will show popups to anything successfull and also popups for unsuccessful changes.
+ */
+
 @MultipartConfig
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "change-customer-info", value = "/change-customer-info")
