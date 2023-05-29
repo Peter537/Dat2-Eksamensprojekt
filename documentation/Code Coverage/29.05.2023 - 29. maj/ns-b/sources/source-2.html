@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DetailedOrderInfo</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control</a>
+</div>
+
+<h1>Coverage Summary for Class: DetailedOrderInfo (dat.backend.control)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">DetailedOrderInfo</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.entities.PartsList;
+&nbsp;import dat.backend.model.entities.order.CarportOrder;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.order.CarportOrderFacade;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;detailed-order-info&quot;, value = &quot;/detailed-order-info&quot;)
+&nbsp;public class DetailedOrderInfo extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() throws ServletException {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;        int orderId = (int) Float.parseFloat(request.getParameter(&quot;orderId&quot;));
+&nbsp;        String message = request.getParameter(&quot;cancel&quot;);
+&nbsp;        String fromJsp = request.getParameter(&quot;fromJsp&quot;);
+&nbsp;        if (fromJsp == null) { //This variable is occasionally null, so we need to check for it
+&nbsp;            String home = request.getSession().getAttribute(&quot;myhome&quot;).toString();
+&nbsp;            request.getRequestDispatcher(home).forward(request, response);
+&nbsp;        }
+&nbsp;
+&nbsp;        request.setAttribute(&quot;cancel&quot;, message);
+&nbsp;        try {
+&nbsp;            CarportOrder carportOrder = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
+&nbsp;            request.setAttribute(&quot;carportOrder&quot;, carportOrder);
+&nbsp;            request.setAttribute(&quot;load&quot;, &quot;true&quot;);
+&nbsp;            if (fromJsp.equalsIgnoreCase(&quot;customer&quot;)) {
+&nbsp;                request.getRequestDispatcher(&quot;WEB-INF/seeCustomerOrders.jsp&quot;).forward(request, response);
+&nbsp;            } else {
+&nbsp;                if (fromJsp.equalsIgnoreCase(&quot;see-employee-orders&quot;)) {
+&nbsp;                    request.setAttribute(&quot;from&quot;, &quot;see-employee-orders&quot;);
+&nbsp;                } else {
+&nbsp;                    request.setAttribute(&quot;from&quot;, &quot;see-all-orders&quot;);
+&nbsp;                }
+&nbsp;                request.getSession().setAttribute(&quot;partslist&quot;, new PartsList(carportOrder, connectionPool));
+&nbsp;                request.getRequestDispatcher(&quot;WEB-INF/seeAllOrders.jsp&quot;).forward(request, response);
+&nbsp;            }
+&nbsp;        } catch (DatabaseException | NotFoundException e) {
+&nbsp;            request.setAttribute(&quot;errormessage&quot;, e.getMessage());
+&nbsp;            request.getRequestDispatcher(&quot;WEB-INF/error.jsp&quot;).forward(request, response);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CatalogDeleteItem</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.employee</a>
+</div>
+
+<h1>Coverage Summary for Class: CatalogDeleteItem (dat.backend.control.employee)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CatalogDeleteItem</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.employee;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.item.LumberFacade;
+&nbsp;import dat.backend.model.persistence.item.RoofFacade;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;delete-catalog-item&quot;, value = &quot;/delete-catalog-item&quot;)
+&nbsp;public class CatalogDeleteItem extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;        try {
+&nbsp;            String catalogItemType = request.getParameter(&quot;catalogItemType&quot;);
+&nbsp;            String id = request.getParameter(&quot;id&quot;);
+&nbsp;            String returnPage;
+&nbsp;            switch (catalogItemType) {
+&nbsp;                case &quot;roof&quot;:
+&nbsp;                    RoofFacade.deleteRoof(Integer.parseInt(id), connectionPool);
+&nbsp;                    returnPage = &quot;catalog-roof-frame&quot;;
+&nbsp;                    break;
+&nbsp;                case &quot;pole&quot;:
+&nbsp;                    LumberFacade.deleteLumber(Integer.parseInt(id), connectionPool);
+&nbsp;                    returnPage = &quot;catalog-pole-frame&quot;;
+&nbsp;                    break;
+&nbsp;                case &quot;rafter&quot;:
+&nbsp;                    LumberFacade.deleteLumber(Integer.parseInt(id), connectionPool);
+&nbsp;                    returnPage = &quot;catalog-rafter-frame&quot;;
+&nbsp;                    break;
+&nbsp;                default:
+&nbsp;                    throw new IllegalArgumentException(&quot;Unknown type: &quot; + catalogItemType);
+&nbsp;            }
+&nbsp;
+&nbsp;            request.getRequestDispatcher(returnPage).forward(request, response);
+&nbsp;        } catch (Exception e) {
+&nbsp;            request.setAttribute(&quot;errormessage&quot;, e.getMessage());
+&nbsp;            request.getRequestDispatcher(&quot;WEB-INF/error.jsp&quot;).forward(request, response);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>
