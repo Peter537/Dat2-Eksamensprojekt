@@ -153,6 +153,15 @@ public class Validation {
         return email.matches("^[A-Za-z0-9+_.-]+@([A-Za-z0-9+_.-]+\\.)+[A-Za-z]+$");
     }
 
+    /**
+     * We are using a Regex to check if the phone number is valid.
+     * The Regex is: ^[0-9]{8}$
+     * This means that the phone number must contain 8 numbers.
+     * If we were to add foreign phone numbers, we would have to change the Regex.
+     *
+     * @param phoneNumber The phone number to check
+     * @return True if the phone number is valid, false otherwise
+     */
     private static boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("^[0-9]{8}$");
     }
