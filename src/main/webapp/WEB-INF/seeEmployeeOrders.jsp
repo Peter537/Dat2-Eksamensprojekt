@@ -45,6 +45,7 @@
                     <th>Medarbejderens navn</th>
                     <th>Status</th>
                     <th>Pris</th>
+                    <th>Detaljer</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,7 +58,7 @@
                         <td>${order.orderStatus.displayName}</td>
                         <c:choose>
                             <c:when test="${order.price.present}">
-                                <td>${order.getFormattedPrice()} DKK</td>
+                                <td>${order.getFormattedPrice()} kr.</td>
                             </c:when>
                             <c:otherwise>
                                 <td>Ikke beregnet</td>
