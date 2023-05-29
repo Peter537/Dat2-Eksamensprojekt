@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DetailedSearchSeeAllOrders</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.employee</a>
+</div>
+
+<h1>Coverage Summary for Class: DetailedSearchSeeAllOrders (dat.backend.control.employee)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">DetailedSearchSeeAllOrders</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.employee;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.entities.order.CarportOrder;
+&nbsp;import dat.backend.model.entities.user.Employee;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.exceptions.ValidationException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.order.CarportOrderFacade;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.concurrent.atomic.AtomicBoolean;
+&nbsp;import java.util.concurrent.atomic.AtomicReference;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;detailed-search-see-all-orders&quot;, value = &quot;/detailed-search-see-all-orders&quot;)
+&nbsp;public class DetailedSearchSeeAllOrders extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;        try {
+&nbsp;            String fromJsp = request.getParameter(&quot;fromJsp&quot;);
+&nbsp;            List&lt;CarportOrder&gt; carportOrders = new ArrayList&lt;&gt;();
+&nbsp;            if (fromJsp.equals(&quot;see-all-orders&quot;)) {
+&nbsp;                carportOrders.addAll(CarportOrderFacade.getAllCarportOrders(connectionPool));
+&nbsp;            } else {
+&nbsp;                Employee employee = (Employee) request.getSession().getAttribute(&quot;user&quot;);
+&nbsp;                carportOrders.addAll(CarportOrderFacade.getCarportOrdersByEmployee(employee, connectionPool));
+&nbsp;            }
+&nbsp;
+&nbsp;            AtomicBoolean isEmptySearchFields = new AtomicBoolean(true);
+&nbsp;            List&lt;CarportOrder&gt; orders = carportOrders.stream()
+&nbsp;                    .filter(carportOrder -&gt; {
+&nbsp;                        if (request.getParameter(&quot;searchId&quot;) != null &amp;&amp; !request.getParameter(&quot;searchId&quot;).isEmpty()) {
+&nbsp;                            isEmptySearchFields.set(false);
+&nbsp;                            int id = Integer.parseInt(request.getParameter(&quot;searchId&quot;));
+&nbsp;                            if (carportOrder.getId() == id) {
+&nbsp;                                return true;
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;
+&nbsp;                        if (request.getParameter(&quot;searchCustomerEmail&quot;) != null &amp;&amp; !request.getParameter(&quot;searchCustomerEmail&quot;).isEmpty()) {
+&nbsp;                            isEmptySearchFields.set(false);
+&nbsp;                            return carportOrder.getCustomer().getEmail().equals(request.getParameter(&quot;searchCustomerEmail&quot;));
+&nbsp;                        }
+&nbsp;
+&nbsp;                        return false;
+&nbsp;                    })
+&nbsp;                    .collect(Collectors.toList());
+&nbsp;
+&nbsp;            if (orders.isEmpty() &amp;&amp; isEmptySearchFields.get()) {
+&nbsp;                orders.addAll(carportOrders);
+&nbsp;            }
+&nbsp;
+&nbsp;            request.setAttribute(&quot;carportOrders&quot;, orders);
+&nbsp;            if (fromJsp.equals(&quot;see-all-orders&quot;)) {
+&nbsp;                request.getRequestDispatcher(&quot;WEB-INF/seeAllOrders.jsp&quot;).forward(request, response);
+&nbsp;            } else {
+&nbsp;                request.getRequestDispatcher(&quot;WEB-INF/seeEmployeeOrders.jsp&quot;).forward(request, response);
+&nbsp;            }
+&nbsp;        } catch (DatabaseException | ValidationException e) {
+&nbsp;            request.setAttribute(&quot;errormessage&quot;, e.getMessage());
+&nbsp;            request.getRequestDispatcher(&quot;WEB-INF/error.jsp&quot;).forward(request, response);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

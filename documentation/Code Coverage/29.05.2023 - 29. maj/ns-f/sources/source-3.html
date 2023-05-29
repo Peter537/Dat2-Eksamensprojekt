@@ -1,0 +1,138 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CalculateCustomPartsList</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.employee</a>
+</div>
+
+<h1>Coverage Summary for Class: CalculateCustomPartsList (dat.backend.control.employee)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CalculateCustomPartsList</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.employee;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.entities.PartsList;
+&nbsp;import dat.backend.model.entities.item.Roof;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.item.RoofFacade;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;calculate-custom-partslist&quot;, value = &quot;/calculate-custom-partslist&quot;)
+&nbsp;public class CalculateCustomPartsList extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() throws ServletException {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;        String validCheck = request.getParameter(&quot;valid&quot;);
+&nbsp;        String orderIdString = request.getParameter(&quot;orderId&quot;);
+&nbsp;        float orderId = 0;
+&nbsp;        float length = 0;
+&nbsp;        float width = 0;
+&nbsp;        float height = 0;
+&nbsp;        if (validCheck != null) {
+&nbsp;            orderId = Float.parseFloat(orderIdString);
+&nbsp;            length = Float.parseFloat(request.getParameter(&quot;carportLength&quot;));
+&nbsp;            width = Float.parseFloat(request.getParameter(&quot;carportWidth&quot;));
+&nbsp;            height = Float.parseFloat(request.getParameter(&quot;carportHeight&quot;));
+&nbsp;        }
+&nbsp;
+&nbsp;        try {
+&nbsp;            Roof roof = RoofFacade.getRoofById(1, connectionPool);
+&nbsp;
+&nbsp;            PartsList partsList = new PartsList((int) height, (int) length, (int) width, roof, connectionPool);
+&nbsp;            request.setAttribute(&quot;partslist&quot;, partsList);
+&nbsp;            request.setAttribute(&quot;orderId&quot;, orderId);
+&nbsp;            request.setAttribute(&quot;edit&quot;, &quot;edit&quot;);
+&nbsp;            request.setAttribute(&quot;valid&quot;, &quot;valid&quot;);
+&nbsp;
+&nbsp;            // for override
+&nbsp;            request.setAttribute(&quot;id&quot;, orderId);
+&nbsp;            request.setAttribute(&quot;length&quot;, length);
+&nbsp;            request.setAttribute(&quot;width&quot;, width);
+&nbsp;            request.setAttribute(&quot;height&quot;, height);
+&nbsp;            request.setAttribute(&quot;price&quot;, partsList.getTotalPrice());
+&nbsp;
+&nbsp;            //
+&nbsp;            request.getRequestDispatcher(&quot;WEB-INF/calculatedCustompartlistFRAME.jsp&quot;).forward(request, response);
+&nbsp;        } catch (DatabaseException | NotFoundException | IllegalArgumentException e) {
+&nbsp;            request.setAttribute(&quot;msg&quot;, e.getMessage());
+&nbsp;            request.getRequestDispatcher(&quot;WEB-INF/calculatedCustompartlistFRAME.jsp&quot;).forward(request, response);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

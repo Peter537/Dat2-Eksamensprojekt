@@ -1,0 +1,168 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ChangeEmployeeInfo</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.employee</a>
+</div>
+
+<h1>Coverage Summary for Class: ChangeEmployeeInfo (dat.backend.control.employee)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ChangeEmployeeInfo</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.employee;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.entities.user.Customer;
+&nbsp;import dat.backend.model.entities.user.Employee;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.ValidationException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.user.CustomerFacade;
+&nbsp;import dat.backend.model.persistence.user.EmployeeFacade;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.MultipartConfig;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import javax.servlet.http.Part;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;@MultipartConfig
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;change-employee-info&quot;, value = &quot;/change-employee-info&quot;)
+&nbsp;public class ChangeEmployeeInfo extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) { }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;        Employee employee = (Employee) request.getSession().getAttribute(&quot;user&quot;);
+&nbsp;        this.changeName(employee, request);
+&nbsp;        this.changePassword(employee, request);
+&nbsp;        this.changePersonPhoneNumber(employee, request);
+&nbsp;        this.changeProfilePicture(employee, request);
+&nbsp;        request.getRequestDispatcher(&quot;WEB-INF/employeeSite.jsp&quot;).forward(request, response);
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changeName(Employee employee, HttpServletRequest request) {
+&nbsp;        String name = request.getParameter(&quot;name&quot;);
+&nbsp;        if (name != null &amp;&amp; !name.isEmpty()) {
+&nbsp;            try {
+&nbsp;                EmployeeFacade.updateName(employee, name, connectionPool);
+&nbsp;                request.setAttribute(&quot;nameSuccess&quot;, &quot;navn-ændring succesfuldt&quot;);
+&nbsp;            } catch (DatabaseException | ValidationException e) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;navnet kunne til dette&quot;);
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changePassword(Employee employee, HttpServletRequest request) {
+&nbsp;        String password = request.getParameter(&quot;newPassword&quot;);
+&nbsp;        String confirmPassword = request.getParameter(&quot;confirmPassword&quot;);
+&nbsp;        if (password != null &amp;&amp; !password.isEmpty() &amp;&amp; password.equals(confirmPassword)) {
+&nbsp;            try {
+&nbsp;                EmployeeFacade.updatePassword(employee, password, connectionPool);
+&nbsp;                request.setAttribute(&quot;passwordSuccess&quot;, &quot;password-ændring succesfuldt&quot;);
+&nbsp;            } catch (DatabaseException | ValidationException e) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;password kunne ikke opdateres, prøv igen.&quot;);
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changePersonPhoneNumber(Employee employee, HttpServletRequest request) {
+&nbsp;        String oldEmployeePhoneNumber = employee.getPersonalPhoneNumber().orElse(&quot;&quot;);
+&nbsp;        String newPhoneNumber = request.getParameter(&quot;newPhoneNumber&quot;);
+&nbsp;        if (newPhoneNumber != null &amp;&amp; !newPhoneNumber.isEmpty() &amp;&amp; !oldEmployeePhoneNumber.equals(newPhoneNumber)) {
+&nbsp;            try {
+&nbsp;                EmployeeFacade.updatePersonalPhoneNumber(employee, newPhoneNumber, connectionPool);
+&nbsp;                request.setAttribute(&quot;phoneSuccess&quot;, &quot;telefonnummer-ændring succesfuldt&quot;);
+&nbsp;            } catch (DatabaseException | ValidationException e) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;Telefonnummer kunne ikke opdateres. Telefonnummeret skal være 8 cifre.&quot;);
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changeProfilePicture(Employee employee, HttpServletRequest request) throws ServletException, IOException {
+&nbsp;        //Get the file uploaded by the user
+&nbsp;        Part filePart = request.getPart(&quot;imageFile&quot;);
+&nbsp;        if (filePart.getSize() == 0) {
+&nbsp;            return;
+&nbsp;        }
+&nbsp;        FileInputStream fileContent = (FileInputStream) filePart.getInputStream();
+&nbsp;
+&nbsp;        //Update the profile picture
+&nbsp;        try {
+&nbsp;            EmployeeFacade.updateProfilePicture(employee, fileContent, ApplicationStart.getConnectionPool());
+&nbsp;        } catch (DatabaseException e) {
+&nbsp;            throw new RuntimeException(e);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

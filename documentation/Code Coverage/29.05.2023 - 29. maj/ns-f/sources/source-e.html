@@ -1,0 +1,143 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CatalogSaveItem</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.employee</a>
+</div>
+
+<h1>Coverage Summary for Class: CatalogSaveItem (dat.backend.control.employee)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CatalogSaveItem</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.employee;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.entities.item.LumberType;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.item.LumberFacade;
+&nbsp;import dat.backend.model.persistence.item.LumberTypeFacade;
+&nbsp;import dat.backend.model.persistence.item.RoofFacade;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;save-catalog-item&quot;, value = &quot;/save-catalog-item&quot;)
+&nbsp;public class CatalogSaveItem extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;        try {
+&nbsp;            String catalogItemType = request.getParameter(&quot;catalogItemType&quot;);
+&nbsp;            String id = request.getParameter(&quot;id&quot;);
+&nbsp;            String returnPage;
+&nbsp;            switch (catalogItemType) {
+&nbsp;                case &quot;roof&quot;:
+&nbsp;                    float squareMeterPrice = Float.parseFloat(request.getParameter(&quot;squareMeterPrice&quot;));
+&nbsp;                    String roofType = request.getParameter(&quot;roofType&quot;);
+&nbsp;                    if (id != null) {
+&nbsp;                        RoofFacade.updateRoof(Integer.parseInt(id), squareMeterPrice, roofType, connectionPool);
+&nbsp;                    } else {
+&nbsp;                        RoofFacade.createRoof(squareMeterPrice, roofType, connectionPool);
+&nbsp;                    }
+&nbsp;                    returnPage = &quot;catalog-roof-frame&quot;;
+&nbsp;                    break;
+&nbsp;                case &quot;pole&quot;:
+&nbsp;                case &quot;rafter&quot;:
+&nbsp;                    String lumberType = request.getParameter(&quot;lumberType&quot;);
+&nbsp;                    int poleLength = Integer.parseInt(request.getParameter(&quot;poleLength&quot;));
+&nbsp;                    float poleWidth = Float.parseFloat(request.getParameter(&quot;poleWidth&quot;));
+&nbsp;                    float poleThickness = Float.parseFloat(request.getParameter(&quot;poleThickness&quot;));
+&nbsp;                    float poleMeterPrice = Float.parseFloat(request.getParameter(&quot;poleMeterPrice&quot;));
+&nbsp;                    int amount = Integer.parseInt(request.getParameter(&quot;amount&quot;));
+&nbsp;                    LumberType lumberTypeObj = LumberTypeFacade.createLumberType(poleThickness, poleWidth, poleMeterPrice, lumberType, connectionPool);
+&nbsp;                    if (id != null) {
+&nbsp;                        LumberFacade.updateLumber(Integer.parseInt(id), poleLength, lumberTypeObj.getId(), amount, connectionPool);
+&nbsp;                    } else {
+&nbsp;                        LumberFacade.createLumber(poleLength, lumberTypeObj.getId(), amount, connectionPool);
+&nbsp;                    }
+&nbsp;                    if (Objects.equals(lumberType, &quot;POLE&quot;)) {
+&nbsp;                        returnPage = &quot;catalog-pole-frame&quot;;
+&nbsp;                    } else {
+&nbsp;                        returnPage = &quot;catalog-rafter-frame&quot;;
+&nbsp;                    }
+&nbsp;                    break;
+&nbsp;                default:
+&nbsp;                    throw new IllegalArgumentException(&quot;Unknown type: &quot; + catalogItemType);
+&nbsp;            }
+&nbsp;            request.getRequestDispatcher(returnPage).forward(request, response);
+&nbsp;        } catch (Exception e) {
+&nbsp;            request.setAttribute(&quot;errormessage&quot;, e.getMessage());
+&nbsp;            request.getRequestDispatcher(&quot;WEB-INF/error.jsp&quot;).forward(request, response);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GenerateSCAD</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.employee</a>
+</div>
+
+<h1>Coverage Summary for Class: GenerateSCAD (dat.backend.control.employee)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">GenerateSCAD</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.employee;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.entities.PartsList;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.print3d.Model3D;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.ServletOutputStream;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.zip.ZipEntry;
+&nbsp;import java.util.zip.ZipOutputStream;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;GenerateSCAD&quot;, value = &quot;/GenerateSCAD&quot;)
+&nbsp;public class GenerateSCAD extends HttpServlet {
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;
+&nbsp;        PartsList partsList = (PartsList) request.getSession().getAttribute(&quot;partslist&quot;);
+&nbsp;        try {
+&nbsp;            Model3D model3D = new Model3D(partsList); //This just needs to be called to generate the files
+&nbsp;        } catch (DatabaseException e) {
+&nbsp;            throw new RuntimeException(e);
+&nbsp;        }
+&nbsp;
+&nbsp;        //Prepare package
+&nbsp;        String[] paths = {&quot;/OpenSCAD/View1.scad&quot;, &quot;/OpenSCAD/View2.scad&quot;, &quot;/OpenSCAD/View3.scad&quot;}; //These paths are hardcoded as we know what they are called and where they are stored
+&nbsp;        ServletOutputStream servletOutputStream = response.getOutputStream(); //Get output stream from response. This is where we will write the zip file to
+&nbsp;        ZipOutputStream zipOutputStream = new ZipOutputStream(servletOutputStream); //Create zip output stream. This is where we will write the files to
+&nbsp;
+&nbsp;        //Set headers
+&nbsp;        response.setContentType(&quot;application/zip&quot;); //We set the content type to zip as that is the expected file type
+&nbsp;        response.setHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=\&quot;package.zip\&quot;&quot;); //Set filename
+&nbsp;
+&nbsp;        //Iterate through files
+&nbsp;        for (String filePath : paths) {
+&nbsp;
+&nbsp;            File view = new File(filePath); //Create a temporary file object from the path
+&nbsp;
+&nbsp;            try (FileInputStream fileInputStream = new FileInputStream(view)) {
+&nbsp;                //Create zip entry
+&nbsp;                ZipEntry zipEntry = new ZipEntry(view.getName());
+&nbsp;                zipOutputStream.putNextEntry(zipEntry); //Add entry to zip output stream
+&nbsp;
+&nbsp;                //Write file to output stream
+&nbsp;                byte[] bufferData = new byte[4096]; //4096 is an arbitrary buffer. Can be increased if necessary
+&nbsp;                int bytesRead; //Number of bytes read from file
+&nbsp;                while ((bytesRead = fileInputStream.read(bufferData)) != -1) {
+&nbsp;                    zipOutputStream.write(bufferData, 0, bytesRead); //Write to zip output stream from buffer
+&nbsp;                }
+&nbsp;
+&nbsp;                //Close entry. We don&#39;t want to close the stream, as we are writing multiple files
+&nbsp;                zipOutputStream.closeEntry();
+&nbsp;            } catch (IOException e) {
+&nbsp;                throw new RuntimeException(e);
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        //Close streams. It is important to close the streams, as otherwise the file will not be written correctly and they will corrupt
+&nbsp;        zipOutputStream.close();
+&nbsp;        servletOutputStream.close();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

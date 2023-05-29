@@ -1,0 +1,134 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Login</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control</a>
+</div>
+
+<h1>Coverage Summary for Class: Login (dat.backend.control)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Login</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.entities.user.Customer;
+&nbsp;import dat.backend.model.entities.user.Employee;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.exceptions.ValidationException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.order.CarportOrderFacade;
+&nbsp;import dat.backend.model.persistence.user.CustomerFacade;
+&nbsp;import dat.backend.model.persistence.user.EmployeeFacade;
+&nbsp;import dat.backend.model.services.Validation;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;login&quot;, urlPatterns = {&quot;/login&quot;})
+&nbsp;public class Login extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+&nbsp;        // You shouldn&#39;t end up here with a GET-request, thus you get sent back to frontpage
+&nbsp;        response.sendRedirect(&quot;index.jsp&quot;);
+&nbsp;    }
+&nbsp;
+&nbsp;    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+&nbsp;        request.getSession().setAttribute(&quot;user&quot;, null); // invalidating user object in session scope
+&nbsp;        String email = request.getParameter(&quot;email&quot;);
+&nbsp;        String password = request.getParameter(&quot;password&quot;);
+&nbsp;        try {
+&nbsp;            try {
+&nbsp;                if (Validation.isValidCustomerEmail(email)) {
+&nbsp;                    Customer customer = CustomerFacade.login(email, password, connectionPool);
+&nbsp;                    request.getSession().setAttribute(&quot;user&quot;, customer);
+&nbsp;                    request.getSession().setAttribute(&quot;myhome&quot;, &quot;customer-site&quot;);
+&nbsp;                    request.getSession().setAttribute(&quot;lateststatus&quot;, CarportOrderFacade.getLatestOrderStatusFromCustomer(customer, connectionPool));
+&nbsp;                    request.getRequestDispatcher(&quot;WEB-INF/customerSite.jsp&quot;).forward(request, response);
+&nbsp;                } else {
+&nbsp;                    Employee employee = EmployeeFacade.login(email, password, connectionPool);
+&nbsp;                    request.getSession().setAttribute(&quot;user&quot;, employee);
+&nbsp;                    request.getSession().setAttribute(&quot;myhome&quot;, &quot;employee-site&quot;);
+&nbsp;                    request.getSession().setAttribute(&quot;news&quot;, CarportOrderFacade.getCarportOrdersAsNews(connectionPool));
+&nbsp;                    request.getRequestDispatcher(&quot;WEB-INF/employeeSite.jsp&quot;).forward(request, response);
+&nbsp;                }
+&nbsp;            } catch (NotFoundException | ValidationException e) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;Wrong username or password&quot;);
+&nbsp;                request.getRequestDispatcher(&quot;login.jsp&quot;).forward(request, response);
+&nbsp;            }
+&nbsp;        } catch (DatabaseException e) {
+&nbsp;            request.setAttribute(&quot;errormessage&quot;, e.getMessage());
+&nbsp;            request.getRequestDispatcher(&quot;error.jsp&quot;).forward(request, response);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

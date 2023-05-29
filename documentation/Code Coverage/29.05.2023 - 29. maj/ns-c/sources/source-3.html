@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ChangeCustomerInfo</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.customer</a>
+</div>
+
+<h1>Coverage Summary for Class: ChangeCustomerInfo (dat.backend.control.customer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ChangeCustomerInfo</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.customer;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.entities.user.Customer;
+&nbsp;import dat.backend.model.entities.user.Person;
+&nbsp;import dat.backend.model.entities.user.Zip;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.exceptions.ValidationException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.user.CustomerFacade;
+&nbsp;import dat.backend.model.persistence.user.EmployeeFacade;
+&nbsp;import dat.backend.model.persistence.user.ZipFacade;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.MultipartConfig;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import javax.servlet.http.Part;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;@MultipartConfig
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;change-customer-info&quot;, value = &quot;/change-customer-info&quot;)
+&nbsp;public class ChangeCustomerInfo extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) { }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;        Customer customer = (Customer) request.getSession().getAttribute(&quot;user&quot;);
+&nbsp;        this.saveAddresses(customer, request);
+&nbsp;        this.changeName(customer, request);
+&nbsp;        this.changePassword(customer, request);
+&nbsp;        this.changePersonPhoneNumber(customer, request);
+&nbsp;        this.changeProfilePicture(customer, request);
+&nbsp;        request.getRequestDispatcher(&quot;WEB-INF/customerSite.jsp&quot;).forward(request, response);
+&nbsp;    }
+&nbsp;
+&nbsp;    private void saveAddresses(Customer customer, HttpServletRequest request) {
+&nbsp;        // for loop 1-3
+&nbsp;        for (int i = 1; i &lt;= 3; i++) {
+&nbsp;            String street = request.getParameter(&quot;street&quot; + i);
+&nbsp;            String zipCodeStr = request.getParameter(&quot;zipCode&quot; + i);
+&nbsp;            if (zipCodeStr != null &amp;&amp; !zipCodeStr.isEmpty()) {
+&nbsp;                int zipCode = Integer.parseInt(zipCodeStr);
+&nbsp;                if (zipCode != 0 &amp;&amp; !street.isEmpty() || street != null) {
+&nbsp;                    try {
+&nbsp;                        Zip zip = ZipFacade.getZipByZipCode(zipCode, connectionPool);
+&nbsp;                        CustomerFacade.updateAddress(customer, i, street, zip, connectionPool);
+&nbsp;                        request.setAttribute(&quot;addressSuccess&quot;, &quot;adresse-ændring succesfuldt&quot;);
+&nbsp;                    } catch (DatabaseException | NotFoundException e) {
+&nbsp;                        request.setAttribute(&quot;errormessage&quot;, &quot;zip kunne ikke findes&quot;);
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changeName(Customer customer, HttpServletRequest request) {
+&nbsp;        String name = request.getParameter(&quot;name&quot;);
+&nbsp;        if (name != null &amp;&amp; !name.isEmpty()) {
+&nbsp;            try {
+&nbsp;                CustomerFacade.updateName(customer, name, connectionPool);
+&nbsp;                request.setAttribute(&quot;nameSuccess&quot;, &quot;navn-ændring succesfuldt&quot;);
+&nbsp;            } catch (DatabaseException | ValidationException e) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;navnet kunne til dette&quot;);
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changePassword(Customer customer, HttpServletRequest request) {
+&nbsp;        String password = request.getParameter(&quot;newPassword&quot;);
+&nbsp;        String confirmPassword = request.getParameter(&quot;confirmPassword&quot;);
+&nbsp;        if (password != null &amp;&amp; !password.isEmpty() &amp;&amp; password.equals(confirmPassword)) {
+&nbsp;            try {
+&nbsp;                CustomerFacade.updatePassword(customer, password, connectionPool);
+&nbsp;                request.setAttribute(&quot;passwordSuccess&quot;, &quot;password-ændring succesfuldt&quot;);
+&nbsp;            } catch (DatabaseException | ValidationException e) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;password kunne ikke opdateres, prøv igen.&quot;);
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changePersonPhoneNumber(Customer customer, HttpServletRequest request) {
+&nbsp;        String oldCustomerPhoneNumber = customer.getPersonalPhoneNumber().orElse(&quot;&quot;);
+&nbsp;        String newPhoneNumber = request.getParameter(&quot;newPhoneNumber&quot;);
+&nbsp;        if (newPhoneNumber != null &amp;&amp; !newPhoneNumber.isEmpty() &amp;&amp; !oldCustomerPhoneNumber.equals(newPhoneNumber)) {
+&nbsp;            try {
+&nbsp;                CustomerFacade.updatePhoneNumber(customer, newPhoneNumber, connectionPool);
+&nbsp;                request.setAttribute(&quot;phoneSuccess&quot;, &quot;telefonnummer-ændring succesfuldt&quot;);
+&nbsp;            } catch (DatabaseException | ValidationException e) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;Telefonnummer kunne ikke opdateres. Telefonnummeret skal være 8 cifre.&quot;);
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changeProfilePicture(Customer customer, HttpServletRequest request) throws ServletException, IOException {
+&nbsp;        //Get the file uploaded by the user
+&nbsp;        Part filePart = request.getPart(&quot;imageFile&quot;);
+&nbsp;        if (filePart.getSize() == 0) {
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+&nbsp;        FileInputStream fileContent = (FileInputStream) filePart.getInputStream();
+&nbsp;        //Update the profile picture
+&nbsp;        try {
+&nbsp;            CustomerFacade.updateProfilePicture(customer, fileContent, connectionPool);
+&nbsp;        } catch (DatabaseException e) {
+&nbsp;            request.setAttribute(&quot;errormessage&quot;, &quot;Profilbilledet kunne ikke opdateres.&quot;);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

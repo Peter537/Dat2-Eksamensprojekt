@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CreateOrderRequest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.customer</a>
+</div>
+
+<h1>Coverage Summary for Class: CreateOrderRequest (dat.backend.control.customer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CreateOrderRequest</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.customer;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.entities.PartsList;
+&nbsp;import dat.backend.model.entities.item.Roof;
+&nbsp;import dat.backend.model.entities.item.ToolRoom;
+&nbsp;import dat.backend.model.entities.user.Address;
+&nbsp;import dat.backend.model.entities.user.Customer;
+&nbsp;import dat.backend.model.entities.user.Zip;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.exceptions.ValidationException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.item.RoofFacade;
+&nbsp;import dat.backend.model.persistence.order.CarportOrderFacade;
+&nbsp;import dat.backend.model.persistence.user.ZipFacade;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.logging.Logger;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;create-order-request&quot;, value = &quot;/create-order-request&quot;)
+&nbsp;public class CreateOrderRequest extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() throws ServletException {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;        if (request.getParameter(&quot;carportMinHeight&quot;) == null || request.getParameter(&quot;carportWidth&quot;) == null || request.getParameter(&quot;carportLength&quot;) == null) {
+&nbsp;            request.setAttribute(&quot;errormessage&quot;, &quot;Please enter all dimensions&quot;);
+&nbsp;            request.getRequestDispatcher(&quot;WEB-INF/carportFormula.jsp&quot;).forward(request, response);
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+&nbsp;        int height = Integer.parseInt(request.getParameter(&quot;carportMinHeight&quot;));
+&nbsp;        int width = Integer.parseInt(request.getParameter(&quot;carportWidth&quot;));
+&nbsp;        int length = Integer.parseInt(request.getParameter(&quot;carportLength&quot;));
+&nbsp;        try {
+&nbsp;            Roof roof = RoofFacade.getRoofById(1, connectionPool);
+&nbsp;            PartsList partsList = new PartsList(height, length, width, roof, connectionPool);
+&nbsp;            request.setAttribute(&quot;partsList&quot;, partsList);
+&nbsp;
+&nbsp;            // load in info
+&nbsp;            Customer customer = (Customer) request.getSession().getAttribute(&quot;user&quot;);
+&nbsp;            int streetId = Integer.parseInt(request.getParameter(&quot;customerAddress&quot;));
+&nbsp;            Address address;
+&nbsp;            if (streetId == 0) {
+&nbsp;                int zipCode = Integer.parseInt(request.getParameter(&quot;customerZip&quot;));
+&nbsp;                Zip zip = ZipFacade.getZipByZipCode(zipCode, connectionPool);
+&nbsp;                String customerAddressOther = request.getParameter(&quot;customerAddressOther&quot;);
+&nbsp;                address = new Address(customerAddressOther, zip);
+&nbsp;                if (address.getStreet() == null || address.getStreet().isEmpty()) {
+&nbsp;                    request.setAttribute(&quot;errormessage&quot;, &quot;Please enter an address&quot;);
+&nbsp;                    request.getRequestDispatcher(&quot;WEB-INF/carportFormula.jsp&quot;).forward(request, response);
+&nbsp;                    return;
+&nbsp;                }
+&nbsp;            } else {
+&nbsp;                if (!customer.getAddress(streetId).isPresent()) {
+&nbsp;                    request.setAttribute(&quot;errormessage&quot;, &quot;Please enter an address&quot;);
+&nbsp;                    request.getRequestDispatcher(&quot;WEB-INF/carportFormula.jsp&quot;).forward(request, response);
+&nbsp;                    return;
+&nbsp;                }
+&nbsp;
+&nbsp;                address = customer.getAddress(streetId).get();
+&nbsp;            }
+&nbsp;
+&nbsp;            Optional&lt;ToolRoom&gt; toolRoom = Optional.empty();
+&nbsp;            Optional&lt;String&gt; remarks = Optional.ofNullable(request.getParameter(&quot;remarks&quot;));
+&nbsp;
+&nbsp;            // info end
+&nbsp;            String successMessage = &quot;good job&quot;;
+&nbsp;            CarportOrderFacade.create(customer, address, width, length, height, roof, toolRoom, remarks, partsList.getTotalPrice(), connectionPool);
+&nbsp;            request.setAttribute(&quot;partsListSuccess&quot;, successMessage);
+&nbsp;            request.getSession().setAttribute(&quot;lateststatus&quot;, CarportOrderFacade.getLatestOrderStatusFromCustomer(customer, connectionPool));
+&nbsp;            request.getRequestDispatcher(&quot;WEB-INF/carportFormula.jsp&quot;).forward(request, response);
+&nbsp;        } catch (DatabaseException | IllegalArgumentException | NotFoundException | ValidationException e) {
+&nbsp;            Logger.getLogger(&quot;web&quot;).warning(e.getMessage());
+&nbsp;            request.setAttribute(&quot;errormessage&quot;, e.getMessage());
+&nbsp;            request.getRequestDispatcher(&quot;WEB-INF/carportFormula.jsp&quot;).forward(request, response);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>
