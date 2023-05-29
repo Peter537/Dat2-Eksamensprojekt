@@ -29,7 +29,7 @@
                 <th>Tykkelse (cm)</th>
                 <th>Bredde (cm)</th>
                 <th>Længde (cm)</th>
-                <th>Meter Price (kr)</th>
+                <th>Meterpris (kr)</th>
                 <th>Antal</th>
             </tr>
             </thead>
