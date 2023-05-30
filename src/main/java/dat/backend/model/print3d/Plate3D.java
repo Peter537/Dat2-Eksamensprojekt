@@ -28,12 +28,12 @@ public class Plate3D {
         Geometry3D box = csg.box3D(partsList.getLengthOfPlate() * 10, plateType.getThickness(), plateType.getWidth(), false);
 
         // Create cylinder for holes
-        Geometry3D hole = csg.cylinder3D((double) plateType.getThickness() *0.5, (double) plateType.getWidth() / 2, 50, false);
+        Geometry3D hole = csg.cylinder3D((double) plateType.getThickness() * 0.5, (double) plateType.getWidth() / 2, 50, false);
 
         // Subtract the holes from the box to create plate with holes
-        for(int i = 0; i < this.numberOfHoles; i++) {
+        for (int i = 0; i < this.numberOfHoles; i++) {
             double holePosition = (double) (partsList.getLengthOfPlate() * 10 - plateType.getThickness()) / 2 - i * (partsList.getLengthOfPlate() * 10 - plateType.getThickness()) / (this.numberOfHoles - 1);
-            Geometry3D holeAtPosition = csg.translate3D(holePosition, 0, (double) plateType.getWidth()/2).transform(hole);
+            Geometry3D holeAtPosition = csg.translate3D(holePosition, 0, (double) plateType.getWidth() / 2).transform(hole);
             box = csg.difference3D(box, holeAtPosition);
         }
 

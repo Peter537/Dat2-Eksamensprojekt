@@ -23,8 +23,8 @@ public class Rafter3D {
         LumberType rafterType = partsList.getRafter().getLumberType();
         int numberOfRafters = partsList.getNumberOfRafters();
         int length = partsList.getLengthOfRafter() * 10;
-        int width = (int)rafterType.getThickness();  // Changed from getWidth() to getThickness()
-        int thickness = (int)rafterType.getWidth();  // Changed from getThickness() to getWidth()
+        int width = (int) rafterType.getThickness();  // Changed from getWidth() to getThickness()
+        int thickness = (int) rafterType.getWidth();  // Changed from getThickness() to getWidth()
 
         Geometry3D box = csg.box3D(length, width, thickness, false);
 
@@ -32,8 +32,8 @@ public class Rafter3D {
         Geometry3D hole = csg.cylinder3D((double) width * 0.4, (double) thickness / 2, 50, false);
 
         // Position holes at each end of the rafter
-        Geometry3D tap1 = csg.translate3D((double) -(length - width) /2, 0, (double) thickness ).transform(hole);
-        Geometry3D tap2 = csg.translate3D((double) (length - width) /2, 0, (double) thickness).transform(hole);
+        Geometry3D tap1 = csg.translate3D((double) -(length - width) / 2, 0, (double) thickness).transform(hole);
+        Geometry3D tap2 = csg.translate3D((double) (length - width) / 2, 0, (double) thickness).transform(hole);
 
         // Subtract the holes from the box to create rafter with holes
         box = csg.union3D(box, tap1);
