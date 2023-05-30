@@ -13,10 +13,10 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-    This class handles the birth and death of the connection pool.
-    contextInitialized() initializes the connection pool at application start
-    Then the connection pool can be obtained by ApplicationStart.getConnectionPool()
+/**
+ * This class handles the birth and death of the connection pool.
+ * contextInitialized() initializes the connection pool at application start
+ * Then the connection pool can be obtained by ApplicationStart.getConnectionPool()
  */
 @IgnoreCoverage(reason = "This is a configuration class that is not meant to be tested")
 @WebListener
@@ -57,14 +57,14 @@ public class ApplicationStart implements ServletContextListener {
             if (driver.getClass().getClassLoader() == cl) {
                 // This driver was registered by the webapp's ClassLoader, so deregister it:
                 try {
-                    Logger.getLogger("web").log(Level.INFO, "Deregistering JDBC driver");
+                    Logger.getLogger("web").log(Level.INFO, "Unregistering JDBC driver");
                     DriverManager.deregisterDriver(driver);
                 } catch (SQLException ex) {
-                    Logger.getLogger("web").log(Level.SEVERE, "Error deregistering JDBC driver");
+                    Logger.getLogger("web").log(Level.SEVERE, "Error unregistering JDBC driver");
                 }
             } else {
-                // driver was not registered by the webapp's ClassLoader and may be in use elsewhere
-                Logger.getLogger("web").log(Level.WARNING, "Error deregistering JDBC driver");
+                // the driver was not registered by the webapp's ClassLoader and may be in use elsewhere
+                Logger.getLogger("web").log(Level.WARNING, "Error unregistering JDBC driver");
             }
         }
     }
