@@ -16,7 +16,6 @@ import java.io.IOException;
 /**
  * This servlet's purpose is to delete an item from the catalog.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "delete-catalog-item", value = "/delete-catalog-item")
 public class CatalogDeleteItem extends HttpServlet {

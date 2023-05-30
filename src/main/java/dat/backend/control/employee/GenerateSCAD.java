@@ -20,7 +20,6 @@ import java.util.zip.ZipOutputStream;
 /**
  * This servlet's purpose is to generate a zip file containing the 3D models of the parts in the partslist.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "GenerateSCAD", value = "/GenerateSCAD")
 public class GenerateSCAD extends HttpServlet {

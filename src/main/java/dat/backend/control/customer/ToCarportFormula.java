@@ -12,7 +12,6 @@ import java.io.IOException;
 /**
  * This servlet's purpose is to forward the customer to the customerSite.jsp page
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "carport-formula", value = "/carport-formula")
 public class ToCarportFormula extends HttpServlet {

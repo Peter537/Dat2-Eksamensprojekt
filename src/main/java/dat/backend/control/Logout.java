@@ -12,7 +12,6 @@ import java.io.IOException;
 /**
  * This servlet handles the logout of a user.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "logout", urlPatterns = {"/logout"})
 public class Logout extends HttpServlet {

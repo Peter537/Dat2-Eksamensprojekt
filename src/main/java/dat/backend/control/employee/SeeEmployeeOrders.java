@@ -5,7 +5,6 @@ import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.order.CarportOrderFacade;
@@ -22,7 +21,6 @@ import java.util.List;
 /**
  * This servlet's purpose is to load in all the orders that the employee is assigned to.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "see-employee-orders", urlPatterns = {"/see-employee-orders"})
 public class SeeEmployeeOrders extends HttpServlet {

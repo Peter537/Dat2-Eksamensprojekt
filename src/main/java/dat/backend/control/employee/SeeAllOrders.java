@@ -4,7 +4,6 @@ import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.order.CarportOrderFacade;
 
@@ -20,7 +19,6 @@ import java.util.List;
  * This servlet's purpose is to load in all the orders that are present in the database into an arraylist
  * and then redirects the employee to the seeAllOrders.jsp page.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "see-all-orders", value = "/see-all-orders")
 public class SeeAllOrders extends HttpServlet {

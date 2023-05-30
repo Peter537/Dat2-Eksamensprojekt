@@ -2,12 +2,10 @@ package dat.backend.control.employee;
 
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
-import dat.backend.model.entities.user.Customer;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.persistence.user.CustomerFacade;
 import dat.backend.model.persistence.user.EmployeeFacade;
 
 import javax.servlet.ServletException;
@@ -23,7 +21,6 @@ import java.io.IOException;
 /**
  * This servlet's purpose is to let the employee change their infoformation from their profilesite.
  */
-
 @MultipartConfig
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "change-employee-info", value = "/change-employee-info")

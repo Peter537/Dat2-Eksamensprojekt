@@ -3,14 +3,12 @@ package dat.backend.control.customer;
 import dat.backend.annotation.IgnoreCoverage;
 import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.user.Customer;
-import dat.backend.model.entities.user.Person;
 import dat.backend.model.entities.user.Zip;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.user.CustomerFacade;
-import dat.backend.model.persistence.user.EmployeeFacade;
 import dat.backend.model.persistence.user.ZipFacade;
 
 import javax.servlet.ServletException;
@@ -24,10 +22,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * This servlet's purpose is to validate and change the customer's information and then show them back to the userpage wiith the changes made.
- * It will show popups to anything successfull and also popups for unsuccessful changes.
+ * This servlet's purpose is to validate and change the customer's information and then show them back to the userpage with the changes made.
+ * It will show popups to anything successful and also popups for unsuccessful changes.
  */
-
 @MultipartConfig
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "change-customer-info", value = "/change-customer-info")

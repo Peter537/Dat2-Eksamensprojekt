@@ -19,11 +19,9 @@ import java.io.IOException;
 /**
  * This servlet loads in a specific order from the database using an ID forwarded by the jsp
  * and shows a more detailed view showing all information regarding said order.
- * Depending on what the attribute "fromJsp" is set to, the servlet will forward the user to the approriate page.
+ * Depending on what the attribute "fromJsp" is set to, the servlet will forward the user to the appropriate page.
  * This is due to the fact that this servlet is used by both the customer and employee site.
  */
-
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "detailed-order-info", value = "/detailed-order-info")
 public class DetailedOrderInfo extends HttpServlet {

@@ -18,10 +18,9 @@ import java.io.IOException;
 /**
  * This servlet's purpose is to redirect the employee to the generateCustomPartsList.jsp page if forwarded via "GET" and
  * to forward a certain order to the generateCustomPartsList.jsp page if forwarded via "POST".
- * The reason it forwards an order is so it can load those values into the partlist generator which makes it easy to edit the values
+ * The reason it forwards an order is, so it can load those values into the partslist generator, which makes it easy to edit the values
  * and update the specific order.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "generate-custom-partslist", value = "/generate-custom-partslist")
 public class GenerateCustomPartsList extends HttpServlet {

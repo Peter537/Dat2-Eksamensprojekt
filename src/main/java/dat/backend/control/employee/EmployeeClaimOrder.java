@@ -20,7 +20,6 @@ import java.io.IOException;
 /**
  * This servlet's purpose is to let the employee claim an order.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "employee-claim-order", value = "/employee-claim-order")
 public class EmployeeClaimOrder extends HttpServlet {

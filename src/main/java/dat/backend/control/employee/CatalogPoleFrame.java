@@ -21,7 +21,6 @@ import java.util.List;
 /**
  * This servlet's purpose is to populate an iframe with data from the pole catalog in the databse.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "catalog-pole-frame", value = "/catalog-pole-frame")
 public class CatalogPoleFrame extends HttpServlet {

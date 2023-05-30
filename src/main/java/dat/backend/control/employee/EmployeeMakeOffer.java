@@ -21,7 +21,6 @@ import java.io.IOException;
  * This servlet's purpose is let an employee make an offer to a customer's order by changing
  * the priceOffer field in the database and updating the order's status.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "employee-make-offer", value = "/employee-make-offer")
 public class EmployeeMakeOffer extends HttpServlet {

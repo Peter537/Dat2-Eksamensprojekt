@@ -18,11 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This servlet's purpose is to populate an iframe with data from the rafter catalog in the databse.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "catalog-rafter-frame", value = "/catalog-rafter-frame")
 public class CatalogRafterFrame extends HttpServlet {

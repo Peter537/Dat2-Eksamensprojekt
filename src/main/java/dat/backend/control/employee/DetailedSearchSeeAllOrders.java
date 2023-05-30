@@ -5,7 +5,6 @@ import dat.backend.model.config.ApplicationStart;
 import dat.backend.model.entities.order.CarportOrder;
 import dat.backend.model.entities.user.Employee;
 import dat.backend.model.exceptions.DatabaseException;
-import dat.backend.model.exceptions.NotFoundException;
 import dat.backend.model.exceptions.ValidationException;
 import dat.backend.model.persistence.ConnectionPool;
 import dat.backend.model.persistence.order.CarportOrderFacade;
@@ -19,15 +18,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-
 
 /**
  * This servlet's purpose is to let employees query the website for specific orders. The employee can query all their own orders
- * or all orders in the syste using this very same servlet.
+ * or all orders in the system using this very same servlet.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "detailed-search-see-all-orders", value = "/detailed-search-see-all-orders")
 public class DetailedSearchSeeAllOrders extends HttpServlet {

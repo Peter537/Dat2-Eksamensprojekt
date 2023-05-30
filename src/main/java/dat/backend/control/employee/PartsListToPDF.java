@@ -16,7 +16,6 @@ import java.io.IOException;
 /**
  * This servlet's purpose is to generate a pdf from a parts-list by using the iTextRenderer library.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "partslist-to-pdf", value = "/partslist-to-pdf")
 public class PartsListToPDF extends HttpServlet {

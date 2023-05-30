@@ -19,8 +19,6 @@ import java.util.Objects;
 /**
  * This servlet's purpose is to save a catalog item.
  */
-
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "save-catalog-item", value = "/save-catalog-item")
 public class CatalogSaveItem extends HttpServlet {

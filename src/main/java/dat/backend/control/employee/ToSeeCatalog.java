@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * This servlet's purpose is to redirect the employee to the catalog page.
  */
-
 @IgnoreCoverage(reason = "Servlet class should not be tested")
 @WebServlet(name = "see-catalog", value = "/see-catalog")
 public class ToSeeCatalog extends HttpServlet {
