@@ -8,15 +8,7 @@
 
 ## Aflevering
 
-### Rapport
-
-- Vores rapport kan findes her
-
-### Mockup i Figma
-
-- Vores mockup kan findes her
-
 ### Database
 
-Vores databasefiler kan findes her
-- EER diagrammet kan findes her
+Vores databasefiler kan findes [her](/documentation/Database)
+- EER diagrammet kan findes [her](/documentation/Database/Version%202.1/EER_v_2_1.png)
