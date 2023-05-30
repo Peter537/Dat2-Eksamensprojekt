@@ -2,8 +2,6 @@ package dat.backend.model.entities.user;
 
 import dat.backend.annotation.IgnoreCoverage;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
