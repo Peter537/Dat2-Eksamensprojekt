@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PartsListToPDF</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.employee</a>
+</div>
+
+<h1>Coverage Summary for Class: PartsListToPDF (dat.backend.control.employee)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">PartsListToPDF</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.employee;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.entities.PartsList;
+&nbsp;import dat.backend.model.entities.item.Lumber;
+&nbsp;import dat.backend.model.entities.item.Roof;
+&nbsp;import org.xhtmlrenderer.pdf.ITextRenderer;
+&nbsp;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.ByteArrayOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;partslist-to-pdf&quot;, value = &quot;/partslist-to-pdf&quot;)
+&nbsp;public class PartsListToPDF extends HttpServlet {
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+&nbsp;        // Set content type to application/pdf
+&nbsp;        response.setContentType(&quot;application/pdf&quot;);
+&nbsp;        response.setHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=stykliste.pdf&quot;);
+&nbsp;
+&nbsp;        // Get the parts-list from the request
+&nbsp;        PartsList partsList = (PartsList) request.getSession().getAttribute(&quot;partslist&quot;);
+&nbsp;
+&nbsp;        // Write the pdf to the response
+&nbsp;        response.getOutputStream().write(generatePDFBytes(partsList));
+&nbsp;    }
+&nbsp;
+&nbsp;    public static byte[] generatePDFBytes(PartsList partsList) {
+&nbsp;        // The byte array to return
+&nbsp;        byte[] pdfBytes = null;
+&nbsp;        // Separate the parts-list into individual lumber objects to simplify the code
+&nbsp;        Lumber rafter = partsList.getRafter();
+&nbsp;        Lumber pole = partsList.getPole();
+&nbsp;        Lumber plate = partsList.getPlate();
+&nbsp;        Roof roof = partsList.getRoof();
+&nbsp;        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+&nbsp;            String html = &quot;&lt;body&gt;&quot; +
+&nbsp;                    &quot;&lt;table class=\&quot;table table-striped table-bordered table-hover\&quot;&gt;\n&quot; +
+&nbsp;                    &quot;    &lt;thead&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;tr&gt;&quot; +
+&nbsp;                    &quot;           &lt;th&gt; Dimensioner &lt;/th&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;th&gt;Længde&lt;/th&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;th&gt;Antal&lt;/th&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;th&gt;Enhed&lt;/th&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;th&gt;Beskrivelse&lt;/th&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;/tr&gt;&quot; +
+&nbsp;                    &quot;   &lt;/thead&gt;\n&quot; +
+&nbsp;                    &quot;   &lt;tbody&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;tr&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt; &quot; + rafter.getLumberType().getThickness() + &quot;x&quot; + rafter.getLumberType().getWidth() + &quot;mm.\n&quot; +
+&nbsp;                    &quot;            spærtre\n&quot; +
+&nbsp;                    &quot;           &lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + rafter.getLength() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + partsList.getNumberOfRafters() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;stk.&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + (rafter.getDescription().isPresent() ? rafter.getDescription().get() : &quot;Dette er en spær&quot;) + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;/tr&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;tr&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + pole.getLumberType().getThickness() + &quot;x&quot; + pole.getLumberType().getWidth() + &quot;mm.\n&quot; +
+&nbsp;                    &quot;            stolpe\n&quot; +
+&nbsp;                    &quot;           &lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + pole.getLength() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + partsList.getNumberOfPoles() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;stk.&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + (pole.getDescription().isPresent() ? pole.getDescription().get() : &quot;Dette er en stolpe&quot;) + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;/tr&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;tr&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + plate.getLumberType().getThickness() + &quot;x&quot; + plate.getLumberType().getWidth() + &quot;mm.\n&quot; +
+&nbsp;                    &quot;            rem\n&quot; +
+&nbsp;                    &quot;           &lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + plate.getLength() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + partsList.getNumberOfPlates() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;stk.&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + (plate.getDescription().isPresent() ? plate.getDescription().get() : &quot;Dette er en rem&quot;) + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;/tr&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;tr&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + roof.getDisplayName() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + partsList.getLength() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + partsList.getRoofArea() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;m2&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;Dette er taget&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;/tr&gt;\n&quot; +
+&nbsp;                    &quot;   &lt;/tbody&gt;\n&quot; +
+&nbsp;                    &quot;   &lt;/table&gt;&quot; +
+&nbsp;                    &quot;&lt;table class=\&quot;table table-striped table-bordered table-hover\&quot;&gt;\n&quot; +
+&nbsp;                    &quot;    &lt;thead&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;tr&gt;&quot; +
+&nbsp;                    &quot;           &lt;th&gt;Pris på stykliste&lt;/th&gt;&quot; +
+&nbsp;                    &quot;       &lt;/tr&gt;\n&quot; +
+&nbsp;                    &quot;    &lt;/thead&gt;\n&quot; +
+&nbsp;                    &quot;    &lt;tbody&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;tr&gt;\n&quot; +
+&nbsp;                    &quot;           &lt;td&gt;&quot; + partsList.getFormattedPrice() + &quot;&lt;/td&gt;\n&quot; +
+&nbsp;                    &quot;       &lt;/tr&gt;\n&quot; +
+&nbsp;                    &quot;    &lt;/tbody&gt;\n&quot; +
+&nbsp;                    &quot;&lt;/table&gt;&quot; +
+&nbsp;                    &quot;&lt;/body&gt;&quot;;
+&nbsp;
+&nbsp;            ITextRenderer renderer = new ITextRenderer();
+&nbsp;            renderer.setDocumentFromString(html);
+&nbsp;            renderer.layout();
+&nbsp;            renderer.createPDF(outputStream);
+&nbsp;
+&nbsp;            // Get the pdf bytes from the output stream
+&nbsp;            pdfBytes = outputStream.toByteArray();
+&nbsp;        } catch (Exception e) {
+&nbsp;            e.printStackTrace();
+&nbsp;        }
+&nbsp;
+&nbsp;        return pdfBytes;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

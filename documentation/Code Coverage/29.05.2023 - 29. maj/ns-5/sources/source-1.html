@@ -1,0 +1,162 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ConnectionPool</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.persistence</a>
+</div>
+
+<h1>Coverage Summary for Class: ConnectionPool (dat.backend.model.persistence)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ConnectionPool</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (25/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.persistence;
+&nbsp;
+&nbsp;import com.zaxxer.hikari.HikariConfig;
+&nbsp;import com.zaxxer.hikari.HikariDataSource;
+&nbsp;
+&nbsp;import java.sql.Connection;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.logging.Level;
+&nbsp;import java.util.logging.Logger;
+&nbsp;
+&nbsp;public class ConnectionPool {
+&nbsp;
+&nbsp;    private final HikariDataSource ds;
+&nbsp;    private static final String USER = &quot;root&quot;;
+&nbsp;    private static final String PASSWORD = &quot;123&quot;;
+&nbsp;    private static final String URL = &quot;jdbc:mysql://localhost:3306/fogcarport&quot;;
+&nbsp;
+&nbsp;    public ConnectionPool() {
+<b class="fc">&nbsp;        this(USER, PASSWORD, URL);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public ConnectionPool(String user, String password, String url) {</b>
+<b class="fc">&nbsp;        String deployed = System.getenv(&quot;DEPLOYED&quot;);</b>
+<b class="fc">&nbsp;        if (deployed != null) {</b>
+&nbsp;            // Prod: hent variabler fra setenv.sh i Tomcats bin folder
+<b class="fc">&nbsp;            user = System.getenv(&quot;JDBC_USER&quot;);</b>
+<b class="fc">&nbsp;            password = System.getenv(&quot;JDBC_PASSWORD&quot;);</b>
+<b class="fc">&nbsp;            url = System.getenv(&quot;JDBC_CONNECTION_STRING&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Logger.getLogger(&quot;web&quot;).log(Level.INFO,</b>
+<b class="fc">&nbsp;                String.format(&quot;Connection Pool created for: (%s, %s, %s)&quot;, user, password, url));</b>
+<b class="fc">&nbsp;        HikariConfig config = new HikariConfig();</b>
+<b class="fc">&nbsp;        config.setDriverClassName(&quot;com.mysql.cj.jdbc.Driver&quot;);</b>
+<b class="fc">&nbsp;        config.setJdbcUrl(url);</b>
+<b class="fc">&nbsp;        config.setUsername(user);</b>
+<b class="fc">&nbsp;        config.setPassword(password);</b>
+<b class="fc">&nbsp;        config.setMaximumPoolSize(20);</b>
+<b class="fc">&nbsp;        config.setConnectionTimeout(30000);</b>
+<b class="fc">&nbsp;        config.addDataSourceProperty(&quot;cachePrepStmts&quot;, &quot;true&quot;);</b>
+<b class="fc">&nbsp;        config.addDataSourceProperty(&quot;prepStmtCacheSize&quot;, &quot;250&quot;);</b>
+<b class="fc">&nbsp;        config.addDataSourceProperty(&quot;prepStmtCacheSqlLimit&quot;, &quot;2048&quot;);</b>
+<b class="fc">&nbsp;        this.ds = new HikariDataSource(config);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Connection getConnection() throws SQLException {
+<b class="fc">&nbsp;        Logger.getLogger(&quot;web&quot;).log(Level.INFO, &quot;: get data connection&quot;);</b>
+<b class="fc">&nbsp;        return ds.getConnection();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public HikariDataSource getDataSource() {
+<b class="fc">&nbsp;        return ds;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void close() {
+<b class="fc">&nbsp;        Logger.getLogger(&quot;web&quot;).log(Level.INFO, &quot;Shutting down connection pool&quot;);</b>
+<b class="fc">&nbsp;        ds.close();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

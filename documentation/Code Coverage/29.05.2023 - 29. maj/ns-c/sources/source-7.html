@@ -1,0 +1,137 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CreateCustomer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.control.customer</a>
+</div>
+
+<h1>Coverage Summary for Class: CreateCustomer (dat.backend.control.customer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">CreateCustomer</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.control.customer;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.config.ApplicationStart;
+&nbsp;import dat.backend.model.entities.user.Customer;
+&nbsp;import dat.backend.model.exceptions.AlreadyExistsException;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.ValidationException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.user.CustomerFacade;
+&nbsp;import dat.backend.model.services.Validation;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import javax.servlet.http.HttpSession;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;@IgnoreCoverage(reason = &quot;Servlet class should not be tested&quot;)
+&nbsp;@WebServlet(name = &quot;create-customer&quot;, value = &quot;/create-customer&quot;)
+&nbsp;public class CreateCustomer extends HttpServlet {
+&nbsp;
+&nbsp;    private ConnectionPool connectionPool;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() {
+&nbsp;        this.connectionPool = ApplicationStart.getConnectionPool();
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) { }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+&nbsp;        HttpSession session = request.getSession();
+&nbsp;        session.setAttribute(&quot;user&quot;, null); // invalidating user object in session scope
+&nbsp;        String name = request.getParameter(&quot;name&quot;);
+&nbsp;        String email = request.getParameter(&quot;email&quot;);
+&nbsp;        String password = request.getParameter(&quot;password&quot;);
+&nbsp;        String confirmPassword = request.getParameter(&quot;confirmPassword&quot;);
+&nbsp;        try {
+&nbsp;            if (!Validation.isValidCustomerEmail(email)) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;Invalid email&quot;);
+&nbsp;                request.getRequestDispatcher(&quot;createCustomer.jsp&quot;).forward(request, response);
+&nbsp;                return;
+&nbsp;            }
+&nbsp;
+&nbsp;            if (!password.equals(confirmPassword)) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;Passwords do not match&quot;);
+&nbsp;                request.getRequestDispatcher(&quot;createCustomer.jsp&quot;).forward(request, response);
+&nbsp;                return;
+&nbsp;            }
+&nbsp;
+&nbsp;            try {
+&nbsp;                Customer customer = CustomerFacade.create(email, password, name, connectionPool);
+&nbsp;                session.setAttribute(&quot;user&quot;, customer);
+&nbsp;                session.setAttribute(&quot;myhome&quot;, &quot;customer-site&quot;);
+&nbsp;                request.getRequestDispatcher(&quot;customer-site&quot;).forward(request, response);
+&nbsp;            } catch (ValidationException | AlreadyExistsException e) {
+&nbsp;                request.setAttribute(&quot;errormessage&quot;, &quot;User could not be created&quot;);
+&nbsp;                request.getRequestDispatcher(&quot;createCustomer.jsp&quot;).forward(request, response);
+&nbsp;            }
+&nbsp;        } catch (DatabaseException e) {
+&nbsp;            request.setAttribute(&quot;errormessage&quot;, e.getMessage());
+&nbsp;            request.getRequestDispatcher(&quot;error.jsp&quot;).forward(request, response);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-29 11:07</div>
+</div>
+</body>
+</html>

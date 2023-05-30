@@ -1,0 +1,161 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ToolRoom</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.entities.item</a>
+</div>
+
+<h1>Coverage Summary for Class: ToolRoom (dat.backend.model.entities.item)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ToolRoom</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30%
+  </span>
+  <span class="absValue">
+    (3/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.entities.item;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;public class ToolRoom {
+&nbsp;
+&nbsp;    private float length;
+&nbsp;    private float width;
+&nbsp;
+<b class="fc">&nbsp;    public ToolRoom(float length, float width) {</b>
+<b class="fc">&nbsp;        this.length = length;</b>
+<b class="fc">&nbsp;        this.width = width;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public float getLength() {
+&nbsp;        return length;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setLength(float length) {
+&nbsp;        this.length = length;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public float getWidth() {
+&nbsp;        return width;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setWidth(float width) {
+&nbsp;        this.width = width;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object other) {
+<b class="nc">&nbsp;        if (this == other) return true;</b>
+<b class="nc">&nbsp;        if (!(other instanceof ToolRoom)) return false;</b>
+<b class="nc">&nbsp;        ToolRoom toolRoom = (ToolRoom) other;</b>
+<b class="nc">&nbsp;        return this.getLength() == toolRoom.getLength() &amp;&amp;</b>
+<b class="nc">&nbsp;                this.getWidth() == toolRoom.getWidth();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return Objects.hash(this.getLength(), this.getWidth());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return &quot;ToolRoom{&quot; +</b>
+&nbsp;                &quot;length=&#39;&quot; + this.length + &#39;\&#39;&#39; +
+&nbsp;                &quot;, width=&#39;&quot; + this.width + &#39;\&#39;&#39; +
+&nbsp;                &#39;}&#39;;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-12 16:06</div>
+</div>
+</body>
+</html>

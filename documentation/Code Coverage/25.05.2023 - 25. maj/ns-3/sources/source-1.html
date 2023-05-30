@@ -1,0 +1,312 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CarportOrder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.entities.order</a>
+</div>
+
+<h1>Coverage Summary for Class: CarportOrder (dat.backend.model.entities.order)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CarportOrder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.7%
+  </span>
+  <span class="absValue">
+    (13/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.entities.order;
+&nbsp;
+&nbsp;import dat.backend.annotation.IgnoreCoverage;
+&nbsp;import dat.backend.model.entities.item.Roof;
+&nbsp;import dat.backend.model.entities.item.ToolRoom;
+&nbsp;import dat.backend.model.entities.user.Address;
+&nbsp;import dat.backend.model.entities.user.Customer;
+&nbsp;import dat.backend.model.entities.user.Employee;
+&nbsp;
+&nbsp;import java.text.NumberFormat;
+&nbsp;import java.util.Date;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@SuppressWarnings(&quot;OptionalUsedAsFieldOrParameterType&quot;)
+&nbsp;public class CarportOrder {
+&nbsp;
+&nbsp;    private final int id;
+&nbsp;    private final Customer customer;
+&nbsp;
+&nbsp;    private Address address;
+&nbsp;    private Optional&lt;Employee&gt; employee;
+&nbsp;    private OrderStatus orderStatus;
+&nbsp;    private Roof roof;
+&nbsp;    private Optional&lt;String&gt; remarks;
+&nbsp;    private float length;
+&nbsp;    private float width;
+&nbsp;    private float minHeight;
+&nbsp;    private Optional&lt;ToolRoom&gt; toolRoom;
+&nbsp;    private Optional&lt;Float&gt; price;
+&nbsp;    private Date createdOn;
+&nbsp;
+<b class="fc">&nbsp;    public CarportOrder(int id, Address address, Optional&lt;Employee&gt; employee, Customer customer, OrderStatus orderStatus, Roof roof, Optional&lt;String&gt; remarks, float length, float width, float minHeight, Optional&lt;ToolRoom&gt; toolRoom, Optional&lt;Float&gt; price) {</b>
+<b class="fc">&nbsp;        this.id = id;</b>
+<b class="fc">&nbsp;        this.address = address;</b>
+<b class="fc">&nbsp;        this.employee = employee;</b>
+<b class="fc">&nbsp;        this.customer = customer;</b>
+<b class="fc">&nbsp;        this.orderStatus = orderStatus;</b>
+<b class="fc">&nbsp;        this.roof = roof;</b>
+<b class="fc">&nbsp;        this.remarks = remarks;</b>
+<b class="fc">&nbsp;        this.length = length;</b>
+<b class="fc">&nbsp;        this.width = width;</b>
+<b class="fc">&nbsp;        this.minHeight = minHeight;</b>
+<b class="fc">&nbsp;        this.toolRoom = toolRoom;</b>
+<b class="fc">&nbsp;        this.price = price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getFormattedPrice() {
+<b class="nc">&nbsp;        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.GERMAN);</b>
+<b class="nc">&nbsp;        return formatter.format(this.price.orElse(0.0f));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public int getId() {
+&nbsp;        return this.id;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Customer getCustomer() {
+&nbsp;        return this.customer;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Address getAddress() {
+&nbsp;        return this.address;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setAddress(Address address) {
+&nbsp;        this.address = address;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Optional&lt;Employee&gt; getEmployee() {
+&nbsp;        return this.employee;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setEmployee(Optional&lt;Employee&gt; employee) {
+&nbsp;        this.employee = employee;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public OrderStatus getOrderStatus() {
+&nbsp;        return this.orderStatus;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setOrderStatus(OrderStatus orderStatus) {
+&nbsp;        this.orderStatus = orderStatus;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Roof getRoof() {
+&nbsp;        return this.roof;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setRoof(Roof roof) {
+&nbsp;        this.roof = roof;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Optional&lt;String&gt; getRemarks() {
+&nbsp;        return this.remarks;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setRemarks(Optional&lt;String&gt; remarks) {
+&nbsp;        this.remarks = remarks;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public float getLength() {
+&nbsp;        return this.length;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setLength(float length) {
+&nbsp;        this.length = length;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public float getWidth() {
+&nbsp;        return this.width;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setWidth(float width) {
+&nbsp;        this.width = width;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public float getMinHeight() {
+&nbsp;        return this.minHeight;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setMinHeight(float minHeight) {
+&nbsp;        this.minHeight = minHeight;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Optional&lt;ToolRoom&gt; getToolRoom() {
+&nbsp;        return this.toolRoom;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setToolRoom(Optional&lt;ToolRoom&gt; toolRoom) {
+&nbsp;        this.toolRoom = toolRoom;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Optional&lt;Float&gt; getPrice() {
+&nbsp;        return this.price;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setPrice(Optional&lt;Float&gt; price) {
+&nbsp;        this.price = price;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public Date getCreatedOn() {
+&nbsp;        return this.createdOn;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;Getter or Setter&quot;)
+&nbsp;    public void setCreatedOn(Date createdOn) {
+&nbsp;        this.createdOn = createdOn;
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;equals&quot;)
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object other) {
+&nbsp;        if (this == other) return true;
+&nbsp;        if (!(other instanceof CarportOrder)) return false;
+&nbsp;        CarportOrder carportOrder = (CarportOrder) other;
+&nbsp;        return this.getId() == carportOrder.getId() &amp;&amp;
+&nbsp;                this.getCustomer().equals(carportOrder.getCustomer());
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;hashCode&quot;)
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+&nbsp;        return Objects.hash(this.getId(), this.getAddress(), this.getEmployee(), this.getCustomer(), this.getOrderStatus(), this.getRoof(), this.getRemarks(), this.getLength(), this.getWidth(), this.getMinHeight(), this.getToolRoom(), this.getPrice());
+&nbsp;    }
+&nbsp;
+&nbsp;    @IgnoreCoverage(reason = &quot;toString&quot;)
+&nbsp;    @Override
+&nbsp;    public String toString() {
+&nbsp;        return &quot;CarportOrder{&quot; +
+&nbsp;                &quot;id=&quot; + this.id +
+&nbsp;                &quot;, address=&quot; + this.address +
+&nbsp;                &quot;, employee=&quot; + this.employee +
+&nbsp;                &quot;, customer=&quot; + this.customer +
+&nbsp;                &quot;, orderStatus=&quot; + this.orderStatus +
+&nbsp;                &quot;, roof=&quot; + this.roof +
+&nbsp;                &quot;, remarks=&quot; + this.remarks +
+&nbsp;                &quot;, length=&quot; + this.length +
+&nbsp;                &quot;, width=&quot; + this.width +
+&nbsp;                &quot;, minHeight=&quot; + this.minHeight +
+&nbsp;                &quot;, toolRoom=&quot; + this.toolRoom +
+&nbsp;                &quot;, price=&quot; + this.price +
+&nbsp;                &quot;, createdOn=&quot; + this.createdOn +
+&nbsp;                &quot;}&quot;;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-25 15:02</div>
+</div>
+</body>
+</html>

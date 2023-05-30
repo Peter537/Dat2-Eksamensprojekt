@@ -1,0 +1,343 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Validation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.services</a>
+</div>
+
+<h1>Coverage Summary for Class: Validation (dat.backend.model.services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Validation</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (26/28)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.8%
+  </span>
+  <span class="absValue">
+    (79/91)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.services;
+&nbsp;
+&nbsp;import dat.backend.model.entities.item.Roof;
+&nbsp;import dat.backend.model.entities.item.ToolRoom;
+&nbsp;import dat.backend.model.entities.order.CarportOrder;
+&nbsp;import dat.backend.model.entities.user.*;
+&nbsp;import dat.backend.model.exceptions.ValidationException;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+<b class="nc">&nbsp;public class Validation {</b>
+&nbsp;
+&nbsp;    public static void validateCustomer(Customer customer) throws ValidationException {
+<b class="fc">&nbsp;        if (customer == null) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid customer&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidName(customer.getName())) {</b>
+<b class="nc">&nbsp;            throw new ValidationException(&quot;Invalid name&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidCustomerEmail(customer.getEmail())) {</b>
+<b class="nc">&nbsp;            throw new ValidationException(&quot;Invalid customer email&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateCustomer(String email, String password) throws ValidationException {
+<b class="fc">&nbsp;        if (!isValidCustomerEmail(email)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid customer email&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidPassword(password)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid password&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateCustomer(String name, String email, String password) throws ValidationException {
+<b class="fc">&nbsp;        if (!isValidName(name)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid name&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidCustomerEmail(email)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid customer email&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidPassword(password)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid password&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateEmployee(Employee employee) throws ValidationException {
+<b class="fc">&nbsp;        if (employee == null) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid employee&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidName(employee.getName())) {</b>
+<b class="nc">&nbsp;            throw new ValidationException(&quot;Invalid name&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidEmployeeEmail(employee.getEmail())) {</b>
+<b class="nc">&nbsp;            throw new ValidationException(&quot;Invalid employee email&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateEmployee(String email, String password) throws ValidationException {
+<b class="fc">&nbsp;        if (!isValidEmployeeEmail(email)) {</b>
+<b class="nc">&nbsp;            throw new ValidationException(&quot;Invalid employee email&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidPassword(password)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid password&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateEmployee(String name, String email, String password) throws ValidationException {
+<b class="fc">&nbsp;        if (!isValidName(name)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid name&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidEmployeeEmail(email)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid employee email&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidPassword(password)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid password&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateName(String name) throws ValidationException {
+<b class="fc">&nbsp;        if (!isValidName(name)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid name&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validatePhoneNumber(String phoneNumber) throws ValidationException {
+<b class="fc">&nbsp;        if (phoneNumber == null) {</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!isValidPhoneNumber(phoneNumber)) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid phone number&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static boolean isValidPassword(String password) {
+<b class="fc">&nbsp;        if (password == null) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return password.length() &gt;= 3 &amp;&amp; password.length() &lt;= 32;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static boolean isValidName(String name) {
+<b class="fc">&nbsp;        return name != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean isValidEmployeeEmail(String email) {
+<b class="fc">&nbsp;        if (email == null) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return email.matches(&quot;^[A-Za-z0-9+_.-]+@johannesfog.dk$&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean isValidCustomerEmail(String email) {
+<b class="fc">&nbsp;        if (email == null) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (email.matches(&quot;^[A-Za-z0-9+_.-]+@johannesfog.dk$&quot;)) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return email.matches(&quot;^[A-Za-z0-9+_.-]+@([A-Za-z0-9+_.-]+\\.)+[A-Za-z0-9+_.-]+$&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static boolean isValidPhoneNumber(String phoneNumber) {
+<b class="fc">&nbsp;        return phoneNumber.matches(&quot;^[0-9]{8}$&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validatePosition(Position position) throws ValidationException {
+<b class="fc">&nbsp;        if (position == null) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid position&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateDepartment(Department department) throws ValidationException {
+<b class="fc">&nbsp;        if (department == null) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid department&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateCreateCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional&lt;ToolRoom&gt; toolRoom, Optional&lt;String&gt; remarks) throws ValidationException {
+<b class="fc">&nbsp;        validateCustomer(customer);</b>
+<b class="fc">&nbsp;        validateAddress(address);</b>
+<b class="fc">&nbsp;        validateWidth(width);</b>
+<b class="fc">&nbsp;        validateLength(length);</b>
+<b class="fc">&nbsp;        validateMinHeight(minHeight);</b>
+<b class="fc">&nbsp;        validateRoof(roof);</b>
+<b class="fc">&nbsp;        if (toolRoom.isPresent()) {</b>
+<b class="nc">&nbsp;            validateToolRoom(toolRoom.get());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (remarks.isPresent()) {</b>
+<b class="nc">&nbsp;            validateRemarks(remarks.get());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static void validateRoof(Roof roof) throws ValidationException {
+<b class="fc">&nbsp;        if (roof == null) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid roof&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateWidth(float width) throws ValidationException {
+<b class="fc">&nbsp;        if (width &lt;= 0) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid width&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateLength(float length) throws ValidationException {
+<b class="fc">&nbsp;        if (length &lt;= 0) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid length&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateMinHeight(float minHeight) throws ValidationException {
+<b class="fc">&nbsp;        if (minHeight &lt;= 0) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid minHeight&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateToolRoom(ToolRoom toolRoom) throws ValidationException {
+<b class="fc">&nbsp;        if (toolRoom == null) {</b>
+<b class="nc">&nbsp;            throw new ValidationException(&quot;Invalid toolRoom&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        validateWidth(toolRoom.getWidth());</b>
+<b class="fc">&nbsp;        validateLength(toolRoom.getLength());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validatePrice(Float f) throws ValidationException {
+<b class="fc">&nbsp;        if (f == null) {</b>
+<b class="nc">&nbsp;            throw new ValidationException(&quot;Invalid price&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (f &lt; 0) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid price&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateRemarks(String s) throws ValidationException {
+<b class="nc">&nbsp;        if (s.length() &gt; 2048) {</b>
+<b class="nc">&nbsp;            throw new ValidationException(&quot;Invalid remarks&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateAddress(Address address) throws ValidationException {
+<b class="fc">&nbsp;        if (address == null) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid address&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateCarportOrder(CarportOrder carportOrder) throws ValidationException {
+<b class="fc">&nbsp;        if (carportOrder == null) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid carportOrder&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateAmount(int amount) throws ValidationException {
+<b class="fc">&nbsp;        if (amount &lt;= 0) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid amount&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void validateThickness(float thickness) throws ValidationException {
+<b class="fc">&nbsp;        if (thickness &lt;= 0) {</b>
+<b class="fc">&nbsp;            throw new ValidationException(&quot;Invalid thickness&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-24 15:06</div>
+</div>
+</body>
+</html>

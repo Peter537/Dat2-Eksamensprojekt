@@ -1,0 +1,139 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Plate3D</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.print3d</a>
+</div>
+
+<h1>Coverage Summary for Class: Plate3D (dat.backend.model.print3d)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Plate3D</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.print3d;
+&nbsp;
+&nbsp;import dat.backend.model.entities.PartsList;
+&nbsp;import dat.backend.model.entities.item.LumberType;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import org.abstractica.javacsg.Geometry3D;
+&nbsp;import org.abstractica.javacsg.JavaCSG;
+&nbsp;
+&nbsp;public class Plate3D {
+&nbsp;
+&nbsp;    private final PartsList partsList;
+&nbsp;    private final JavaCSG csg;
+&nbsp;
+&nbsp;    private Geometry3D plate;
+&nbsp;    private int numberOfPlates;
+&nbsp;
+<b class="fc">&nbsp;    public Plate3D(JavaCSG csg, PartsList partsList) throws DatabaseException {</b>
+<b class="fc">&nbsp;        this.csg = csg;</b>
+<b class="fc">&nbsp;        this.partsList = partsList;</b>
+<b class="fc">&nbsp;        this.numberOfPlates = partsList.getNumberOfPlates();</b>
+<b class="fc">&nbsp;        this.plate = createPlate();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Geometry3D createPlate() throws DatabaseException {
+<b class="fc">&nbsp;        LumberType plateType = partsList.getPlate().getLumberType();</b>
+<b class="fc">&nbsp;        Geometry3D box = csg.box3D(partsList.getLengthOfPlate() * 10, plateType.getThickness(), plateType.getWidth(), false);</b>
+<b class="fc">&nbsp;        Geometry3D allPlates = box;</b>
+<b class="fc">&nbsp;        for (int i = 1; i &lt; numberOfPlates; i++) {</b>
+<b class="fc">&nbsp;            Geometry3D nextPlate = csg.translate3DY(plateType.getThickness() * 1.5 * i).transform(box);</b>
+<b class="fc">&nbsp;            allPlates = csg.union3D(allPlates, nextPlate);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        csg.view(allPlates, 2);</b>
+<b class="fc">&nbsp;        return allPlates;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-23 14:23</div>
+</div>
+</body>
+</html>

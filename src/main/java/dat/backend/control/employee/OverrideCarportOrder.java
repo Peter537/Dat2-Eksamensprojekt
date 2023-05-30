@@ -1,0 +1,58 @@
+package dat.backend.control.employee;
+
+import dat.backend.annotation.IgnoreCoverage;
+import dat.backend.model.config.ApplicationStart;
+import dat.backend.model.entities.order.CarportOrder;
+import dat.backend.model.exceptions.DatabaseException;
+import dat.backend.model.exceptions.NotFoundException;
+import dat.backend.model.exceptions.ValidationException;
+import dat.backend.model.persistence.ConnectionPool;
+import dat.backend.model.persistence.order.CarportOrderFacade;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Optional;
+
+/**
+ * This servlet's purpose is to take in the parameters from the "edit order" form inside the partlist generator
+ * and update the order with the new values, which are then displayed on the detailed order info page.
+ */
+@IgnoreCoverage(reason = "Servlet class should not be tested")
+@WebServlet(name = "override-carport-order", value = "/override-carport-order")
+public class OverrideCarportOrder extends HttpServlet {
+
+    private ConnectionPool connectionPool;
+
+    @Override
+    public void init() throws ServletException {
+        this.connectionPool = ApplicationStart.getConnectionPool();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String fromJsp = request.getParameter("fromJsp");
+        int orderId = (int) Float.parseFloat(request.getParameter("orderId"));
+        int length = (int) Float.parseFloat(request.getParameter("length"));
+        int width = (int) Float.parseFloat(request.getParameter("width"));
+        int height = (int) Float.parseFloat(request.getParameter("minHeight"));
+        Optional<Float> price = Optional.of(Float.parseFloat(request.getParameter("price")));
+        try {
+            CarportOrder order = CarportOrderFacade.getCarportOrderById(orderId, connectionPool);
+            CarportOrderFacade.updateLength(order, length, connectionPool);
+            CarportOrderFacade.updateWidth(order, width, connectionPool);
+            CarportOrderFacade.updateMinHeight(order, height, connectionPool);
+            CarportOrderFacade.updatePriceFromPartsList(order, price, connectionPool);
+
+            request.setAttribute("carportOrder", order);
+            request.setAttribute("orderId", orderId);
+            request.setAttribute("fromJsp", fromJsp);
+            request.getRequestDispatcher("detailed-order-info").forward(request, response);
+        } catch (DatabaseException | NotFoundException | ValidationException e) {
+            e.printStackTrace();
+        }
+    }
+}

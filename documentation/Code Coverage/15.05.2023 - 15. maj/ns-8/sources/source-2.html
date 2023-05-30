@@ -1,0 +1,459 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CarportOrderMapper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.persistence.order</a>
+</div>
+
+<h1>Coverage Summary for Class: CarportOrderMapper (dat.backend.model.persistence.order)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CarportOrderMapper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (14/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83%
+  </span>
+  <span class="absValue">
+    (205/247)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.persistence.order;
+&nbsp;
+&nbsp;import dat.backend.model.entities.order.CarportOrder;
+&nbsp;import dat.backend.model.entities.order.OrderStatus;
+&nbsp;import dat.backend.model.entities.item.Roof;
+&nbsp;import dat.backend.model.entities.item.ToolRoom;
+&nbsp;import dat.backend.model.entities.user.Address;
+&nbsp;import dat.backend.model.entities.user.Customer;
+&nbsp;import dat.backend.model.entities.user.Employee;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.exceptions.ValidationException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;import dat.backend.model.persistence.item.RoofFacade;
+&nbsp;import dat.backend.model.persistence.user.CustomerFacade;
+&nbsp;import dat.backend.model.persistence.user.EmployeeFacade;
+&nbsp;import dat.backend.model.persistence.user.ZipFacade;
+&nbsp;import dat.backend.model.services.Validation;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@SuppressWarnings(&quot;OptionalUsedAsFieldOrParameterType&quot;)
+<b class="nc">&nbsp;class CarportOrderMapper {</b>
+&nbsp;
+&nbsp;    static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM carport_order WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setInt(1, id);</b>
+<b class="fc">&nbsp;                ResultSet resultSet = statement.executeQuery();</b>
+<b class="fc">&nbsp;                return createCarportOrderFromResultSet(resultSet, connectionPool);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Error while getting CarportOrder with id &quot; + id);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    static List&lt;CarportOrder&gt; getCarportOrdersByCustomer(Customer customer, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCustomer(customer);</b>
+<b class="fc">&nbsp;        List&lt;CarportOrder&gt; carportOrders = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM carport_order WHERE fk_customer_email = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setString(1, customer.getEmail());</b>
+<b class="fc">&nbsp;                ResultSet resultSet = statement.executeQuery();</b>
+<b class="fc">&nbsp;                while (resultSet.next()) {</b>
+<b class="fc">&nbsp;                    int id = resultSet.getInt(&quot;id&quot;);</b>
+<b class="fc">&nbsp;                    CarportOrder carportOrder = getCarportOrderById(id, connectionPool);</b>
+<b class="fc">&nbsp;                    carportOrders.add(carportOrder);</b>
+<b class="fc">&nbsp;                }</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException | DatabaseException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Error while getting CarportOrder with customer email &quot; + customer.getEmail());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return carportOrders;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static List&lt;CarportOrder&gt; getCarportOrdersByEmployee(Employee employee, ConnectionPool connectionPool) throws DatabaseException, NotFoundException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateEmployee(employee);</b>
+<b class="fc">&nbsp;        List&lt;CarportOrder&gt; carportOrders = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM carport_order WHERE fk_employee_email = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setString(1, employee.getEmail());</b>
+<b class="fc">&nbsp;                ResultSet resultSet = statement.executeQuery();</b>
+<b class="fc">&nbsp;                while (resultSet.next()) {</b>
+<b class="fc">&nbsp;                    int id = resultSet.getInt(&quot;id&quot;);</b>
+<b class="fc">&nbsp;                    CarportOrder carportOrder = getCarportOrderById(id, connectionPool);</b>
+<b class="fc">&nbsp;                    carportOrders.add(carportOrder);</b>
+<b class="fc">&nbsp;                }</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException | DatabaseException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Error while getting CarportOrder with employee email &quot; + employee.getEmail());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return carportOrders;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static List&lt;CarportOrder&gt; getAllCarportOrders(ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+<b class="nc">&nbsp;        List&lt;CarportOrder&gt; carportOrders = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        String query = &quot;SELECT * FROM carport_order&quot;;</b>
+<b class="nc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="nc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="nc">&nbsp;                ResultSet resultSet = statement.executeQuery();</b>
+<b class="nc">&nbsp;                while (resultSet.next()) {</b>
+<b class="nc">&nbsp;                    int id = resultSet.getInt(&quot;id&quot;);</b>
+<b class="nc">&nbsp;                    CarportOrder carportOrder = getCarportOrderById(id, connectionPool);</b>
+<b class="nc">&nbsp;                    carportOrders.add(carportOrder);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } catch (SQLException | DatabaseException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Error while getting all CarportOrders&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return carportOrders;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, Optional&lt;ToolRoom&gt; toolRoom, Optional&lt;String&gt; remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCreateCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks);</b>
+<b class="fc">&nbsp;        String query = &quot;INSERT INTO carport_order (fk_customer_email, address, zipcode, width, length, min_height, fk_roof_id, toolroom_width, toolroom_length, remarks, orderstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {</b>
+<b class="fc">&nbsp;                statement.setString(1, customer.getEmail());</b>
+<b class="fc">&nbsp;                statement.setString(2, address.getStreet());</b>
+<b class="fc">&nbsp;                statement.setInt(3, address.getZip().getZipCode());</b>
+<b class="fc">&nbsp;                statement.setFloat(4, width);</b>
+<b class="fc">&nbsp;                statement.setFloat(5, length);</b>
+<b class="fc">&nbsp;                statement.setFloat(6, minHeight);</b>
+<b class="fc">&nbsp;                statement.setInt(7, roof.getId());</b>
+<b class="fc">&nbsp;                if (toolRoom.isPresent()) {</b>
+<b class="nc">&nbsp;                    statement.setFloat(8, toolRoom.get().getWidth());</b>
+<b class="nc">&nbsp;                    statement.setFloat(9, toolRoom.get().getLength());</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    statement.setNull(8, Types.FLOAT);</b>
+<b class="fc">&nbsp;                    statement.setNull(9, Types.FLOAT);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                if (remarks.isPresent()) {</b>
+<b class="nc">&nbsp;                    statement.setString(10, remarks.get());</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    statement.setNull(10, Types.VARCHAR);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                statement.setString(11, OrderStatusFacade.getOrderStatusByStatus(&quot;PENDING&quot;, connectionPool).getStatus());</b>
+<b class="nc">&nbsp;                int affectedRows = statement.executeUpdate();</b>
+<b class="nc">&nbsp;                if (affectedRows == 0) {</b>
+<b class="nc">&nbsp;                    throw new SQLException(&quot;Creating carport order failed, no rows affected.&quot;);</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                ResultSet generatedKeys = statement.getGeneratedKeys();</b>
+<b class="nc">&nbsp;                if (!generatedKeys.next()) {</b>
+<b class="nc">&nbsp;                    throw new SQLException(&quot;Creating carport order failed, no ID obtained.&quot;);</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                int id = generatedKeys.getInt(1);</b>
+<b class="nc">&nbsp;                return getCarportOrderById(id, connectionPool);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException | NotFoundException e) {</b>
+<b class="fc">&nbsp;            throw new DatabaseException(e, &quot;Could not create order&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    static void updateOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateOrderStatus(newOrderStatus);</b>
+<b class="fc">&nbsp;        String query = &quot;UPDATE carport_order SET orderstatus = ? WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setString(1, newOrderStatus.getStatus());</b>
+<b class="fc">&nbsp;                statement.setInt(2, carportOrder.getId());</b>
+<b class="fc">&nbsp;                statement.executeUpdate();</b>
+<b class="fc">&nbsp;                carportOrder.setOrderStatus(newOrderStatus);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not update carport order status&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static void updateEmployee(CarportOrder carportOrder, Optional&lt;Employee&gt; employee, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        if (employee.isPresent()) {</b>
+<b class="fc">&nbsp;            Validation.validateEmployee(employee.get());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String query = &quot;UPDATE carport_order SET fk_employee_email = ? WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                if (employee.isPresent()) {</b>
+<b class="fc">&nbsp;                    statement.setString(1, employee.get().getEmail());</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    statement.setNull(1, Types.VARCHAR);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                statement.setInt(2, carportOrder.getId());</b>
+<b class="fc">&nbsp;                statement.executeUpdate();</b>
+<b class="fc">&nbsp;                carportOrder.setEmployee(employee);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not update carport order employee&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static void updateWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateWidth(width);</b>
+<b class="fc">&nbsp;        String query = &quot;UPDATE carport_order SET width = ? WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setFloat(1, width);</b>
+<b class="fc">&nbsp;                statement.setInt(2, carportOrder.getId());</b>
+<b class="fc">&nbsp;                statement.executeUpdate();</b>
+<b class="fc">&nbsp;                carportOrder.setWidth(width);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not update carport order width&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static void updateLength(CarportOrder carportOrder, float length, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateLength(length);</b>
+<b class="fc">&nbsp;        String query = &quot;UPDATE carport_order SET length = ? WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setFloat(1, length);</b>
+<b class="fc">&nbsp;                statement.setInt(2, carportOrder.getId());</b>
+<b class="fc">&nbsp;                statement.executeUpdate();</b>
+<b class="fc">&nbsp;                carportOrder.setLength(length);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not update carport order length&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static void updateMinHeight(CarportOrder carportOrder, float minHeight, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateMinHeight(minHeight);</b>
+<b class="fc">&nbsp;        String query = &quot;UPDATE carport_order SET min_height = ? WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setFloat(1, minHeight);</b>
+<b class="fc">&nbsp;                statement.setInt(2, carportOrder.getId());</b>
+<b class="fc">&nbsp;                statement.executeUpdate();</b>
+<b class="fc">&nbsp;                carportOrder.setMinHeight(minHeight);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not update carport order min height&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static void updateToolRoom(CarportOrder carportOrder, Optional&lt;ToolRoom&gt; toolRoom, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        if (toolRoom.isPresent()) {</b>
+<b class="fc">&nbsp;            Validation.validateToolRoom(toolRoom.get());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String query = &quot;UPDATE carport_order SET toolroom_width = ?, toolroom_length = ? WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                if (toolRoom.isPresent()) {</b>
+<b class="fc">&nbsp;                    statement.setFloat(1, toolRoom.get().getWidth());</b>
+<b class="fc">&nbsp;                    statement.setFloat(2, toolRoom.get().getLength());</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    statement.setNull(1, Types.FLOAT);</b>
+<b class="fc">&nbsp;                    statement.setNull(2, Types.FLOAT);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                statement.setInt(3, carportOrder.getId());</b>
+<b class="fc">&nbsp;                statement.executeUpdate();</b>
+<b class="fc">&nbsp;                carportOrder.setToolRoom(toolRoom);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not update carport order tool room width&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static void updatePrice(CarportOrder carportOrder, Optional&lt;Float&gt; price, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        if (price.isPresent()) {</b>
+<b class="fc">&nbsp;            Validation.validatePrice(price.get());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String query = &quot;UPDATE carport_order SET price = ? WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                if (price.isPresent()) {</b>
+<b class="fc">&nbsp;                    statement.setFloat(1, price.get());</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    statement.setNull(1, Types.FLOAT);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                statement.setInt(2, carportOrder.getId());</b>
+<b class="fc">&nbsp;                statement.executeUpdate();</b>
+<b class="fc">&nbsp;                carportOrder.setPrice(price);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not update carport order price&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static void updateRemarks(CarportOrder carportOrder, Optional&lt;String&gt; remarks, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        if (remarks.isPresent()) {</b>
+<b class="fc">&nbsp;            Validation.validateRemarks(remarks.get());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String query = &quot;UPDATE carport_order SET remarks = ? WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                if (remarks.isPresent()) {</b>
+<b class="fc">&nbsp;                    statement.setString(1, remarks.get());</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    statement.setNull(1, Types.VARCHAR);</b>
+&nbsp;                }
+<b class="fc">&nbsp;                statement.setInt(2, carportOrder.getId());</b>
+<b class="fc">&nbsp;                statement.executeUpdate();</b>
+<b class="fc">&nbsp;                carportOrder.setRemarks(remarks);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not update carport order remarks&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static void updateAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException, ValidationException {
+<b class="fc">&nbsp;        Validation.validateCarportOrder(carportOrder);</b>
+<b class="fc">&nbsp;        Validation.validateAddress(address);</b>
+<b class="fc">&nbsp;        String query = &quot;UPDATE carport_order SET address = ?, zipcode = ? WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setString(1, address.getStreet());</b>
+<b class="fc">&nbsp;                statement.setInt(2, address.getZip().getZipCode());</b>
+<b class="fc">&nbsp;                statement.setInt(3, carportOrder.getId());</b>
+<b class="fc">&nbsp;                statement.executeUpdate();</b>
+<b class="fc">&nbsp;                carportOrder.setAddress(address);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not update carport order address&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static CarportOrder createCarportOrderFromResultSet(ResultSet resultSet, ConnectionPool connectionPool) throws SQLException, NotFoundException, DatabaseException {
+<b class="fc">&nbsp;        if (!resultSet.next()) {</b>
+<b class="fc">&nbsp;            throw new NotFoundException(&quot;CarportOrder not found&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int id = resultSet.getInt(&quot;id&quot;);</b>
+<b class="fc">&nbsp;        OrderStatus orderStatus = OrderStatusFacade.getOrderStatusByStatus(resultSet.getString(&quot;orderstatus&quot;), connectionPool);</b>
+<b class="fc">&nbsp;        Address address = new Address(resultSet.getString(&quot;address&quot;), ZipFacade.getZipByZipCode(resultSet.getInt(&quot;zipcode&quot;), connectionPool));</b>
+<b class="fc">&nbsp;        String employeeEmail = resultSet.getString(&quot;fk_employee_email&quot;);</b>
+<b class="fc">&nbsp;        Optional&lt;Employee&gt; employee = Optional.empty();</b>
+<b class="fc">&nbsp;        if (employeeEmail != null) {</b>
+<b class="fc">&nbsp;            employee = Optional.of(EmployeeFacade.getEmployeeByEmail(employeeEmail, connectionPool));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Customer customer = CustomerFacade.getCustomerByEmail(resultSet.getString(&quot;fk_customer_email&quot;), connectionPool);</b>
+<b class="fc">&nbsp;        Roof roof = RoofFacade.getRoofById(resultSet.getInt(&quot;fk_roof_id&quot;), connectionPool);</b>
+<b class="fc">&nbsp;        float width = resultSet.getFloat(&quot;width&quot;);</b>
+<b class="fc">&nbsp;        float length = resultSet.getFloat(&quot;length&quot;);</b>
+<b class="fc">&nbsp;        float minHeight = resultSet.getFloat(&quot;min_height&quot;);</b>
+<b class="fc">&nbsp;        float toolRoomWidth = resultSet.getFloat(&quot;toolroom_width&quot;);</b>
+<b class="fc">&nbsp;        float toolRoomLength = resultSet.getFloat(&quot;toolroom_length&quot;);</b>
+<b class="fc">&nbsp;        Optional&lt;ToolRoom&gt; toolRoom = Optional.empty();</b>
+<b class="fc">&nbsp;        if (toolRoomWidth != 0 &amp;&amp; toolRoomLength != 0) {</b>
+<b class="nc">&nbsp;            toolRoom = Optional.of(new ToolRoom(toolRoomWidth, toolRoomLength));</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Optional&lt;String&gt; remarks = Optional.ofNullable(resultSet.getString(&quot;remarks&quot;));</b>
+<b class="fc">&nbsp;        float priceDb = resultSet.getFloat(&quot;price&quot;);</b>
+<b class="fc">&nbsp;        Optional&lt;Float&gt; price = Optional.empty();</b>
+<b class="fc">&nbsp;        if (priceDb != 0) {</b>
+<b class="nc">&nbsp;            price = Optional.of(priceDb);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return new CarportOrder(id, address, employee, customer, orderStatus, roof, remarks, length, width, minHeight, toolRoom, price);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-15 15:15</div>
+</div>
+</body>
+</html>

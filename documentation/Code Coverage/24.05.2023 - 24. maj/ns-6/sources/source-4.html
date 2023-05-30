@@ -1,0 +1,245 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > LumberTypeMapper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.persistence.item</a>
+</div>
+
+<h1>Coverage Summary for Class: LumberTypeMapper (dat.backend.model.persistence.item)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LumberTypeMapper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.6%
+  </span>
+  <span class="absValue">
+    (60/67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.persistence.item;
+&nbsp;
+&nbsp;import dat.backend.model.entities.item.LumberType;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;class LumberTypeMapper {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieve a LumberType by id
+&nbsp;     *
+&nbsp;     * @param id             The id to search for
+&nbsp;     * @param connectionPool Connection pool to use
+&nbsp;     * @return lumber type
+&nbsp;     * @throws DatabaseException if an error occurs while communicating with the database
+&nbsp;     * @throws NotFoundException if the id does not exist
+&nbsp;     */
+&nbsp;    static LumberType getLumberTypeById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM lumbertype WHERE id = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setInt(1, id);</b>
+<b class="fc">&nbsp;                ResultSet resultSet = statement.executeQuery();</b>
+<b class="fc">&nbsp;                if (!resultSet.next()) {</b>
+<b class="fc">&nbsp;                    throw new NotFoundException(&quot;Could not get lumber by id&quot;);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                float thickness = resultSet.getFloat(&quot;thickness&quot;);</b>
+<b class="fc">&nbsp;                float width = resultSet.getFloat(&quot;width&quot;);</b>
+<b class="fc">&nbsp;                float meterPrice = resultSet.getFloat(&quot;meter_price&quot;);</b>
+<b class="fc">&nbsp;                String type = resultSet.getString(&quot;type&quot;);</b>
+<b class="fc">&nbsp;                return new LumberType(id, width, thickness, meterPrice, type);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not get lumber by id&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieve all LumberTypes by a type, fx if a type is different thickness * width, it is still the same type
+&nbsp;     *
+&nbsp;     * @param lumberType     The type to search for
+&nbsp;     * @param connectionPool Connection pool to use
+&nbsp;     * @return List of lumber types
+&nbsp;     * @throws DatabaseException if an error occurs while communicating with the database
+&nbsp;     */
+&nbsp;    static List&lt;LumberType&gt; getLumberTypeByType(String lumberType, ConnectionPool connectionPool) throws DatabaseException {
+<b class="fc">&nbsp;        List&lt;LumberType&gt; lumberTypelist = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM lumbertype WHERE type = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setString(1, lumberType);</b>
+<b class="fc">&nbsp;                ResultSet resultSet = statement.executeQuery();</b>
+<b class="fc">&nbsp;                while (resultSet.next()) {</b>
+<b class="fc">&nbsp;                    int id = resultSet.getInt(&quot;id&quot;);</b>
+<b class="fc">&nbsp;                    float thickness = resultSet.getFloat(&quot;thickness&quot;);</b>
+<b class="fc">&nbsp;                    float width = resultSet.getFloat(&quot;width&quot;);</b>
+<b class="fc">&nbsp;                    float meterPrice = resultSet.getFloat(&quot;meter_price&quot;);</b>
+<b class="fc">&nbsp;                    lumberTypelist.add(new LumberType(id, width, thickness, meterPrice, lumberType));</b>
+<b class="fc">&nbsp;                }</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not get lumber by id&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return lumberTypelist;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will create a new lumber type in the database
+&nbsp;     *
+&nbsp;     * @param poleThickness  The thickness of the lumber type
+&nbsp;     * @param poleWidth      The width of the lumber type
+&nbsp;     * @param poleMeterPrice The meter price of the lumber type
+&nbsp;     * @param type           The type of the lumber type
+&nbsp;     * @param connectionPool Connection pool to use
+&nbsp;     * @return The lumber type
+&nbsp;     * @throws DatabaseException if an error occurs while communicating with the database
+&nbsp;     */
+&nbsp;    static LumberType createLumberType(float poleThickness, float poleWidth, float poleMeterPrice, String type, ConnectionPool connectionPool) throws DatabaseException {
+<b class="fc">&nbsp;        String query = &quot;INSERT INTO lumbertype (thickness, width, meter_price, type) VALUES (?, ?, ?, ?)&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {</b>
+<b class="fc">&nbsp;                statement.setFloat(1, poleThickness);</b>
+<b class="fc">&nbsp;                statement.setFloat(2, poleWidth);</b>
+<b class="fc">&nbsp;                statement.setFloat(3, poleMeterPrice);</b>
+<b class="fc">&nbsp;                statement.setString(4, type);</b>
+<b class="fc">&nbsp;                int rowsAffected = statement.executeUpdate();</b>
+<b class="fc">&nbsp;                if (rowsAffected != 1) {</b>
+<b class="nc">&nbsp;                    throw new DatabaseException(&quot;Could not create lumber type&quot;);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                ResultSet rs = statement.getGeneratedKeys();</b>
+<b class="fc">&nbsp;                if (!rs.next()) {</b>
+<b class="nc">&nbsp;                    throw new DatabaseException(&quot;Could not create lumber type&quot;);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                int id = rs.getInt(1);</b>
+<b class="fc">&nbsp;                return getLumberTypeById(id, connectionPool);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException | DatabaseException | NotFoundException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not create lumber type&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will get lumber type by thickness, width and meter price
+&nbsp;     *
+&nbsp;     * @param poleThickness  The thickness of the lumber type
+&nbsp;     * @param poleWidth      The width of the lumber type
+&nbsp;     * @param poleMeterPrice The meter price of the lumber type
+&nbsp;     * @param connectionPool Connection pool to use
+&nbsp;     * @return The lumber type
+&nbsp;     * @throws DatabaseException if an error occurs while communicating with the database
+&nbsp;     * @throws NotFoundException if the lumber type does not exist
+&nbsp;     */
+&nbsp;    static LumberType getLumberType(float poleThickness, float poleWidth, float poleMeterPrice, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM lumbertype WHERE thickness = ? AND width = ? AND meter_price = ?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection connection = connectionPool.getConnection()) {</b>
+<b class="fc">&nbsp;            try (PreparedStatement statement = connection.prepareStatement(query)) {</b>
+<b class="fc">&nbsp;                statement.setFloat(1, poleThickness);</b>
+<b class="fc">&nbsp;                statement.setFloat(2, poleWidth);</b>
+<b class="fc">&nbsp;                statement.setFloat(3, poleMeterPrice);</b>
+<b class="fc">&nbsp;                ResultSet resultSet = statement.executeQuery();</b>
+<b class="fc">&nbsp;                if (!resultSet.next()) {</b>
+<b class="fc">&nbsp;                    throw new NotFoundException(&quot;Could not get lumber by id&quot;);</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                int id = resultSet.getInt(&quot;id&quot;);</b>
+<b class="fc">&nbsp;                String type = resultSet.getString(&quot;type&quot;);</b>
+<b class="fc">&nbsp;                return new LumberType(id, poleWidth, poleThickness, poleMeterPrice, type);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        } catch (SQLException e) {</b>
+<b class="nc">&nbsp;            throw new DatabaseException(e, &quot;Could not get lumber by id&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-24 15:06</div>
+</div>
+</body>
+</html>

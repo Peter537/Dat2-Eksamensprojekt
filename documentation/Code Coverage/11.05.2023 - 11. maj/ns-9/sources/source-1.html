@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CarportOrderFacade</title>
+  <style type="text/css">
+    @import "csscss";
+    @import "csscss";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">dat.backend.model.persistence.order</a>
+</div>
+
+<h1>Coverage Summary for Class: CarportOrderFacade (dat.backend.model.persistence.order)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CarportOrderFacade</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package dat.backend.model.persistence.order;
+&nbsp;
+&nbsp;import dat.backend.model.entities.order.CarportOrder;
+&nbsp;import dat.backend.model.entities.order.OrderStatus;
+&nbsp;import dat.backend.model.entities.item.Roof;
+&nbsp;import dat.backend.model.entities.item.ToolRoom;
+&nbsp;import dat.backend.model.entities.user.Address;
+&nbsp;import dat.backend.model.entities.user.Customer;
+&nbsp;import dat.backend.model.entities.user.Employee;
+&nbsp;import dat.backend.model.exceptions.DatabaseException;
+&nbsp;import dat.backend.model.exceptions.NotFoundException;
+&nbsp;import dat.backend.model.persistence.ConnectionPool;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@SuppressWarnings(&quot;OptionalUsedAsFieldOrParameterType&quot;)
+<b class="nc">&nbsp;public class CarportOrderFacade {</b>
+&nbsp;
+&nbsp;    public static CarportOrder getCarportOrderById(int id, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+<b class="nc">&nbsp;        return CarportOrderMapper.getCarportOrderById(id, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static List&lt;CarportOrder&gt; getCarportByCustomerEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
+<b class="nc">&nbsp;        return CarportOrderMapper.getCarportByCustomerEmail(email, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static CarportOrder createCarportOrder(Customer customer, Address address, float width, float length, float minHeight, Roof roof, ToolRoom toolRoom, String remarks, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        return CarportOrderMapper.createCarportOrder(customer, address, width, length, minHeight, roof, toolRoom, remarks, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateCarportOrderStatus(CarportOrder carportOrder, OrderStatus newOrderStatus, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        CarportOrderMapper.updateCarportOrderStatus(carportOrder, newOrderStatus, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateCarportOrderEmployee(CarportOrder carportOrder, Optional&lt;Employee&gt; employee, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        CarportOrderMapper.updateCarportOrderEmployee(carportOrder, employee, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateCarportOrderWidth(CarportOrder carportOrder, float width, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        CarportOrderMapper.updateCarportOrderWidth(carportOrder, width, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateCarportOrderLength(CarportOrder carportOrder, float length, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        CarportOrderMapper.updateCarportOrderLength(carportOrder, length, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateCarportOrderMinHeight(CarportOrder carportOrder, float minHeight, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        CarportOrderMapper.updateCarportOrderMinHeight(carportOrder, minHeight, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateCarportOrderToolRoom(CarportOrder carportOrder, Optional&lt;ToolRoom&gt; toolRoom, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        CarportOrderMapper.updateCarportOrderToolRoom(carportOrder, toolRoom, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateCarportOrderPrice(CarportOrder carportOrder, Optional&lt;Float&gt; price, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        CarportOrderMapper.updateCarportOrderPrice(carportOrder, price, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateCarportOrderRemarks(CarportOrder carportOrder, Optional&lt;String&gt; remarks, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        CarportOrderMapper.updateCarportOrderRemarks(carportOrder, remarks, connectionPool);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateCarportOrderAddress(CarportOrder carportOrder, Address address, ConnectionPool connectionPool) throws DatabaseException {
+<b class="nc">&nbsp;        CarportOrderMapper.updateCarportOrderAddress(carportOrder, address, connectionPool);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-11 14:23</div>
+</div>
+</body>
+</html>
