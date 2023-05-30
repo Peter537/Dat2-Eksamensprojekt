@@ -33,6 +33,7 @@ public class CustomerFacade {
     public static Customer getCustomerByEmail(String email, ConnectionPool connectionPool) throws DatabaseException, NotFoundException {
         return CustomerMapper.getCustomerByEmail(email, connectionPool);
     }
+
     public static byte[] getCustomerPicture(String email, ConnectionPool connectionPool) throws DatabaseException {
         return CustomerMapper.getCustomerPicture(email, connectionPool);
     }
